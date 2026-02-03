@@ -1,0 +1,236 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Rodney Chery | Software Developer";
+}
+
+<main role="main">
+
+    <!-- PROFILE / HERO -->
+    <section id="profile">
+        <div class="section__pic-container">
+            <!-- Put your image in: wwwroot/assets/profile-pic.png -->
+            <img src="~/assets/profile-pic.png" alt="Rodney Chery profile picture" loading="lazy" />
+        </div>
+
+        <div class="section__text">
+            <p class="section__text__p1">Hello, I'm</p>
+            <h1 class="title">Rodney Chery</h1>
+            <p class="section__text__p2">Junior Software Developer (C# / ASP.NET Core)</p>
+
+            <div class="btn-container">
+                <!-- Put your resume in: wwwroot/assets/Rodney-Chery-Resume.pdf -->
+                <button class="btn btn-color-2"
+                        onclick="window.open('/assets/Rodney-Chery-Resume.pdf', '_blank')">
+                    Download CV
+                </button>
+
+                <button class="btn btn-color-1" onclick="location.href='#contact'">
+                    Contact Info
+                </button>
+            </div>
+
+            <div id="socials-container">
+                <!-- Replace with your real URLs -->
+                <img src="~/assets/linkedin.png" alt="Rodney Chery LinkedIn" class="icon"
+                     onclick="location.href='https://www.linkedin.com/in/rodneyachery/'" />
+                <img src="~/assets/github.png" alt="Rodney Chery GitHub" class="icon"
+                     onclick="location.href='https://github.com/ChefRod88'" />
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <p class="section__text__p1">Get To Know More</p>
+        <h1 class="title">About Me</h1>
+
+        <div class="section-container">
+            <div class="section__pic-container">
+                <!-- Put your image in: wwwroot/assets/about-pic.png -->
+                <img src="~/assets/about-pic.png" alt="Rodney Chery" class="about-pic" loading="lazy" />
+            </div>
+
+            <div class="about-details-container">
+                <div class="about-containers">
+
+                    <div class="details-container">
+                        <img src="~/assets/experience.png" alt="Experience Icon" class="icon" />
+                        <h3>Experience</h3>
+                        <p>Technical Support Specialist (Canon ITS)<br />Building .NET projects & APIs</p>
+                    </div>
+
+                    <div class="details-container">
+                        <img src="~/assets/education.png" alt="Education Icon" class="icon" />
+                        <h3>Education</h3>
+                        <p>B.S. Software Engineering  Western Governors University (WGU)</p>
+                    </div>
+
+                </div>
+
+                <div class="text-container">
+                    <p>
+                        Hi! I’m Rodney Chery. I’m a software engineering student focused on backend development in
+                        C# and ASP.NET Core. I like building practical, data-driven apps (SQL + APIs) and polishing them
+                        with solid validation, error handling, and clean UI. I also bring a strong troubleshooting mindset
+                        from my tech support background — diagnose → fix → document.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <img src="~/assets/icons/arrow-down-square.svg" alt="Arrow icon" class="icon arrow" onclick="location.href='#experience'" />
+    </section>
+
+    <!-- EXPERIENCE / SKILLS -->
+    <section id="experience">
+        <p class="section__text__p1">Explore My</p>
+        <h1 class="title">Experience</h1>
+
+        <div class="experience-details-container">
+            <div class="about-containers">
+
+                <div class="details-container skills-container">
+                    <h2 class="experience-sub-title">Frontend Development</h2>
+
+                    <div class="article-container">
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>HTML</h3><p>Proficient</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>CSS</h3><p>Proficient</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>JavaScript</h3><p>Proficient</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>TypeScript</h3><p>Proficient</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>Angular</h3><p>Proficient</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>Razor Pages</h3><p>Proficient</p></div>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="details-container skills-container">
+                    <h2 class="experience-sub-title">Backend Development</h2>
+
+                    <div class="article-container">
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>C#</h3><p>Proficient</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>ASP.NET Core</h3><p>Proficient</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>Entity Framework Core</h3><p>Proficient</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>SQL (SQL Server / MySQL)</h3><p>Proficient</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>Git / GitHub</h3><p>Proficient</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>.NET MAUI</h3><p>Proficient</p></div>
+                        </article>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <img src="~/assets/icons/arrow-down-square.svg" alt="Arrow icon" class="icon arrow" onclick="location.href='#projects'" />
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="projects-section">
+    <p class="section__text__p1 text-center">Browse My Recent</p>
+    <h1 class="title text-center">Projects</h1>
+
+    <div class="projects-grid">
+
+        <article class="project-card">
+            <img src="~/assets/project-1.png" alt="Scheduling App" class="project-img" />
+            <h2 class="project-title">Scheduling & Appointment Management System Project</h2>
+
+            <a href="https://github.com/YOUR_GITHUB/scheduling-app"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn btn-color-2 project-btn d-inline-flex align-items-center gap-2">
+                <img src="~/assets/icons/github.svg" alt="GitHub repository" class="icon github-icon" />
+                <span>GitHub</span>
+            </a>
+        </article>
+
+        <article class="project-card">
+            <img src="~/assets/project-2.png" alt="World Map Visualization" class="project-img" />
+            <h2 class="project-title">World Map Data Visualization Platform Project</h2>
+
+            <a href="https://github.com/YOUR_GITHUB/world-map-visualization"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn btn-color-2 project-btn d-inline-flex align-items-center gap-2">
+                <img src="~/assets/icons/github.svg" alt="GitHub repository" class="icon github-icon" />
+                <span>GitHub</span>
+            </a>
+        </article>
+
+        <article class="project-card">
+            <img src="~/assets/project-3.png" alt="Termly Project" class="project-img" />
+            <h2 class="project-title">Termly Project</h2>
+
+            <a href="https://github.com/YOUR_GITHUB/term-tracker"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="btn btn-color-2 project-btn d-inline-flex align-items-center gap-2">
+                <img src="~/assets/icons/github.svg" alt="GitHub repository" class="icon github-icon" />
+                <span>GitHub</span>
+            </a>
+        </article>
+
+
+
+    </div>
+    </section>
+
+
+    <!-- CONTACT -->
+    <section id="contact" class="contact-section">
+    <p class="contact-subtitle">Get In Touch</p>
+    <h1 class="contact-title">Contact Me</h1>
+
+    <div class="contact-card">
+        <a href="mailto:chefrodneyachery@gmail.com" class="contact-item">
+            <img src="~/assets/icons/envelope.svg" alt="Email icon" class="contact-icon" />
+            <span>chefrodneyachery@gmail.com</span>
+        </a>
+
+        <a href="https://www.linkedin.com/in/rodneyachery/"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="contact-item">
+            <img src="~/assets/icons/linkedin.svg" alt="LinkedIn icon" class="contact-icon" />
+            <span>LinkedIn</span>
+        </a>
+    </div>
+</section>
+
+
+</main>
+
