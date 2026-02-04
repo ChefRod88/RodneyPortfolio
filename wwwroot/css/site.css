@@ -33,46 +33,97 @@ body {
 /* ================================
    FORM FLOATING PLACEHOLDERS (Bootstrap)
    ================================ */
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
   text-align: end;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
 
 /* ================================
-   NAV / MENU LINKS (Hamburger / Menu)
+   HEADER NAV (Name left, links right — clean spacing)
    ================================ */
-.menu-links ul {
-  list-style: none;        /* remove bullets */
-  display: flex;           /* makes it horizontal */
-  gap: 1.5rem;             /* space between items */
-  padding: 0;
+#hamburger-nav {
+  display: flex;
+  align-items: center;
+
+  padding: 1rem 3rem;
+
+  /* keeps the header from stretching too wide on huge screens */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+#hamburger-nav .logo {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #000;
+}
+
+#hamburger-nav .hamburger-menu {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+/* prevent dropdown behavior and show links inline */
+#hamburger-nav .menu-links {
+  position: static;
+  display: block;
+  width: auto;
+  height: auto;
+}
+
+#hamburger-nav .menu-links ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
   margin: 0;
+  padding: 0;
 }
 
-.menu-links li {
-  display: inline-block;   /* not strictly required, but safe */
-}
-
-.menu-links a {
+#hamburger-nav .menu-links a {
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #000;
+}
+
+#hamburger-nav .menu-links a:hover {
+  text-decoration: underline;
+}
+
+/* Hide hamburger icon (desktop-style header) */
+#hamburger-nav .hamburger-icon {
+  display: none;
+}
+
+/* ================================
+   NAV LINKS (Desktop / Footer)
+   ================================ */
+.nav-links a {
+  font-weight: 700;
+  color: #000000;
+}
+
+.nav-links a:hover {
+  color: #000000;
+  text-decoration: underline;
 }
 
 /* ================================
    CONTACT SECTION
    ================================ */
-
-/* CONTACT SECTION */
 .contact-section {
   text-align: center;
   padding: 4rem 1rem;
 }
 
-/* Small text */
 .contact-subtitle {
   font-size: 0.9rem;
   letter-spacing: 0.1em;
@@ -81,14 +132,12 @@ body {
   margin-bottom: 0.5rem;
 }
 
-/* Big bold title */
 .contact-title {
   font-size: 3rem;
   font-weight: 800;
   margin-bottom: 2rem;
 }
 
-/* Card wrapper */
 .contact-card {
   display: flex;
   justify-content: center;
@@ -96,14 +145,13 @@ body {
   padding: 1.5rem 2rem;
 
   border: 2px solid #e5e7eb;
-  border-radius: 999px; /* fully rounded */
+  border-radius: 999px;
   background-color: #ffffff;
 
   max-width: fit-content;
   margin: 0 auto;
 }
 
-/* Individual contact item */
 .contact-item {
   display: flex;
   align-items: center;
@@ -118,124 +166,42 @@ body {
   text-decoration: underline;
 }
 
-/* Icons */
 .contact-icon {
   width: 24px;
   height: 24px;
 }
 
 #contact {
-  margin-bottom: 10rem; /* pushes content below it down */
-}
-
-/* ================================
-   NAV LINKS (Desktop / Footer)
-   ================================ */
-.nav-links a {
-  font-weight: 700;        /* bold */
-  color: #000000;         /* black */
-}
-
-.nav-links a:hover {
-  color: #000000;         /* keep black on hover */
-  text-decoration: underline;
-}
-
-/* ================================
-   GLOBAL OVERRIDES (Force styles)
-   ================================ */
-.nav-links a,
-.menu-links a {
-  font-weight: 400 !important;
-  font-size: 1.5rem !important;
-  color: #000000 !important;
+  margin-bottom: 10rem;
 }
 
 /* =========================================
-   PROJECTS SECTION
-   Uses: .projects-section, .projects-grid, .project-card, .project-img, .project-title
+   PROJECTS SECTION (Centered heading + 3 cards in a row)
    ========================================= */
+#projects {
+  text-align: center;
+}
 
 #projects.projects-section {
   padding: 4rem 1rem;
 }
 
-/* Center the heading text (guaranteed, no Bootstrap dependency) */
 #projects .section__text__p1,
 #projects .title {
   text-align: center;
 }
 
-/* Cards: horizontal row on desktop */
-#projects .projects-grid {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 2rem;
-
-  flex-wrap: nowrap;        /* keep 3 cards on one row */
-  width: 100%;
-  max-width: 1400px;        /* ensures enough room for 3 cards */
-  margin: 2rem auto 0;      /* centers the grid */
-  padding: 0 1rem;
+#projects .title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #000000;
+  margin-bottom: 1.5rem;
 }
 
-/* Each card */
-#projects .project-card {
-  flex: 0 0 320px;          /* fixed card width in a flex row */
-  padding: 1.5rem;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-
-  border: 2px solid #e5e7eb;
-  border-radius: 18px;
-  background: #ffffff;
-
-  box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-  text-align: center;
+#projects .section__text__p1 {
+  margin-bottom: 0.5rem;
 }
 
-/* Image */
-#projects .project-img {
-  width: 100%;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 14px;
-}
-
-/* Title */
-#projects .project-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin: 0;
-}
-
-/* Responsive: allow wrapping on smaller screens */
-@media (max-width: 1100px) {
-  #projects .projects-grid {
-    flex-wrap: wrap;
-  }
-
-  #projects .project-card {
-    flex: 0 0 340px;
-  }
-}
-
-@media (max-width: 500px) {
-  #projects .project-card {
-    flex: 1 1 100%;
-  }
-}
-
-/* ====== GUARANTEED PROJECTS FIX (PASTE LAST) ====== */
-#projects {
-  text-align: center;
-}
-
-/* Force the cards into ONE horizontal row */
 #projects .projects-grid {
   display: flex !important;
   flex-direction: row !important;
@@ -243,20 +209,19 @@ body {
   align-items: stretch !important;
   gap: 2rem !important;
 
-  flex-wrap: nowrap !important;      /* prevents stacking */
+  flex-wrap: nowrap !important;
   width: 100% !important;
-  max-width: 1400px !important;      /* enough room for 3 cards */
+  max-width: 1400px !important;
   margin: 2rem auto 0 !important;
   padding: 0 1rem !important;
 }
 
-/* Force each card to be a rounded bordered card */
 #projects .project-card {
-  flex: 0 0 320px !important;        /* fixed width so 3 fit nicely */
+  flex: 0 0 320px !important;
   max-width: 320px !important;
 
   border: 2px solid #e5e7eb !important;
-  border-radius: 18px !important;    /* curved corners */
+  border-radius: 18px !important;
   background: #ffffff !important;
   padding: 1.5rem !important;
 
@@ -269,7 +234,6 @@ body {
   gap: 1rem !important;
 }
 
-/* Keep image clean inside each card */
 #projects .project-img {
   width: 100% !important;
   height: 180px !important;
@@ -277,21 +241,52 @@ body {
   border-radius: 14px !important;
 }
 
-/* ===== PROJECTS HEADING TYPOGRAPHY (MATCH EXPERIENCE) ===== */
+/* Responsive wrap */
+@media (max-width: 1100px) {
+  #projects .projects-grid {
+    flex-wrap: wrap !important;
+  }
 
-#projects .title {
-  font-size: 3rem;        /* same size as Experience */
-  font-weight: 800;       /* same heavy boldness */
-  color: #000000;         /* solid black */
-  margin-bottom: 1.5rem; /* spacing before cards */
+  #projects .project-card {
+    flex: 0 0 340px !important;
+    max-width: 340px !important;
+  }
 }
 
-#projects .section__text__p1 {
+@media (max-width: 500px) {
+  #projects .project-card {
+    flex: 1 1 100% !important;
+    max-width: 100% !important;
+  }
+}
+
+/* =========================================
+   EXPERIENCE SECTION
+   ========================================= */
+#experience .section__text__p1,
+#experience .title {
+  text-align: center;
+}
+
+#experience .title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #000000;
+  margin-bottom: 1.5rem;
+}
+
+#experience .section__text__p1 {
   margin-bottom: 0.5rem;
 }
 
-
-/* ===== EXPERIENCE SKILLS CARD (Frontend / Backend) ===== */
+/* Frontend/Backend cards container row */
+#experience .about-containers {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 2.5rem;
+  flex-wrap: nowrap;
+}
 
 /* Card wrapper */
 #experience .details-container.skills-container {
@@ -302,11 +297,11 @@ body {
   padding: 2rem;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
 
+  flex: 0 0 520px;
   max-width: 520px;
-  margin: 0 auto;
 }
 
-/* Section title inside card */
+/* Card title */
 #experience .experience-sub-title {
   font-size: 1.4rem;
   font-weight: 700;
@@ -314,64 +309,37 @@ body {
   text-align: center;
 }
 
-/* Skills list layout */
+/* Skills list */
 #experience .article-container {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1.25rem;
 }
 
-/* Individual skill row */
 #experience article {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-/* Skill icon */
 #experience article img.icon {
   width: 22px;
   height: 22px;
 }
 
-/* Skill name */
 #experience article h3 {
   margin: 0;
   font-size: 1rem;
   font-weight: 600;
 }
 
-/* Skill level */
 #experience article p {
   margin: 0;
   font-size: 0.85rem;
   color: #6c757d;
 }
 
-/* Mobile: single column */
-@media (max-width: 600px) {
-  #experience .article-container {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* ===== EXPERIENCE: FRONTEND + BACKEND SIDE BY SIDE ===== */
-
-/* Row layout for the two cards */
-#experience .about-containers {
-  display: flex;
-  justify-content: center;
-  align-items: stretch;
-  gap: 2.5rem;              /* space between the cards */
-  flex-wrap: nowrap;        /* keep them side by side */
-}
-
-/* Ensure both cards have equal width */
-#experience .details-container.skills-container {
-  flex: 0 0 520px;
-}
-
-/* Responsive: stack on smaller screens */
+/* Responsive Experience */
 @media (max-width: 1100px) {
   #experience .about-containers {
     flex-wrap: wrap;
@@ -383,28 +351,8 @@ body {
   }
 }
 
-#experience .section__text__p1,
-#experience .title {
-  text-align: center;
+@media (max-width: 600px) {
+  #experience .article-container {
+    grid-template-columns: 1fr;
+  }
 }
-
-/* ===== EXPERIENCE HEADING TYPOGRAPHY ===== */
-
-#experience .title {
-  font-size: 3rem;          /* big */
-  font-weight: 800;         /* bold */
-  color: #000000;           /* black */
-  margin-bottom: 1.5rem;   /* space below the word "Experience" */
-}
-
-#experience .section__text__p1 {
-  margin-bottom: 0.5rem;   /* tight but clean spacing above */
-}
-//* ================================
-   END OF FILE- Next steps (tomorrow)
-- Fix and polish: Education, About Me, Experience copy/structure.
-- Update header/hero: name, title, and primary intro formatting.
-- Improve top nav styling/spacing for About/Experience/Projects/Contact.
-- Add real photos (profile + project screenshots) and educational/experience icons for stronger visual branding.
-
-   ================================ */
