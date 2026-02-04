@@ -100,4 +100,7 @@
 /Users/rodneyamoschery/dev/RodneyPortfolio/obj/Debug/net10.0/compressed/k0puv9gjld-{0}-72bl1jnzrd-72bl1jnzrd.gz
 /Users/rodneyamoschery/dev/RodneyPortfolio/obj/Debug/net10.0/compressed/70rl9tx3f5-{0}-c4s5nhfhp9-c4s5nhfhp9.gz
 /Users/rodneyamoschery/dev/RodneyPortfolio/obj/Debug/net10.0/RodneyPortfolio.sourcelink.json
-/Users/rodneyamoschery/dev/RodneyPortfolio/obj/Debug/net10.0/compressed/kgd2z55ru8-{0}-bmag6qzgil-bmag6qzgil.gz
+/Users/rodneyamoschery/dev/RodneyPortfolio/obj/Debug/net10.0/compressed/s7om1n0bxh-{0}-24frut3lrv-24frut3lrv.gz
+/Users/rodneyamoschery/dev/RodneyPortfolio/obj/Debug/net10.0/compressed/ovkakyo8dx-{0}-p2e8jpsyae-p2e8jpsyae.gz
+/Users/rodneyamoschery/dev/RodneyPortfolio/obj/Debug/net10.0/compressed/hkab4xu85h-{0}-cti9pb9vu5-cti9pb9vu5.gz
+/Users/rodneyamoschery/dev/RodneyPortfolio/obj/Debug/net10.0/compressed/kgd2z55ru8-{0}-k8gfwyuofa-k8gfwyuofa.gz

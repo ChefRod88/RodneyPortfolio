@@ -10,31 +10,31 @@
     <section id="profile">
         <div class="section__pic-container">
             <!-- Put your image in: wwwroot/assets/profile-pic.png -->
-            <img src="~/assets/profile-pic.png" alt="Rodney Chery profile picture" loading="lazy" />
+            <img src="~/assets/images/IMG_6985.jpg" alt="Rodney Chery profile picture" loading="lazy" />
         </div>
 
         <div class="section__text">
             <p class="section__text__p1">Hello, I'm</p>
             <h1 class="title">Rodney Chery</h1>
-            <p class="section__text__p2">Junior Software Developer (C# / ASP.NET Core)</p>
+            <p class="section__text__p2">Software Developer</p>
 
             <div class="btn-container">
                 <!-- Put your resume in: wwwroot/assets/Rodney-Chery-Resume.pdf -->
-                <button class="btn btn-color-2"
+                <button class="btn btn-outline-dark"
                         onclick="window.open('/assets/Rodney-Chery-Resume.pdf', '_blank')">
                     Download CV
                 </button>
 
-                <button class="btn btn-color-1" onclick="location.href='#contact'">
+                <button class="btn btn-outline-dark" onclick="location.href='#contact'">
                     Contact Info
                 </button>
             </div>
 
             <div id="socials-container">
                 <!-- Replace with your real URLs -->
-                <img src="~/assets/linkedin.png" alt="Rodney Chery LinkedIn" class="icon"
+                <img src="~/assets/icons/linkedin.svg" alt="Rodney Chery LinkedIn" class="icon"
                      onclick="location.href='https://www.linkedin.com/in/rodneyachery/'" />
-                <img src="~/assets/github.png" alt="Rodney Chery GitHub" class="icon"
+                <img src="~/assets/icons/github.svg" alt="Rodney Chery GitHub" class="icon"
                      onclick="location.href='https://github.com/ChefRod88'" />
             </div>
         </div>
@@ -54,26 +54,29 @@
             <div class="about-details-container">
                 <div class="about-containers">
 
-                    <div class="details-container">
-                        <img src="~/assets/experience.png" alt="Experience Icon" class="icon" />
+                    <div class="details-container education-card">
+                        <img src="~/assets/icons/person-workspace.svg" alt="Experience Icon" class="icon" />
                         <h3>Experience</h3>
-                        <p>Technical Support Specialist (Canon ITS)<br />Building .NET projects & APIs</p>
+                        <p>Technical Support Specialist <br />Canon Information Technology Services<br /></p>
                     </div>
 
-                    <div class="details-container">
-                        <img src="~/assets/education.png" alt="Education Icon" class="icon" />
+                    <div class="details-container education-card">
+                        <img src="~/assets/icons/mortarboard.svg" alt="Education Icon" class="icon" />
                         <h3>Education</h3>
-                        <p>B.S. Software Engineering  Western Governors University (WGU)</p>
+                        <p>
+                            B.S. Software Engineering (In Progress)<br />
+                            Western Governors University (WGU)<br />
+                            Expected Graduation: December 2026
+                        </p>
                     </div>
 
                 </div>
 
                 <div class="text-container">
                     <p>
-                        Hi! I’m Rodney Chery. I’m a software engineering student focused on backend development in
-                        C# and ASP.NET Core. I like building practical, data-driven apps (SQL + APIs) and polishing them
-                        with solid validation, error handling, and clean UI. I also bring a strong troubleshooting mindset
-                        from my tech support background — diagnose → fix → document.
+                        Hi, I’m Rodney Chery, a software engineering student at Western Governors University and
+                         an aspiring full-stack .NET developer. I primarily work with C# and the .NET ecosystem to build practical, data-driven applications.
+                          Outside of tech, I enjoy weightlifting, anime, traveling, and cooking.
                     </p>
                 </div>
             </div>
@@ -103,18 +106,19 @@
                         </article>
                         <article>
                             <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>JavaScript</h3><p>Proficient</p></div>
+                            <div><h3>JavaScript</h3><p>Intermediate</p></div>
                         </article>
                         <article>
                             <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>TypeScript</h3><p>Proficient</p></div>
+                            <div><h3>TypeScript</h3><p>Intermediate</p></div>
                         </article>
                         <article>
                             <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Angular</h3><p>Proficient</p></div>
+                            <div><h3>Angular</h3><p>Intermediate</p></div>
                         </article>
                         <article>
                             <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+
                             <div><h3>Razor Pages</h3><p>Proficient</p></div>
                         </article>
                     </div>
@@ -138,7 +142,7 @@
                         </article>
                         <article>
                             <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>SQL (SQL Server / MySQL)</h3><p>Proficient</p></div>
+                            <div><h3>SQL Server</h3><p>Proficient</p></div>
                         </article>
                         <article>
                             <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
@@ -146,7 +150,38 @@
                         </article>
                         <article>
                             <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>.NET MAUI</h3><p>Proficient</p></div>
+                            <div><h3>.NET MAUI</h3><p>Beginner</p></div>
+                        </article>
+                    </div>
+                </div>
+
+                <div class="ai-tools-container skills-container">
+                    <h2 class="experience-sub-title">AI-powered tools</h2>
+
+                    <div class="ai-tools-article-container">
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>ChatGPT</h3><p>Proficient</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>Cursor</h3><p>Proficient</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>MCP Servers</h3><p>Intermediate</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>MCP Protocol Integrations</h3><p>Intermediate</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>Prompt Engineering</h3><p>Beginner</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>Rapid Prototyping</h3><p>Beginner</p></div>
                         </article>
                     </div>
                 </div>
