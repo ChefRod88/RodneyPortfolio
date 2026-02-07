@@ -1,4 +1,4 @@
-﻿@page
+@page
 @model IndexModel
 @{
     ViewData["Title"] = "Rodney Chery | Software Developer";
@@ -21,7 +21,7 @@
             <div class="btn-container">
                 <!-- Put your resume in: wwwroot/assets/Rodney-Chery-Resume.pdf -->
                 <button class="btn btn-outline-dark"
-                        onclick="window.open('/assets/Rodney-Chery-Resume.pdf', '_blank')">
+                        onclick="window.open('/assets/resume/Rodney Chery SE.pdf', '_blank')">
                     Download CV
                 </button>
 
@@ -45,6 +45,18 @@
         <p class="section__text__p1">Get To Know More</p>
         <h1 class="title">About Me</h1>
 
+        <div class="about-education-center">
+            <div class="details-container education-card">
+                <img src="~/assets/icons/mortarboard.svg" alt="Education Icon" class="icon" />
+                <h3>Education</h3>
+                <p>
+                    B.S. Software Engineering (In Progress)<br />
+                    Western Governors University (WGU)<br />
+                    Expected Graduation: December 2026
+                </p>
+            </div>
+        </div>
+
         <div class="section-container">
             <div class="section__pic-container">
                 <!-- Put your image in: wwwroot/assets/about-pic.png -->
@@ -52,33 +64,34 @@
             </div>
 
             <div class="about-details-container">
-                <div class="about-containers">
-
-                    <div class="details-container education-card">
-                        <img src="~/assets/icons/person-workspace.svg" alt="Experience Icon" class="icon" />
-                        <h3>Experience</h3>
-                        <p>Technical Support Specialist (Canon ITS) <br />Building .NET projects & APIs</p>
-                    </div>
-
-                    <div class="details-container education-card">
-                        <img src="~/assets/icons/mortarboard.svg" alt="Education Icon" class="icon" />
-                        <h3>Education</h3>
-                        <p>
-                            B.S. Software Engineering (In Progress)<br />
-                            Western Governors University (WGU)<br />
-                            Expected Graduation: December 2026
-                        </p>
-                    </div>
-
-                </div>
-
                 <div class="text-container">
                     <p>
-                        Hi, I’m Rodney Chery, a software engineering student at Western Governors University and
-                         an aspiring full-stack .NET developer. I primarily work with C# and the .NET ecosystem to build practical, data-driven applications.
-                          Outside of tech, I enjoy weightlifting, anime, traveling, and cooking.
+                        Before software, I spent years as a professional chef, working in high-pressure kitchens and traveling to experience food, cultures, and discipline on a global level. Life in the kitchen taught me precision, endurance, teamwork, and how to perform calmly when everything is on the line. Over time, I realized those same skills translated naturally into technology—problem-solving, systems thinking, and continuous improvement.
+                        <br /><br />
+                        Today, I work as a Technical Support Analyst at Canon Information Technology Services while pursuing a Software Engineering degree at Western Governors University. I am transitioning fully into tech with a focus on full-stack .NET development. I primarily build data-driven applications using C# and the .NET ecosystem, working across backend logic, APIs, databases, and modern front-end frameworks. I enjoy turning complex requirements into clean, reliable solutions and refining systems until they are resilient and scalable.
+                        <br /><br />
+                        My background gives me a unique edge: I approach software the way I approached cooking—design thoughtfully, execute with discipline, and iterate until it’s right. Outside of coding, I enjoy weightlifting, anime, traveling, and cooking—now with fewer dinner rushes and more commits.
+                        <br /><br />
+                        This portfolio represents not just what I’ve built, but who I’m becoming: a developer grounded in real-world experience, focused on growth, and committed to engineering work that lasts.
                     </p>
                 </div>
+
+                @* <div class="about-collage-banner" aria-label="Photo collage">
+                    <div class="collage-track">
+                        <img src="~/assets/project-1.png" alt="Collage placeholder 1" class="collage-img" loading="lazy" />
+                        <img src="~/assets/project-2.png" alt="Collage placeholder 2" class="collage-img" loading="lazy" />
+                        <img src="~/assets/project-3.png" alt="Collage placeholder 3" class="collage-img" loading="lazy" />
+                        <img src="~/assets/project-1.png" alt="Collage placeholder 4" class="collage-img" loading="lazy" />
+                        <img src="~/assets/project-2.png" alt="Collage placeholder 5" class="collage-img" loading="lazy" />
+                        <img src="~/assets/project-3.png" alt="Collage placeholder 6" class="collage-img" loading="lazy" />
+                        <img src="~/assets/project-1.png" alt="Collage placeholder 1 duplicate" class="collage-img" loading="lazy" />
+                        <img src="~/assets/project-2.png" alt="Collage placeholder 2 duplicate" class="collage-img" loading="lazy" />
+                        <img src="~/assets/project-3.png" alt="Collage placeholder 3 duplicate" class="collage-img" loading="lazy" />
+                        <img src="~/assets/project-1.png" alt="Collage placeholder 4 duplicate" class="collage-img" loading="lazy" />
+                        <img src="~/assets/project-2.png" alt="Collage placeholder 5 duplicate" class="collage-img" loading="lazy" />
+                        <img src="~/assets/project-3.png" alt="Collage placeholder 6 duplicate" class="collage-img" loading="lazy" />
+                    </div>
+                </div> *@
             </div>
         </div>
 
@@ -106,15 +119,15 @@
                         </article>
                         <article>
                             <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>JavaScript</h3><p>Intermediate</p></div>
+                            <div><h3>JavaScript</h3><p>Beginner</p></div>
                         </article>
                         <article>
                             <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>TypeScript</h3><p>Intermediate</p></div>
+                            <div><h3>TypeScript</h3><p>Beginner</p></div>
                         </article>
                         <article>
                             <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Angular</h3><p>Intermediate</p></div>
+                            <div><h3>Angular</h3><p>Beginner</p></div>
                         </article>
                         <article>
                             <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
@@ -199,44 +212,44 @@
 
     <div class="projects-grid">
 
-        <article class="project-card">
+        <a class="project-card project-card-link"
+           href="https://github.com/ChefRod88/SchedulingSoftwareApp"
+           target="_blank"
+           rel="noopener noreferrer">
             <img src="~/assets/project-1.png" alt="Scheduling App" class="project-img" />
-            <h2 class="project-title">Scheduling & Appointment Management System Project</h2>
+            <h2 class="project-title">Project 1</h2>
 
-            <a href="https://github.com/YOUR_GITHUB/scheduling-app"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="btn btn-color-2 project-btn d-inline-flex align-items-center gap-2">
+            <span class="btn btn-color-2 project-btn d-inline-flex align-items-center gap-2">
                 <img src="~/assets/icons/github.svg" alt="GitHub repository" class="icon github-icon" />
                 <span>GitHub</span>
-            </a>
-        </article>
+            </span>
+        </a>
 
-        <article class="project-card">
+        <a class="project-card project-card-link"
+           href="https://github.com/YOUR_GITHUB/world-map-visualization"
+           target="_blank"
+           rel="noopener noreferrer">
             <img src="~/assets/project-2.png" alt="World Map Visualization" class="project-img" />
-            <h2 class="project-title">World Map Data Visualization Platform Project</h2>
+            <h2 class="project-title">Project 2</h2>
 
-            <a href="https://github.com/YOUR_GITHUB/world-map-visualization"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="btn btn-color-2 project-btn d-inline-flex align-items-center gap-2">
+            <span class="btn btn-color-2 project-btn d-inline-flex align-items-center gap-2">
                 <img src="~/assets/icons/github.svg" alt="GitHub repository" class="icon github-icon" />
                 <span>GitHub</span>
-            </a>
-        </article>
+            </span>
+        </a>
 
-        <article class="project-card">
+        <a class="project-card project-card-link"
+           href="https://github.com/YOUR_GITHUB/term-tracker"
+           target="_blank"
+           rel="noopener noreferrer">
             <img src="~/assets/project-3.png" alt="Termly Project" class="project-img" />
-            <h2 class="project-title">Termly Project</h2>
+            <h2 class="project-title">Project 3</h2>
 
-            <a href="https://github.com/YOUR_GITHUB/term-tracker"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="btn btn-color-2 project-btn d-inline-flex align-items-center gap-2">
+            <span class="btn btn-color-2 project-btn d-inline-flex align-items-center gap-2">
                 <img src="~/assets/icons/github.svg" alt="GitHub repository" class="icon github-icon" />
                 <span>GitHub</span>
-            </a>
-        </article>
+            </span>
+        </a>
 
 
 
@@ -245,7 +258,7 @@
 
 
     <!-- CONTACT -->
-    <section id="contact" class="contact-section">
+<section id="contact" class="contact-section">
     <p class="contact-subtitle">Get In Touch</p>
     <h1 class="contact-title">Contact Me</h1>
 

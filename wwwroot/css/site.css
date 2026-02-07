@@ -100,7 +100,71 @@ body {
 #about .section__text__p1,
 #about .title {
   text-align: center;
-  margin-bottom: 90px;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  
+}
+
+#about .title {
+  font-weight: 800;
+  font-size: 3rem;
+  color: #000000;
+}
+
+#about .section-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5in;
+  flex-wrap: nowrap;
+}
+
+#about .about-details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#about .text-container {
+  margin-top: 80px;
+}
+
+#about .about-collage-banner {
+  width: 100%;
+  max-width: 900px;
+  margin-top: 24px;
+  overflow-x: auto;
+  padding: 0.5rem 0;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+}
+
+#about .collage-track {
+  display: flex;
+  gap: 1rem;
+  padding: 0 0.25rem;
+}
+
+#about .collage-img {
+  width: 180px;
+  height: 120px;
+  flex: 0 0 auto;
+  object-fit: cover;
+  border-radius: 12px;
+  scroll-snap-align: start;
+}
+
+#about .about-education-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1.5rem 2rem;
+  border: 2px solid #e5e7eb;
+  border-radius: 999px;
+  background-color: #ffffff;
+  max-width: fit-content;
+  margin: 16px auto 0;
 }
 
 #about .section__pic-container {
@@ -114,6 +178,7 @@ body {
 #about .section__pic-container img {
   width: 100%;
   height: 100%;
+  border-radius: 60%;
   object-fit: cover;
   display: block;
 }
@@ -293,7 +358,7 @@ body {
   font-weight: 800;
   margin-bottom: 2rem;
 }
-
+/*this is how to make the contact the card*/
 .contact-card {
   display: flex;
   justify-content: center;
@@ -317,7 +382,7 @@ body {
   font-weight: 500;
   color: #212529;
 }
-
+/*this is how to make the contact the card*/
 .contact-item:hover {
   text-decoration: underline;
 }
@@ -328,6 +393,7 @@ body {
 }
 
 #contact {
+  margin-top: 800px;
   margin-bottom: 10rem;
 }
 
@@ -388,6 +454,25 @@ body {
   flex-direction: column !important;
   align-items: center !important;
   gap: 1rem !important;
+}
+
+#projects .project-card-link {
+  text-decoration: none !important;
+  color: inherit !important;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+#projects .project-card-link:hover {
+  background: #f3f4f6 !important;
+  color: #111827 !important;
+  border-color: #d1d5db !important;
+}
+
+#projects .project-card-link:hover .project-btn {
+  background-color: #ffffff !important;
+  color: #111827 !important;
+  border-color: #111827 !important;
 }
 
 #projects .project-img {
