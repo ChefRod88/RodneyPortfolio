@@ -599,38 +599,3 @@ body {
   }
 }
 
-/* Mobile-safe defaults */
-* { box-sizing: border-box; }
-
-img, video {
-  max-width: 100%;
-  height: auto;
-}
-
-/* Prevent sideways scrolling on mobile */
-html, body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-/* A simple responsive container */
-.container {
-  width: min(1100px, 100%);
-  margin: 0 auto;
-  padding: 0 16px;
-}
-
-/* Example: two/three-column layouts should stack on phones */
-@media (max-width: 768px) {
-  .row, .grid, .columns, .cards {
-    display: block;
-  }
-
-  .card, .column {
-    width: 100% !important;
-    margin-bottom: 16px;
-  }
-
-  h1 { font-size: 1.8rem; }
-  h2 { font-size: 1.3rem; }
-}
