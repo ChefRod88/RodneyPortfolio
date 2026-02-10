@@ -22,11 +22,8 @@
 
 </head>
 
-<script src="~/js/site.js"></script>
 
 <body>
-    
-
     <nav id="hamburger-nav">
         <div class="logo">Rodney Chery</div>
         <div class="hamburger-menu">
@@ -45,38 +42,30 @@
             </div>
         </div>
     </nav>
-</header>
 
-<div class="container">
-    @RenderBody()
-</div>
-
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main role="main" class="container pb-3">
+        @RenderBody()
+    </main>
 
     <footer class="border-top footer text-muted py-4">
-    <div class="container text-center">
-        <div clasles="menu-links d-flex justify-content-center mb-3">
-            <ul class="d-flex gap-4 list-unstyled mb-0">
-                <li><a class="nav-link" href="#about">About</a></li>
-                <li><a class="nav-link" href="#experience">Experience</a></li>
-                <li><a class="nav-link" href="#projects">Projects</a></li>
-                <li><a class="nav-link" href="#contact">Contact</a></li>
-            </ul>
+        <div class="container text-center">
+            <div class="menu-links d-flex justify-content-center mb-3">
+                <ul class="d-flex gap-4 list-unstyled mb-0">
+                    <li><a class="nav-link" href="#about">About</a></li>
+                    <li><a class="nav-link" href="#experience">Experience</a></li>
+                    <li><a class="nav-link" href="#projects">Projects</a></li>
+                    <li><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+
+            <small>Copyright &copy; 2026 Rodney Chery. All Rights Reserved.</small>
         </div>
-
-        <medium>Copyright &copy; 2026 Rodney Chery. All Rights Reserved.</medium>
-    </div>
-</footer>
-
+    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
