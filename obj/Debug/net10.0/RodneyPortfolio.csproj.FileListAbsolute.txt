@@ -104,3 +104,4 @@
 /Users/rodneyamoschery/dev/RodneyPortfolio/obj/Debug/net10.0/compressed/hkab4xu85h-{0}-cti9pb9vu5-cti9pb9vu5.gz
 /Users/rodneyamoschery/dev/RodneyPortfolio/obj/Debug/net10.0/compressed/70rl9tx3f5-{0}-wonamcwqy3-wonamcwqy3.gz
 /Users/rodneyamoschery/dev/RodneyPortfolio/obj/Debug/net10.0/compressed/kgd2z55ru8-{0}-puv5z8m8b2-puv5z8m8b2.gz
+/Users/rodneyamoschery/dev/RodneyPortfolio/obj/Debug/net10.0/compressed/gzwd3tutow-{0}-y7wxiswa7e-y7wxiswa7e.gz
