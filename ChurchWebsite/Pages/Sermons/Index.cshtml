@@ -1,0 +1,38 @@
+@page
+@model ChurchWebsite.Pages.Sermons.IndexModel
+@{
+    ViewData["Title"] = "Sermons";
+}
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold mb-2">Sermon Library</h1>
+        <p class="lead text-muted">Watch, listen, or download our teaching. Browse our recent messages below.</p>
+        <a asp-page="/Live" class="btn btn-primary">Watch Live Stream</a>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var sermon in Model.Sermons)
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <a asp-page="/Sermons/Details" asp-route-id="@sermon.Id" class="text-decoration-none">
+                        <div class="ratio ratio-16x9 bg-light rounded-top d-flex align-items-center justify-content-center">
+                            <span class="fs-1 text-muted">📖</span>
+                        </div>
+                    </a>
+                    <div class="card-body">
+                        @if (!string.IsNullOrWhiteSpace(sermon.Series))
+                        {
+                            <span class="badge bg-primary bg-opacity-25 text-primary mb-2">@sermon.Series</span>
+                        }
+                        <h5 class="card-title">@sermon.Title</h5>
+                        <p class="card-text small text-muted mb-2">@sermon.Speaker · @sermon.Date.ToString("MMMM d, yyyy")</p>
+                        <p class="card-text small">@sermon.Description</p>
+                        <a asp-page="/Sermons/Details" asp-route-id="@sermon.Id" class="btn btn-outline-primary btn-sm">Watch & Download</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

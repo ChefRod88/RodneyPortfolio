@@ -1,0 +1,63 @@
+@page
+@model ChurchWebsite.Pages.Sermons.DetailsModel
+@{
+    ViewData["Title"] = Model.Sermon?.Title ?? "Sermon";
+}
+
+@if (Model.Sermon != null)
+{
+    <div class="container py-5">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-page="/Sermons/Index">Sermons</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Model.Sermon.Title</li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="display-6 fw-bold mb-2">@Model.Sermon.Title</h1>
+                <p class="text-muted mb-4">@Model.Sermon.Speaker · @Model.Sermon.Date.ToString("MMMM d, yyyy")</p>
+
+                @if (!string.IsNullOrWhiteSpace(Model.Sermon.VideoEmbedUrl))
+                {
+                    <div class="ratio ratio-16x9 mb-4">
+                        <iframe src="@Model.Sermon.VideoEmbedUrl" title="@Model.Sermon.Title" allowfullscreen></iframe>
+                    </div>
+                }
+
+                <div class="mb-4">
+                    <h5 class="fw-semibold mb-2">Description</h5>
+                    <p class="text-muted">@Model.Sermon.Description</p>
+                </div>
+
+                <div class="d-flex flex-wrap gap-2">
+                    @if (!string.IsNullOrWhiteSpace(Model.Sermon.AudioUrl))
+                    {
+                        <a href="@Model.Sermon.AudioUrl" class="btn btn-outline-secondary" target="_blank" rel="noopener noreferrer">Listen (Audio)</a>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(Model.Sermon.DownloadUrl))
+                    {
+                        <a href="@Model.Sermon.DownloadUrl" class="btn btn-outline-secondary" target="_blank" rel="noopener noreferrer">Download</a>
+                    }
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold">Details</h5>
+                        <ul class="list-unstyled mb-0">
+                            <li class="mb-2"><strong>Speaker:</strong> @Model.Sermon.Speaker</li>
+                            <li class="mb-2"><strong>Date:</strong> @Model.Sermon.Date.ToString("MMMM d, yyyy")</li>
+                            @if (!string.IsNullOrWhiteSpace(Model.Sermon.Series))
+                            {
+                                <li><strong>Series:</strong> @Model.Sermon.Series</li>
+                            }
+                        </ul>
+                        <a asp-page="/Sermons/Index" class="btn btn-outline-primary mt-3">Back to Sermons</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

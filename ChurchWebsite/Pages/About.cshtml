@@ -1,0 +1,124 @@
+@page
+@model AboutModel
+@{
+    ViewData["Title"] = "About Us";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h1 class="display-5 fw-bold mb-4">About Us</h1>
+
+            <!-- Our Story -->
+            <section class="mb-5">
+                <h2 class="h4 fw-semibold mb-3">Our Story</h2>
+                <p class="text-muted lead">
+                    We are a community of believers committed to worship, fellowship, and service. Our church was founded on the belief that everyone deserves a place to belong, grow in faith, and discover their purpose.
+                </p>
+                <p class="text-muted">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. We gather each week to worship together, study God's Word, and support one another in our faith journey. Our doors are open to everyone—whether you are new to faith or have been walking with God for years.
+                </p>
+            </section>
+
+            <!-- What We Believe -->
+            <section class="mb-5">
+                <h2 class="h4 fw-semibold mb-3">What We Believe</h2>
+                <ul class="list-unstyled">
+                    <li class="d-flex align-items-start mb-3">
+                        <span class="badge bg-primary bg-opacity-25 text-primary me-2 mt-1">1</span>
+                        <div>
+                            <strong>God</strong> — We believe in one God, eternally existing in three persons: Father, Son, and Holy Spirit.
+                        </div>
+                    </li>
+                    <li class="d-flex align-items-start mb-3">
+                        <span class="badge bg-primary bg-opacity-25 text-primary me-2 mt-1">2</span>
+                        <div>
+                            <strong>Scripture</strong> — The Bible is the inspired, authoritative Word of God and our guide for faith and life.
+                        </div>
+                    </li>
+                    <li class="d-flex align-items-start mb-3">
+                        <span class="badge bg-primary bg-opacity-25 text-primary me-2 mt-1">3</span>
+                        <div>
+                            <strong>Community</strong> — We are called to love one another, serve our neighbors, and share the Gospel.
+                        </div>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- What to Expect -->
+            <section class="mb-5">
+                <h2 class="h4 fw-semibold mb-3">What to Expect</h2>
+                <p class="text-muted mb-3">
+                    Visiting a new church can feel unfamiliar. Here's what you can expect when you join us:
+                </p>
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="bg-light rounded p-3 h-100">
+                            <strong>Welcoming atmosphere</strong>
+                            <p class="mb-0 small text-muted">Friendly greeters and a warm welcome. No pressure—come as you are.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="bg-light rounded p-3 h-100">
+                            <strong>Contemporary worship</strong>
+                            <p class="mb-0 small text-muted">Music and teaching that speaks to today's world while rooted in truth.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="bg-light rounded p-3 h-100">
+                            <strong>Practical teaching</strong>
+                            <p class="mb-0 small text-muted">Messages from Scripture that apply to everyday life.</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="bg-light rounded p-3 h-100">
+                            <strong>Kids & youth</strong>
+                            <p class="mb-0 small text-muted">Programs for children and students. Safe, engaging, and age-appropriate.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Leadership -->
+            <section>
+                <h2 class="h4 fw-semibold mb-3">Leadership</h2>
+                <p class="text-muted mb-4">
+                    Our leadership team is dedicated to serving the congregation and leading with integrity and humility.
+                </p>
+                <div class="row g-4">
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 100px; height: 100px;">
+                                <span class="fs-2">👤</span>
+                            </div>
+                            <h6 class="fw-semibold mb-1">Pastor Name</h6>
+                            <p class="small text-muted mb-0">Lead Pastor</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 100px; height: 100px;">
+                                <span class="fs-2">👤</span>
+                            </div>
+                            <h6 class="fw-semibold mb-1">Leader Name</h6>
+                            <p class="small text-muted mb-0">Associate Pastor</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="text-center">
+                            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 100px; height: 100px;">
+                                <span class="fs-2">👤</span>
+                            </div>
+                            <h6 class="fw-semibold mb-1">Leader Name</h6>
+                            <p class="small text-muted mb-0">Worship & Arts</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="text-center mt-5">
+                <a asp-page="/Index" class="btn btn-primary">Plan Your Visit</a>
+            </div>
+        </div>
+    </div>
+</div>

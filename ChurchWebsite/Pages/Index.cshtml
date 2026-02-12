@@ -1,0 +1,166 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+    var church = Model.Church;
+    var heroImageUrl = !string.IsNullOrWhiteSpace(church.HeroImageUrl) ? church.HeroImageUrl : "https://picsum.photos/seed/church1/1920/1080";
+    var heroHeadline = !string.IsNullOrWhiteSpace(church.HeroHeadline) ? church.HeroHeadline : church.Tagline;
+}
+
+<!-- Calvary-style Hero: Full-width image, dark overlay, headline, CTAs -->
+<section class="hero-calvary" aria-label="Welcome">
+    <div class="hero-calvary-bg" style="background-image: url('@heroImageUrl');"></div>
+    <div class="hero-calvary-overlay"></div>
+    <div class="hero-calvary-content">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10 text-center">
+                    <h1 class="hero-calvary-headline">@heroHeadline</h1>
+                    <div class="hero-calvary-ctas">
+                        <a asp-page="/About" class="btn btn-church-primary btn-lg px-4 me-2 mb-2">Plan A Visit</a>
+                        <a asp-page="/Live" class="btn btn-outline-light btn-lg px-4 mb-2">Watch Online</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <a href="#three-cards-section" class="hero-scroll-prompt" aria-label="Scroll to see more">
+        <span class="hero-scroll-text">Click here to see more of the website</span>
+        <svg class="hero-scroll-arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
+    </a>
+</section>
+
+<!-- Three Image Cards (Calvary style) -->
+<section id="three-cards-section" class="three-cards-section">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <a asp-page="/About" class="card-image-link">
+                <div class="card-image-overlay" style="background-image: url('https://picsum.photos/seed/about1/800/600');">
+                    <div class="card-image-gradient"></div>
+                    <div class="card-image-content">
+                        <h3>Get To Know Us</h3>
+                        <span class="card-image-cta">Learn More →</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a asp-page="/Events/Index" class="card-image-link">
+                <div class="card-image-overlay" style="background-image: url('https://picsum.photos/seed/events1/800/600');">
+                    <div class="card-image-gradient"></div>
+                    <div class="card-image-content">
+                        <h3>Events</h3>
+                        <span class="card-image-cta">See What's Happening →</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4">
+            <a asp-page="/Groups/Index" class="card-image-link">
+                <div class="card-image-overlay" style="background-image: url('https://picsum.photos/seed/groups1/800/600');">
+                    <div class="card-image-gradient"></div>
+                    <div class="card-image-content">
+                        <h3>Next Steps</h3>
+                        <span class="card-image-cta">Get Connected →</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- WELCOME HOME Marquee -->
+<section class="marquee-section" aria-hidden="true">
+    <div class="marquee-track">
+        <span class="marquee-text">WELCOME HOME</span>
+        <span class="marquee-text">WELCOME HOME</span>
+    </div>
+</section>
+
+<!-- Mission Statement Section -->
+<section class="mission-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <h2 class="mission-headline">@(string.IsNullOrWhiteSpace(church.MissionStatement) ? church.Tagline : church.MissionStatement)</h2>
+                @if (!string.IsNullOrWhiteSpace(church.MissionSubtext))
+                {
+                    <p class="mission-subtext">@church.MissionSubtext</p>
+                }
+                <a asp-page="/About" class="btn btn-church-secondary btn-lg mt-3">What We Believe</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Get Connected (Ministries Grid) -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Get Connected</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="ministry-card" style="background-image: url('https://picsum.photos/seed/kids1/600/400');">
+                    <div class="ministry-card-overlay"></div>
+                    <div class="ministry-card-content">
+                        <h5>Kids</h5>
+                        <p class="small mb-2">Ministry for children</p>
+                        <a asp-page="/Groups/Index" class="btn btn-church-primary btn-sm">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="ministry-card" style="background-image: url('https://picsum.photos/seed/youth1/600/400');">
+                    <div class="ministry-card-overlay"></div>
+                    <div class="ministry-card-content">
+                        <h5>Youth</h5>
+                        <p class="small mb-2">Teens & young believers</p>
+                        <a asp-page="/Groups/Index" class="btn btn-church-primary btn-sm">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="ministry-card" style="background-image: url('https://picsum.photos/seed/youngadults1/600/400');">
+                    <div class="ministry-card-overlay"></div>
+                    <div class="ministry-card-content">
+                        <h5>Young Adults</h5>
+                        <p class="small mb-2">Community for 18–30</p>
+                        <a asp-page="/Groups/Index" class="btn btn-church-primary btn-sm">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Latest Sermons Section -->
+<section class="sermons-section py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-4 mb-4 mb-lg-0">
+                <h2 class="mb-3">Watch & Listen</h2>
+                <p class="text-white-50">Catch up on our latest teachings. Stream live or browse our sermon library.</p>
+                <a asp-page="/Sermons/Index" class="btn btn-church-secondary">View All Sermons</a>
+            </div>
+            <div class="col-lg-8">
+                <div class="row g-3">
+                    @foreach (var sermon in Model.LatestSermons.Take(3))
+                    {
+                        <div class="col-md-4">
+                            <a asp-page="/Sermons/Details" asp-route-id="@sermon.Id" class="sermon-thumb-link">
+                                <div class="sermon-thumb" style="background-image: url('https://picsum.photos/seed/sermon@(sermon.Id)/400/300');"></div>
+                                <p class="sermon-thumb-title mt-2 mb-0 small">@sermon.Title</p>
+                            </a>
+                        </div>
+                    }
+                    @if (Model.LatestSermons.Count == 0)
+                    {
+                        <div class="col-12 text-center text-white-50 py-4">
+                            <p class="mb-0">No sermons yet. Check back soon!</p>
+                            <a asp-page="/Sermons/Index" class="btn btn-church-secondary btn-sm mt-2">View Sermons</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,41 @@
+@page
+@model ChurchWebsite.Pages.Events.IndexModel
+@{
+    ViewData["Title"] = "Events";
+}
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold mb-2">Events</h1>
+        <p class="lead text-muted">Find events to attend and get connected with our community.</p>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var evt in Model.Events)
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <span class="badge bg-primary bg-opacity-25 text-primary">
+                                @evt.Date.ToString("MMM d")
+                            </span>
+                            @if (evt.Capacity.HasValue)
+                            {
+                                <span class="small text-muted">@evt.Capacity spots</span>
+                            }
+                        </div>
+                        <h5 class="card-title">@evt.Title</h5>
+                        <p class="card-text small text-muted mb-2">@evt.Date.ToString("dddd, MMMM d, yyyy") · @evt.Date.ToString("h:mm tt")</p>
+                        @if (!string.IsNullOrWhiteSpace(evt.Location))
+                        {
+                            <p class="card-text small text-muted mb-2">📍 @evt.Location</p>
+                        }
+                        <p class="card-text small">@evt.Description</p>
+                        <a asp-page="/Events/Details" asp-route-id="@evt.Id" class="btn btn-outline-primary btn-sm">View Details & RSVP</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

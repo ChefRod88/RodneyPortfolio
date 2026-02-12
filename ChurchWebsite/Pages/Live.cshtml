@@ -1,0 +1,48 @@
+@page
+@model LiveModel
+@{
+    ViewData["Title"] = "Live Stream";
+    var hasStreamUrl = !string.IsNullOrWhiteSpace(Model.Church.LiveStreamUrl);
+}
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold mb-2">Watch Live</h1>
+        <p class="lead text-muted">Join us for our live worship service. Stream with us on Facebook or YouTube.</p>
+    </div>
+
+    @if (hasStreamUrl)
+    {
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="ratio ratio-16x9 bg-dark rounded-3 shadow">
+                    <iframe src="@Model.Church.LiveStreamUrl" 
+                            title="Live stream - @Model.Church.Name" 
+                            allowfullscreen
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+                    </iframe>
+                </div>
+                <p class="text-center text-muted mt-3 small">
+                    You can also watch on <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a> or <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a> if we're streaming there.
+                </p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center">
+            <p class="mb-0">We're not currently streaming. Check back during our service times, or update the <code>Church:LiveStreamUrl</code> in appsettings.json to embed our live stream.</p>
+            <p class="mb-0 mt-2 small">For YouTube: Use the embed URL (e.g. <code>https://www.youtube.com/embed/VIDEO_ID</code>). For Facebook: Use the Facebook embed code's src URL.</p>
+        </div>
+        <div class="ratio ratio-16x9 bg-light rounded-3 d-flex align-items-center justify-content-center">
+            <div class="text-center text-muted">
+                <span class="fs-1 d-block mb-2">📺</span>
+                <p class="mb-0">Live stream will appear here</p>
+            </div>
+        </div>
+    }
+
+    <div class="mt-5 text-center">
+        <a asp-page="/Sermons/Index" class="btn btn-outline-primary">Browse Past Sermons</a>
+    </div>
+</div>

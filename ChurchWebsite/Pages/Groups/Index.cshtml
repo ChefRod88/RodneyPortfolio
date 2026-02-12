@@ -1,0 +1,37 @@
+@page
+@model ChurchWebsite.Pages.Groups.IndexModel
+@{
+    ViewData["Title"] = "Groups & Ministries";
+}
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-5 fw-bold mb-2">Groups & Ministries</h1>
+        <p class="lead text-muted">Find a group to join. Get connected and grow with others.</p>
+    </div>
+
+    <div class="row g-4">
+        @foreach (var group in Model.Groups)
+        {
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        @if (!string.IsNullOrWhiteSpace(group.Category))
+                        {
+                            <span class="badge bg-primary bg-opacity-25 text-primary mb-2">@group.Category</span>
+                        }
+                        <h5 class="card-title">@group.Name</h5>
+                        <p class="card-text small text-muted mb-2">
+                            @if (!string.IsNullOrWhiteSpace(group.MeetingSchedule))
+                            {
+                                <span>📅 @group.MeetingSchedule</span>
+                            }
+                        </p>
+                        <p class="card-text small">@group.Description</p>
+                        <a asp-page="/Groups/Details" asp-route-id="@group.Id" class="btn btn-outline-primary btn-sm">Learn More & Join</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

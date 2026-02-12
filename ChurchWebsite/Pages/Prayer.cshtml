@@ -1,0 +1,52 @@
+@page
+@model PrayerModel
+@{
+    ViewData["Title"] = "Request Prayer";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <h1 class="display-5 fw-bold mb-2">Request Prayer</h1>
+            <p class="text-muted mb-4">We would be honored to pray for you. Share your request below.</p>
+
+            @if (Model.Submitted)
+            {
+                <div class="alert alert-success text-center py-5">
+                    <h4 class="alert-heading">Thank You</h4>
+                    <p class="mb-0">We're praying for you. Thank you for sharing your request with us.</p>
+                </div>
+            }
+            else
+            {
+                <form method="post" class="card border-0 shadow-sm p-4">
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label">Name <span class="text-muted">(optional)</span></label>
+                        <input asp-for="Name" class="form-control" placeholder="Your name" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label">Email <span class="text-muted">(optional)</span></label>
+                        <input asp-for="Email" type="email" class="form-control" placeholder="your@email.com" />
+                        <span asp-validation-for="Email" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="PrayerRequest" class="form-label">Prayer Request</label>
+                        <textarea asp-for="PrayerRequest" class="form-control" rows="5" placeholder="Share your prayer request..." required></textarea>
+                        <span asp-validation-for="PrayerRequest" class="text-danger small"></span>
+                    </div>
+                    <div class="mb-4">
+                        <div class="form-check">
+                            <input asp-for="ShareAnonymously" class="form-check-input" type="checkbox" />
+                            <label asp-for="ShareAnonymously" class="form-check-label">Share anonymously</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Submit Request</button>
+                </form>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

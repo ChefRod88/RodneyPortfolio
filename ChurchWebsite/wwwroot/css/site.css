@@ -1,0 +1,550 @@
+/* ================================
+   ROOT / TYPOGRAPHY (Calvary-inspired)
+   ================================ */
+:root {
+  --church-primary: #003DA5;
+  --church-primary-dark: #002d7a;
+  --church-secondary: #FBC457;
+  --church-secondary-dark: #e5a83d;
+  --church-warm: #8b7355;
+  --church-neutral: #6b6b6b;
+  --church-light: #f8f6f3;
+  --church-footer-bg: #111111;
+}
+
+html {
+  font-size: 14px;
+  scroll-behavior: smooth;
+  height: 100%;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+body {
+  font-family: 'Poppins', 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #333;
+  background-color: #fff;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+body > main {
+  flex: 1 0 auto;
+}
+
+/* ================================
+   FOCUS / ACCESSIBILITY
+   ================================ */
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus,
+.form-control:focus, .form-check-input:focus, a:focus-visible {
+  box-shadow: 0 0 0 2px white, 0 0 0 4px var(--church-primary);
+  outline: none;
+}
+
+/* ================================
+   NAV
+   ================================ */
+.navbar {
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.navbar-brand {
+  color: var(--church-primary) !important;
+}
+
+.nav-link {
+  color: var(--church-neutral) !important;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.nav-link:hover, .nav-link.active {
+  color: var(--church-primary) !important;
+}
+
+/* Transparent nav over hero (home page) */
+body.home-page .navbar.navbar-transparent {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+body.home-page .navbar.navbar-transparent .navbar-brand,
+body.home-page .navbar.navbar-transparent .nav-link,
+body.home-page .navbar.navbar-transparent .dropdown-toggle {
+  color: #fff !important;
+}
+
+body.home-page .navbar.navbar-transparent .nav-link:hover,
+body.home-page .navbar.navbar-transparent .nav-link.active {
+  color: var(--church-secondary) !important;
+}
+
+body.home-page .navbar.navbar-transparent .navbar-toggler {
+  border-color: rgba(255, 255, 255, 0.5);
+  color: #fff;
+}
+
+body.home-page .navbar.navbar-transparent .navbar-toggler-icon {
+  filter: brightness(0) invert(1);
+}
+
+/* ================================
+   FOOTER (Calvary-style: dark, icons)
+   ================================ */
+body > footer.footer {
+  flex-shrink: 0;
+  margin-top: auto;
+}
+
+.footer {
+  background-color: var(--church-footer-bg);
+  color: #fff;
+  padding: 1rem 0;
+  border-top: 3px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.footer h5,
+.footer .footer-label {
+  color: #fff;
+  font-weight: 600;
+}
+
+.footer a,
+.footer p,
+.footer .text-muted {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.footer a:hover {
+  color: var(--church-secondary) !important;
+}
+
+.footer .footer-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  opacity: 0.9;
+}
+
+.footer .footer-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.footer .footer-item:last-child {
+  margin-bottom: 0;
+}
+
+.footer .footer-item a {
+  text-decoration: none;
+}
+
+.footer .footer-contact-value {
+  font-family: 'Bubblegum Sans', cursive;
+}
+
+.footer .footer-socials a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  transition: background 0.2s;
+}
+
+.footer .footer-socials a:hover {
+  background: var(--church-secondary);
+  color: #1a1a1a !important;
+}
+
+.footer .footer-copyright {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  margin-top: 0.25in;
+}
+
+/* ================================
+   CALVARY-STYLE HERO
+   ================================ */
+.hero-calvary {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-calvary-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-calvary-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
+}
+
+.hero-calvary-content {
+  position: relative;
+  z-index: 1;
+  padding: 2rem 0;
+}
+
+.hero-calvary-headline {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+  margin-bottom: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .hero-calvary-headline {
+    font-size: 3.5rem;
+  }
+}
+
+.hero-calvary-ctas .btn {
+  min-height: 44px;
+}
+
+/* Hero scroll-down prompt */
+.hero-scroll-prompt {
+  position: absolute;
+  bottom: 1.25in;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  opacity: 0.95;
+  transition: opacity 0.2s;
+  z-index: 2;
+}
+
+.hero-scroll-prompt:hover {
+  opacity: 1;
+  color: #fff;
+  text-decoration: underline;
+}
+
+.hero-scroll-text {
+  white-space: nowrap;
+}
+
+.hero-scroll-arrow {
+  width: 1.5rem;
+  height: 1.5rem;
+  animation: hero-scroll-bounce 2s ease-in-out infinite;
+}
+
+@keyframes hero-scroll-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(0.25rem);
+  }
+}
+
+/* ================================
+   THREE IMAGE CARDS (Calvary-style)
+   ================================ */
+.three-cards-section .card-image-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.card-image-overlay {
+  position: relative;
+  min-height: 25rem;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: flex-end;
+  padding: 2rem;
+}
+
+.card-image-gradient {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7));
+}
+
+.card-image-content {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+}
+
+.card-image-content h3 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.card-image-cta {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.card-image-link:hover .card-image-cta {
+  text-decoration: underline;
+}
+
+/* ================================
+   WELCOME HOME MARQUEE
+   ================================ */
+.marquee-section {
+  background: var(--church-light);
+  overflow: hidden;
+  padding: 1.5rem 0;
+  user-select: none;
+}
+
+.marquee-track {
+  display: flex;
+  gap: 3rem;
+  width: max-content;
+  animation: marquee-scroll 25s linear infinite;
+}
+
+.marquee-text {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--church-primary);
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .marquee-text {
+    font-size: 3rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+  }
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* ================================
+   MISSION STATEMENT
+   ================================ */
+.mission-section {
+  background: linear-gradient(135deg, var(--church-primary) 0%, var(--church-primary-dark) 100%);
+  padding: 4rem 0;
+  color: #fff;
+}
+
+.mission-headline {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .mission-headline {
+    font-size: 2.25rem;
+  }
+}
+
+.mission-subtext {
+  font-size: 1rem;
+  opacity: 0.9;
+  margin-bottom: 0;
+}
+
+/* ================================
+   MINISTRY CARDS
+   ================================ */
+.ministry-card {
+  position: relative;
+  min-height: 16rem;
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+}
+
+.ministry-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.75));
+}
+
+.ministry-card-content {
+  position: relative;
+  z-index: 1;
+  padding: 1.5rem;
+  color: #fff;
+}
+
+.ministry-card-content h5 {
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+/* ================================
+   LATEST SERMONS SECTION
+   ================================ */
+.sermons-section {
+  background: linear-gradient(135deg, var(--church-primary) 0%, var(--church-primary-dark) 100%);
+  color: #fff;
+}
+
+.sermon-thumb-link {
+  display: block;
+  text-decoration: none;
+  color: #fff;
+}
+
+.sermon-thumb {
+  aspect-ratio: 16/9;
+  background-size: cover;
+  background-position: center;
+  border-radius: 0.5rem;
+}
+
+.sermon-thumb-title {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.sermon-thumb-link:hover .sermon-thumb-title {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* ================================
+   BUTTONS - Church theme
+   ================================ */
+.btn-church-primary {
+  background-color: var(--church-primary);
+  border-color: var(--church-primary);
+  color: #fff;
+}
+
+.btn-church-primary:hover {
+  background-color: var(--church-primary-dark);
+  border-color: var(--church-primary-dark);
+  color: #fff;
+}
+
+.btn-church-secondary {
+  background-color: var(--church-secondary);
+  border-color: var(--church-secondary);
+  color: #1a1a1a;
+}
+
+.btn-church-secondary:hover {
+  background-color: var(--church-secondary-dark);
+  border-color: var(--church-secondary-dark);
+  color: #1a1a1a;
+}
+
+.min-vh-50 {
+  min-height: 50vh;
+}
+
+/* ================================
+   CARDS - Touch-friendly, accessible
+   ================================ */
+.card {
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+}
+
+.card a {
+  min-height: 44px;
+}
+
+/* ================================
+   BUTTONS - Ensure sufficient contrast
+   ================================ */
+.btn-primary {
+  background-color: var(--church-primary);
+  border-color: var(--church-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--church-primary-dark);
+  border-color: var(--church-primary-dark);
+}
+
+.btn-outline-primary {
+  border-color: var(--church-primary);
+  color: var(--church-primary);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--church-primary);
+  border-color: var(--church-primary);
+  color: #fff;
+}
+
+/* ================================
+   FORM PLACEHOLDERS
+   ================================ */
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color);
+  text-align: end;
+}
+
+.form-floating > .form-control-plaintext:focus::placeholder,
+.form-floating > .form-control:focus::placeholder {
+  text-align: start;
+}
+
+/* ================================
+   RESPONSIVE TYPOGRAPHY
+   ================================ */
+@media (max-width: 767px) {
+  .display-4 {
+    font-size: 2rem;
+  }
+  .display-5 {
+    font-size: 1.75rem;
+  }
+  .display-6 {
+    font-size: 1.5rem;
+  }
+}

@@ -1,0 +1,106 @@
+@page
+@model ChurchWebsite.Pages.Groups.DetailsModel
+@{
+    ViewData["Title"] = Model.Group?.Name ?? "Group";
+}
+
+@if (Model.Group != null)
+{
+    <div class="container py-5">
+        <nav aria-label="breadcrumb" class="mb-4">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-page="/Groups/Index">Groups</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Model.Group.Name</li>
+            </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <h1 class="display-6 fw-bold mb-3">@Model.Group.Name</h1>
+                @if (!string.IsNullOrWhiteSpace(Model.Group.Category))
+                {
+                    <span class="badge bg-primary bg-opacity-25 text-primary mb-3">@Model.Group.Category</span>
+                }
+
+                <div class="mb-4">
+                    <h5 class="fw-semibold mb-2">About This Group</h5>
+                    <p class="text-muted">@Model.Group.Description</p>
+                </div>
+
+                <div class="mb-4">
+                    <h5 class="fw-semibold mb-2">Details</h5>
+                    <ul class="list-unstyled text-muted">
+                        @if (!string.IsNullOrWhiteSpace(Model.Group.MeetingSchedule))
+                        {
+                            <li class="mb-2">📅 <strong>When:</strong> @Model.Group.MeetingSchedule</li>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(Model.Group.Location))
+                        {
+                            <li class="mb-2">📍 <strong>Where:</strong> @Model.Group.Location</li>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(Model.Group.ContactEmail))
+                        {
+                            <li><strong>Contact:</strong> <a href="mailto:@Model.Group.ContactEmail" class="text-decoration-none">@Model.Group.ContactEmail</a></li>
+                        }
+                    </ul>
+                </div>
+
+                <!-- Join / Express Interest Placeholder -->
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold">Join This Group</h5>
+                        <p class="card-text text-muted small mb-3">Express your interest or join. Group signup will be available when the backend is connected.</p>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#joinModal">
+                            Join or Express Interest
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="card border-0 shadow-sm sticky-top">
+                    <div class="card-body">
+                        <h5 class="card-title fw-semibold">Quick Info</h5>
+                        <ul class="list-unstyled mb-0">
+                            @if (!string.IsNullOrWhiteSpace(Model.Group.Category))
+                            {
+                                <li class="mb-2"><strong>Category:</strong> @Model.Group.Category</li>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(Model.Group.MeetingSchedule))
+                            {
+                                <li class="mb-2"><strong>Schedule:</strong> @Model.Group.MeetingSchedule</li>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(Model.Group.Location))
+                            {
+                                <li class="mb-2"><strong>Location:</strong> @Model.Group.Location</li>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(Model.Group.ContactEmail))
+                            {
+                                <li><strong>Contact:</strong> <a href="mailto:@Model.Group.ContactEmail">@Model.Group.ContactEmail</a></li>
+                            }
+                        </ul>
+                        <a asp-page="/Groups/Index" class="btn btn-outline-primary mt-3">Back to Groups</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Join Modal (placeholder) -->
+    <div class="modal fade" id="joinModal" tabindex="-1" aria-labelledby="joinModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="joinModalLabel">Join @Model.Group.Name</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted">Group join functionality will be available when the backend and member authentication are added. For now, you can reach out via <a href="mailto:@Model.Group.ContactEmail">@Model.Group.ContactEmail</a> to express your interest.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <a href="mailto:@Model.Group.ContactEmail" class="btn btn-primary">Email Us</a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
