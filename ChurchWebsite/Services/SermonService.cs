@@ -2,6 +2,7 @@ using ChurchWebsite.Models;
 
 namespace ChurchWebsite.Services;
 
+/// <summary>In-memory sermon data. USE CASE: Add/edit sermons; replace with DB later.</summary>
 public class SermonService
 {
     private static readonly List<Sermon> Sermons =
@@ -68,7 +69,9 @@ public class SermonService
         }
     ];
 
+    /// <summary>Returns all sermons, newest first. Used by Index (top 3) and Sermons/Index (all).</summary>
     public List<Sermon> GetAll() => Sermons.OrderByDescending(s => s.Date).ToList();
 
+    /// <summary>Returns single sermon by id, or null if not found. Used by Sermons/Details.</summary>
     public Sermon? GetById(int id) => Sermons.FirstOrDefault(s => s.Id == id);
 }

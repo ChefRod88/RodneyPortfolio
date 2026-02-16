@@ -1,3 +1,9 @@
+@* ============================================
+   SHARED LAYOUT - Wraps all pages
+   USE CASE: Nav, footer, scripts shared site-wide
+   LOCATION: Every page (via _ViewStart.cshtml)
+   ============================================ *@
+@* Inject church config and current request path for nav active state *@
 @using ChurchWebsite.Models
 @using Microsoft.Extensions.Options
 @inject IOptions<ChurchSettings> ChurchOptions
@@ -5,6 +11,7 @@
 @{
     var church = ChurchOptions.Value;
     var path = HttpContextAccessor.HttpContext?.Request.Path.Value ?? "";
+    /* IsActive: returns true if current path matches nav item (e.g. /About matches About dropdown) */
     bool IsActive(string page) => (page == "/" && (path == "/" || path == "")) || (page != "/" && path.StartsWith(page, StringComparison.OrdinalIgnoreCase));
 }
 <!DOCTYPE html>
@@ -18,24 +25,33 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ChurchWebsite.styles.css" asp-append-version="true" />
 </head>
+@* home-page class: enables transparent nav + hero styling; only on Index *@
 <body class="@((path == "/" || path == "") ? "home-page" : "")">
+    @* SKIP LINK - USE CASE: Accessibility; keyboard users jump to main content *@
     <a href="#main-content" class="visually-hidden-focusable btn btn-primary btn-sm position-fixed top-0 start-0 m-2" style="z-index: 9999;">Skip to main content</a>
+    @* HEADER / NAV - USE CASE: Change nav links, dropdowns; LOCATION: Top of every page *@
     <header>
+        @* Nav: bg-white on non-home pages; on home, site.js toggles navbar-transparent *@
         <nav class="navbar navbar-expand-lg navbar-light border-bottom box-shadow @((path != "/" && path != "") ? "bg-white" : "")" id="mainNav">
             <div class="container">
+                @* Church name links to home *@
                 <a class="navbar-brand fw-bold" asp-page="/Index">@church.Name</a>
+                @* Mobile hamburger - collapses nav on small screens *@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarMain">
                     <ul class="navbar-nav ms-auto">
+                        @* NAV: Home - USE CASE: Change label or route *@
                         <li class="nav-item">
                             <a class="nav-link @(IsActive("/") && path == "/" ? "active" : "")" asp-page="/Index">Home</a>
                         </li>
+                        @* NAV: About dropdown - New to church, Location, Meet Our Team, Our Beliefs, Contact *@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle @(IsActive("/About") ? "active" : "")" href="#" id="navAbout" data-bs-toggle="dropdown" aria-expanded="false">About</a>
                             <ul class="dropdown-menu" aria-labelledby="navAbout">
                                 <li><a class="dropdown-item" asp-page="/About">New to @church.Name</a></li>
+                                @* Location: opens Google Maps with church address *@
                                 @if (!string.IsNullOrWhiteSpace(church.GoogleMapsUrl))
                                 {
                                     <li><a class="dropdown-item" href="@church.GoogleMapsUrl" target="_blank" rel="noopener noreferrer">Location</a></li>
@@ -46,6 +62,7 @@
                                 <li><a class="dropdown-item" asp-page="/About">Contact Us</a></li>
                             </ul>
                         </li>
+                        @* NAV: Next Steps dropdown - Events, Groups, Request Prayer *@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle @(IsActive("/Groups") || IsActive("/Events") ? "active" : "")" href="#" id="navNextSteps" data-bs-toggle="dropdown" aria-expanded="false">Next Steps</a>
                             <ul class="dropdown-menu" aria-labelledby="navNextSteps">
@@ -54,6 +71,7 @@
                                 <li><a class="dropdown-item" asp-page="/Prayer">Request Prayer</a></li>
                             </ul>
                         </li>
+                        @* NAV: Media dropdown - Sermons, Watch Live *@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle @(IsActive("/Sermons") || IsActive("/Live") ? "active" : "")" href="#" id="navMedia" data-bs-toggle="dropdown" aria-expanded="false">Media</a>
                             <ul class="dropdown-menu" aria-labelledby="navMedia">
@@ -61,6 +79,7 @@
                                 <li><a class="dropdown-item" asp-page="/Live">Watch Live</a></li>
                             </ul>
                         </li>
+                        @* NAV: Request Prayer - standalone link *@
                         <li class="nav-item">
                             <a class="nav-link @(IsActive("/Prayer") ? "active" : "")" asp-page="/Prayer">Request Prayer</a>
                         </li>
@@ -70,12 +89,15 @@
         </nav>
     </header>
 
+    @* MAIN - Page content injected here via @RenderBody() *@
     <main id="main-content" role="main">
         @RenderBody()
     </main>
 
+    @* FOOTER - USE CASE: Contact (email, address, phone), social links, copyright *@
     <footer class="footer">
         <div class="container">
+            @* Footer: 3 columns - Email, Address, Phone *@
             <div class="row g-3 mb-3">
                 <div class="col-md-4">
                     <div class="footer-item">
@@ -117,9 +139,11 @@
                     </div>
                 </div>
             </div>
+            @* Copyright - dynamic year and church name *@
             <div class="text-center footer-copyright">
                 &copy; @DateTime.Now.Year @church.Name. All rights reserved.
             </div>
+            @* Social icons - only shown if URL is set in appsettings *@
             <div class="footer-socials d-flex gap-2 justify-content-center">
                 @if (!string.IsNullOrWhiteSpace(church.SocialMedia.Facebook))
                 {
@@ -137,6 +161,7 @@
         </div>
     </footer>
 
+    @* SCRIPTS - jQuery, Bootstrap, site.js; pages can add more via @section Scripts *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

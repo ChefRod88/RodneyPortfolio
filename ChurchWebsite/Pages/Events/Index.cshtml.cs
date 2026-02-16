@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ChurchWebsite.Pages.Events;
 
+/// <summary>Events list page. USE CASE: Display all church events from EventService.</summary>
 public class IndexModel : PageModel
 {
     private readonly EventService _eventService;

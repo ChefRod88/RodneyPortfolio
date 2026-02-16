@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ChurchWebsite.Pages;
 
+/// <summary>Request Prayer form. USE CASE: Submit prayer requests (currently in-memory, no persistence).</summary>
 public class PrayerModel : PageModel
 {
     [BindProperty]
@@ -24,8 +25,9 @@ public class PrayerModel : PageModel
     [Display(Name = "Share anonymously")]
     public bool ShareAnonymously { get; set; }
 
-    public bool Submitted { get; set; }
+    public bool Submitted { get; set; }  // When true, view shows thank-you message instead of form
 
+    /// <summary>Handles form submit. Validates; if valid, sets Submitted and shows thank-you. No persistence yet.</summary>
     public IActionResult OnPost()
     {
         if (!ModelState.IsValid)

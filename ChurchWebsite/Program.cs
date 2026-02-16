@@ -1,34 +1,34 @@
+// Church Website - Application entry point
+// USE CASE: Configure DI, services, routing; add new pages/services here
 using ChurchWebsite.Models;
 using ChurchWebsite.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddHttpContextAccessor();
-builder.Services.Configure<ChurchSettings>(builder.Configuration.GetSection(ChurchSettings.SectionName));
-builder.Services.AddScoped<SermonService>();
-builder.Services.AddScoped<EventService>();
-builder.Services.AddScoped<GroupService>();
+// SERVICES
+builder.Services.AddRazorPages();                                    // Enables Razor Pages (Index, About, etc.)
+builder.Services.AddHttpContextAccessor();                           // Needed for _Layout to read current path
+builder.Services.Configure<ChurchSettings>(builder.Configuration.GetSection(ChurchSettings.SectionName));  // Binds appsettings Church section
+builder.Services.AddScoped<SermonService>();                         // In-memory sermons; inject in Index, Sermons pages
+builder.Services.AddScoped<EventService>();                          // In-memory events; inject in Events pages
+builder.Services.AddScoped<GroupService>();                         // In-memory groups; inject in Groups pages
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// HTTP PIPELINE - Order matters
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.UseExceptionHandler("/Error");  // Non-dev: show Error page instead of stack trace
+    app.UseHsts();                      // Add HSTS header for HTTPS
 }
 
-app.UseHttpsRedirection();
+app.UseHttpsRedirection();   // Redirect HTTP to HTTPS
+app.UseRouting();            // Enable endpoint routing
+app.UseAuthorization();      // Auth middleware (no auth configured yet)
 
-app.UseRouting();
-
-app.UseAuthorization();
-
-app.MapStaticAssets();
-app.MapRazorPages()
+// ROUTING
+app.MapStaticAssets();       // Serves wwwroot (css, js, images)
+app.MapRazorPages()          // Maps /Index, /About, /Events/Index, etc.
    .WithStaticAssets();
 
 app.Run();

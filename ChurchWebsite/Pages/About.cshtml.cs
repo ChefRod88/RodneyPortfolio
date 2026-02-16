@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 
 namespace ChurchWebsite.Pages;
 
+/// <summary>About page. USE CASE: Church info, beliefs, leadership.</summary>
 public class AboutModel : PageModel
 {
     private readonly ChurchSettings _church;

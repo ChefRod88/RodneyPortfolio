@@ -1,3 +1,4 @@
+@* USE CASE: Prayer request form - name, email, request, anonymous option *@
 @page
 @model PrayerModel
 @{
@@ -10,6 +11,7 @@
             <h1 class="display-5 fw-bold mb-2">Request Prayer</h1>
             <p class="text-muted mb-4">We would be honored to pray for you. Share your request below.</p>
 
+            @* If form was just submitted, show thank-you instead of form *@
             @if (Model.Submitted)
             {
                 <div class="alert alert-success text-center py-5">
@@ -19,6 +21,7 @@
             }
             else
             {
+                @* Form: Name/Email optional; PrayerRequest required; ShareAnonymously checkbox *@
                 <form method="post" class="card border-0 shadow-sm p-4">
                     <div class="mb-3">
                         <label asp-for="Name" class="form-label">Name <span class="text-muted">(optional)</span></label>

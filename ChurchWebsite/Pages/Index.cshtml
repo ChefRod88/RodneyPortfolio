@@ -1,13 +1,15 @@
+@* USE CASE: Home page - hero, three cards, marquee, mission, ministries, latest sermons *@
 @page
 @model IndexModel
 @{
     ViewData["Title"] = "Home";
     var church = Model.Church;
+    /* Hero image: use appsettings value or placeholder; headline: use appsettings or tagline */
     var heroImageUrl = !string.IsNullOrWhiteSpace(church.HeroImageUrl) ? church.HeroImageUrl : "https://picsum.photos/seed/church1/1920/1080";
     var heroHeadline = !string.IsNullOrWhiteSpace(church.HeroHeadline) ? church.HeroHeadline : church.Tagline;
 }
 
-<!-- Calvary-style Hero: Full-width image, dark overlay, headline, CTAs -->
+<!-- HERO: Full viewport, bg image from appsettings, overlay for text readability, Plan A Visit + Watch Online buttons -->
 <section class="hero-calvary" aria-label="Welcome">
     <div class="hero-calvary-bg" style="background-image: url('@heroImageUrl');"></div>
     <div class="hero-calvary-overlay"></div>
@@ -24,13 +26,14 @@
             </div>
         </div>
     </div>
+    <!-- Scroll prompt: smooth-scrolls to three-cards-section when clicked (site.js) -->
     <a href="#three-cards-section" class="hero-scroll-prompt" aria-label="Scroll to see more">
         <span class="hero-scroll-text">Click here to see more of the website</span>
         <svg class="hero-scroll-arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
     </a>
 </section>
 
-<!-- Three Image Cards (Calvary style) -->
+<!-- THREE CARDS: Get To Know Us (About), Events, Next Steps (Groups) - each links to respective page -->
 <section id="three-cards-section" class="three-cards-section">
     <div class="row g-0">
         <div class="col-md-4">
@@ -69,7 +72,7 @@
     </div>
 </section>
 
-<!-- WELCOME HOME Marquee -->
+<!-- MARQUEE: Scrolling "WELCOME HOME" text; animation in site.css; aria-hidden for screen readers -->
 <section class="marquee-section" aria-hidden="true">
     <div class="marquee-track">
         <span class="marquee-text">WELCOME HOME</span>
@@ -77,7 +80,7 @@
     </div>
 </section>
 
-<!-- Mission Statement Section -->
+<!-- MISSION: Blue gradient; MissionStatement + MissionSubtext from appsettings; "What We Believe" links to About -->
 <section class="mission-section">
     <div class="container">
         <div class="row justify-content-center">
@@ -93,7 +96,7 @@
     </div>
 </section>
 
-<!-- Get Connected (Ministries Grid) -->
+<!-- MINISTRIES: Kids, Youth, Young Adults - placeholder cards; all "Learn More" link to Groups -->
 <section class="py-5 bg-light">
     <div class="container">
         <h2 class="text-center mb-5">Get Connected</h2>
@@ -132,7 +135,7 @@
     </div>
 </section>
 
-<!-- Latest Sermons Section -->
+<!-- SERMONS: Latest 3 from SermonService; thumbnails link to Sermons/Details; empty state if none -->
 <section class="sermons-section py-5">
     <div class="container">
         <div class="row align-items-center">

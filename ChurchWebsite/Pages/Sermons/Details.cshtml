@@ -1,9 +1,11 @@
+@* USE CASE: Sermon detail - video embed, description, audio/download links *@
 @page
 @model ChurchWebsite.Pages.Sermons.DetailsModel
 @{
     ViewData["Title"] = Model.Sermon?.Title ?? "Sermon";
 }
 
+@* Sermon found: breadcrumb, video embed (YouTube iframe), description, audio/download links *@
 @if (Model.Sermon != null)
 {
     <div class="container py-5">

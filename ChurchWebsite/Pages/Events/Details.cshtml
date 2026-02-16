@@ -1,9 +1,11 @@
+@* USE CASE: Event detail - date, location, description, RSVP placeholder *@
 @page
 @model ChurchWebsite.Pages.Events.DetailsModel
 @{
     ViewData["Title"] = Model.Event?.Title ?? "Event";
 }
 
+@* Event found: show breadcrumb, date/time/location, description, RSVP modal (placeholder) *@
 @if (Model.Event != null)
 {
     <div class="container py-5">

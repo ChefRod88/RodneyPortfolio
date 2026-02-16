@@ -4,6 +4,7 @@ using Microsoft.Extensions.Options;
 
 namespace ChurchWebsite.Pages;
 
+/// <summary>Watch Live page. USE CASE: YouTube/Facebook embed from appsettings LiveStreamUrl.</summary>
 public class LiveModel : PageModel
 {
     private readonly ChurchSettings _church;

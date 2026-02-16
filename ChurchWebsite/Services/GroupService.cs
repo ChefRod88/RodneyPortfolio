@@ -2,6 +2,7 @@ using ChurchWebsite.Models;
 
 namespace ChurchWebsite.Services;
 
+/// <summary>In-memory group data. USE CASE: Add/edit groups; replace with DB later.</summary>
 public class GroupService
 {
     private static readonly List<Group> Groups =
@@ -68,7 +69,9 @@ public class GroupService
         }
     ];
 
+    /// <summary>Returns all groups, alphabetically by name. Used by Groups/Index.</summary>
     public List<Group> GetAll() => Groups.OrderBy(g => g.Name).ToList();
 
+    /// <summary>Returns single group by id, or null if not found. Used by Groups/Details.</summary>
     public Group? GetById(int id) => Groups.FirstOrDefault(g => g.Id == id);
 }

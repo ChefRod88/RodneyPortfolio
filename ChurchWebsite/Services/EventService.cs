@@ -2,6 +2,7 @@ using ChurchWebsite.Models;
 
 namespace ChurchWebsite.Services;
 
+/// <summary>In-memory event data. USE CASE: Add/edit events; replace with DB later.</summary>
 public class EventService
 {
     private static readonly List<ChurchEvent> Events =
@@ -58,9 +59,11 @@ public class EventService
         }
     ];
 
+    /// <summary>Returns all events, soonest first. Used by Events/Index.</summary>
     public List<ChurchEvent> GetAll() => Events
         .OrderBy(e => e.Date)
         .ToList();
 
+    /// <summary>Returns single event by id, or null if not found. Used by Events/Details.</summary>
     public ChurchEvent? GetById(int id) => Events.FirstOrDefault(e => e.Id == id);
 }

@@ -1,29 +1,35 @@
-/* ================================
+/* ============================================
    ROOT / TYPOGRAPHY (Calvary-inspired)
-   ================================ */
+   USE CASE: Change church brand colors, fonts, base sizing
+   LOCATION: Affects entire site
+   ============================================ */
+/* CSS variables - reusable colors; change here to update theme site-wide */
 :root {
-  --church-primary: #003DA5;
-  --church-primary-dark: #002d7a;
-  --church-secondary: #FBC457;
-  --church-secondary-dark: #e5a83d;
-  --church-warm: #8b7355;
-  --church-neutral: #6b6b6b;
-  --church-light: #f8f6f3;
-  --church-footer-bg: #111111;
+  --church-primary: #003DA5;        /* Main blue for buttons, links, accents */
+  --church-primary-dark: #002d7a;  /* Darker blue for hover states */
+  --church-secondary: #FBC457;     /* Gold/yellow accent (e.g. transparent nav hover) */
+  --church-secondary-dark: #e5a83d;/* Darker gold for hover */
+  --church-warm: #8b7355;          /* Brown/tan accent */
+  --church-neutral: #6b6b6b;       /* Gray for nav links, muted text */
+  --church-light: #f8f6f3;         /* Off-white background (marquee section) */
+  --church-footer-bg: #111111;      /* Dark footer background */
 }
 
+/* Base font size 14px on mobile; enables rem-based sizing */
 html {
   font-size: 14px;
-  scroll-behavior: smooth;
+  scroll-behavior: smooth;  /* Smooth scroll when clicking anchor links */
   height: 100%;
 }
 
+/* Larger base font on tablets and up */
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
 }
 
+/* Body: flex column so footer stays at bottom; font stack for typography */
 body {
   font-family: 'Poppins', 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: #333;
@@ -35,75 +41,93 @@ body {
   flex-direction: column;
 }
 
+/* Main content area grows to push footer down when content is short */
 body > main {
   flex: 1 0 auto;
 }
 
-/* ================================
+/* ============================================
    FOCUS / ACCESSIBILITY
-   ================================ */
+   USE CASE: Keyboard focus rings, WCAG contrast
+   LOCATION: Buttons, links, form controls site-wide
+   ============================================ */
+/* Focus ring: visible outline for keyboard users; white inner + blue outer ring */
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus,
 .form-control:focus, .form-check-input:focus, a:focus-visible {
   box-shadow: 0 0 0 2px white, 0 0 0 4px var(--church-primary);
   outline: none;
 }
 
-/* ================================
-   NAV
-   ================================ */
+/* ============================================
+   NAV - Main navigation bar
+   USE CASE: Styling for Home, About, Next Steps, Media, Request Prayer
+   LOCATION: Top of every page (shared via _Layout.cshtml)
+   ============================================ */
+/* Navbar animates when background/color changes (e.g. scroll on home) */
 .navbar {
   transition: background-color 0.3s, color 0.3s;
 }
 
+/* Church name in nav - always primary blue */
 .navbar-brand {
   color: var(--church-primary) !important;
 }
 
+/* Nav links default gray */
 .nav-link {
   color: var(--church-neutral) !important;
   font-weight: 500;
   transition: color 0.2s;
 }
 
+/* Nav links turn primary blue on hover or when current page */
 .nav-link:hover, .nav-link.active {
   color: var(--church-primary) !important;
 }
 
-/* Transparent nav over hero (home page) */
+/* When over hero: nav has no background so hero shows through */
 body.home-page .navbar.navbar-transparent {
   background-color: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
 }
 
+/* Transparent nav: all text white so it's readable over hero image */
 body.home-page .navbar.navbar-transparent .navbar-brand,
 body.home-page .navbar.navbar-transparent .nav-link,
 body.home-page .navbar.navbar-transparent .dropdown-toggle {
   color: #fff !important;
 }
 
+/* Transparent nav hover: gold accent */
 body.home-page .navbar.navbar-transparent .nav-link:hover,
 body.home-page .navbar.navbar-transparent .nav-link.active {
   color: var(--church-secondary) !important;
 }
 
+/* Mobile hamburger button - white border when transparent */
 body.home-page .navbar.navbar-transparent .navbar-toggler {
   border-color: rgba(255, 255, 255, 0.5);
   color: #fff;
 }
 
+/* Hamburger icon: invert to white (Bootstrap default is dark) */
 body.home-page .navbar.navbar-transparent .navbar-toggler-icon {
   filter: brightness(0) invert(1);
 }
 
-/* ================================
+/* ============================================
    FOOTER (Calvary-style: dark, icons)
-   ================================ */
+   USE CASE: Contact info, social links, copyright
+   LOCATION: Bottom of every page (shared via _Layout.cshtml)
+   ============================================ */
+/* Footer does not shrink; stays at bottom of viewport */
 body > footer.footer {
   flex-shrink: 0;
   margin-top: auto;
 }
 
+/* Footer container: dark bg, white text, top border */
 .footer {
   background-color: var(--church-footer-bg);
   color: #fff;
@@ -112,28 +136,33 @@ body > footer.footer {
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Section labels (Email, Find Us, Call Us) - bold white */
 .footer h5,
 .footer .footer-label {
   color: #fff;
   font-weight: 600;
 }
 
+/* Footer links and text - slightly muted white */
 .footer a,
 .footer p,
 .footer .text-muted {
   color: rgba(255, 255, 255, 0.85) !important;
 }
 
+/* Footer link hover - gold */
 .footer a:hover {
   color: var(--church-secondary) !important;
 }
 
+/* SVG icons next to contact info */
 .footer .footer-icon {
   width: 1.25rem;
   height: 1.25rem;
   opacity: 0.9;
 }
 
+/* Each contact row: icon + text side by side */
 .footer .footer-item {
   display: flex;
   align-items: flex-start;
@@ -149,10 +178,12 @@ body > footer.footer {
   text-decoration: none;
 }
 
+/* Contact values use playful font */
 .footer .footer-contact-value {
   font-family: 'Bubblegum Sans', cursive;
 }
 
+/* Social icons: circular buttons, subtle bg */
 .footer .footer-socials a {
   display: inline-flex;
   align-items: center;
@@ -164,20 +195,25 @@ body > footer.footer {
   transition: background 0.2s;
 }
 
+/* Social hover: gold background */
 .footer .footer-socials a:hover {
   background: var(--church-secondary);
   color: #1a1a1a !important;
 }
 
+/* Copyright line - smaller, muted */
 .footer .footer-copyright {
   color: rgba(255, 255, 255, 0.6);
   font-size: 0.875rem;
   margin-top: 0.25in;
 }
 
-/* ================================
+/* ============================================
    CALVARY-STYLE HERO
-   ================================ */
+   USE CASE: Full-screen hero with headline, CTAs, scroll prompt
+   LOCATION: Home page (Pages/Index.cshtml)
+   ============================================ */
+/* Hero: full viewport height, centered content, image behind */
 .hero-calvary {
   position: relative;
   min-height: 100vh;
@@ -187,6 +223,7 @@ body > footer.footer {
   overflow: hidden;
 }
 
+/* Background image - set via inline style in Index.cshtml */
 .hero-calvary-bg {
   position: absolute;
   inset: 0;
@@ -195,18 +232,21 @@ body > footer.footer {
   background-repeat: no-repeat;
 }
 
+/* Dark gradient overlay so white text is readable over image */
 .hero-calvary-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
 }
 
+/* Headline and buttons - above overlay */
 .hero-calvary-content {
   position: relative;
   z-index: 1;
   padding: 2rem 0;
 }
 
+/* Main headline - large white text with shadow */
 .hero-calvary-headline {
   font-size: 2.5rem;
   font-weight: 700;
@@ -215,17 +255,19 @@ body > footer.footer {
   margin-bottom: 1.5rem;
 }
 
+/* Larger headline on desktop */
 @media (min-width: 768px) {
   .hero-calvary-headline {
     font-size: 3.5rem;
   }
 }
 
+/* CTA buttons: min 44px height for touch targets */
 .hero-calvary-ctas .btn {
   min-height: 44px;
 }
 
-/* Hero scroll-down prompt */
+/* "Click here to see more" link at bottom - scrolls to #three-cards-section */
 .hero-scroll-prompt {
   position: absolute;
   bottom: 1.25in;
@@ -253,6 +295,7 @@ body > footer.footer {
   white-space: nowrap;
 }
 
+/* Down arrow - bounces to draw attention */
 .hero-scroll-arrow {
   width: 1.5rem;
   height: 1.5rem;
@@ -260,23 +303,23 @@ body > footer.footer {
 }
 
 @keyframes hero-scroll-bounce {
-  0%, 100% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(0.25rem);
-  }
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(0.25rem); }
 }
 
-/* ================================
+/* ============================================
    THREE IMAGE CARDS (Calvary-style)
-   ================================ */
+   USE CASE: Get To Know Us, Events, Next Steps cards on home
+   LOCATION: Home page below hero (Pages/Index.cshtml)
+   ============================================ */
+/* Card links: full block, no underline */
 .three-cards-section .card-image-link {
   display: block;
   text-decoration: none;
   color: inherit;
 }
 
+/* Each card: image bg, content at bottom */
 .card-image-overlay {
   position: relative;
   min-height: 25rem;
@@ -287,12 +330,14 @@ body > footer.footer {
   padding: 2rem;
 }
 
+/* Gradient so text is readable over image */
 .card-image-gradient {
   position: absolute;
   inset: 0;
   background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7));
 }
 
+/* Title and "Learn More" text */
 .card-image-content {
   position: relative;
   z-index: 1;
@@ -314,9 +359,12 @@ body > footer.footer {
   text-decoration: underline;
 }
 
-/* ================================
+/* ============================================
    WELCOME HOME MARQUEE
-   ================================ */
+   USE CASE: Scrolling "WELCOME HOME" text strip
+   LOCATION: Home page between cards and mission (Pages/Index.cshtml)
+   ============================================ */
+/* Marquee container: hides overflow so text scrolls off-screen */
 .marquee-section {
   background: var(--church-light);
   overflow: hidden;
@@ -324,6 +372,7 @@ body > footer.footer {
   user-select: none;
 }
 
+/* Flex row of "WELCOME HOME" text - animates left */
 .marquee-track {
   display: flex;
   gap: 3rem;
@@ -345,6 +394,7 @@ body > footer.footer {
   }
 }
 
+/* Respect user preference: no animation for reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .marquee-track {
     animation: none;
@@ -352,17 +402,16 @@ body > footer.footer {
 }
 
 @keyframes marquee-scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
-/* ================================
+/* ============================================
    MISSION STATEMENT
-   ================================ */
+   USE CASE: Blue gradient section with mission text
+   LOCATION: Home page (Pages/Index.cshtml)
+   ============================================ */
+/* Blue gradient section - mission statement from appsettings */
 .mission-section {
   background: linear-gradient(135deg, var(--church-primary) 0%, var(--church-primary-dark) 100%);
   padding: 4rem 0;
@@ -387,9 +436,12 @@ body > footer.footer {
   margin-bottom: 0;
 }
 
-/* ================================
+/* ============================================
    MINISTRY CARDS
-   ================================ */
+   USE CASE: Kids, Youth, Young Adults cards in "Get Connected"
+   LOCATION: Home page (Pages/Index.cshtml)
+   ============================================ */
+/* Kids, Youth, Young Adults cards - image bg, content at bottom */
 .ministry-card {
   position: relative;
   min-height: 16rem;
@@ -419,9 +471,12 @@ body > footer.footer {
   margin-bottom: 0.25rem;
 }
 
-/* ================================
+/* ============================================
    LATEST SERMONS SECTION
-   ================================ */
+   USE CASE: "Watch & Listen" sermon thumbnails on home
+   LOCATION: Home page (Pages/Index.cshtml), Sermons pages
+   ============================================ */
+/* Blue gradient - "Watch & Listen" section on home */
 .sermons-section {
   background: linear-gradient(135deg, var(--church-primary) 0%, var(--church-primary-dark) 100%);
   color: #fff;
@@ -433,6 +488,7 @@ body > footer.footer {
   color: #fff;
 }
 
+/* 16:9 thumbnail - bg image set inline in Index/Sermons */
 .sermon-thumb {
   aspect-ratio: 16/9;
   background-size: cover;
@@ -449,9 +505,12 @@ body > footer.footer {
   text-decoration: underline;
 }
 
-/* ================================
+/* ============================================
    BUTTONS - Church theme
-   ================================ */
+   USE CASE: .btn-church-primary, .btn-church-secondary
+   LOCATION: CTAs site-wide
+   ============================================ */
+/* Primary CTA - blue background */
 .btn-church-primary {
   background-color: var(--church-primary);
   border-color: var(--church-primary);
@@ -464,6 +523,7 @@ body > footer.footer {
   color: #fff;
 }
 
+/* Secondary CTA - gold background */
 .btn-church-secondary {
   background-color: var(--church-secondary);
   border-color: var(--church-secondary);
@@ -476,13 +536,17 @@ body > footer.footer {
   color: #1a1a1a;
 }
 
+/* Utility: min 50% viewport height */
 .min-vh-50 {
   min-height: 50vh;
 }
 
-/* ================================
+/* ============================================
    CARDS - Touch-friendly, accessible
-   ================================ */
+   USE CASE: Generic card hover, min touch target
+   LOCATION: Events, Groups, Sermons list/detail pages
+   ============================================ */
+/* Generic cards: lift and shadow on hover */
 .card {
   transition: transform 0.2s, box-shadow 0.2s;
 }
@@ -492,13 +556,17 @@ body > footer.footer {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
 }
 
+/* Links in cards: min 44px for touch targets */
 .card a {
   min-height: 44px;
 }
 
-/* ================================
+/* ============================================
    BUTTONS - Ensure sufficient contrast
-   ================================ */
+   USE CASE: Override Bootstrap .btn-primary for church colors
+   LOCATION: Forms, CTAs site-wide
+   ============================================ */
+/* Override Bootstrap .btn-primary with church colors */
 .btn-primary {
   background-color: var(--church-primary);
   border-color: var(--church-primary);
@@ -509,6 +577,7 @@ body > footer.footer {
   border-color: var(--church-primary-dark);
 }
 
+/* Outline button - blue border, fills on hover */
 .btn-outline-primary {
   border-color: var(--church-primary);
   color: var(--church-primary);
@@ -520,9 +589,12 @@ body > footer.footer {
   color: #fff;
 }
 
-/* ================================
+/* ============================================
    FORM PLACEHOLDERS
-   ================================ */
+   USE CASE: Floating label placeholder styling
+   LOCATION: Prayer form, any form with .form-floating
+   ============================================ */
+/* Placeholder text alignment for floating labels (Prayer form) */
 .form-floating > .form-control-plaintext::placeholder,
 .form-floating > .form-control::placeholder {
   color: var(--bs-secondary-color);
@@ -534,17 +606,14 @@ body > footer.footer {
   text-align: start;
 }
 
-/* ================================
+/* ============================================
    RESPONSIVE TYPOGRAPHY
-   ================================ */
+   USE CASE: Smaller display sizes on mobile
+   LOCATION: Page titles on small screens
+   ============================================ */
+/* Smaller page titles on mobile to prevent overflow */
 @media (max-width: 767px) {
-  .display-4 {
-    font-size: 2rem;
-  }
-  .display-5 {
-    font-size: 1.75rem;
-  }
-  .display-6 {
-    font-size: 1.5rem;
-  }
+  .display-4 { font-size: 2rem; }
+  .display-5 { font-size: 1.75rem; }
+  .display-6 { font-size: 1.5rem; }
 }

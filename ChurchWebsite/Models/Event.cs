@@ -1,5 +1,6 @@
 namespace ChurchWebsite.Models;
 
+/// <summary>Event model for Events list/detail. USE CASE: Church events, service times.</summary>
 public class ChurchEvent
 {
     public int Id { get; set; }

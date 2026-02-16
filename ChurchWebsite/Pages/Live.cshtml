@@ -1,3 +1,4 @@
+@* USE CASE: Live stream embed - uses Church:LiveStreamUrl from appsettings *@
 @page
 @model LiveModel
 @{
@@ -11,6 +12,7 @@
         <p class="lead text-muted">Join us for our live worship service. Stream with us on Facebook or YouTube.</p>
     </div>
 
+    @* If LiveStreamUrl set in appsettings: embed iframe; else show placeholder message *@
     @if (hasStreamUrl)
     {
         <div class="row justify-content-center">
