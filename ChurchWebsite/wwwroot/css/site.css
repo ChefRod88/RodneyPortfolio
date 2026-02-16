@@ -19,7 +19,7 @@
 html {
   font-size: 14px;
   scroll-behavior: smooth;  /* Smooth scroll when clicking anchor links */
-  height: 100%;
+  min-height: 100%;  /* Allow document to grow with content; footer flows to bottom of page */
 }
 
 /* Larger base font on tablets and up */
@@ -40,6 +40,19 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+.playwrite-nz-basic-guides-regular {
+  font-family: "Playwrite NZ Basic Guides", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.archivo-black {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 
 /* Main content area grows to push footer down when content is short */
 body > main {
@@ -73,16 +86,21 @@ body > main {
   color: var(--church-primary) !important;
 }
 
-/* Nav links default gray */
+/* Nav links default black - always visible */
 .nav-link {
-  color: var(--church-neutral) !important;
+  color: #000 !important;
   font-weight: 500;
   transition: color 0.2s;
 }
 
-/* Nav links turn primary blue on hover or when current page */
-.nav-link:hover, .nav-link.active {
-  color: var(--church-primary) !important;
+/* Nav links: black font + black underline on hover; active keeps blue for current page */
+.nav-link:hover {
+  color: #000 !important;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+.nav-link.active {
+  color: #000 !important;
 }
 
 /* When over hero: nav has no background so hero shows through */
@@ -92,17 +110,21 @@ body.home-page .navbar.navbar-transparent {
   box-shadow: none !important;
 }
 
-/* Transparent nav: all text white so it's readable over hero image */
+/* Transparent nav: black text (matches user preference; may need white if hero is very dark) */
 body.home-page .navbar.navbar-transparent .navbar-brand,
 body.home-page .navbar.navbar-transparent .nav-link,
 body.home-page .navbar.navbar-transparent .dropdown-toggle {
-  color: #fff !important;
+  color: #000 !important;
 }
 
-/* Transparent nav hover: gold accent */
-body.home-page .navbar.navbar-transparent .nav-link:hover,
+/* Transparent nav hover: black font + black underline */
+body.home-page .navbar.navbar-transparent .nav-link:hover {
+  color: #000 !important;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
 body.home-page .navbar.navbar-transparent .nav-link.active {
-  color: var(--church-secondary) !important;
+  color: #000 !important;
 }
 
 /* Mobile hamburger button - white border when transparent */
@@ -116,12 +138,24 @@ body.home-page .navbar.navbar-transparent .navbar-toggler-icon {
   filter: brightness(0) invert(1);
 }
 
+/* Dropdown triggers: same black + underline on hover */
+.nav-link.dropdown-toggle:hover {
+  color: #000 !important;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+body.home-page .navbar.navbar-transparent .nav-link.dropdown-toggle:hover {
+  color: #000 !important;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 /* ============================================
    FOOTER (Calvary-style: dark, icons)
    USE CASE: Contact info, social links, copyright
    LOCATION: Bottom of every page (shared via _Layout.cshtml)
    ============================================ */
-/* Footer does not shrink; stays at bottom of viewport */
+/* Footer: at bottom of page content; on short pages sticks to viewport bottom */
 body > footer.footer {
   flex-shrink: 0;
   margin-top: auto;
