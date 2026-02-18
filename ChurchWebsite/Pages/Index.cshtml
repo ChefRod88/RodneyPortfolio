@@ -113,13 +113,13 @@
                     </div>
                 </div>
             </div>
-            <!-- Youth 
+            
             <div class="col-md-4">
                 <div class="ministry-card" style="background-image: url('https://picsum.photos/seed/youth1/600/400');">
                     <div class="ministry-card-overlay"></div>
                     <div class="ministry-card-content">
-                        <h5>Youth</h5>
-                        <p class="small mb-2">Teens & young believers</p>
+                        <h5>Men's Ministry</h5>
+                        <p class="small mb-2">Men's Ministry is a place where men can come together to grow in their faith and serve the Lord.</p>
                         <a asp-page="/Groups/Index" class="btn btn-church-primary btn-sm">Learn More</a>
                     </div>
                 </div>
@@ -128,8 +128,8 @@
                 <div class="ministry-card" style="background-image: url('https://picsum.photos/seed/youngadults1/600/400');">
                     <div class="ministry-card-overlay"></div>
                     <div class="ministry-card-content">
-                        <h5>Young Adults</h5>
-                        <p class="small mb-2">Community for 18–30</p>
+                        <h5>City Wide Mission</h5>
+                        <p class="small mb-2">We are committed to reaching to those who are in need in our community.</p>
                         <a asp-page="/Groups/Index" class="btn btn-church-primary btn-sm">Learn More</a>
                     </div>
                 </div>
@@ -154,6 +154,10 @@
                         <div class="col-md-4">
                             <a asp-page="/Sermons/Details" asp-route-id="@sermon.Id" class="sermon-thumb-link">
                                 <div class="sermon-thumb" style="background-image: url('https://picsum.photos/seed/sermon@(sermon.Id)/400/300');"></div>
+                                @if (!string.IsNullOrWhiteSpace(sermon.Series))
+                                {
+                                    <span class="badge bg-light text-primary mt-2">@sermon.Series</span>
+                                }
                                 <p class="sermon-thumb-title mt-2 mb-0 small">@sermon.Title</p>
                             </a>
                         </div>

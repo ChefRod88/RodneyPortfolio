@@ -651,3 +651,182 @@ body > footer.footer {
   .display-5 { font-size: 1.75rem; }
   .display-6 { font-size: 1.5rem; }
 }
+
+/* ============================================
+   ABOUT PAGE - Passion Creek style
+   USE CASE: Team, Beliefs, Culture, Partners sections
+   LOCATION: About.cshtml only
+   ============================================ */
+/* Black background wrapper - full page */
+.about-page {
+  background: #000;
+  color: #fff;
+  min-height: 100%;
+}
+
+.about-page h1,
+.about-page h2,
+.about-page h3,
+.about-page h4,
+.about-page h5,
+.about-page h6 {
+  color: #fff;
+}
+
+.about-page .text-muted {
+  color: rgba(255, 255, 255, 0.75) !important;
+}
+
+.about-page .lead {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.about-page .border-top {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.about-page .btn-primary {
+  background: var(--church-primary);
+  border-color: var(--church-primary);
+  color: #fff;
+}
+
+/* Sticky in-page nav - horizontal links */
+.about-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #000;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.75rem 0;
+  margin-bottom: 2rem;
+}
+
+.about-nav .nav-link {
+  color: rgba(255, 255, 255, 0.8) !important;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+}
+
+.about-nav .nav-link:hover {
+  color: var(--church-primary) !important;
+}
+
+.about-nav .nav-link.active {
+  color: var(--church-primary) !important;
+  font-weight: 600;
+}
+
+/* Section spacing and scroll offset for anchor links */
+.about-section {
+  scroll-margin-top: 5rem;
+  padding-top: 2rem;
+  padding-bottom: 3rem;
+}
+
+.about-section:first-of-type {
+  padding-top: 0;
+}
+
+/* Team - grouped by role */
+.about-team-group {
+  margin-bottom: 2.5rem;
+}
+
+.about-team-group h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--church-primary);
+  margin-bottom: 1rem;
+}
+
+.about-team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 0.5in;
+}
+
+.about-team-member {
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.about-team-photo {
+  width: 360px;
+  height: 360px;
+  object-fit: cover;
+  border-radius: 50%;
+  display: block;
+  margin: 0 auto 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.about-team-member h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  line-height: 1.3;
+}
+
+.about-team-member .role {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Beliefs - doctrinal statements */
+.about-belief-item {
+  margin-bottom: 1.5rem;
+}
+
+.about-belief-item h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--church-primary);
+  margin-bottom: 0.5rem;
+}
+
+.about-belief-item p {
+  font-size: 0.95rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-bottom: 0.25rem;
+}
+
+.about-belief-item .scripture {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Culture placeholder cards */
+.about-culture-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+.about-culture-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  text-align: center;
+  color: #fff;
+}
+
+.about-culture-card strong {
+  font-size: 0.9rem;
+}
+
+/* Partners section */
+.about-partners-intro {
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* About page - light boxes on dark background */
+.about-page .bg-light {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #fff;
+}
+
+.about-page .bg-light .text-muted {
+  color: rgba(255, 255, 255, 0.7) !important;
+}

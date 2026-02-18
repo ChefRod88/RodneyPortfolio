@@ -51,6 +51,7 @@
                         <ul class="list-unstyled mb-0">
                             <li class="mb-2"><strong>Speaker:</strong> @Model.Sermon.Speaker</li>
                             <li class="mb-2"><strong>Date:</strong> @Model.Sermon.Date.ToString("MMMM d, yyyy")</li>
+                            <li class="mb-2"><strong>Verse:</strong> @Model.Sermon.Verse</li>
                             @if (!string.IsNullOrWhiteSpace(Model.Sermon.Series))
                             {
                                 <li><strong>Series:</strong> @Model.Sermon.Series</li>

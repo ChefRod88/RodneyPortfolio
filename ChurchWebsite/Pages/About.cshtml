@@ -1,125 +1,248 @@
-@* USE CASE: About page - Our Story, What We Believe, What to Expect, Leadership *@
+@* USE CASE: About page - Team, Beliefs, Culture, Partners *@
 @page
 @model AboutModel
 @{
     ViewData["Title"] = "About Us";
 }
 
+<div class="about-page">
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-10">
             <h1 class="display-5 fw-bold mb-4">About Us</h1>
 
-            <!-- Our Story -->
-            <section class="mb-5">
-                <h2 class="h4 fw-semibold mb-3">Our Story</h2>
-                <p class="text-muted lead">
-                    We are a community of believers committed to worship, fellowship, and service. Our church was founded on the belief that everyone deserves a place to belong, grow in faith, and discover their purpose.
-                </p>
-                <p class="text-muted">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. We gather each week to worship together, study God's Word, and support one another in our faith journey. Our doors are open to everyone—whether you are new to faith or have been walking with God for years.
-                </p>
+            <!-- Sticky in-page nav -->
+            <nav class="about-nav d-flex flex-wrap gap-2 mb-4">
+                <a class="nav-link" href="#team">Team</a>
+                <a class="nav-link" href="#beliefs">Beliefs</a>
+                <a class="nav-link" href="#culture">Culture</a>
+                <a class="nav-link" href="#partners">Partners</a>
+            </nav>
+
+            <!-- TEAM -->
+            @{
+                var teamPlaceholder = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Crect width='140' height='140' fill='rgba(255,255,255,0.08)'/%3E%3Ccircle cx='70' cy='55' r='22' fill='rgba(255,255,255,0.15)'/%3E%3Cellipse cx='70' cy='115' rx='35' ry='30' fill='rgba(255,255,255,0.15)'/%3E%3C/svg%3E";
+            }
+            <section id="team" class="about-section">
+                <h2 class="h4 fw-semibold mb-4">Our Team</h2>
+
+                <div class="about-team-group">
+                    <h3>Our Pastors</h3>
+                    <div class="about-team-grid">
+                        <div class="about-team-member">
+                            <img src="~/images/IMG_7706.jpg" alt="Rev. Dr. Frank O'Harroll SR." class="about-team-photo" />
+                            <h4>Rev. Dr. Frank O'Harroll SR.</h4>
+                            <p class="role mb-0">Senior Pastor</p>
+                        </div>
+                        <div class="about-team-member">
+                            <img src="@teamPlaceholder" alt="" class="about-team-photo" />
+                            <h4>Name</h4>
+                            <p class="role mb-0">Associate Pastor</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-team-group">
+                    <h3>Our Directors</h3>
+                    <div class="about-team-grid">
+                        <div class="about-team-member">
+                            <img src="@teamPlaceholder" alt="" class="about-team-photo" />
+                            <h4>Name</h4>
+                            <p class="role mb-0">Worship Director</p>
+                        </div>
+                        <div class="about-team-member">
+                            <img src="@teamPlaceholder" alt="" class="about-team-photo" />
+                            <h4>Name</h4>
+                            <p class="role mb-0">Women's Director</p>
+                        </div>
+                        <div class="about-team-member">
+                            <img src="@teamPlaceholder" alt="" class="about-team-photo" />
+                            <h4>Name</h4>
+                            <p class="role mb-0">Kids Director</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-team-group">
+                    <h3>Our Support</h3>
+                    <div class="about-team-grid">
+                        <div class="about-team-member">
+                            <img src="@teamPlaceholder" alt="" class="about-team-photo" />
+                            <h4>Name</h4>
+                            <p class="role mb-0">Scheduling Coordinator</p>
+                        </div>
+                        <div class="about-team-member">
+                            <img src="@teamPlaceholder" alt="" class="about-team-photo" />
+                            <h4>Name</h4>
+                            <p class="role mb-0">Pastor's Assistant</p>
+                        </div>
+                        <div class="about-team-member">
+                            <img src="@teamPlaceholder" alt="" class="about-team-photo" />
+                            <h4>Name</h4>
+                            <p class="role mb-0">Tech Coordinator</p>
+                        </div>
+                        <div class="about-team-member">
+                            <img src="@teamPlaceholder" alt="" class="about-team-photo" />
+                            <h4>Name</h4>
+                            <p class="role mb-0">Communications Coordinator</p>
+                        </div>
+                        <div class="about-team-member">
+                            <img src="@teamPlaceholder" alt="" class="about-team-photo" />
+                            <h4>Name</h4>
+                            <p class="role mb-0">Safety Coordinator</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-team-group">
+                    <h3>Our Deacons</h3>
+                    <div class="about-team-grid">
+                        <div class="about-team-member">
+                            <img src="@teamPlaceholder" alt="" class="about-team-photo" />
+                            <h4>Name</h4>
+                        </div>
+                        <div class="about-team-member">
+                            <img src="@teamPlaceholder" alt="" class="about-team-photo" />
+                            <h4>Name</h4>
+                        </div>
+                        <div class="about-team-member">
+                            <img src="@teamPlaceholder" alt="" class="about-team-photo" />
+                            <h4>Name</h4>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="about-team-group">
+                    <h3>Our Stewardship Team</h3>
+                    <div class="about-team-grid">
+                        <div class="about-team-member">
+                            <img src="@teamPlaceholder" alt="" class="about-team-photo" />
+                            <h4>Name</h4>
+                        </div>
+                        <div class="about-team-member">
+                            <img src="@teamPlaceholder" alt="" class="about-team-photo" />
+                            <h4>Name</h4>
+                        </div>
+                        <div class="about-team-member">
+                            <img src="@teamPlaceholder" alt="" class="about-team-photo" />
+                            <h4>Name</h4>
+                        </div>
+                    </div>
+                </div>
             </section>
 
-            <!-- What We Believe -->
-            <section class="mb-5">
-                <h2 class="h4 fw-semibold mb-3">What We Believe</h2>
-                <ul class="list-unstyled">
-                    <li class="d-flex align-items-start mb-3">
-                        <span class="badge bg-primary bg-opacity-25 text-primary me-2 mt-1">1</span>
-                        <div>
-                            <strong>God</strong> — We believe in one God, eternally existing in three persons: Father, Son, and Holy Spirit.
-                        </div>
-                    </li>
-                    <li class="d-flex align-items-start mb-3">
-                        <span class="badge bg-primary bg-opacity-25 text-primary me-2 mt-1">2</span>
-                        <div>
-                            <strong>Scripture</strong> — The Bible is the inspired, authoritative Word of God and our guide for faith and life.
-                        </div>
-                    </li>
-                    <li class="d-flex align-items-start mb-3">
-                        <span class="badge bg-primary bg-opacity-25 text-primary me-2 mt-1">3</span>
-                        <div>
-                            <strong>Community</strong> — We are called to love one another, serve our neighbors, and share the Gospel.
-                        </div>
-                    </li>
-                </ul>
+            <!-- BELIEFS -->
+            <section id="beliefs" class="about-section">
+                <h2 class="h4 fw-semibold mb-4">Our Beliefs</h2>
+                <p class="text-muted mb-4">We are a Missionary Baptist church. We affirm the Baptist Faith and Message as a faithful summary of biblical teaching.</p>
+
+                <div class="about-belief-item">
+                    <h3>The Word of God</h3>
+                    <p>We believe that the Bible is the Word of God, fully inspired and without error in the original manuscripts, written under the inspiration of the Holy Spirit, and that it has supreme authority in all matters of faith and conduct.</p>
+                    <p class="scripture mb-0">II Timothy 3:16; II Peter 1:20-21; Mark 13:31; John 8:31-32; John 20:31; Acts 20:32</p>
+                </div>
+
+                <div class="about-belief-item">
+                    <h3>The Trinity</h3>
+                    <p>We believe that there is one living and true God, eternally existing in three persons; that these are equal in every divine perfection, and that they execute distinct but harmonious offices in the work of creation, providence and redemption.</p>
+                    <p class="scripture mb-0">Genesis 1:1,26; John 1:1,3; Matthew 28:19; John 4:24; Romans 1:19-20; Ephesians 4:5-6</p>
+                </div>
+
+                <div class="about-belief-item">
+                    <h3>God the Father</h3>
+                    <p>We believe in God the Father, an infinite, personal spirit, perfect in holiness, wisdom, power and love. We believe that He infallibly foreknows all that shall come to pass, that He concerns Himself mercifully in the affairs of men, that He hears and answers prayer, and that He saves from sin and death all who come to Him through Jesus Christ.</p>
+                    <p class="scripture mb-0">Luke 10:21-22; Matthew 23:9; John 3:16; John 6:27; Romans 1:7; I Timothy 1:1-2; I Timothy 2:5-6; I Peter 1:3; Revelation 1:6</p>
+                </div>
+
+                <div class="about-belief-item">
+                    <h3>Jesus Christ</h3>
+                    <p>We believe in Jesus Christ, God's only begotten Son, conceived by the Holy Spirit. We believe in His virgin birth, sinless life, miracles, and teachings. We believe in His substitutionary atoning death, bodily resurrection, ascension into heaven, perpetual intercession for His people, and personal visible return to earth.</p>
+                    <p class="scripture mb-0">Matthew 1:18-25; Luke 1:26-38; John 1:1; John 20:28; Romans 9:5; II Corinthians 5:21; I Peter 2:21-23; John 20:30-31; Matthew 20:28; Ephesians 1:4; Acts 1:11; Romans 5:6-8; Romans 6:9-10; Hebrews 7:25; Hebrews 9:28; I Timothy 3:16</p>
+                </div>
+
+                <div class="about-belief-item">
+                    <h3>Holy Spirit</h3>
+                    <p>We believe in the Holy Spirit who came forth from the Father and Son to convict the world of sin, righteousness, and judgment, and to regenerate, sanctify, and empower all who believe in Jesus Christ. We believe that the Holy Spirit indwells every believer in Christ, and that He is an abiding helper, teacher and guide.</p>
+                    <p class="scripture mb-0">John 14:16-17,26; John 15:26-27; John 16:9-14; Romans 8:9; I Corinthians 3:16; I Corinthians 6:19; Galatians 5:22-26</p>
+                </div>
+
+                <div class="about-belief-item">
+                    <h3>Regeneration</h3>
+                    <p>We believe that man was created by God in His own image; that he sinned and thereby incurred physical, spiritual and eternal death, which is separation from God; that as a consequence, all human beings are born with a sinful nature and are sinners by choice and therefore under condemnation. We believe that those who repent and forsake sin and trust Jesus Christ as Savior are regenerated by the Holy Spirit and become new creatures, delivered from condemnation and receive eternal life.</p>
+                    <p class="scripture mb-0">Genesis 1:26; Genesis 2:17; Genesis 5:2; Eccl. 2:11; John 3:14; John 5:24; John 5:30; John 8:12; John 10:26; Romans 9:22; II Thessalonians 1:9; Rev. 19:20; Rev. 20:10,14,15; Psalm 51:7; Jeremiah 17:9; James 1:14; Romans 3:19; Romans 5:19; Proverbs 28:13; I John 1:9; John 3:16; John 1:13; II Corinthians 5:17; Romans 8:1</p>
+                </div>
+
+                <div class="about-belief-item">
+                    <h3>The Church</h3>
+                    <p>We believe in the universal church, a living spiritual body of which Christ is the head and all regenerated persons are members. We believe in the local church, consisting of a company of believers in Jesus Christ, baptized on a credible profession of faith, and associated for worship, work, and fellowship. We believe that God has laid upon the members of the local church the primary task of giving the gospel of Jesus Christ to a lost world.</p>
+                    <p class="scripture mb-0">Ephesians 2:19-22; Acts 1:8; Ephesians 5:19-21; Acts 2:42; Hebrews 10:23-25</p>
+                </div>
+
+                <div class="about-belief-item">
+                    <h3>The Christian & The Social Order</h3>
+                    <p>All Christians are under obligation to seek to make the will of Christ supreme in our own lives and in human society. In the spirit of Christ, Christians should oppose racism, every form of greed, selfishness, and vice, and all forms of sexual immorality. We should work to provide for the orphaned, the needy, the abused, the aged, the helpless, and the sick. We should speak on behalf of the unborn and contend for the sanctity of all human life from conception to natural death.</p>
+                    <p class="scripture mb-0">Exodus 20:3-17; Leviticus 6:2-5; Deuteronomy 10:12, 27:17; Psalm 101:5; Micah 6:8; Matthew 5:13-16, 22:36-40, 25:35; Luke 4:18-21, 10:27-37; John 15:12; Romans 12–14; James 1:27, 2:8</p>
+                </div>
             </section>
 
-            <!-- What to Expect -->
-            <section class="mb-5">
-                <h2 class="h4 fw-semibold mb-3">What to Expect</h2>
-                <p class="text-muted mb-3">
-                    Visiting a new church can feel unfamiliar. Here's what you can expect when you join us:
-                </p>
+            <!-- CULTURE -->
+            <section id="culture" class="about-section">
+                <h2 class="h4 fw-semibold mb-4">Our Culture</h2>
+                <p class="text-muted mb-4">We are committed to building a culture of grace, truth, and community where every person can belong, believe, and become.</p>
+                <div class="about-culture-grid">
+                    <div class="about-culture-card">
+                        <strong>Name</strong>
+                    </div>
+                    <div class="about-culture-card">
+                        <strong>Name</strong>
+                    </div>
+                    <div class="about-culture-card">
+                        <strong>Name</strong>
+                    </div>
+                    <div class="about-culture-card">
+                        <strong>Name</strong>
+                    </div>
+                    <div class="about-culture-card">
+                        <strong>Name</strong>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 bg-light rounded">
+                    <h5 class="h6 fw-semibold mb-2">Learn More at Our Newcomer Class</h5>
+                    <p class="small text-muted mb-0">Every first Sunday of the month, newcomers are invited to free snacks right after each service to learn about our culture and future.</p>
+                </div>
+            </section>
+
+            <!-- PARTNERS -->
+            <section id="partners" class="about-section">
+                <h2 class="h4 fw-semibold mb-4">Our Partners</h2>
+                <p class="about-partners-intro">We gladly partner with the capital "C" Church to make a difference in the world. We wouldn't be anywhere without our partners. The following have had different levels of support but all of them have given to us financially and have helped us in our training and leadership development.</p>
                 <div class="row g-3">
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-lg-4">
                         <div class="bg-light rounded p-3 h-100">
-                            <strong>Welcoming atmosphere</strong>
-                            <p class="mb-0 small text-muted">Friendly greeters and a warm welcome. No pressure—come as you are.</p>
+                            <strong>Partner Name</strong>
+                            <p class="small text-muted mb-0 mt-1">Partner description</p>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-lg-4">
                         <div class="bg-light rounded p-3 h-100">
-                            <strong>Contemporary worship</strong>
-                            <p class="mb-0 small text-muted">Music and teaching that speaks to today's world while rooted in truth.</p>
+                            <strong>Partner Name</strong>
+                            <p class="small text-muted mb-0 mt-1">Partner description</p>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6 col-lg-4">
                         <div class="bg-light rounded p-3 h-100">
-                            <strong>Practical teaching</strong>
-                            <p class="mb-0 small text-muted">Messages from Scripture that apply to everyday life.</p>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="bg-light rounded p-3 h-100">
-                            <strong>Kids & youth</strong>
-                            <p class="mb-0 small text-muted">Programs for children and students. Safe, engaging, and age-appropriate.</p>
+                            <strong>Partner Name</strong>
+                            <p class="small text-muted mb-0 mt-1">Partner description</p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Leadership -->
-            <section>
-                <h2 class="h4 fw-semibold mb-3">Leadership</h2>
-                <p class="text-muted mb-4">
-                    Our leadership team is dedicated to serving the congregation and leading with integrity and humility.
-                </p>
-                <div class="row g-4">
-                    <div class="col-md-4">
-                        <div class="text-center">
-                            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 100px; height: 100px;">
-                                <span class="fs-2">👤</span>
-                            </div>
-                            <h6 class="fw-semibold mb-1">Pastor Name</h6>
-                            <p class="small text-muted mb-0">Lead Pastor</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="text-center">
-                            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 100px; height: 100px;">
-                                <span class="fs-2">👤</span>
-                            </div>
-                            <h6 class="fw-semibold mb-1">Leader Name</h6>
-                            <p class="small text-muted mb-0">Associate Pastor</p>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="text-center">
-                            <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-2" style="width: 100px; height: 100px;">
-                                <span class="fs-2">👤</span>
-                            </div>
-                            <h6 class="fw-semibold mb-1">Leader Name</h6>
-                            <p class="small text-muted mb-0">Worship & Arts</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <div class="text-center mt-5">
+            <!-- CTA Footer -->
+            <div class="text-center mt-5 pt-4 border-top">
                 <a asp-page="/Index" class="btn btn-primary">Plan Your Visit</a>
             </div>
         </div>
     </div>
+</div>
 </div>

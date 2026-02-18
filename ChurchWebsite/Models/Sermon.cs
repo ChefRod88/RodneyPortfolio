@@ -9,6 +9,7 @@ public class Sermon
     public DateTime Date { get; set; }
     public string Description { get; set; } = string.Empty;
     public string? Series { get; set; }           // e.g. "Faith Journey"
+    public string? Verse { get; set; }            // Scripture reference, e.g. "1 Peter 3:14-15"
     public string? VideoEmbedUrl { get; set; }   // YouTube embed URL for Details page
     public string? AudioUrl { get; set; }
     public string? DownloadUrl { get; set; }
