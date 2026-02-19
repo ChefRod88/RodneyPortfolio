@@ -538,16 +538,30 @@ body {
   margin-bottom: 0.5rem;
 }
 
-/* Frontend/Backend cards container row */
-#experience .about-containers {
+/* Experience cards: two rows on desktop (3 + 2), horizontal scroll on mobile */
+#experience .experience-rows {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+#experience .experience-row {
   display: flex;
   justify-content: center;
   align-items: stretch;
   gap: 2.5rem;
   flex-wrap: nowrap;
-  overflow-x: auto;
-  padding-bottom: 0.5rem;
-  -webkit-overflow-scrolling: touch;
+}
+
+/* Row-level horizontal scroll when viewport is too narrow for 3 cards */
+@media (max-width: 1200px) and (min-width: 769px) {
+  #experience .experience-row {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 0.5rem;
+    justify-content: flex-start;
+  }
 }
 
 #experience .details-container.skills-container,
@@ -741,16 +755,29 @@ body {
     margin-bottom: 2rem !important;
   }
 
-  #experience .about-containers {
-    flex-wrap: wrap;
-    overflow-x: visible;
+  /* Mobile: horizontal scroll through all cards (rows side by side) */
+  #experience .experience-rows {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
     gap: 1.5rem;
+    padding-bottom: 0.5rem;
+    width: 100%;
+  }
+
+  #experience .experience-row {
+    flex: 0 0 auto;
+    min-width: min-content;
   }
 
   #experience .details-container.skills-container,
   #experience .ai-tools-container.skills-container {
-    flex: 1 1 100%;
-    max-width: 100%;
+    flex: 0 0 300px;
+    max-width: 300px;
+    min-width: 280px;
   }
 
   /* Projects */
