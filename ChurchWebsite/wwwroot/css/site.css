@@ -691,6 +691,12 @@ body > footer.footer {
   color: #fff;
 }
 
+.about-heading-box {
+  display: inline-block;
+  border: 2px solid var(--church-primary);
+  padding: 0.5rem 1rem;
+}
+
 /* Sticky in-page nav - horizontal links */
 .about-nav {
   position: sticky;

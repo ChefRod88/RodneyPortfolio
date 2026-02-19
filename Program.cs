@@ -9,8 +9,15 @@ var app = builder.Build();
 // - Forces https://
 // - Forces www.
 // Put this early in the pipeline so redirects happen before serving pages.
+// Skip in Development so localhost serves your local changes.
 app.Use(async (context, next) =>
 {
+    if (app.Environment.IsDevelopment())
+    {
+        await next();
+        return;
+    }
+
     var request = context.Request;
 
     // 1) Enforce HTTPS (handles cases where HTTPS Only isn't applied yet)
