@@ -9,10 +9,14 @@ var app = builder.Build();
 // - Forces https://
 // - Forces www.
 // Put this early in the pipeline so redirects happen before serving pages.
-// Skip in Development so localhost serves your local changes.
+// Skip in Development or when using localhost/127.0.0.1 so you can view locally.
 app.Use(async (context, next) =>
 {
-    if (app.Environment.IsDevelopment())
+    var host = context.Request.Host.Host;
+    var isLocal = host.Equals("localhost", StringComparison.OrdinalIgnoreCase)
+        || host.Equals("127.0.0.1", StringComparison.OrdinalIgnoreCase)
+        || host.StartsWith("[::1]", StringComparison.OrdinalIgnoreCase);
+    if (app.Environment.IsDevelopment() || isLocal)
     {
         await next();
         return;
@@ -23,8 +27,7 @@ app.Use(async (context, next) =>
     // 1) Enforce HTTPS (handles cases where HTTPS Only isn't applied yet)
     var isHttps = request.IsHttps;
 
-    // 2) Enforce "www" host
-    var host = request.Host.Host; // e.g., "rodneyachery.com" or "www.rodneyachery.com"
+    // 2) Enforce "www" host (host already declared above)
     var isWww = host.StartsWith("www.", StringComparison.OrdinalIgnoreCase);
 
     // If host is your apex domain, redirect to www.
