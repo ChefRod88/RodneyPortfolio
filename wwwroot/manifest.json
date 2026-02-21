@@ -1,0 +1,23 @@
+{
+  "name": "Rodney Chery | Software Developer",
+  "short_name": "Rodney Chery",
+  "description": "Portfolio of Rodney Chery - Software Developer grounded in real-world experience",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#212529",
+  "icons": [
+    {
+      "src": "/assets/images/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/assets/images/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

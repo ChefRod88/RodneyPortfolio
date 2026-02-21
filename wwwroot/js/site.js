@@ -87,6 +87,17 @@ document.addEventListener("DOMContentLoaded", () => {
   if (el) el.textContent = `Copyright © ${year} Rodney Chery. All Rights Reserved.`;
 
   initAutoScrollCollage();
+  registerServiceWorker();
 });
+
+// PWA: Register the service worker for offline support
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+
+  navigator.serviceWorker
+    .register("/sw.js")
+    .then((reg) => reg.update())
+    .catch((err) => console.warn("Service worker registration failed:", err));
+}
 
 
