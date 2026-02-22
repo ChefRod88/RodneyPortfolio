@@ -3,6 +3,7 @@
    ================================ */
 html {
   font-size: 14px;
+  scroll-behavior: smooth;
 }
 
 @media (min-width: 768px) {
@@ -904,6 +905,16 @@ body {
   margin-top: 4rem;
   margin-bottom: 4rem;
   padding: 0 1rem;
+}
+
+.chat-docs-link {
+  font-size: 0.9rem;
+  color: #0d6efd;
+  text-decoration: none;
+}
+
+.chat-docs-link:hover {
+  text-decoration: underline;
 }
 
 .chat-container {
