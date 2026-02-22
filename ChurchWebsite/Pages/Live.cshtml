@@ -1,9 +1,15 @@
-@* USE CASE: Live stream embed - uses Church:LiveStreamUrl from appsettings *@
+@* USE CASE: Live stream embed - uses Church:LiveStreamUrl from appsettings. Placeholder shown when stream unavailable. *@
 @page
 @model LiveModel
 @{
     ViewData["Title"] = "Live Stream";
     var hasStreamUrl = !string.IsNullOrWhiteSpace(Model.Church.LiveStreamUrl);
+    var placeholderImg = !string.IsNullOrWhiteSpace(Model.Church.LiveStreamPlaceholderImageUrl)
+        ? Model.Church.LiveStreamPlaceholderImageUrl
+        : Model.Church.HeroImageUrl;
+    var youtubeChannelUrl = !string.IsNullOrWhiteSpace(Model.Church.SocialMedia.YouTube)
+        ? Model.Church.SocialMedia.YouTube
+        : "https://www.youtube.com/@NewBethelMissionaryBaptist";
 }
 
 <div class="container py-5">
@@ -12,20 +18,38 @@
         <p class="lead text-muted">Join us for our live worship service. Stream with us on Facebook or YouTube.</p>
     </div>
 
-    @* If LiveStreamUrl set in appsettings: embed iframe; else show placeholder message *@
+    @* If LiveStreamUrl set: show placeholder overlay; click "Watch Live" reveals embed. When unavailable, placeholder hides the error. *@
     @if (hasStreamUrl)
     {
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <div class="ratio ratio-16x9 bg-dark rounded-3 shadow">
-                    <iframe src="@Model.Church.LiveStreamUrl" 
-                            title="Live stream - @Model.Church.Name" 
-                            allowfullscreen
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
-                    </iframe>
+                <div class="ratio ratio-16x9 bg-dark rounded-3 shadow position-relative overflow-hidden" id="live-stream-container">
+                    @* Placeholder overlay - shown by default; hides when user clicks Watch Live *@
+                    <div id="live-placeholder" class="position-absolute top-0 start-0 w-100 h-100 d-flex flex-column align-items-center justify-content-center text-white text-center p-4" style="background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('@placeholderImg') center/cover no-repeat; z-index: 2;">
+                        <span class="fs-1 d-block mb-3" aria-hidden="true">▶</span>
+                        <h3 class="mb-2">We'll be live during service times</h3>
+                        <p class="mb-4 opacity-75">@string.Join(" • ", Model.Church.ServiceTimes)</p>
+                        <button type="button" class="btn btn-danger btn-lg px-4" id="watch-live-btn" aria-label="Watch live stream">
+                            Watch Live
+                        </button>
+                        <a href="@youtubeChannelUrl" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light btn-sm mt-3">Watch on YouTube</a>
+                    </div>
+                    @* YouTube embed - loads on click to avoid showing "Video unavailable" until user opts in *@
+                    <div id="live-embed-wrapper" class="position-absolute top-0 start-0 w-100 h-100 d-none" style="z-index: 1;">
+                        <div class="position-absolute top-0 end-0 m-2" style="z-index: 3;">
+                            <button type="button" class="btn btn-sm btn-outline-light" id="back-to-placeholder" aria-label="Return to placeholder">← Back</button>
+                        </div>
+                        <iframe id="live-iframe" 
+                                data-src="@Model.Church.LiveStreamUrl"
+                                title="Live stream - @Model.Church.Name" 
+                                allowfullscreen
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                class="w-100 h-100 border-0 rounded-3">
+                        </iframe>
+                    </div>
                 </div>
                 <p class="text-center text-muted mt-3 small">
-                    You can also watch on <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a> or <a href="https://www.youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a> if we're streaming there.
+                    You can also watch on <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer">Facebook</a> or <a href="@youtubeChannelUrl" target="_blank" rel="noopener noreferrer">YouTube</a> if we're streaming there.
                 </p>
             </div>
         </div>
@@ -48,3 +72,33 @@
         <a asp-page="/Sermons/Index" class="btn btn-outline-primary">Browse Past Sermons</a>
     </div>
 </div>
+
+@if (hasStreamUrl)
+{
+    @section Scripts {
+    <script>
+        (function () {
+            var placeholder = document.getElementById('live-placeholder');
+            var wrapper = document.getElementById('live-embed-wrapper');
+            var iframe = document.getElementById('live-iframe');
+            var watchBtn = document.getElementById('watch-live-btn');
+            var backBtn = document.getElementById('back-to-placeholder');
+
+            if (watchBtn) watchBtn.addEventListener('click', function () {
+                if (placeholder && wrapper && iframe && !iframe.src) {
+                    iframe.src = iframe.getAttribute('data-src');
+                    placeholder.classList.add('d-none');
+                    wrapper.classList.remove('d-none');
+                }
+            });
+
+            if (backBtn) backBtn.addEventListener('click', function () {
+                if (placeholder && wrapper) {
+                    placeholder.classList.remove('d-none');
+                    wrapper.classList.add('d-none');
+                }
+            });
+        })();
+    </script>
+    }
+}

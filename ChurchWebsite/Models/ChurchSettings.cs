@@ -16,6 +16,7 @@ public class ChurchSettings
     public string Phone { get; set; } = string.Empty;          // Footer, contact
     public string Email { get; set; } = string.Empty;         // Footer, contact
     public string LiveStreamUrl { get; set; } = string.Empty;  // YouTube embed URL for Live page
+    public string LiveStreamPlaceholderImageUrl { get; set; } = string.Empty;  // Thumbnail when stream unavailable; fallback to HeroImageUrl
     public SocialMediaSettings SocialMedia { get; set; } = new();  // Facebook, YouTube, Instagram
 
     /// <summary>Formatted address: "Street, City, State Zip"</summary>
