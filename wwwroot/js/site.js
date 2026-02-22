@@ -88,7 +88,99 @@ document.addEventListener("DOMContentLoaded", () => {
 
   initAutoScrollCollage();
   registerServiceWorker();
+  initChatBot();
 });
+
+// ================================
+// ASK RODNEY - CHATBOT
+// ================================
+function initChatBot() {
+  const messagesEl = document.getElementById("chat-messages");
+  const inputEl = document.getElementById("chat-input");
+  const sendBtn = document.getElementById("chat-send");
+  const charRemainingEl = document.getElementById("chat-char-remaining");
+  const maxLen = 500;
+
+  if (!messagesEl || !inputEl || !sendBtn) return;
+
+  function addMessage(text, role) {
+    const div = document.createElement("div");
+    div.className = `chat-message ${role}`;
+    div.textContent = text;
+    div.setAttribute("role", "listitem");
+    messagesEl.appendChild(div);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+  }
+
+  function setLoading(loading) {
+    sendBtn.disabled = loading;
+    inputEl.disabled = loading;
+  }
+
+  async function sendMessage(text) {
+    const trimmed = text.trim();
+    if (!trimmed) return;
+
+    addMessage(trimmed, "user");
+    inputEl.value = "";
+    updateCharCount();
+
+    const loadingEl = document.createElement("div");
+    loadingEl.className = "chat-message assistant loading";
+    loadingEl.textContent = "Thinking...";
+    loadingEl.setAttribute("role", "listitem");
+    messagesEl.appendChild(loadingEl);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: trimmed })
+      });
+      const data = await res.json();
+
+      loadingEl.remove();
+
+      if (!res.ok) {
+        addMessage(data.error || "Something went wrong. Please try again.", "assistant");
+        return;
+      }
+
+      addMessage(data.reply || "I couldn't generate a response.", "assistant");
+    } catch (err) {
+      loadingEl.remove();
+      addMessage("Unable to connect. Please check your connection and try again.", "assistant");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function updateCharCount() {
+    if (charRemainingEl) {
+      const len = inputEl.value.length;
+      charRemainingEl.textContent = maxLen - len;
+    }
+  }
+
+  sendBtn.addEventListener("click", () => sendMessage(inputEl.value));
+  inputEl.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage(inputEl.value);
+    }
+  });
+  inputEl.addEventListener("input", updateCharCount);
+
+  document.querySelectorAll(".chat-suggestion-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const q = btn.getAttribute("data-question");
+      if (q) sendMessage(q);
+    });
+  });
+}
 
 // PWA: Register the service worker for offline support
 function registerServiceWorker() {

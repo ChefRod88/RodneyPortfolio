@@ -1,7 +1,13 @@
+using RodneyPortfolio.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddControllers();
+builder.Services.AddHttpClient();
+builder.Services.AddScoped<IResumeContextLoader, ResumeContextLoader>();
+builder.Services.AddScoped<IAIChatService, OpenAIChatService>();
 
 var app = builder.Build();
 
@@ -66,6 +72,7 @@ app.UseAuthorization();
 
 app.MapStaticAssets();
 app.UseStaticFiles();
+app.MapControllers();
 app.MapRazorPages()
    .WithStaticAssets();
 

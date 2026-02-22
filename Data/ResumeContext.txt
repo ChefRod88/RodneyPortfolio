@@ -1,0 +1,62 @@
+RODNEY CHERY - RESUME & ABOUT CONTEXT
+=====================================
+Update this file when you update your resume. The AI chatbot uses this content to answer questions about you.
+
+NAME & TITLE
+-----------
+Rodney Chery
+Technical Support Analyst
+Tagline: "People before process. Empathy before execution."
+
+EDUCATION
+---------
+- B.S. Software Engineering (In Progress)
+- Western Governors University (WGU)
+- Expected Graduation: December 2026
+
+EXPERIENCE
+----------
+- Technical Support Inkjet Tier 1 at Canon Information Technology Services
+- Troubleshoots proprietary software, hardware environments, and enterprise applications
+- Systematically isolates variables, reviews system behaviors, guides issues through structured resolution
+- Previous background: Professional kitchens (line cook) - learned discipline, communication, composure under pressure
+
+APPROACH TO TROUBLESHOOTING
+---------------------------
+- Intentional and analytical; does not react impulsively
+- Assesses severity, understands user impact, gathers relevant evidence
+- Determines whether issues are environmental, configuration-based, user-driven, or systemic
+- Maintains meticulous documentation and communicates clearly at every stage
+- Values transparency, especially during escalations
+
+SOFT SKILLS
+-----------
+- Technical Communication (Proficient)
+- Cross-Functional Collaboration (Proficient)
+- Problem-Solving Under Pressure (Proficient)
+- Customer Empathy (Proficient)
+- Adaptability (Proficient)
+- Attention to Detail (Proficient)
+
+TECHNICAL SKILLS
+----------------
+IT Support: Enterprise Software Support, System Diagnostics, API/Integration Support, Customer-Focused Support, Escalation Management, Knowledge Base Management
+Frontend: HTML, CSS, JavaScript, TypeScript, Angular, Razor Pages (all Proficient or Beginner as noted)
+Backend: C#, ASP.NET Core, Entity Framework Core, SQL Server, Git/GitHub, .NET MAUI
+Tools: Azure (Intermediate), Cursor (Proficient), Docker (Intermediate)
+
+WHAT DIFFERENTIATES RODNEY
+--------------------------
+- Intersection of soft skills and technical execution
+- Understands urgency without panic
+- Values collaboration over isolation
+- Sees technical problems as systems revealing weaknesses that can be improved
+- Continuous refinement of processes, documentation, and response strategy
+- Journey from professional kitchens to enterprise tech reflects adaptability, resilience, and growth
+- Brings composure under pressure, disciplined troubleshooting, and strong service mindset
+
+CONTACT
+-------
+- Email: chefrodneyachery@gmail.com
+- LinkedIn: https://www.linkedin.com/in/rodneyachery/
+- GitHub: https://github.com/ChefRod88/RodneyPortfolio
