@@ -1,9 +1,4 @@
----
-name: Portfolio AI Skills Implementation
-overview: Add an AI-powered 'Ask Rodney' chatbot to your portfolio that answers questions about you and your resume. Visitors can ask anything about your background, experience, skills, and approach—and get natural-language responses powered by an LLM.
-todos: []
-isProject: false
----
+******************************************
 
 # Portfolio AI Skills Implementation Plan
 
