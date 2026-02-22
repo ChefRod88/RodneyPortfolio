@@ -881,5 +881,142 @@ body {
     border-radius: 24px;
     padding: 1.25rem 1.5rem;
   }
+
+  .chat-container {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+
+  .chat-suggestions {
+    flex-wrap: wrap;
+  }
+
+  .chat-suggestion-btn {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.6rem;
+  }
+}
+
+/* ================================
+   ASK RODNEY - CHAT SECTION
+   ================================ */
+.chat-section {
+  margin-top: 4rem;
+  margin-bottom: 4rem;
+  padding: 0 1rem;
+}
+
+.chat-container {
+  max-width: 560px;
+  margin: 0 auto;
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.chat-messages {
+  min-height: 120px;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+}
+
+.chat-message {
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  max-width: 90%;
+  line-height: 1.5;
+}
+
+.chat-message.user {
+  margin-left: auto;
+  background: #0d6efd;
+  color: #fff;
+}
+
+.chat-message.assistant {
+  margin-right: auto;
+  background: #e9ecef;
+  color: #212529;
+}
+
+.chat-message.loading {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.chat-suggestion-btn {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  background: #fff;
+  color: #495057;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.chat-suggestion-btn:hover {
+  background: #e9ecef;
+  border-color: #adb5bd;
+}
+
+.chat-input-container {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.chat-input:focus {
+  outline: none;
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 3px rgba(13, 110, 253, 0.15);
+}
+
+.chat-send-btn {
+  padding: 0.75rem 1.25rem;
+  background: #0d6efd;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.chat-send-btn:hover {
+  background: #0b5ed7;
+}
+
+.chat-send-btn:disabled {
+  background: #adb5bd;
+  cursor: not-allowed;
+}
+
+.chat-char-count {
+  font-size: 0.75rem;
+  color: #6c757d;
+  margin: 0;
 }
 

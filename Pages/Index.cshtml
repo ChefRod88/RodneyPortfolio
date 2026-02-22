@@ -257,6 +257,33 @@
                         </article>
                     </div>
                 </div>
+
+                <div class="details-container skills-container">
+                    <h2 class="experience-sub-title">AI / LLM Development</h2>
+
+                    <div class="article-container">
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>AI/LLM API Integration</h3><p>OpenAI, Azure OpenAI</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>Conversational Interfaces</h3><p>Chatbots</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>Prompt Engineering</h3><p>Proficient</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>RESTful APIs &amp; JSON</h3><p>Proficient</p></div>
+                        </article>
+                        <article>
+                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
+                            <div><h3>Input Validation &amp; Filtering</h3><p>Proficient</p></div>
+                        </article>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>
@@ -271,6 +298,18 @@
     <p class="text-center text-muted mb-4">Refactor In Progress.</p>
 
     <div class="projects-grid">
+
+        <a class="project-card project-card-link"
+           href="#ask-rodney"
+           aria-label="Ask Rodney AI Chatbot">
+            <div class="project-loader">
+                <span class="loader"></span>
+            </div>
+            <span class="btn btn-color-2 project-btn d-inline-flex align-items-center gap-2">
+                <span>Ask Rodney AI Chatbot</span>
+            </span>
+            <p class="project-description text-muted mt-2 mb-0">AI-powered chatbot that answers questions about Rodney's resume, experience, and skills. Built with C#, OpenAI API, prompt engineering, and input validation.</p>
+        </a>
 
         <a class="project-card project-card-link"
            href="https://github.com/ChefRod88/RodneyPortfolio"
@@ -289,6 +328,29 @@
        </div>
     </section>
 
+    <!-- ASK RODNEY - AI CHATBOT -->
+    <section id="ask-rodney" class="chat-section">
+        <p class="section__text__p1 text-center">Ask About Rodney</p>
+        <h1 class="title text-center">Chat with Rodney</h1>
+        <p class="text-center text-muted mb-3">Ask anything about Rodney—his background, experience, or skills.</p>
+
+        <div class="chat-container">
+            <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div>
+            <div class="chat-suggestions">
+                <button type="button" class="chat-suggestion-btn" data-question="What's Rodney's background?">What's Rodney's background?</button>
+                <button type="button" class="chat-suggestion-btn" data-question="Tell me about his experience">Tell me about his experience</button>
+                <button type="button" class="chat-suggestion-btn" data-question="What skills does he have?">What skills does he have?</button>
+                <button type="button" class="chat-suggestion-btn" data-question="What's his education?">What's his education?</button>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input" class="chat-input" placeholder="Type your question..." maxlength="500" autocomplete="off" />
+                <button type="button" id="chat-send" class="chat-send-btn" aria-label="Send message">
+                    <span class="chat-send-text">Send</span>
+                </button>
+            </div>
+            <p class="chat-char-count"><span id="chat-char-remaining">500</span> characters remaining</p>
+        </div>
+    </section>
 
     <!-- CONTACT -->
 <section id="contact" class="contact-section">
