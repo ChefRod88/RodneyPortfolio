@@ -335,6 +335,10 @@
         <p class="text-center text-muted mb-3">Ask anything about Rodney—his background, experience, or skills.</p>
 
         <div class="chat-container">
+            <div id="chat-status" class="chat-status" aria-live="polite">
+                <span class="chat-status-dot chat-status-pending" id="chat-status-dot"></span>
+                <span class="chat-status-label" id="chat-status-label">Send a message to check connection</span>
+            </div>
             <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div>
             <div class="chat-suggestions">
                 <button type="button" class="chat-suggestion-btn" data-question="What's Rodney's background?">What's Rodney's background?</button>

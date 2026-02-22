@@ -39,9 +39,10 @@ public class OpenAIChatServiceTests
             _httpClientFactoryMock.Object,
             _loggerMock.Object);
 
-        var reply = await service.GetReplyAsync("What's Rodney's experience?");
+        var (reply, source) = await service.GetReplyAsync("What's Rodney's experience?");
 
         Assert.NotNull(reply);
+        Assert.Equal("demo", source);
         Assert.Contains("Canon", reply);
         Assert.Contains("Technical Support", reply);
     }
@@ -63,9 +64,10 @@ public class OpenAIChatServiceTests
             _httpClientFactoryMock.Object,
             _loggerMock.Object);
 
-        var reply = await service.GetReplyAsync("What's his education?");
+        var (reply, source) = await service.GetReplyAsync("What's his education?");
 
         Assert.NotNull(reply);
+        Assert.Equal("demo", source);
         Assert.Contains("WGU", reply);
         Assert.Contains("Software Engineering", reply);
     }
@@ -87,9 +89,10 @@ public class OpenAIChatServiceTests
             _httpClientFactoryMock.Object,
             _loggerMock.Object);
 
-        var reply = await service.GetReplyAsync("xyz random question 123");
+        var (reply, source) = await service.GetReplyAsync("xyz random question 123");
 
         Assert.NotNull(reply);
+        Assert.Equal("demo", source);
         Assert.Contains("background", reply);
         Assert.Contains("experience", reply);
     }

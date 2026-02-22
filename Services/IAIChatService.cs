@@ -10,6 +10,6 @@ public interface IAIChatService
     /// </summary>
     /// <param name="userMessage">The visitor's question.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The AI-generated reply, or a demo response when no API key is configured.</returns>
-    Task<string> GetReplyAsync(string userMessage, CancellationToken cancellationToken = default);
+    /// <returns>Tuple of (reply text, source: "api" or "demo").</returns>
+    Task<(string Reply, string Source)> GetReplyAsync(string userMessage, CancellationToken cancellationToken = default);
 }

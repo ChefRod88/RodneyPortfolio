@@ -942,6 +942,34 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
+.chat-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.8125rem;
+  color: #6c757d;
+}
+
+.chat-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.chat-status-pending {
+  background: #adb5bd;
+}
+
+.chat-status-api {
+  background: #28a745;
+}
+
+.chat-status-demo {
+  background: #dc3545;
+}
+
 .chat-messages {
   min-height: 120px;
   max-height: 320px;

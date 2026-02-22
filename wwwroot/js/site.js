@@ -101,7 +101,25 @@ function initChatBot() {
   const charRemainingEl = document.getElementById("chat-char-remaining");
   const maxLen = 500;
 
+  const statusDotEl = document.getElementById("chat-status-dot");
+  const statusLabelEl = document.getElementById("chat-status-label");
+
   if (!messagesEl || !inputEl || !sendBtn) return;
+
+  function updateStatus(source, isError) {
+    if (!statusDotEl || !statusLabelEl) return;
+    statusDotEl.classList.remove("chat-status-api", "chat-status-demo", "chat-status-pending");
+    if (isError || source === "demo") {
+      statusDotEl.classList.add("chat-status-demo");
+      statusLabelEl.textContent = "Demo mode or unable to connect to API";
+    } else if (source === "api") {
+      statusDotEl.classList.add("chat-status-api");
+      statusLabelEl.textContent = "Connected to OpenAI API";
+    } else {
+      statusDotEl.classList.add("chat-status-pending");
+      statusLabelEl.textContent = "Send a message to check connection";
+    }
+  }
 
   function addMessage(text, role) {
     const div = document.createElement("div");
@@ -145,13 +163,17 @@ function initChatBot() {
       loadingEl.remove();
 
       if (!res.ok) {
+        updateStatus("demo", true);
         addMessage(data.error || "Something went wrong. Please try again.", "assistant");
         return;
       }
 
+      const source = data.source || "demo";
+      updateStatus(source, false);
       addMessage(data.reply || "I couldn't generate a response.", "assistant");
     } catch (err) {
       loadingEl.remove();
+      updateStatus("demo", true);
       addMessage("Unable to connect. Please check your connection and try again.", "assistant");
     } finally {
       setLoading(false);

@@ -27,7 +27,7 @@ public class OpenAIChatService : IAIChatService
         _logger = logger;
     }
 
-    public async Task<string> GetReplyAsync(string userMessage, CancellationToken cancellationToken = default)
+    public async Task<(string Reply, string Source)> GetReplyAsync(string userMessage, CancellationToken cancellationToken = default)
     {
         var apiKey = _config["OpenAI:ApiKey"];
         var useDemoMode = _config.GetValue<bool>("OpenAI:UseDemoMode");
@@ -35,7 +35,8 @@ public class OpenAIChatService : IAIChatService
         // Demo mode: no API key or explicitly enabled - return canned responses
         if (string.IsNullOrWhiteSpace(apiKey) || useDemoMode)
         {
-            return await GetDemoResponseAsync(userMessage, cancellationToken);
+            var demoReply = await GetDemoResponseAsync(userMessage, cancellationToken);
+            return (demoReply, "demo");
         }
 
         // Call OpenAI API
@@ -66,37 +67,41 @@ public class OpenAIChatService : IAIChatService
             if (!response.IsSuccessStatusCode)
             {
                 _logger.LogWarning("OpenAI API returned {StatusCode}", response.StatusCode);
-                return "I'm having trouble connecting right now. Please try again later or check Rodney's resume directly.";
+                return ("I'm having trouble connecting right now. Please try again later or check Rodney's resume directly.", "demo");
             }
 
             var json = await response.Content.ReadFromJsonAsync<OpenAIResponse>(cancellationToken);
             var reply = json?.Choices?.FirstOrDefault()?.Message?.Content?.Trim();
 
             if (string.IsNullOrEmpty(reply))
-                return "I couldn't generate a response. Please try rephrasing your question.";
+                return ("I couldn't generate a response. Please try rephrasing your question.", "demo");
 
-            return reply;
+            return (reply, "api");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error calling OpenAI API");
-            return "Something went wrong. Please try again or reach out to Rodney directly.";
+            return ("Something went wrong. Please try again or reach out to Rodney directly.", "demo");
         }
     }
 
     /// <summary>
-    /// Builds the system prompt with resume context. Prompt engineering: instructs the model
-    /// to answer only from the provided content and to speak in third person.
+    /// Builds the system prompt with resume context. Prompt engineering: grounds the model
+    /// in the provided content while allowing inference, expansion, and natural conversation.
     /// </summary>
     private static string BuildSystemPrompt(string resumeContext)
     {
-        return $@"You are a friendly assistant representing Rodney Chery. Your job is to answer questions about Rodney based ONLY on the following information. Do not make up facts. If asked something not covered below, say you don't have that information and suggest they check his resume or contact him.
+        return $@"You are a friendly assistant representing Rodney Chery. Your job is to answer questions about Rodney using the following information as your foundation.
 
 --- RESUME & ABOUT CONTENT ---
 {resumeContext}
 --- END ---
 
-Keep responses concise (2-4 sentences). Speak in third person about Rodney (e.g., 'He has...', 'Rodney brings...'). Be professional and warm.";
+Guidelines:
+- Use this content as your primary source. You may infer, speculate, and expand on it naturally—connect dots, draw reasonable conclusions, and offer thoughtful insights based on what's provided.
+- Stay grounded: don't invent specific facts that contradict or go beyond the context (e.g., don't invent employers, dates, or credentials not mentioned).
+- If asked something with no direct answer in the context, you may offer a reasonable inference or relate it to what you do know, rather than always saying ""I don't have that information."" Be helpful and conversational.
+- Keep responses concise (2-4 sentences). Speak in third person about Rodney (e.g., ""He has..."", ""Rodney brings...""). Be professional and warm.";
 
     }
 
