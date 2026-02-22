@@ -60,6 +60,52 @@ body > main {
 }
 
 /* ============================================
+   SPLASH SCREEN
+   USE CASE: Welcome overlay on first visit per session
+   LOCATION: Shown via _Layout; hidden by site.js after 2.5s
+   ============================================ */
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  transition: opacity 0.5s ease-out;
+}
+.splash-screen.splash-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+.splash-screen.splash-removed {
+  display: none;
+}
+.splash-content {
+  text-align: center;
+  padding: 1.5rem;
+}
+.splash-text {
+  font-family: "Archivo Black", sans-serif;
+  font-size: clamp(1.25rem, 4vw, 1.75rem);
+  color: var(--church-primary);
+  margin: 0 0 1.25rem 0;
+  line-height: 1.3;
+}
+.splash-loader {
+  width: 28px;
+  height: 28px;
+  margin: 0 auto;
+  border: 3px solid rgba(0, 61, 165, 0.2);
+  border-top-color: var(--church-primary);
+  border-radius: 50%;
+  animation: splash-spin 0.8s linear infinite;
+}
+@keyframes splash-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ============================================
    FOCUS / ACCESSIBILITY
    USE CASE: Keyboard focus rings, WCAG contrast
    LOCATION: Buttons, links, form controls site-wide
@@ -148,6 +194,102 @@ body.home-page .navbar.navbar-transparent .nav-link.dropdown-toggle:hover {
   color: #000 !important;
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+
+/* MOBILE: Hamburger menu - dropdown panel under hamburger, professional iPhone style */
+@media (max-width: 991.98px) {
+  /* On mobile: solid nav background so hamburger + menu are always visible */
+  body.home-page .navbar.navbar-transparent,
+  .navbar {
+    background-color: #fff !important;
+    border-color: rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+  }
+  /* Navbar container: relative so menu can position under hamburger; overflow visible so dropdown isn't clipped */
+  .navbar .container {
+    position: relative;
+    overflow: visible;
+  }
+  .navbar {
+    overflow: visible;
+  }
+  /* Hamburger: dark icon so three lines are visible on white nav (override transparent-nav white icon) */
+  body.home-page .navbar.navbar-transparent .navbar-toggler,
+  body.home-page .navbar .navbar-toggler,
+  .navbar .navbar-toggler {
+    border-color: rgba(0, 0, 0, 0.2) !important;
+    color: #333 !important;
+    padding: 0.5rem 0.75rem;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  body.home-page .navbar.navbar-transparent .navbar-toggler-icon,
+  body.home-page .navbar .navbar-toggler-icon,
+  .navbar .navbar-toggler-icon {
+    filter: none !important;  /* Dark lines - override transparent nav's invert(1) which made it white */
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+  }
+  /* Menu: dropdown panel right under hamburger, slightly overlapping - NOT below church name */
+  .navbar-collapse {
+    position: absolute !important;
+    top: calc(100% - 6px) !important;  /* Slight overlap with nav bar */
+    right: max(0.5rem, env(safe-area-inset-right)) !important;  /* iPhone notch safe area */
+    left: auto !important;
+    width: min(300px, calc(100vw - 2rem)) !important;
+    margin: 0 !important;
+    padding: 0.75rem 0 !important;
+    background: #fff !important;
+    border-radius: 12px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    z-index: 1050 !important;
+    max-height: 70vh;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* Nav items: compact, touch-friendly (44px min for iPhone) */
+  .navbar-collapse .navbar-nav {
+    flex-direction: column;
+    gap: 0;
+  }
+  .navbar-collapse .nav-item {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+  .navbar-collapse .nav-item:last-child {
+    border-bottom: none;
+  }
+  .navbar-collapse .nav-link {
+    padding: 0.875rem 1.25rem !important;
+    font-size: 0.9375rem;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+  }
+  /* Dropdowns: inline expand, clean styling */
+  .navbar-collapse .dropdown-menu {
+    position: static !important;
+    float: none;
+    border: none;
+    box-shadow: none;
+    padding: 0 0 0.5rem 1.5rem;
+    margin: 0;
+    background: transparent;
+  }
+  .navbar-collapse .dropdown-item {
+    padding: 0.625rem 0;
+    font-size: 0.875rem;
+    color: var(--church-neutral, #6b6b6b);
+    min-height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  .navbar-collapse .dropdown-item:hover {
+    color: var(--church-primary);
+    background: transparent;
+  }
+  .navbar-collapse .dropdown-divider {
+    margin: 0.5rem 0;
+  }
 }
 
 /* ============================================

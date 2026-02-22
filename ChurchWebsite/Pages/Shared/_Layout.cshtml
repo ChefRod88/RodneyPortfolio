@@ -30,6 +30,16 @@
 </head>
 @* home-page class: enables transparent nav + hero styling; only on Index *@
 <body class="@((path == "/" || path == "") ? "home-page" : "")">
+    @* SPLASH - Welcome screen on first visit per session; hidden via JS after 2.5s *@
+    <div id="splashScreen" class="splash-screen" data-church-name="@church.Name" aria-hidden="true">
+        <div class="splash-content">
+            <p class="splash-text">Welcome to @church.Name</p>
+            <div class="splash-loader" aria-label="Loading"></div>
+        </div>
+    </div>
+    <script>
+      (function(){if(sessionStorage.getItem('splashSeen')){var s=document.getElementById('splashScreen');if(s)s.classList.add('splash-removed');}})();
+    </script>
     @* SKIP LINK - USE CASE: Accessibility; keyboard users jump to main content *@
     <a href="#main-content" class="visually-hidden-focusable btn btn-primary btn-sm position-fixed top-0 start-0 m-2" style="z-index: 9999;">Skip to main content</a>
     @* HEADER / NAV - USE CASE: Change nav links, dropdowns; LOCATION: Top of every page *@
@@ -49,18 +59,17 @@
                         <li class="nav-item">
                             <a class="nav-link @(IsActive("/") && path == "/" ? "active" : "")" asp-page="/Index">Home</a>
                         </li>
-                        @* NAV: About dropdown - New to church, Location, Meet Our Team, Our Beliefs, Contact *@
+                        @* NAV: About dropdown - Location, Meet Our Team, Our Beliefs, Contact *@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle @(IsActive("/About") ? "active" : "")" href="#" id="navAbout" data-bs-toggle="dropdown" aria-expanded="false">About</a>
                             <ul class="dropdown-menu" aria-labelledby="navAbout">
-                                <li><a class="dropdown-item" asp-page="/About">New to @church.Name</a></li>
                                 @* Location: opens Google Maps with church address *@
                                 @if (!string.IsNullOrWhiteSpace(church.GoogleMapsUrl))
                                 {
                                     <li><a class="dropdown-item" href="@church.GoogleMapsUrl" target="_blank" rel="noopener noreferrer">Location</a></li>
                                 }
-                                <li><a class="dropdown-item" asp-page="/About">Meet Our Team</a></li>
-                                <li><a class="dropdown-item" asp-page="/About">Our Beliefs</a></li>
+                                <li><a class="dropdown-item" asp-page="/About" asp-fragment="team">Meet Our Team</a></li>
+                                <li><a class="dropdown-item" asp-page="/About" asp-fragment="beliefs">Our Beliefs</a></li>
                                 <li><hr class="dropdown-divider" /></li>
                                 <li><a class="dropdown-item" asp-page="/About">Contact Us</a></li>
                             </ul>

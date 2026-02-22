@@ -4,6 +4,35 @@
  * LOCATION: Loaded on every page via _Layout.cshtml
  */
 document.addEventListener('DOMContentLoaded', function () {
+  // SPLASH: Show only on first visit per session; auto-fade after 2.5s
+  (function () {
+    const splash = document.getElementById('splashScreen');
+    if (!splash) return;
+    if (sessionStorage.getItem('splashSeen')) {
+      splash.classList.add('splash-removed');
+      return;
+    }
+    splash.setAttribute('aria-hidden', 'false');
+    sessionStorage.setItem('splashSeen', '1');
+    setTimeout(function () {
+      splash.classList.add('splash-hidden');
+      setTimeout(function () {
+        splash.classList.add('splash-removed');
+      }, 500);
+    }, 2500);
+  })();
+
+  // MOBILE MENU: Close collapse when a nav link is clicked (not when clicking dropdown toggles like About/Next Steps)
+  const collapse = document.getElementById('navbarMain');
+  if (collapse && window.matchMedia('(max-width: 991.98px)').matches) {
+    collapse.querySelectorAll('.dropdown-item, .nav-link:not(.dropdown-toggle)').forEach(function (link) {
+      link.addEventListener('click', function () {
+        const instance = bootstrap.Collapse.getInstance(collapse);
+        if (instance) instance.hide();
+      });
+    });
+  }
+
   // SMOOTH SCROLL: Find all links that start with # (e.g. #three-cards-section)
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
