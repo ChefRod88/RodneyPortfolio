@@ -2,6 +2,12 @@ using RodneyPortfolio.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Load User Secrets in Development (API keys never committed to git)
+if (builder.Environment.IsDevelopment())
+{
+    builder.Configuration.AddUserSecrets<Program>();
+}
+
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();

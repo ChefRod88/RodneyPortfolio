@@ -62,4 +62,7 @@ jobs:
           app-name: 'rodney-portfolio'
           slot-name: 'Production'
           package: .
+          app-settings: |
+            OpenAI__ApiKey=${{ secrets.OPENAI_API_KEY }}
+            OpenAI__UseDemoMode=false
           
