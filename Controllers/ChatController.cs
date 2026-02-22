@@ -50,8 +50,8 @@ public class ChatController : ControllerBase
 
         try
         {
-            var reply = await _aiService.GetReplyAsync(request.Message.Trim(), cancellationToken);
-            return Ok(new ChatResponse { Reply = reply });
+            var (reply, source) = await _aiService.GetReplyAsync(request.Message.Trim(), cancellationToken);
+            return Ok(new ChatResponse { Reply = reply, Source = source });
         }
         catch (Exception ex)
         {
