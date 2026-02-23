@@ -71,4 +71,12 @@ jobs:
           app-name: 'rodney-portfolio'
           slot-name: 'Production'
           app-settings-json: '[{"name": "OpenAI__ApiKey", "value": "${{ secrets.OPENAI_API_KEY }}", "slotSetting": false}]'
+
+      # Optional: Add GA4_MEASUREMENT_ID in GitHub Secrets for visitor tracking. If omitted, GA4 is disabled.
+      - name: Set GA4 Measurement ID in Azure
+        uses: Azure/appservice-settings@v1
+        with:
+          app-name: 'rodney-portfolio'
+          slot-name: 'Production'
+          app-settings-json: '[{"name": "GoogleAnalytics__MeasurementId", "value": "${{ secrets.GA4_MEASUREMENT_ID }}", "slotSetting": false}]'
           
