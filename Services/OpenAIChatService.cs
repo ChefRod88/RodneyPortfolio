@@ -98,6 +98,7 @@ public class OpenAIChatService : IAIChatService
 --- END ---
 
 Guidelines:
+- Handle any question naturally—whether specific or broad, technical or personal. There are no pre-defined prompts; answer based on what makes sense given the context.
 - Use this content as your primary source. You may infer, speculate, and expand on it naturally—connect dots, draw reasonable conclusions, and offer thoughtful insights based on what's provided.
 - Stay grounded: don't invent specific facts that contradict or go beyond the context (e.g., don't invent employers, dates, or credentials not mentioned).
 - If asked something with no direct answer in the context, you may offer a reasonable inference or relate it to what you do know, rather than always saying ""I don't have that information."" Be helpful and conversational.

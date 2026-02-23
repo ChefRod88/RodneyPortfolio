@@ -1,6 +1,6 @@
 RODNEY CHERY - RESUME & ABOUT CONTEXT
 =====================================
-Update this file when you update your resume. The AI chatbot uses this content to answer questions about you.
+Update this file when you update your resume. The AI chatbot uses this content to answer questions about Rodney.
 
 NAME & TITLE
 -----------
@@ -13,13 +13,21 @@ EDUCATION
 - B.S. Software Engineering (In Progress)
 - Western Governors University (WGU)
 - Expected Graduation: December 2026
+- Self-paced, competency-based learning model
+- Focus on full-stack development, databases, and software architecture
 
 EXPERIENCE
 ----------
 - Technical Support Inkjet Tier 1 at Canon Information Technology Services
 - Troubleshoots proprietary software, hardware environments, and enterprise applications
 - Systematically isolates variables, reviews system behaviors, guides issues through structured resolution
-- Previous background: Professional kitchens (line cook) - learned discipline, communication, composure under pressure
+- Works with enterprise systems where each component depends on another—similar to kitchen ecosystems
+- Previous background: Professional kitchens (line cook)—learned discipline, communication, composure under pressure
+- Transition from kitchens to tech felt natural; both environments require technical understanding and operational awareness
+
+CAREER TRANSITION: KITCHENS TO TECH
+----------------------------------
+Before technology, Rodney worked the line in professional kitchens. Pressure was constant, timing was critical, and mistakes were visible immediately. In that environment he learned discipline, communication, and how to remain steady when everything accelerates. Those lessons define his professional identity. Enterprise systems, like kitchens, are ecosystems—each component dependent on another. When something breaks, the solution requires both technical understanding and operational awareness. His journey from the intensity of professional kitchens to enterprise technical environments reflects adaptability, resilience, and growth.
 
 APPROACH TO TROUBLESHOOTING
 ---------------------------
@@ -28,6 +36,9 @@ APPROACH TO TROUBLESHOOTING
 - Determines whether issues are environmental, configuration-based, user-driven, or systemic
 - Maintains meticulous documentation and communicates clearly at every stage
 - Values transparency, especially during escalations
+- Does not react—he analyzes
+- Sees technical problems not as disruptions but as systems revealing weaknesses that can be improved
+- Continuous refinement of processes, documentation, and response strategy is central to how he works
 
 SOFT SKILLS
 -----------
@@ -37,13 +48,25 @@ SOFT SKILLS
 - Customer Empathy (Proficient)
 - Adaptability (Proficient)
 - Attention to Detail (Proficient)
+- Understands urgency without panic
+- Values collaboration over isolation
+- Composure under pressure
+- Disciplined troubleshooting
+- Strong service mindset
 
 TECHNICAL SKILLS
 ----------------
 IT Support: Enterprise Software Support, System Diagnostics, API/Integration Support, Customer-Focused Support, Escalation Management, Knowledge Base Management
-Frontend: HTML, CSS, JavaScript, TypeScript, Angular, Razor Pages (all Proficient or Beginner as noted)
+Frontend: HTML, CSS, JavaScript, TypeScript, Angular, Razor Pages (Proficient or Beginner as noted)
 Backend: C#, ASP.NET Core, Entity Framework Core, SQL Server, Git/GitHub, .NET MAUI
 Tools: Azure (Intermediate), Cursor (Proficient), Docker (Intermediate)
+AI/LLM: OpenAI API integration, prompt engineering, conversational interfaces, input validation, content filtering
+
+PROJECTS
+--------
+- Portfolio website (rodneyachery.com): ASP.NET Core, Razor Pages, responsive design
+- Ask Rodney AI Chatbot: C# backend, OpenAI API, prompt engineering, REST API, input validation, content filtering, demo mode fallback. Built to answer questions about Rodney using resume context. Demonstrates AI safety practices (validation, filtering, guardrails).
+- GitHub: https://github.com/ChefRod88/RodneyPortfolio
 
 WHAT DIFFERENTIATES RODNEY
 --------------------------
@@ -54,9 +77,29 @@ WHAT DIFFERENTIATES RODNEY
 - Continuous refinement of processes, documentation, and response strategy
 - Journey from professional kitchens to enterprise tech reflects adaptability, resilience, and growth
 - Brings composure under pressure, disciplined troubleshooting, and strong service mindset
+- What differentiates him: the intersection of soft skills and technical execution. He understands urgency without panic, values collaboration over isolation, and sees technical problems as systems revealing weaknesses that can be improved.
+
+WORK PHILOSOPHY
+---------------
+- People before process. Empathy before execution.
+- Technical problems are not disruptions—they are systems revealing weaknesses that can be improved
+- Transparency builds trust, especially during escalations
+- Delivers consistent, reliable support in environments where stability matters most
+- Believes in continuous refinement—of processes, documentation, and response strategy
+
+STRENGTHS IN TEAMS
+------------------
+- Composure under pressure
+- Disciplined troubleshooting
+- Strong service mindset
+- Meticulous documentation
+- Clear communication at every stage
+- Adaptability and resilience
+- Can deliver consistent, reliable support when stability matters most
 
 CONTACT
 -------
 - Email: chefrodneyachery@gmail.com
 - LinkedIn: https://www.linkedin.com/in/rodneyachery/
 - GitHub: https://github.com/ChefRod88/RodneyPortfolio
+- Portfolio: https://www.rodneyachery.com
