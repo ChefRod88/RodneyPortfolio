@@ -2,11 +2,13 @@
 
 ## Overview
 
-The **Job Match** feature allows recruiters and hiring managers to paste a job description into the portfolio and receive an AI-powered analysis of how Rodney's resume aligns with the role. It returns a match score, skills alignment, gaps, and suggested talking points for interviews.
+I built the **Job Match** feature so recruiters and hiring managers can paste a job description into my portfolio and get an AI-powered analysis of how my resume aligns with the role. It returns a match score, skills alignment, gaps, and suggested talking points for interviews. Let me walk you through how it works.
 
 ---
 
 ## Architecture
+
+Here's the flow from the UI to the API:
 
 ```
 ┌─────────────────┐     POST /api/chat/job-match      ┌──────────────────┐
@@ -36,7 +38,7 @@ The **Job Match** feature allows recruiters and hiring managers to paste a job d
 
 | Method | Path | Description |
 |--------|------|--------------|
-| POST | `/api/chat/job-match` | Analyzes job description against Rodney's resume |
+| POST | `/api/chat/job-match` | Analyzes job description against my resume |
 
 ### Request
 
@@ -71,10 +73,10 @@ The **Job Match** feature allows recruiters and hiring managers to paste a job d
 ```
 
 | Field | Type | Description |
-|-------|------|--------------|
+|-------|------|-------------|
 | `matchScore` | `int` | 0–100 compatibility score |
-| `skillsAligned` | `string[]` | Job requirements Rodney has |
-| `gaps` | `string[]` | Job requirements Rodney lacks or is weak in |
+| `skillsAligned` | `string[]` | Job requirements I have |
+| `gaps` | `string[]` | Job requirements I lack or am weak in |
 | `talkingPoints` | `string[]` | Suggested interview talking points |
 
 ---
@@ -84,20 +86,17 @@ The **Job Match** feature allows recruiters and hiring managers to paste a job d
 ### 1. ChatController (`Controllers/ChatController.cs`)
 
 - **Action:** `JobMatch([FromBody] JobMatchRequest request)`
-- **Responsibilities:**
-  - Validate request (required, non-empty, max 4000 chars)
-  - Call `IJobMatchService.AnalyzeAsync`
-  - Return `JobMatchResponse` or error
+- **What it does:** Validates the request (required, non-empty, max 4000 chars), calls `IJobMatchService.AnalyzeAsync`, and returns the `JobMatchResponse` or an error.
 
 ### 2. JobMatchService (`Services/JobMatchService.cs`)
 
 - **Dependencies:** `IResumeContextLoader`, `IConfiguration`, `IHttpClientFactory`, `ILogger`
 - **Flow:**
-  1. Load resume context from `Data/ResumeContext.txt`
-  2. Build a structured prompt with job description + resume
-  3. Call OpenAI Chat Completions API with `response_format: { type: "json_object" }`
-  4. Parse JSON response into `JobMatchResponse`
-  5. Handle errors (missing API key, API failure, parse failure) with fallback responses
+  1. I load my resume context from `Data/ResumeContext.txt`
+  2. I build a structured prompt with the job description and my resume
+  3. I call the OpenAI Chat Completions API with `response_format: { type: "json_object" }`
+  4. I parse the JSON response into `JobMatchResponse`
+  5. I handle errors (missing API key, API failure, parse failure) with fallback responses
 
 ### 3. Models
 
@@ -126,14 +125,14 @@ public class JobMatchResponse
 ## OpenAI Integration
 
 - **Model:** `gpt-4o-mini` (from config `OpenAI:Model`)
-- **API Key:** Same as chatbot — `OpenAI:ApiKey` (User Secrets locally, GitHub Secrets in production)
-- **JSON Mode:** `response_format: { type: "json_object" }` ensures structured output
+- **API Key:** Same as the chatbot — `OpenAI:ApiKey` (User Secrets locally, GitHub Secrets in production)
+- **JSON Mode:** `response_format: { type: "json_object" }` ensures I get structured output
 - **Max Tokens:** 1024
 
 **Prompt structure:**
-1. Instruct the model to compare job description vs. resume
-2. Require JSON with keys: `matchScore`, `skillsAligned`, `gaps`, `talkingPoints`
-3. Provide job description and resume context in delimited blocks
+1. I instruct the model to compare the job description vs. my resume
+2. I require JSON with keys: `matchScore`, `skillsAligned`, `gaps`, `talkingPoints`
+3. I provide the job description and resume context in delimited blocks
 
 ---
 
@@ -181,7 +180,7 @@ public class JobMatchResponse
 
 ## Dependency Injection
 
-Registered in `Program.cs`:
+I register the service in `Program.cs`:
 
 ```csharp
 builder.Services.AddScoped<IJobMatchService, JobMatchService>();
