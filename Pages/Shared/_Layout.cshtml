@@ -1,3 +1,7 @@
+@inject IConfiguration Configuration
+@{
+    var gaId = Configuration["GoogleAnalytics:MeasurementId"];
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,15 +26,17 @@
     <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
     <link rel="icon" type="image/svg+xml" href="~/favicon.svg" />
 
+    @if (!string.IsNullOrWhiteSpace(gaId))
+    {
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
-
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){ dataLayer.push(arguments); }
-  gtag('js', new Date());
-  gtag('config', 'G-XXXXXXXXXX');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=@gaId"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', '@gaId');
+    </script>
+    }
 
 </head>
 
