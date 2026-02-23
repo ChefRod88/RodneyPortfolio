@@ -18,7 +18,7 @@ EDUCATION
 
 EXPERIENCE
 ----------
-- Technical Support Inkjet Tier 1 at Canon Information Technology Services
+- Technical Support Inkjet Tier 1 at Canon Information Technology Services (started March 2025)
 - Troubleshoots proprietary software, hardware environments, and enterprise applications
 - Systematically isolates variables, reviews system behaviors, guides issues through structured resolution
 - Works with enterprise systems where each component depends on another—similar to kitchen ecosystems
