@@ -68,6 +68,21 @@ PROJECTS
 - Ask Rodney AI Chatbot: C# backend, OpenAI API, prompt engineering, REST API, input validation, content filtering. Built to answer questions about Rodney using resume context. Demonstrates AI safety practices (validation, filtering, guardrails).
 - GitHub: https://github.com/ChefRod88/RodneyPortfolio
 
+PROJECT DEEP-DIVES (for detailed questions)
+-------------------------------------------
+Portfolio Website (rodneyachery.com):
+- Architecture: ASP.NET Core Razor Pages, server-rendered HTML, static assets in wwwroot
+- Tech stack: C#, Razor, CSS, JavaScript, PWA with service worker
+- Deployment: Azure Web App, GitHub Actions CI/CD, HTTPS and www redirect
+- Decisions: Razor for simplicity and SEO; no SPA to keep it lightweight
+
+Ask Rodney AI Chatbot:
+- Architecture: Frontend (fetch) -> ChatController (API) -> OpenAIChatService -> OpenAI Chat Completions API. ResumeContext.txt loaded at runtime.
+- Tech stack: C#, ASP.NET Core, OpenAI API, JavaScript, input validation (InputValidator), content filtering (ContentFilter)
+- Key code pattern: System prompt injects resume context; mode toggle (Recruiter/Engineer/Interview) adjusts prompt instructions
+- Decisions: Static prompt over RAG for cost/simplicity; demo fallback when API fails (429, etc.); User Secrets locally, GitHub Secrets in production
+- Deployment: Same Azure Web App as portfolio; API key via Azure App Settings
+
 WHAT DIFFERENTIATES RODNEY
 --------------------------
 - Intersection of soft skills and technical execution

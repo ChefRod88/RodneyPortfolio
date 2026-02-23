@@ -27,7 +27,7 @@ public class OpenAIChatService : IAIChatService
         _logger = logger;
     }
 
-    public async Task<string> GetReplyAsync(string userMessage, CancellationToken cancellationToken = default)
+    public async Task<string> GetReplyAsync(string userMessage, string? mode = null, CancellationToken cancellationToken = default)
     {
         var apiKey = _config["OpenAI:ApiKey"];
         if (string.IsNullOrWhiteSpace(apiKey))
@@ -37,7 +37,7 @@ public class OpenAIChatService : IAIChatService
         }
 
         var resumeContext = await _resumeLoader.LoadAsync(cancellationToken);
-        var systemPrompt = BuildSystemPrompt(resumeContext);
+        var systemPrompt = BuildSystemPrompt(resumeContext, mode);
 
         var requestBody = new
         {
@@ -86,13 +86,32 @@ public class OpenAIChatService : IAIChatService
     }
 
     /// <summary>
+    /// Returns mode-specific prompt instructions for tone, depth, and emphasis.
+    /// </summary>
+    private static string GetModeInstructions(string? mode)
+    {
+        var m = (mode ?? "recruiter").Trim().ToLowerInvariant();
+        return m switch
+        {
+            "engineer" => @"MODE: Engineer. Go deeper technically. Mention specific tools, patterns, and tradeoffs. Include code snippets when relevant (e.g., C#, ASP.NET, OpenAI integration). Emphasize architecture, debugging approach, and technical decisions. Avoid oversimplifying.",
+            "interview" => @"MODE: Interview. You are an interviewer. Ask behavioral, system design, or debugging questions. After the user answers, give brief constructive feedback. Stay in character. Use Rodney's background for relevant follow-ups (e.g., Canon, kitchens-to-tech). If the user asks about Rodney, answer as usual; if they say they're ready for an interview, start asking questions.",
+            _ => @"MODE: Recruiter. Be concise. Emphasize impact, teamwork, and soft skills. Avoid jargon. Focus on outcomes and metrics recruiters care about."
+        };
+    }
+
+    /// <summary>
     /// Builds the system prompt with resume context. Prompt engineering: grounds the model
     /// in the provided content while allowing inference, expansion, and natural conversation.
+    /// Mode-specific instructions adjust tone, depth, and emphasis.
     /// </summary>
-    private static string BuildSystemPrompt(string resumeContext)
+    private static string BuildSystemPrompt(string resumeContext, string? mode)
     {
         var today = DateTime.UtcNow.ToString("MMMM yyyy");
+        var modeInstructions = GetModeInstructions(mode);
+
         return $@"You are a friendly assistant representing Rodney Chery. You have access to the following document about him. Answer questions as if you're a knowledgeable colleague who has read his resume and can discuss him naturally—like ChatGPT when someone uploads a document and asks varied questions.
+
+{modeInstructions}
 
 Current date for calculations: {today}
 
@@ -107,6 +126,7 @@ CRITICAL: Answer the SPECIFIC question asked. Different questions deserve differ
 - ""How long has he been at Canon?"" → Calculate from the dates (started March 2025; use the current date provided above).
 - ""What are his strengths?"" → Extract and summarize strengths—don't paste the experience block.
 - ""What are his weaknesses?"" → Infer reasonably from the context if not stated; it's okay to say what might be areas of growth.
+- For project questions (chatbot, portfolio, architecture, tech stack): Provide architecture overview, tech stack, key decisions, tradeoffs, and deployment strategy from the PROJECT DEEP-DIVES section. Code snippets when relevant.
 
 Behave like generative AI with a loaded document: infer, calculate, extract, and tailor each response to the exact question. Vary your response style—short for simple questions, more depth when asked. Sound human and conversational, not robotic. Never give the same generic block of text for different questions. Speak in third person about Rodney. Stay grounded in the context; don't invent employers, dates, or credentials not mentioned.";
 

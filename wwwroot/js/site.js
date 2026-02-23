@@ -94,6 +94,8 @@ document.addEventListener("DOMContentLoaded", () => {
 // ================================
 // ASK RODNEY - CHATBOT
 // ================================
+const CHAT_MODE_KEY = "askRodneyMode";
+
 function initChatBot() {
   const messagesEl = document.getElementById("chat-messages");
   const inputEl = document.getElementById("chat-input");
@@ -102,6 +104,35 @@ function initChatBot() {
   const maxLen = 500;
 
   if (!messagesEl || !inputEl || !sendBtn) return;
+
+  function getMode() {
+    const active = document.querySelector(".chat-mode-btn.active");
+    return active?.getAttribute("data-mode") || "recruiter";
+  }
+
+  function setMode(mode) {
+    document.querySelectorAll(".chat-mode-btn").forEach((btn) => {
+      const isActive = btn.getAttribute("data-mode") === mode;
+      btn.classList.toggle("active", isActive);
+      btn.setAttribute("aria-selected", isActive);
+    });
+    try {
+      sessionStorage.setItem(CHAT_MODE_KEY, mode);
+    } catch (_) {}
+  }
+
+  const savedMode = (() => {
+    try {
+      return sessionStorage.getItem(CHAT_MODE_KEY) || "recruiter";
+    } catch (_) {
+      return "recruiter";
+    }
+  })();
+  setMode(savedMode);
+
+  document.querySelectorAll(".chat-mode-btn").forEach((btn) => {
+    btn.addEventListener("click", () => setMode(btn.getAttribute("data-mode") || "recruiter"));
+  });
 
   function addMessage(text, role) {
     const div = document.createElement("div");
@@ -138,7 +169,7 @@ function initChatBot() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: trimmed })
+        body: JSON.stringify({ message: trimmed, mode: getMode() })
       });
       const data = await res.json();
 
@@ -173,6 +204,91 @@ function initChatBot() {
     }
   });
   inputEl.addEventListener("input", updateCharCount);
+
+  const transparencyToggle = document.getElementById("chat-transparency-toggle");
+  const transparencyContent = document.getElementById("chat-transparency-content");
+  if (transparencyToggle && transparencyContent) {
+    transparencyToggle.addEventListener("click", () => {
+      const isExpanded = transparencyToggle.getAttribute("aria-expanded") === "true";
+      transparencyToggle.setAttribute("aria-expanded", !isExpanded);
+      transparencyContent.hidden = isExpanded;
+    });
+  }
+
+  initJobMatch();
+}
+
+function initJobMatch() {
+  const inputEl = document.getElementById("job-match-input");
+  const analyzeBtn = document.getElementById("job-match-analyze");
+  const resultEl = document.getElementById("job-match-result");
+  const charRemainingEl = document.getElementById("job-match-char-remaining");
+  const scoreValueEl = document.getElementById("job-match-score-value");
+  const skillsEl = document.getElementById("job-match-skills");
+  const gapsEl = document.getElementById("job-match-gaps");
+  const talkingEl = document.getElementById("job-match-talking");
+  const maxLen = 4000;
+
+  if (!inputEl || !analyzeBtn || !resultEl) return;
+
+  function updateCharCount() {
+    if (charRemainingEl) {
+      const len = inputEl.value.length;
+      charRemainingEl.textContent = maxLen - len;
+    }
+  }
+
+  function renderList(ul, items) {
+    if (!ul) return;
+    ul.innerHTML = "";
+    if (!items || items.length === 0) {
+      const li = document.createElement("li");
+      li.textContent = "None";
+      li.className = "chat-job-match-empty";
+      ul.appendChild(li);
+      return;
+    }
+    items.forEach((item) => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      ul.appendChild(li);
+    });
+  }
+
+  async function analyze() {
+    const trimmed = inputEl.value.trim();
+    if (!trimmed) return;
+
+    analyzeBtn.disabled = true;
+    resultEl.hidden = true;
+
+    try {
+      const res = await fetch("/api/chat/job-match", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ jobDescription: trimmed })
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.error || "Something went wrong. Please try again.");
+        return;
+      }
+
+      if (scoreValueEl) scoreValueEl.textContent = data.matchScore ?? 0;
+      renderList(skillsEl, data.skillsAligned);
+      renderList(gapsEl, data.gaps);
+      renderList(talkingEl, data.talkingPoints);
+      resultEl.hidden = false;
+    } catch (err) {
+      alert("Unable to connect. Please check your connection and try again.");
+    } finally {
+      analyzeBtn.disabled = false;
+    }
+  }
+
+  inputEl.addEventListener("input", updateCharCount);
+  analyzeBtn.addEventListener("click", analyze);
 }
 
 // PWA: Register the service worker for offline support

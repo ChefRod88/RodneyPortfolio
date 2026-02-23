@@ -9,7 +9,8 @@ public interface IAIChatService
     /// Gets a reply from the AI based on the user's question about Rodney.
     /// </summary>
     /// <param name="userMessage">The visitor's question.</param>
+    /// <param name="mode">Chat mode: "recruiter", "engineer", or "interview".</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The AI-generated reply.</returns>
-    Task<string> GetReplyAsync(string userMessage, CancellationToken cancellationToken = default);
+    Task<string> GetReplyAsync(string userMessage, string? mode = null, CancellationToken cancellationToken = default);
 }
