@@ -94,7 +94,6 @@ document.addEventListener("DOMContentLoaded", () => {
 // ================================
 // ASK RODNEY - CHATBOT
 // ================================
-const CHAT_MODE_KEY = "askRodneyMode";
 
 function initChatBot() {
   const messagesEl = document.getElementById("chat-messages");
@@ -104,35 +103,6 @@ function initChatBot() {
   const maxLen = 500;
 
   if (!messagesEl || !inputEl || !sendBtn) return;
-
-  function getMode() {
-    const active = document.querySelector(".chat-mode-btn.active");
-    return active?.getAttribute("data-mode") || "recruiter";
-  }
-
-  function setMode(mode) {
-    document.querySelectorAll(".chat-mode-btn").forEach((btn) => {
-      const isActive = btn.getAttribute("data-mode") === mode;
-      btn.classList.toggle("active", isActive);
-      btn.setAttribute("aria-selected", isActive);
-    });
-    try {
-      sessionStorage.setItem(CHAT_MODE_KEY, mode);
-    } catch (_) {}
-  }
-
-  const savedMode = (() => {
-    try {
-      return sessionStorage.getItem(CHAT_MODE_KEY) || "recruiter";
-    } catch (_) {
-      return "recruiter";
-    }
-  })();
-  setMode(savedMode);
-
-  document.querySelectorAll(".chat-mode-btn").forEach((btn) => {
-    btn.addEventListener("click", () => setMode(btn.getAttribute("data-mode") || "recruiter"));
-  });
 
   function addMessage(text, role) {
     const div = document.createElement("div");
@@ -169,7 +139,7 @@ function initChatBot() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: trimmed, mode: getMode() })
+        body: JSON.stringify({ message: trimmed })
       });
       const data = await res.json();
 
