@@ -55,8 +55,6 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A5FA883328F9464DAA0FC5EF4398B814 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4F8C4BACB3374554B7C6FBB11275A135 }}
 
-      # REQUIRED: Add OPENAI_API_KEY in GitHub repo Settings → Secrets and variables → Actions
-      # Without it, the chatbot shows "not configured" on the live site.
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
@@ -64,6 +62,13 @@ jobs:
           app-name: 'rodney-portfolio'
           slot-name: 'Production'
           package: .
-          app-settings: |
-            OpenAI__ApiKey=${{ secrets.OPENAI_API_KEY }}
+
+      # REQUIRED: Add OPENAI_API_KEY in GitHub repo Settings → Secrets and variables → Actions
+      # webapps-deploy does NOT support app-settings; we use appservice-settings instead.
+      - name: Set OpenAI API Key in Azure
+        uses: Azure/appservice-settings@v1
+        with:
+          app-name: 'rodney-portfolio'
+          slot-name: 'Production'
+          app-settings-json: '[{"name": "OpenAI__ApiKey", "value": "${{ secrets.OPENAI_API_KEY }}", "slotSetting": false}]'
           
