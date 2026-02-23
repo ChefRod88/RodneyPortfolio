@@ -335,6 +335,11 @@
         <p class="text-center text-muted mb-3">Ask anything about Rodney—his background, experience, or skills.</p>
 
         <div class="chat-container">
+            <div class="chat-mode-selector" role="tablist" aria-label="Chat mode">
+                <button type="button" class="chat-mode-btn active" data-mode="recruiter" role="tab" aria-selected="true">Recruiter</button>
+                <button type="button" class="chat-mode-btn" data-mode="engineer" role="tab" aria-selected="false">Engineer</button>
+                <button type="button" class="chat-mode-btn" data-mode="interview" role="tab" aria-selected="false">Interview</button>
+            </div>
             <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div>
             <div class="chat-input-container">
                 <input type="text" id="chat-input" class="chat-input" placeholder="Type your question..." maxlength="500" autocomplete="off" />
@@ -353,6 +358,53 @@
                target="_blank"
                rel="noopener noreferrer"
                class="chat-docs-btn">Secure Open API Key Docs</a>
+        </div>
+        <div class="chat-transparency-panel">
+            <button type="button" class="chat-transparency-toggle" id="chat-transparency-toggle" aria-expanded="false" aria-controls="chat-transparency-content">
+                How this chatbot works
+            </button>
+            <div id="chat-transparency-content" class="chat-transparency-content" hidden>
+                <dl class="chat-transparency-dl">
+                    <dt>Model</dt>
+                    <dd>GPT-4o-mini (OpenAI Chat Completions API)</dd>
+                    <dt>Architecture</dt>
+                    <dd>ASP.NET Core → OpenAI Chat Completions. Static prompt with resume context.</dd>
+                    <dt>Data</dt>
+                    <dd>ResumeContext.txt. No RAG or embeddings.</dd>
+                    <dt>Safety</dt>
+                    <dd>Input validation, content filtering, prompt guardrails.</dd>
+                    <dt>Hosting</dt>
+                    <dd>Azure Web App, GitHub Actions CI/CD.</dd>
+                </dl>
+            </div>
+        </div>
+        <div class="chat-job-match">
+            <h3 class="chat-job-match-title">Job Match</h3>
+            <p class="chat-job-match-desc">Paste a job description to see how Rodney's resume aligns.</p>
+            <textarea id="job-match-input" class="chat-job-match-input" placeholder="Paste job description here..." maxlength="4000" rows="4"></textarea>
+            <p class="chat-job-match-char-count"><span id="job-match-char-remaining">4000</span> characters remaining</p>
+            <button type="button" id="job-match-analyze" class="chat-job-match-btn">Analyze</button>
+            <div id="job-match-result" class="chat-job-match-result" hidden>
+                <div class="chat-job-match-score">
+                    <span class="chat-job-match-score-label">Match Score</span>
+                    <span id="job-match-score-value" class="chat-job-match-score-value">0</span>
+                    <span class="chat-job-match-score-pct">%</span>
+                </div>
+                <div class="chat-job-match-lists">
+                    <div class="chat-job-match-list">
+                        <h4>Skills Aligned</h4>
+                        <ul id="job-match-skills"></ul>
+                    </div>
+                    <div class="chat-job-match-list">
+                        <h4>Gaps</h4>
+                        <ul id="job-match-gaps"></ul>
+                    </div>
+                    <div class="chat-job-match-list">
+                        <h4>Talking Points</h4>
+                        <ul id="job-match-talking"></ul>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
