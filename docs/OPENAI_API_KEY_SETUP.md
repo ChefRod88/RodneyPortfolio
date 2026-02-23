@@ -6,10 +6,19 @@ I configured my portfolio chatbot to use the OpenAI API without ever storing my 
 
 ## If the Live Site Says "Chatbot is not configured"
 
-**Local works, production doesn't?** The API key is missing in production. Add it:
+**Important:** Local and production use *different* sources for the API key:
+
+| Environment | Source | Where it lives |
+|-------------|--------|----------------|
+| **Localhost** | User Secrets | Your machine (`dotnet user-secrets set`) |
+| **Production** | GitHub Secrets → Azure App Settings | GitHub repo → injected during deploy |
+
+Localhost does **not** use GitHub Secrets. It uses User Secrets stored locally. Production gets the key from the `OPENAI_API_KEY` GitHub secret, which the workflow injects into Azure via the `Azure/appservice-settings` action.
+
+**If production shows "not configured":**
 
 1. Go to [github.com/ChefRod88/RodneyPortfolio](https://github.com/ChefRod88/RodneyPortfolio) → **Settings** → **Secrets and variables** → **Actions**
-2. Click **New repository secret** (or edit if it exists)
+2. Confirm `OPENAI_API_KEY` exists. If not, click **New repository secret**
 3. **Name:** `OPENAI_API_KEY` (exactly)
 4. **Value:** Your OpenAI API key (same one you use locally)
 5. Save, then push any commit to `main` or run the workflow manually to redeploy
