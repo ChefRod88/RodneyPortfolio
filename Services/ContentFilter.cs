@@ -13,7 +13,7 @@ public static class ContentFilter
     /// </summary>
     private static readonly string[] BlockedTerms =
     {
-        // Add terms as needed - keeping minimal for portfolio demo
+        // Add terms as needed - expand as needed for your use case
         "fuck", "shit", "asshole", "bitch", "damn" // example profanity
     };
 

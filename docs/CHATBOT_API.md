@@ -73,27 +73,21 @@ POST /api/chat
 - **Blocked patterns:** Prompt injection attempts (e.g., "ignore previous", "system:", "disregard") are rejected
 - **Content filter:** Inappropriate content is blocked
 
-## Demo Mode
-
-When no OpenAI API key is configured (or `UseDemoMode` is true), the service returns predefined responses based on keyword matching. This allows the chatbot UI to work for visitors without incurring API costs.
-
 ## Configuration
 
-Configure in `appsettings.json` or User Secrets:
+The chatbot requires an OpenAI API key. Configure in `appsettings.json` or User Secrets:
 
 ```json
 {
   "OpenAI": {
     "ApiKey": "sk-...",
-    "Model": "gpt-4o-mini",
-    "UseDemoMode": false
+    "Model": "gpt-4o-mini"
   }
 }
 ```
 
-- **ApiKey:** Your OpenAI API key. Leave empty for demo mode.
+- **ApiKey:** Your OpenAI API key. Required. If not set, the chatbot returns an error.
 - **Model:** OpenAI model (default: gpt-4o-mini)
-- **UseDemoMode:** When true, uses canned responses even if ApiKey is set
 
 ## Resume Context
 

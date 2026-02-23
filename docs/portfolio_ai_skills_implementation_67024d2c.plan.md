@@ -76,16 +76,15 @@ flowchart TB
 - [appsettings.json](appsettings.json) - I added `OpenAI:ApiKey` and `OpenAI:Model` (e.g., `gpt-4o-mini` for cost)
 - [appsettings.Development.json](appsettings.Development.json) - Same keys; I use User Secrets for my real key
 
-**Use case:** I store the API key securely. I support a "demo mode" when no key is set (return canned responses so the UI still works for visitors).
+**Use case:** I store the API key securely. The chatbot requires an API key; if not configured, it returns an error.
 
 **Code concept:**
 
-```csharp
+```json
 // appsettings.json
 "OpenAI": {
   "ApiKey": "",
-  "Model": "gpt-4o-mini",
-  "UseDemoMode": true  // When true and no key, I use mock responses
+  "Model": "gpt-4o-mini"
 }
 ```
 
@@ -302,16 +301,16 @@ async function sendMessage(text) {
 
 ---
 
-## API Key and Demo Mode
+## API Key
 
 - **Production:** I use Azure Key Vault or User Secrets; I never commit keys.
-- **Demo mode:** When `ApiKey` is empty and `UseDemoMode` is true, I return predefined responses based on common question keywords (e.g., if question contains "experience" or "background", I return a short summary from my resume context). This lets the UI work for visitors even without an API key.
+- **Required:** The chatbot requires an OpenAI API key. If not configured, it returns an error message.
 
 ---
 
 ## Suggested Implementation Order
 
-1. Step 1 (config) + Step 2b (ResumeContext.txt) + Step 2 (service with demo mode)
+1. Step 1 (config) + Step 2b (ResumeContext.txt) + Step 2 (service)
 2. Step 3 (validation/filter) + Step 4 (controller)
 3. Step 5 (UI)
 4. Step 6 (DI/wiring)
