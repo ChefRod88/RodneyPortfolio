@@ -62,8 +62,12 @@ public class OpenAIChatService : IAIChatService
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogWarning("OpenAI API returned {StatusCode}", response.StatusCode);
-                return "I'm having trouble connecting right now. Please try again later or check Rodney's resume directly.";
+                var errorBody = await response.Content.ReadAsStringAsync(cancellationToken);
+                _logger.LogWarning(
+                    "OpenAI API failed. StatusCode: {StatusCode}, Response: {Response}. Falling back to demo response.",
+                    (int)response.StatusCode,
+                    errorBody);
+                return await GetDemoResponseAsync(userMessage, resumeContext, cancellationToken);
             }
 
             var json = await response.Content.ReadFromJsonAsync<OpenAIResponse>(cancellationToken);
@@ -76,8 +80,8 @@ public class OpenAIChatService : IAIChatService
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error calling OpenAI API");
-            return "Something went wrong. Please try again or reach out to Rodney directly.";
+            _logger.LogError(ex, "Error calling OpenAI API. Falling back to demo response.");
+            return await GetDemoResponseAsync(userMessage, resumeContext, cancellationToken);
         }
     }
 
@@ -106,6 +110,37 @@ CRITICAL: Answer the SPECIFIC question asked. Different questions deserve differ
 
 Behave like generative AI with a loaded document: infer, calculate, extract, and tailor each response to the exact question. Vary your response style—short for simple questions, more depth when asked. Sound human and conversational, not robotic. Never give the same generic block of text for different questions. Speak in third person about Rodney. Stay grounded in the context; don't invent employers, dates, or credentials not mentioned.";
 
+    }
+
+    /// <summary>
+    /// Returns a demo response based on resume context when the OpenAI API fails (e.g., 429 quota, 401, network error).
+    /// Uses keyword matching to provide relevant answers from the context. API errors are logged but not shown to the user.
+    /// </summary>
+    private static Task<string> GetDemoResponseAsync(string userMessage, string resumeContext, CancellationToken cancellationToken)
+    {
+        var q = userMessage.Trim().ToLowerInvariant();
+        string reply;
+
+        if (q.Contains("work") || q.Contains("employer") || q.Contains("where does") || q.Contains("company") || q.Contains("job"))
+            reply = "Rodney works at Canon Information Technology Services as a Technical Support Inkjet Tier 1. He started in March 2025 and troubleshoots proprietary software, hardware environments, and enterprise applications.";
+        else if (q.Contains("experience") || q.Contains("background") || q.Contains("career"))
+            reply = "Rodney is a Technical Support Analyst at Canon IT Services with a background in professional kitchens. He brings composure under pressure, disciplined troubleshooting, and strong service mindset to enterprise support. His journey from kitchens to tech reflects adaptability, resilience, and growth.";
+        else if (q.Contains("skill") || q.Contains("tool") || q.Contains("technolog") || q.Contains("stack"))
+            reply = "Rodney's technical skills include C#, ASP.NET Core, Entity Framework Core, SQL Server, Git/GitHub, HTML, CSS, JavaScript, TypeScript, Angular, Razor Pages, Azure, Docker, and OpenAI API integration. He also has strong soft skills in technical communication, problem-solving under pressure, and customer empathy.";
+        else if (q.Contains("education") || q.Contains("degree") || q.Contains("school") || q.Contains("graduate"))
+            reply = "Rodney is pursuing a B.S. in Software Engineering at Western Governors University, expected December 2026. The program is self-paced and competency-based, with focus on full-stack development, databases, and software architecture.";
+        else if (q.Contains("contact") || q.Contains("email") || q.Contains("linkedin") || q.Contains("reach"))
+            reply = "You can reach Rodney at chefrodneyachery@gmail.com, on LinkedIn at linkedin.com/in/rodneyachery, or via his portfolio at rodneyachery.com.";
+        else if (q.Contains("strength") || q.Contains("differentiate") || q.Contains("what makes"))
+            reply = "Rodney's strengths include composure under pressure, disciplined troubleshooting, strong service mindset, meticulous documentation, and clear communication. His intersection of soft skills and technical execution sets him apart.";
+        else if (q.Contains("how long") || q.Contains("tenure") || q.Contains("years at"))
+            reply = "Rodney started at Canon Information Technology Services in March 2025.";
+        else if (q.Contains("project") || q.Contains("portfolio") || q.Contains("built"))
+            reply = "Rodney's projects include his portfolio website (rodneyachery.com) built with ASP.NET Core and Razor Pages, and the Ask Rodney AI Chatbot—a C# backend with OpenAI API integration, prompt engineering, and AI safety practices.";
+        else
+            reply = "Rodney Chery is a Technical Support Analyst at Canon IT Services with a background in professional kitchens. He brings composure under pressure, disciplined troubleshooting, and strong service mindset to enterprise support. For more details, check his resume or portfolio at rodneyachery.com.";
+
+        return Task.FromResult(reply);
     }
 
     // ReSharper disable once ClassNeverInstantiated.Local
