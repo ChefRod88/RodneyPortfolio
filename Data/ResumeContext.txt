@@ -65,7 +65,7 @@ AI/LLM: OpenAI API integration, prompt engineering, conversational interfaces, i
 PROJECTS
 --------
 - Portfolio website (rodneyachery.com): ASP.NET Core, Razor Pages, responsive design
-- Ask Rodney AI Chatbot: C# backend, OpenAI API, prompt engineering, REST API, input validation, content filtering, demo mode fallback. Built to answer questions about Rodney using resume context. Demonstrates AI safety practices (validation, filtering, guardrails).
+- Ask Rodney AI Chatbot: C# backend, OpenAI API, prompt engineering, REST API, input validation, content filtering. Built to answer questions about Rodney using resume context. Demonstrates AI safety practices (validation, filtering, guardrails).
 - GitHub: https://github.com/ChefRod88/RodneyPortfolio
 
 WHAT DIFFERENTIATES RODNEY

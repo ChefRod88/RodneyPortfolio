@@ -67,15 +67,7 @@ I replace `YOUR_NEW_KEY_HERE` with my actual key from OpenAI:
 dotnet user-secrets set "OpenAI:ApiKey" "YOUR_NEW_KEY_HERE"
 ```
 
-### Step 3: Turn Off Demo Mode
-
-I want the real API, not canned responses:
-
-```bash
-dotnet user-secrets set "OpenAI:UseDemoMode" "false"
-```
-
-### Step 4: Verify It Worked
+### Step 3: Verify It Worked
 
 ```bash
 dotnet user-secrets list
@@ -84,9 +76,8 @@ dotnet user-secrets list
 I expect to see:
 
 - `OpenAI:ApiKey` = (my key, partially hidden)
-- `OpenAI:UseDemoMode` = False
 
-### Step 5: Run the App
+### Step 4: Run the App
 
 ```bash
 dotnet run
@@ -140,7 +131,6 @@ I added `app-settings` to my Azure deploy step so the key gets passed in:
     package: .
     app-settings: |
       OpenAI__ApiKey=${{ secrets.OPENAI_API_KEY }}
-      OpenAI__UseDemoMode=false
 ```
 
 ### Steps I Follow to Add the Key for Production
@@ -162,13 +152,9 @@ I don't hardcode anything. My `OpenAIChatService` reads from configuration:
 
 ```csharp
 var apiKey = _config["OpenAI:ApiKey"];
-var useDemoMode = _config.GetValue<bool>("OpenAI:UseDemoMode");
-
-if (string.IsNullOrWhiteSpace(apiKey) || useDemoMode)
-{
-    return await GetDemoResponseAsync(userMessage, cancellationToken);
-}
-// Otherwise: call real OpenAI API with apiKey
+if (string.IsNullOrWhiteSpace(apiKey))
+    return "The chatbot is not configured.";
+// Call OpenAI API with apiKey
 ```
 
 | Source            | When It's Used |
@@ -184,7 +170,6 @@ if (string.IsNullOrWhiteSpace(apiKey) || useDemoMode)
 | Task                    | Command or Action |
 | ----------------------- | ----------------- |
 | Set key locally         | `dotnet user-secrets set "OpenAI:ApiKey" "sk-..."` |
-| Disable demo mode       | `dotnet user-secrets set "OpenAI:UseDemoMode" "false"` |
 | List secrets            | `dotnet user-secrets list` |
 | Add key for production  | GitHub → Settings → Secrets → `OPENAI_API_KEY` |
 | Deploy                  | Push to `main` |

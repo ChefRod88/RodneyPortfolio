@@ -4,7 +4,7 @@ namespace RodneyPortfolio.Services;
 
 /// <summary>
 /// AI chat service that uses OpenAI's Chat Completions API to answer questions about Rodney.
-/// Supports demo mode when no API key is configured.
+/// Requires an API key configured via User Secrets (local) or GitHub Secrets (production).
 /// </summary>
 public class OpenAIChatService : IAIChatService
 {
@@ -27,19 +27,15 @@ public class OpenAIChatService : IAIChatService
         _logger = logger;
     }
 
-    public async Task<(string Reply, string Source)> GetReplyAsync(string userMessage, CancellationToken cancellationToken = default)
+    public async Task<string> GetReplyAsync(string userMessage, CancellationToken cancellationToken = default)
     {
         var apiKey = _config["OpenAI:ApiKey"];
-        var useDemoMode = _config.GetValue<bool>("OpenAI:UseDemoMode");
-
-        // Demo mode: no API key or explicitly enabled - return canned responses
-        if (string.IsNullOrWhiteSpace(apiKey) || useDemoMode)
+        if (string.IsNullOrWhiteSpace(apiKey))
         {
-            var demoReply = await GetDemoResponseAsync(userMessage, cancellationToken);
-            return (demoReply, "demo");
+            _logger.LogWarning("OpenAI API key not configured");
+            return "The chatbot is not configured. Please contact the site owner.";
         }
 
-        // Call OpenAI API
         var resumeContext = await _resumeLoader.LoadAsync(cancellationToken);
         var systemPrompt = BuildSystemPrompt(resumeContext);
 
@@ -67,21 +63,21 @@ public class OpenAIChatService : IAIChatService
             if (!response.IsSuccessStatusCode)
             {
                 _logger.LogWarning("OpenAI API returned {StatusCode}", response.StatusCode);
-                return ("I'm having trouble connecting right now. Please try again later or check Rodney's resume directly.", "demo");
+                return "I'm having trouble connecting right now. Please try again later or check Rodney's resume directly.";
             }
 
             var json = await response.Content.ReadFromJsonAsync<OpenAIResponse>(cancellationToken);
             var reply = json?.Choices?.FirstOrDefault()?.Message?.Content?.Trim();
 
             if (string.IsNullOrEmpty(reply))
-                return ("I couldn't generate a response. Please try rephrasing your question.", "demo");
+                return "I couldn't generate a response. Please try rephrasing your question.";
 
-            return (reply, "api");
+            return reply;
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error calling OpenAI API");
-            return ("Something went wrong. Please try again or reach out to Rodney directly.", "demo");
+            return "Something went wrong. Please try again or reach out to Rodney directly.";
         }
     }
 
@@ -110,48 +106,6 @@ CRITICAL: Answer the SPECIFIC question asked. Different questions deserve differ
 
 Behave like generative AI with a loaded document: infer, calculate, extract, and tailor each response to the exact question. Vary your response style—short for simple questions, more depth when asked. Sound human and conversational, not robotic. Never give the same generic block of text for different questions. Speak in third person about Rodney. Stay grounded in the context; don't invent employers, dates, or credentials not mentioned.";
 
-    }
-
-    /// <summary>
-    /// Returns predefined responses when no API key is configured. Uses keyword matching
-    /// to provide relevant answers from the resume context.
-    /// </summary>
-    private async Task<string> GetDemoResponseAsync(string userMessage, CancellationToken cancellationToken = default)
-    {
-        var msg = userMessage.Trim().ToLowerInvariant();
-
-        if (msg.Contains("experience") || msg.Contains("work") || msg.Contains("job") || msg.Contains("canon"))
-        {
-            return "Rodney is a Technical Support Inkjet Tier 1 at Canon Information Technology Services. He troubleshoots proprietary software, hardware environments, and enterprise applications by systematically isolating variables and guiding issues through structured resolution. He brings a background from professional kitchens where he learned discipline and composure under pressure.";
-        }
-
-        if (msg.Contains("background") || msg.Contains("story") || msg.Contains("kitchen") || msg.Contains("chef"))
-        {
-            return "Rodney transitioned from professional kitchens to technology. In kitchens, he learned discipline, communication, and how to remain steady under pressure. Those lessons define his professional identity and inform his approach to enterprise technical support.";
-        }
-
-        if (msg.Contains("skill") || msg.Contains("technologies") || msg.Contains("tech"))
-        {
-            return "Rodney has a strong technical foundation: C#, ASP.NET Core, SQL Server, Entity Framework Core, and Razor Pages. He's also skilled in HTML, CSS, JavaScript, and TypeScript. His soft skills include technical communication, problem-solving under pressure, and customer empathy.";
-        }
-
-        if (msg.Contains("education") || msg.Contains("degree") || msg.Contains("school") || msg.Contains("wgu"))
-        {
-            return "Rodney is pursuing a B.S. in Software Engineering at Western Governors University (WGU), with expected graduation in December 2026.";
-        }
-
-        if (msg.Contains("approach") || msg.Contains("troubleshoot") || msg.Contains("method"))
-        {
-            return "Rodney's approach to troubleshooting is intentional and analytical. He assesses severity, understands user impact, gathers evidence, and determines whether issues are environmental, configuration-based, user-driven, or systemic. He maintains meticulous documentation and values transparency, especially during escalations.";
-        }
-
-        if (msg.Contains("contact") || msg.Contains("email") || msg.Contains("reach") || msg.Contains("hire"))
-        {
-            return "You can reach Rodney at chefrodneyachery@gmail.com or connect with him on LinkedIn at linkedin.com/in/rodneyachery. His portfolio and GitHub are also available on this site.";
-        }
-
-        // Default: suggest they ask something more specific
-        return "I can answer questions about Rodney's background, experience, skills, education, and approach to work. Try asking something like 'What's his experience?' or 'Tell me about his skills.' For his full resume, use the Download CV button above.";
     }
 
     // ReSharper disable once ClassNeverInstantiated.Local
