@@ -55,6 +55,8 @@ jobs:
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_A5FA883328F9464DAA0FC5EF4398B814 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4F8C4BACB3374554B7C6FBB11275A135 }}
 
+      # REQUIRED: Add OPENAI_API_KEY in GitHub repo Settings → Secrets and variables → Actions
+      # Without it, the chatbot shows "not configured" on the live site.
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3

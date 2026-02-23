@@ -4,6 +4,18 @@ I configured my portfolio chatbot to use the OpenAI API without ever storing my 
 
 ---
 
+## If the Live Site Says "Chatbot is not configured"
+
+**Local works, production doesn't?** The API key is missing in production. Add it:
+
+1. Go to [github.com/ChefRod88/RodneyPortfolio](https://github.com/ChefRod88/RodneyPortfolio) → **Settings** → **Secrets and variables** → **Actions**
+2. Click **New repository secret** (or edit if it exists)
+3. **Name:** `OPENAI_API_KEY` (exactly)
+4. **Value:** Your OpenAI API key (same one you use locally)
+5. Save, then push any commit to `main` or run the workflow manually to redeploy
+
+---
+
 ## Why I Care About This
 
 I never want my API key in a file that gets committed to Git. If someone gets my repo, they shouldn't get my key. I use **User Secrets** for local development and **GitHub Secrets + Azure App Settings** for production. The key flows from secure storage into my app at runtime—never from a config file in the repo.
