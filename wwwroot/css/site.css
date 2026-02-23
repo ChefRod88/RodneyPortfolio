@@ -887,15 +887,6 @@ body {
     max-width: 100%;
     padding: 0 1rem;
   }
-
-  .chat-suggestions {
-    flex-wrap: wrap;
-  }
-
-  .chat-suggestion-btn {
-    font-size: 0.8rem;
-    padding: 0.4rem 0.6rem;
-  }
 }
 
 /* ================================
@@ -976,29 +967,6 @@ body {
 .chat-message.loading {
   color: #6c757d;
   font-style: italic;
-}
-
-.chat-suggestions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.chat-suggestion-btn {
-  padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  background: #fff;
-  color: #495057;
-  cursor: pointer;
-  transition: background 0.2s, border-color 0.2s;
-}
-
-.chat-suggestion-btn:hover {
-  background: #e9ecef;
-  border-color: #adb5bd;
 }
 
 .chat-input-container {

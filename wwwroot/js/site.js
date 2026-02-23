@@ -173,13 +173,6 @@ function initChatBot() {
     }
   });
   inputEl.addEventListener("input", updateCharCount);
-
-  document.querySelectorAll(".chat-suggestion-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const q = btn.getAttribute("data-question");
-      if (q) sendMessage(q);
-    });
-  });
 }
 
 // PWA: Register the service worker for offline support
