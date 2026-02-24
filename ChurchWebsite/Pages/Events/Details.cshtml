@@ -18,6 +18,12 @@
 
         <div class="row">
             <div class="col-lg-8">
+                @if (!string.IsNullOrWhiteSpace(Model.Event.ImageUrl))
+                {
+                    <div class="mb-4 rounded overflow-hidden">
+                        <img src="@Model.Event.ImageUrl" alt="@Model.Event.Title" class="w-100" style="object-fit: cover; max-height: 20rem;" />
+                    </div>
+                }
                 <h1 class="display-6 fw-bold mb-3">@Model.Event.Title</h1>
 
                 <div class="mb-4">

@@ -46,9 +46,12 @@
     <header>
         @* Nav: bg-white on non-home pages; on home, site.js toggles navbar-transparent *@
         <nav class="navbar navbar-expand-lg navbar-light border-bottom box-shadow @((path != "/" && path != "") ? "bg-white" : "")" id="mainNav">
-            <div class="container">
-                @* Church name links to home *@
-                <a class="navbar-brand fw-bold archivo-black" asp-page="/Index">@church.Name</a>
+            <div class="container-fluid px-0">
+                @* Church name links to home; shown only on home page *@
+                @if (path == "/" || path == "")
+                {
+                    <a class="navbar-brand fw-bold archivo-black" asp-page="/Index">N.B.M.B.C.</a>
+                }
                 @* Mobile hamburger - collapses nav on small screens *@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -63,13 +66,12 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle @(IsActive("/About") ? "active" : "")" href="#" id="navAbout" data-bs-toggle="dropdown" aria-expanded="false">About</a>
                             <ul class="dropdown-menu" aria-labelledby="navAbout">
+                                <li><a class="dropdown-item" asp-page="/About">Who We Are?</a></li>
                                 @* Location: opens Google Maps with church address *@
                                 @if (!string.IsNullOrWhiteSpace(church.GoogleMapsUrl))
                                 {
                                     <li><a class="dropdown-item" href="@church.GoogleMapsUrl" target="_blank" rel="noopener noreferrer">Location</a></li>
                                 }
-                                <li><a class="dropdown-item" asp-page="/About" asp-fragment="team">Meet Our Team</a></li>
-                                <li><a class="dropdown-item" asp-page="/About" asp-fragment="beliefs">Our Beliefs</a></li>
                                 <li><hr class="dropdown-divider" /></li>
                                 <li><a class="dropdown-item" asp-page="/About">Contact Us</a></li>
                             </ul>

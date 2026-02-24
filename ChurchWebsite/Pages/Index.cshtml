@@ -92,7 +92,7 @@
                 {
                     <p class="mission-subtext">@church.MissionSubtext</p>
                 }
-                <a asp-page="/About" class="btn btn-church-secondary btn-lg mt-3">What We Believe</a>
+                <a asp-page="/About" asp-fragment="beliefs" class="btn btn-church-secondary btn-lg mt-3">What We Believe</a>
             </div>
         </div>
     </div>
@@ -104,7 +104,7 @@
         <h2 class="text-center mb-5">Get Connected</h2>
         <div class="row g-4">
             <div class="col-md-4">
-                <div class="ministry-card" style="background-image: url('/images/IMG_7732.jpg');">
+                <div class="ministry-card ministry-card--full-image" style="background-image: url('/images/IMG_7732.jpg');">
                     <div class="ministry-card-overlay"></div>
                     <div class="ministry-card-content">
                         <h5>Kids</h5>
@@ -115,7 +115,7 @@
             </div>
             
             <div class="col-md-4">
-                <div class="ministry-card" style="background-image: url('https://picsum.photos/seed/youth1/600/400');">
+                <div class="ministry-card ministry-card--full-image" style="background-image: url('/images/NBMBC_MEN.png');">
                     <div class="ministry-card-overlay"></div>
                     <div class="ministry-card-content">
                         <h5>Men's Ministry</h5>
@@ -125,7 +125,7 @@
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="ministry-card" style="background-image: url('https://picsum.photos/seed/youngadults1/600/400');">
+                <div class="ministry-card ministry-card--full-image" style="background-image: url('/images/CityWideMission.png');">
                     <div class="ministry-card-overlay"></div>
                     <div class="ministry-card-content">
                         <h5>City Wide Mission</h5>
@@ -143,7 +143,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-lg-4 mb-4 mb-lg-0">
-                <h2 class="mb-3">Watch & Listen</h2>
+                <h2 class="mb-3">Watch & Listen To our Latest Sermons</h2>
                 <p class="text-white-50">Catch up on our latest teachings. Stream live or browse our sermon library.</p>
                 <a asp-page="/Sermons/Index" class="btn btn-church-secondary">View All Sermons</a>
             </div>
