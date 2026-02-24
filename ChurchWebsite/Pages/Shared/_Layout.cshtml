@@ -13,13 +13,14 @@
     var path = HttpContextAccessor.HttpContext?.Request.Path.Value ?? "";
     /* IsActive: returns true if current path matches nav item (e.g. /About matches About dropdown) */
     bool IsActive(string page) => (page == "/" && (path == "/" || path == "")) || (page != "/" && path.StartsWith(page, StringComparison.OrdinalIgnoreCase));
+    bool ShowMultilineBrand() => !IsActive("/About");
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - @church.Name</title>
+    <title>@ViewData["Title"] - @church.NameText</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Poppins:wght@400;500;600;700&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&display=swap" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,16 +31,6 @@
 </head>
 @* home-page class: enables transparent nav + hero styling; only on Index *@
 <body class="@((path == "/" || path == "") ? "home-page" : "")">
-    @* SPLASH - Welcome screen on first visit per session; hidden via JS after 2.5s *@
-    <div id="splashScreen" class="splash-screen" data-church-name="@church.Name" aria-hidden="true">
-        <div class="splash-content">
-            <p class="splash-text">Welcome to @church.Name</p>
-            <div class="splash-loader" aria-label="Loading"></div>
-        </div>
-    </div>
-    <script>
-      (function(){if(sessionStorage.getItem('splashSeen')){var s=document.getElementById('splashScreen');if(s)s.classList.add('splash-removed');}})();
-    </script>
     @* SKIP LINK - USE CASE: Accessibility; keyboard users jump to main content *@
     <a href="#main-content" class="visually-hidden-focusable btn btn-primary btn-sm position-fixed top-0 start-0 m-2" style="z-index: 9999;">Skip to main content</a>
     @* HEADER / NAV - USE CASE: Change nav links, dropdowns; LOCATION: Top of every page *@
@@ -47,10 +38,22 @@
         @* Nav: bg-white on non-home pages; on home, site.js toggles navbar-transparent *@
         <nav class="navbar navbar-expand-lg navbar-light border-bottom box-shadow @((path != "/" && path != "") ? "bg-white" : "")" id="mainNav">
             <div class="container-fluid px-0">
-                @* Church name links to home; shown only on home page *@
-                @if (path == "/" || path == "")
+                @* Church name links to home; hidden only on About/Who We Are *@
+                @if (ShowMultilineBrand())
                 {
-                    <a class="navbar-brand fw-bold archivo-black" asp-page="/Index">N.B.M.B.C.</a>
+                    <a class="navbar-brand fw-bold archivo-black navbar-brand-multiline" asp-page="/Index" aria-label="@church.NameText">
+                        @if (church.Name.Count > 0)
+                        {
+                            @for (var i = 0; i < church.Name.Count; i++)
+                            {
+                                <span>@church.Name[i]</span>
+                            }
+                        }
+                        else
+                        {
+                            <span>N.B.M.B.C.</span>
+                        }
+                    </a>
                 }
                 @* Mobile hamburger - collapses nav on small screens *@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
@@ -108,7 +111,12 @@
         @RenderBody()
     </main>
 
-    
+    <footer class="global-footer" role="contentinfo">
+        <div class="global-footer-inner">
+            Copyright © 2025 New Bethel Missionary Baptist Church of Winter Haven. All Rights Reserved.
+        </div>
+    </footer>
+
 
     @* SCRIPTS - jQuery, Bootstrap, site.js; pages can add more via @section Scripts *@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

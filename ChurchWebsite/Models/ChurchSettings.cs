@@ -5,7 +5,7 @@ public class ChurchSettings
 {
     public const string SectionName = "Church";  // Config key in appsettings.json
 
-    public string Name { get; set; } = string.Empty;           // Church name - nav, footer, page titles
+    public List<string> Name { get; set; } = [];               // Church name lines (supports multiline display)
     public string Tagline { get; set; } = string.Empty;         // Short tagline; fallback for hero headline
     public string HeroImageUrl { get; set; } = string.Empty;     // Path to hero bg image (e.g. /images/hero.jpg)
     public string HeroHeadline { get; set; } = string.Empty;    // Main headline on home hero
@@ -18,6 +18,9 @@ public class ChurchSettings
     public string LiveStreamUrl { get; set; } = string.Empty;  // YouTube embed URL for Live page
     public string LiveStreamPlaceholderImageUrl { get; set; } = string.Empty;  // Thumbnail when stream unavailable; fallback to HeroImageUrl
     public SocialMediaSettings SocialMedia { get; set; } = new();  // Facebook, YouTube, Instagram
+
+    /// <summary>Single-line name for page titles, attributes, and alt text.</summary>
+    public string NameText => string.Join(" ", Name.Where(s => !string.IsNullOrWhiteSpace(s)));
 
     /// <summary>Formatted address: "Street, City, State Zip"</summary>
     public string FullAddress => string.Join(", ",
