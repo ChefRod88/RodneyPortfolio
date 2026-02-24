@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // SMOOTH SCROLL: Find all links that start with # (e.g. #three-cards-section)
+  // SMOOTH SCROLL: Same-page anchor links (e.g. #three-cards-section)
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
       const targetId = this.getAttribute('href');
@@ -45,6 +45,17 @@ document.addEventListener('DOMContentLoaded', function () {
       }
     });
   });
+
+  // SMOOTH SCROLL: When landing on a page with hash (e.g. /About#beliefs) - scroll smoothly to section
+  const hash = window.location.hash;
+  if (hash) {
+    const target = document.querySelector(hash);
+    if (target) {
+      requestAnimationFrame(function () {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    }
+  }
 
   // TRANSPARENT NAV: On home page only - nav is transparent when hero visible, solid when scrolled past
   const nav = document.getElementById('mainNav');

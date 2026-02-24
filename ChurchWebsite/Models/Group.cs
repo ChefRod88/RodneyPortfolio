@@ -10,4 +10,5 @@ public class Group
     public string? MeetingSchedule { get; set; }  // e.g. "Tuesday 6:30 PM"
     public string? Location { get; set; }
     public string? ContactEmail { get; set; }
+    public string? ImageUrl { get; set; }        // Optional image for group detail card
 }

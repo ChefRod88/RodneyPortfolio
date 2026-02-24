@@ -629,6 +629,12 @@ body > footer.footer {
   align-items: flex-end;
 }
 
+.ministry-card--full-image {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: #f8f9fa; /* fills letterbox/pillarbox areas if aspect ratio differs */
+}
+
 .ministry-card-overlay {
   position: absolute;
   inset: 0;
@@ -735,6 +741,13 @@ body > footer.footer {
 /* Links in cards: min 44px for touch targets */
 .card a {
   min-height: 44px;
+}
+
+/* Groups page: compact buttons - fit text, professional look */
+.groups-page .card .btn.btn-sm {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  white-space: nowrap;
 }
 
 /* ============================================

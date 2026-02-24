@@ -29,21 +29,44 @@
                 </div>
 
                 <div class="mb-4">
-                    <h5 class="fw-semibold mb-2">Details</h5>
-                    <ul class="list-unstyled text-muted">
-                        @if (!string.IsNullOrWhiteSpace(Model.Group.MeetingSchedule))
-                        {
-                            <li class="mb-2">📅 <strong>When:</strong> @Model.Group.MeetingSchedule</li>
-                        }
-                        @if (!string.IsNullOrWhiteSpace(Model.Group.Location))
-                        {
-                            <li class="mb-2">📍 <strong>Where:</strong> @Model.Group.Location</li>
-                        }
-                        @if (!string.IsNullOrWhiteSpace(Model.Group.ContactEmail))
-                        {
-                            <li><strong>Contact:</strong> <a href="mailto:@Model.Group.ContactEmail" class="text-decoration-none">@Model.Group.ContactEmail</a></li>
-                        }
-                    </ul>
+                    @if (!string.IsNullOrWhiteSpace(Model.Group.ImageUrl))
+                    {
+                        <div class="card border-0 shadow-sm overflow-hidden mb-3">
+                            <img src="@Model.Group.ImageUrl" alt="@Model.Group.Name" class="card-img-top" style="object-fit: contain; background-color: #f8f9fa;" />
+                            <div class="card-body">
+                                @if (!string.IsNullOrWhiteSpace(Model.Group.MeetingSchedule))
+                                {
+                                    <p class="mb-0 text-muted">📅 <strong>When:</strong> @Model.Group.MeetingSchedule</p>
+                                }
+                                @if (!string.IsNullOrWhiteSpace(Model.Group.Location))
+                                {
+                                    <p class="mb-0 text-muted mt-2">📍 <strong>Where:</strong> @Model.Group.Location</p>
+                                }
+                                @if (!string.IsNullOrWhiteSpace(Model.Group.ContactEmail))
+                                {
+                                    <p class="mb-0 text-muted mt-2"><strong>Contact:</strong> <a href="mailto:@Model.Group.ContactEmail" class="text-decoration-none">@Model.Group.ContactEmail</a></p>
+                                }
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <h5 class="fw-semibold mb-2">Details</h5>
+                        <ul class="list-unstyled text-muted">
+                            @if (!string.IsNullOrWhiteSpace(Model.Group.MeetingSchedule))
+                            {
+                                <li class="mb-2">📅 <strong>When:</strong> @Model.Group.MeetingSchedule</li>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(Model.Group.Location))
+                            {
+                                <li class="mb-2">📍 <strong>Where:</strong> @Model.Group.Location</li>
+                            }
+                            @if (!string.IsNullOrWhiteSpace(Model.Group.ContactEmail))
+                            {
+                                <li><strong>Contact:</strong> <a href="mailto:@Model.Group.ContactEmail" class="text-decoration-none">@Model.Group.ContactEmail</a></li>
+                            }
+                        </ul>
+                    }
                 </div>
 
                 <!-- Join / Express Interest Placeholder -->
