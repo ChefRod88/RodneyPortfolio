@@ -1,0 +1,59 @@
+@page
+@model ChurchWebsite.Pages.LocationModel
+@{
+    ViewData["Title"] = "Location";
+}
+
+<section class="location-page">
+    <div class="location-map-shell">
+        <div id="location-map" class="location-map" aria-label="Route map to church"></div>
+        <aside class="location-directions-panel" id="location-directions-panel" aria-live="polite">
+            <h2 class="location-directions-title">Route to Church</h2>
+            <p class="location-directions-meta" id="location-directions-meta">Finding your best route...</p>
+            <ol class="location-directions-steps" id="location-directions-steps"></ol>
+        </aside>
+    </div>
+    <div class="container location-page-container">
+        <div class="location-status-card"
+             id="location-status-card"
+             data-location-source="@Model.CurrentLocation.Source"
+             data-location-success="@Model.CurrentLocation.IsSuccess.ToString().ToLowerInvariant()"
+             data-location-lat="@Model.CurrentLocation.Latitude"
+             data-location-lon="@Model.CurrentLocation.Longitude"
+             data-routing-provider="@Model.RoutingProvider"
+             data-graphhopper-key="@Model.GraphHopperApiKey"
+             data-destination-name="@Model.Destination.Name"
+             data-destination-address="@Model.Destination.AddressLabel"
+             data-destination-lat="@Model.Destination.Latitude"
+             data-destination-lon="@Model.Destination.Longitude">
+            <div class="location-status-header">
+                <span class="location-status-dot @(Model.CurrentLocation.IsSuccess ? "dot-online" : "dot-offline")"
+                      id="location-status-dot"
+                      aria-hidden="true"></span>
+                <span class="location-status-title">Current location</span>
+            </div>
+            <p class="location-status-text mb-2" id="location-status-text">
+                @Model.CurrentLocation.DisplayText
+            </p>
+            <p class="location-status-meta mb-0" id="location-status-meta">
+                Source: @(Model.CurrentLocation.IsSuccess ? "server detection" : "fallback required")
+            </p>
+            <button type="button" class="location-refresh-btn" id="location-refresh-btn">
+                Use device GPS
+            </button>
+        </div>
+    </div>
+</section>
+
+@section Head {
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin="" />
+}
+
+@section Scripts {
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+    <script src="~/js/location-route.js" asp-append-version="true"></script>
+}

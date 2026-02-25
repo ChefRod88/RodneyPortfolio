@@ -183,6 +183,28 @@ body.home-page .navbar.navbar-transparent .navbar-toggler-icon {
   text-decoration: underline;
   text-underline-offset: 4px;
 }
+
+/* Dropdown items: keep nav color, not global link blue */
+.dropdown-item {
+  color: #000 !important;
+}
+
+.dropdown-item:hover,
+.dropdown-item:focus {
+  color: #000 !important;
+}
+
+.dropdown-item.active,
+.dropdown-item:active {
+  color: #000 !important;
+  background: rgba(0, 0, 0, 0.08) !important;
+}
+
+.location-current-item {
+  cursor: default;
+  pointer-events: none;
+}
+
 body.home-page .navbar.navbar-transparent .nav-link.dropdown-toggle:hover {
   color: #000 !important;
   text-decoration: underline;
@@ -989,4 +1011,195 @@ body > footer.footer {
 
 .about-page .bg-light .text-muted {
   color: rgba(255, 255, 255, 0.7) !important;
+}
+
+/* ============================================
+   LOCATION PAGE - Smart location detector
+   USE CASE: Show current location + online/offline status dot
+   LOCATION: Location.cshtml
+   ============================================ */
+.location-page {
+  min-height: calc(100vh - 0.75in);
+  position: relative;
+  padding: 0;
+}
+
+.location-map-shell {
+  position: relative;
+  width: 100%;
+  min-height: calc(100vh - 0.75in);
+}
+
+.location-map {
+  width: 100%;
+  min-height: calc(100vh - 0.75in);
+  z-index: 1;
+}
+
+.location-directions-panel {
+  position: fixed;
+  right: 0.75rem;
+  bottom: calc(0.75in + 0.65rem);
+  width: min(420px, 92vw);
+  max-height: 45vh;
+  overflow: auto;
+  z-index: 1030;
+  border: 1px solid rgba(17, 24, 39, 0.12);
+  border-radius: 0.65rem;
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(4px);
+  box-shadow: 0 8px 20px rgba(17, 24, 39, 0.08);
+  padding: 0.75rem 0.85rem;
+}
+
+.location-directions-title {
+  margin: 0 0 0.25rem 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.location-directions-meta {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.78rem;
+  color: #374151;
+}
+
+.location-directions-steps {
+  margin: 0;
+  padding-left: 1.15rem;
+  color: #111827;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.location-directions-steps li {
+  margin-bottom: 0.42rem;
+}
+
+.location-status-card {
+  position: fixed;
+  left: 0;
+  bottom: 0.75in; /* Sits directly above 0.75in footer */
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0.2rem 0.55rem;
+  width: min(560px, 92vw);
+  height: 0.5in;
+  min-height: 0.5in;
+  max-height: 0.5in;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  z-index: 1030;
+}
+
+.location-status-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}
+
+.location-status-dot {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-online {
+  background: #16a34a;
+  box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.65);
+  animation: location-dot-pulse 1.8s infinite;
+}
+
+.dot-offline {
+  background: #dc2626;
+  box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.55);
+  animation: location-dot-pulse 1.8s infinite;
+}
+
+.location-status-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.location-status-text {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #111827;
+  margin: 0 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1 1 auto;
+}
+
+.location-status-meta {
+  display: none;
+}
+
+.location-refresh-btn {
+  margin-left: 0.5rem;
+  padding: 0.16rem 0.45rem;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 0.35rem;
+  background: #fff;
+  color: #111827;
+  font-size: 0.7rem;
+  line-height: 1.1;
+  white-space: nowrap;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.location-refresh-btn:disabled {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+.route-line-animated {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.leaflet-marker-icon.route-travel-dot {
+  filter: drop-shadow(0 0 4px rgba(37, 99, 235, 0.5));
+}
+
+@keyframes location-dot-pulse {
+  0% {
+    transform: scale(1);
+  }
+  70% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot-online,
+  .dot-offline {
+    animation: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .location-directions-panel {
+    right: 0.5rem;
+    width: min(96vw, 380px);
+    max-height: 38vh;
+  }
+
+  .location-status-card {
+    width: min(98vw, 620px);
+  }
 }

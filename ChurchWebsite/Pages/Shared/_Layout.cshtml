@@ -28,6 +28,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Playwrite+NZ+Basic+Guides&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ChurchWebsite.styles.css" asp-append-version="true" />
+    @await RenderSectionAsync("Head", required: false)
 </head>
 @* home-page class: enables transparent nav + hero styling; only on Index *@
 <body class="@((path == "/" || path == "") ? "home-page" : "")">
@@ -65,15 +66,18 @@
                         <li class="nav-item">
                             <a class="nav-link @(IsActive("/") && path == "/" ? "active" : "")" asp-page="/Index">Home</a>
                         </li>
-                        @* NAV: About dropdown - Location, Meet Our Team, Our Beliefs, Contact *@
+                        @* NAV: About dropdown - Who We Are, Location, Contact *@
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle @(IsActive("/About") ? "active" : "")" href="#" id="navAbout" data-bs-toggle="dropdown" aria-expanded="false">About</a>
+                            <a class="nav-link dropdown-toggle @(IsActive("/About") || IsActive("/Location") ? "active" : "")" href="#" id="navAbout" data-bs-toggle="dropdown" aria-expanded="false">About</a>
                             <ul class="dropdown-menu" aria-labelledby="navAbout">
                                 <li><a class="dropdown-item" asp-page="/About">Who We Are?</a></li>
-                                @* Location: opens Google Maps with church address *@
-                                @if (!string.IsNullOrWhiteSpace(church.GoogleMapsUrl))
+                                @if (IsActive("/Location"))
                                 {
-                                    <li><a class="dropdown-item" href="@church.GoogleMapsUrl" target="_blank" rel="noopener noreferrer">Location</a></li>
+                                    <li><span class="dropdown-item location-current-item" aria-current="page">Location</span></li>
+                                }
+                                else
+                                {
+                                    <li><a class="dropdown-item" asp-page="/Location">Location</a></li>
                                 }
                                 <li><hr class="dropdown-divider" /></li>
                                 <li><a class="dropdown-item" asp-page="/About">Contact Us</a></li>

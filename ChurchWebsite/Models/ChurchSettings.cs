@@ -18,6 +18,7 @@ public class ChurchSettings
     public string LiveStreamUrl { get; set; } = string.Empty;  // YouTube embed URL for Live page
     public string LiveStreamPlaceholderImageUrl { get; set; } = string.Empty;  // Thumbnail when stream unavailable; fallback to HeroImageUrl
     public SocialMediaSettings SocialMedia { get; set; } = new();  // Facebook, YouTube, Instagram
+    public RoutingSettings Routing { get; set; } = new();          // Route-to-church feature config
 
     /// <summary>Single-line name for page titles, attributes, and alt text.</summary>
     public string NameText => string.Join(" ", Name.Where(s => !string.IsNullOrWhiteSpace(s)));
@@ -48,4 +49,21 @@ public class SocialMediaSettings
     public string Facebook { get; set; } = string.Empty;
     public string YouTube { get; set; } = string.Empty;
     public string Instagram { get; set; } = string.Empty;
+}
+
+/// <summary>Routing config for map and route guidance.</summary>
+public class RoutingSettings
+{
+    public string Provider { get; set; } = "GraphHopper";
+    public string GraphHopperApiKey { get; set; } = string.Empty;
+    public ChurchDestinationSettings ChurchDestination { get; set; } = new();
+}
+
+/// <summary>Church destination coordinates for route generation.</summary>
+public class ChurchDestinationSettings
+{
+    public string Name { get; set; } = "New Bethel Missionary Baptist Church";
+    public string AddressLabel { get; set; } = string.Empty;
+    public double Latitude { get; set; }
+    public double Longitude { get; set; }
 }
