@@ -2,6 +2,8 @@
 @model ChurchWebsite.Pages.LocationModel
 @{
     ViewData["Title"] = "Location";
+    var googleMapsUrl = "https://www.google.com/maps/dir//New+Bethel+Missionary,+123+Ave+Y+NE,+Winter+Haven,+FL+33881/@28.0548681,-81.740948,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x88dd12d2d635ff97:0x26f95ed4bae3757e!2m2!1d-81.7260765!2d28.0497068?entry=ttu&g_ep=EgoyMDI2MDIyMi4wIKXMDSoASAFQAw%3D%3D";
+    var appleMapsUrl = "https://maps.apple.com/?daddr=28.0497068,-81.7260765&q=New%20Bethel%20Missionary%20Baptist%20Church&dirflg=d";
 }
 
 <section class="location-page">
@@ -11,6 +13,14 @@
             <h2 class="location-directions-title">Route to Church</h2>
             <p class="location-directions-meta" id="location-directions-meta">Finding your best route...</p>
             <ol class="location-directions-steps" id="location-directions-steps"></ol>
+            <div class="location-map-links" aria-label="Open route in map app">
+                <a href="@googleMapsUrl" class="btn btn-primary btn-sm location-map-link-btn" target="_blank" rel="noopener noreferrer">
+                    Open in Google Maps
+                </a>
+                <a href="@appleMapsUrl" class="btn btn-outline-primary btn-sm location-map-link-btn" target="_blank" rel="noopener noreferrer">
+                    Open in Apple Maps
+                </a>
+            </div>
         </aside>
     </div>
     <div class="container location-page-container">

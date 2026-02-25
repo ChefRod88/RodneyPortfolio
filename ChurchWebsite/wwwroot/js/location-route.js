@@ -9,6 +9,7 @@
 
   const panelMeta = document.getElementById('location-directions-meta');
   const panelSteps = document.getElementById('location-directions-steps');
+  const directionsPanel = document.getElementById('location-directions-panel');
 
   const parseOptionalNumber = (value) => {
     if (typeof value !== 'string' || value.trim() === '') return null;
@@ -17,10 +18,10 @@
   };
 
   const destination = {
-    name: card.dataset.destinationName || 'Church',
-    address: card.dataset.destinationAddress || '',
-    lat: parseOptionalNumber(card.dataset.destinationLat),
-    lon: parseOptionalNumber(card.dataset.destinationLon)
+    name: 'New Bethel Missionary Baptist Church',
+    address: '123 Ave Y NE, Winter Haven, FL 33881',
+    lat: 28.0497068,
+    lon: -81.7260765
   };
 
   const graphHopperKey = card.dataset.graphhopperKey || '';
@@ -52,7 +53,9 @@
   let travelMarker = null;
   let inflight = false;
   let queued = false;
+  let queuedCoords = null;
   let lastRequestedAt = 0;
+  let activeRenderSeq = 0;
 
   function updateMeta(message) {
     if (panelMeta) panelMeta.textContent = message;
@@ -127,8 +130,8 @@
 
   function formatMeters(meters) {
     if (!Number.isFinite(meters)) return '';
-    if (meters >= 1000) return `${(meters / 1000).toFixed(1)} km`;
-    return `${Math.round(meters)} m`;
+    const feet = meters * 3.28084;
+    return `${Math.round(feet).toLocaleString()} ft`;
   }
 
   function formatSeconds(seconds) {
@@ -152,9 +155,49 @@
     path.style.strokeDasharray = String(totalLength);
     path.style.strokeDashoffset = String(totalLength);
     path.style.transition = 'stroke-dashoffset 1800ms ease-out';
+    const cleanupStrokeAnimation = () => {
+      path.style.strokeDasharray = '';
+      path.style.strokeDashoffset = '';
+      path.style.transition = '';
+      path.removeEventListener('transitionend', cleanupStrokeAnimation);
+    };
+    path.addEventListener('transitionend', cleanupStrokeAnimation);
     requestAnimationFrame(() => {
       path.style.strokeDashoffset = '0';
     });
+    // Fallback cleanup in case transitionend does not fire.
+    setTimeout(cleanupStrokeAnimation, 2200);
+  }
+
+  function getFitBoundsPadding() {
+    const mobile = window.matchMedia('(max-width: 768px)').matches;
+    const basePad = 30;
+    if (!directionsPanel) {
+      return {
+        paddingTopLeft: [basePad, basePad],
+        paddingBottomRight: [basePad, basePad]
+      };
+    }
+
+    const panelRect = directionsPanel.getBoundingClientRect();
+    if (panelRect.width <= 0 || panelRect.height <= 0) {
+      return {
+        paddingTopLeft: [basePad, basePad],
+        paddingBottomRight: [basePad, basePad]
+      };
+    }
+
+    if (mobile) {
+      return {
+        paddingTopLeft: [basePad, basePad],
+        paddingBottomRight: [basePad, Math.ceil(panelRect.height + 24)]
+      };
+    }
+
+    return {
+      paddingTopLeft: [basePad, basePad],
+      paddingBottomRight: [Math.ceil(panelRect.width + 24), Math.ceil((panelRect.height * 0.55) + 24)]
+    };
   }
 
   function animateTravelMarker(coords) {
@@ -168,10 +211,10 @@
     }
 
     const icon = L.divIcon({
-      className: 'route-travel-dot',
-      html: '<div style="width:12px;height:12px;border-radius:50%;background:#2563eb;border:2px solid #fff;"></div>',
-      iconSize: [12, 12],
-      iconAnchor: [6, 6]
+      className: 'route-travel-car-icon',
+      html: '<div class="route-travel-car" aria-hidden="true">🚗</div>',
+      iconSize: [22, 22],
+      iconAnchor: [11, 11]
     });
 
     travelMarker = L.marker(coords[0], { icon }).addTo(map);
@@ -236,15 +279,20 @@
     const now = Date.now();
     if (inflight || (now - lastRequestedAt < 900)) {
       queued = true;
+      queuedCoords = { lat: originLat, lon: originLon };
       return;
     }
 
     inflight = true;
     lastRequestedAt = now;
+    activeRenderSeq += 1;
+    const renderSeq = activeRenderSeq;
     try {
       updateMeta('Calculating fastest route...');
       const path = await fetchRoute(originLat, originLon);
+      if (!path || renderSeq !== activeRenderSeq) return;
       const coords = decodePolyline(path.points, false);
+      if (!coords.length || renderSeq !== activeRenderSeq) return;
 
       if (routeLayer) map.removeLayer(routeLayer);
       routeLayer = L.polyline(coords, {
@@ -253,14 +301,20 @@
         opacity: 0.9
       }).addTo(map);
 
-      animateRoutePath();
-      animateTravelMarker(coords);
+      let animationStarted = false;
+      const runAnimations = () => {
+        if (animationStarted || renderSeq !== activeRenderSeq) return;
+        animationStarted = true;
+        animateRoutePath();
+        animateTravelMarker(coords);
+      };
 
       const bounds = L.latLngBounds(coords);
-      map.fitBounds(bounds, {
-        paddingTopLeft: [30, 30],
-        paddingBottomRight: [420, 220]
-      });
+      map.once('moveend', runAnimations);
+      const fitPadding = getFitBoundsPadding();
+      map.fitBounds(bounds, fitPadding);
+      // Fallback if map movement is minimal and moveend does not fire.
+      setTimeout(runAnimations, 250);
 
       const eta = formatSeconds(path.time / 1000);
       const distance = formatMeters(path.distance);
@@ -275,8 +329,14 @@
       inflight = false;
       if (queued) {
         queued = false;
+        const next = queuedCoords ? { ...queuedCoords } : null;
+        queuedCoords = null;
         setTimeout(() => {
-          renderRoute(originLat, originLon);
+          if (next) {
+            renderRoute(next.lat, next.lon);
+          } else {
+            renderRoute(originLat, originLon);
+          }
         }, 200);
       }
     }
@@ -310,6 +370,9 @@
     const lat = typeof detail.latitude === 'number' && Number.isFinite(detail.latitude) ? detail.latitude : null;
     const lon = typeof detail.longitude === 'number' && Number.isFinite(detail.longitude) ? detail.longitude : null;
     if (lat === null || lon === null) return;
+    if (latestCoords && Math.abs(latestCoords.lat - lat) < 0.00001 && Math.abs(latestCoords.lon - lon) < 0.00001 && routeLayer) {
+      return;
+    }
     latestCoords = { lat, lon };
     renderRoute(lat, lon);
   });
