@@ -12,6 +12,7 @@ builder.Services.Configure<ChurchSettings>(builder.Configuration.GetSection(Chur
 builder.Services.AddScoped<SermonService>();                         // In-memory sermons; inject in Index, Sermons pages
 builder.Services.AddScoped<EventService>();                          // In-memory events; inject in Events pages
 builder.Services.AddScoped<GroupService>();                         // In-memory groups; inject in Groups pages
+builder.Services.AddHttpClient<LocationService>();                   // Server-side IP lookup for Location page
 
 var app = builder.Build();
 
