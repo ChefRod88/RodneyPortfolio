@@ -12,18 +12,18 @@ public class JobMatchService : IJobMatchService
 {
     private readonly IResumeContextLoader _resumeLoader;
     private readonly IConfiguration _config;
-    private readonly IHttpClientFactory _httpClientFactory;
+    private readonly IOpenAIClient _openAiClient;
     private readonly ILogger<JobMatchService> _logger;
 
     public JobMatchService(
         IResumeContextLoader resumeLoader,
         IConfiguration config,
-        IHttpClientFactory httpClientFactory,
+        IOpenAIClient openAiClient,
         ILogger<JobMatchService> logger)
     {
         _resumeLoader = resumeLoader;
         _config = config;
-        _httpClientFactory = httpClientFactory;
+        _openAiClient = openAiClient;
         _logger = logger;
     }
 
@@ -74,13 +74,7 @@ Return ONLY valid JSON, no other text.";
 
         try
         {
-            var client = _httpClientFactory.CreateClient();
-            client.DefaultRequestHeaders.Add("Authorization", $"Bearer {apiKey}");
-
-            var response = await client.PostAsJsonAsync(
-                "https://api.openai.com/v1/chat/completions",
-                requestBody,
-                cancellationToken);
+            var response = await _openAiClient.PostChatCompletionsAsync(requestBody, cancellationToken);
 
             if (!response.IsSuccessStatusCode)
             {

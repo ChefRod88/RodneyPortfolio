@@ -4,38 +4,40 @@ namespace RodneyPortfolio.Tests;
 
 public class InputValidatorTests
 {
+    private readonly IInputValidator _validator = new InputValidator();
+
     [Fact]
     public void IsValid_ReturnsFalse_WhenMessageIsNull()
     {
-        Assert.False(InputValidator.IsValid(null));
+        Assert.False(_validator.IsValid(null));
     }
 
     [Fact]
     public void IsValid_ReturnsFalse_WhenMessageIsEmpty()
     {
-        Assert.False(InputValidator.IsValid(""));
-        Assert.False(InputValidator.IsValid("   "));
+        Assert.False(_validator.IsValid(""));
+        Assert.False(_validator.IsValid("   "));
     }
 
     [Fact]
     public void IsValid_ReturnsTrue_WhenMessageIsValid()
     {
-        Assert.True(InputValidator.IsValid("What's Rodney's experience?"));
-        Assert.True(InputValidator.IsValid("Tell me about his skills"));
+        Assert.True(_validator.IsValid("What's Rodney's experience?"));
+        Assert.True(_validator.IsValid("Tell me about his skills"));
     }
 
     [Fact]
     public void IsValid_ReturnsFalse_WhenMessageExceedsMaxLength()
     {
         var longMessage = new string('a', 501);
-        Assert.False(InputValidator.IsValid(longMessage));
+        Assert.False(_validator.IsValid(longMessage));
     }
 
     [Fact]
     public void IsValid_ReturnsTrue_WhenMessageIsExactlyMaxLength()
     {
         var maxMessage = new string('a', 500);
-        Assert.True(InputValidator.IsValid(maxMessage));
+        Assert.True(_validator.IsValid(maxMessage));
     }
 
     [Theory]
@@ -48,13 +50,13 @@ public class InputValidatorTests
     [InlineData("### new instructions")]
     public void IsValid_ReturnsFalse_WhenMessageContainsBlockedPatterns(string message)
     {
-        Assert.False(InputValidator.IsValid(message));
+        Assert.False(_validator.IsValid(message));
     }
 
     [Fact]
     public void GetValidationError_ReturnsError_WhenMessageIsNull()
     {
-        var error = InputValidator.GetValidationError(null);
+        var error = _validator.GetValidationError(null);
         Assert.NotNull(error);
         Assert.Contains("Please enter", error);
     }
@@ -63,7 +65,7 @@ public class InputValidatorTests
     public void GetValidationError_ReturnsError_WhenMessageTooLong()
     {
         var longMessage = new string('a', 501);
-        var error = InputValidator.GetValidationError(longMessage);
+        var error = _validator.GetValidationError(longMessage);
         Assert.NotNull(error);
         Assert.Contains("500", error);
     }
@@ -71,7 +73,7 @@ public class InputValidatorTests
     [Fact]
     public void GetValidationError_ReturnsNull_WhenValid()
     {
-        var error = InputValidator.GetValidationError("What's his background?");
+        var error = _validator.GetValidationError("What's his background?");
         Assert.Null(error);
     }
 }

@@ -15,6 +15,9 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IResumeContextLoader, ResumeContextLoader>();
 builder.Services.AddScoped<IAIChatService, OpenAIChatService>();
 builder.Services.AddScoped<IJobMatchService, JobMatchService>();
+builder.Services.AddScoped<IOpenAIClient, OpenAIClient>();
+builder.Services.AddScoped<IInputValidator, InputValidator>();
+builder.Services.AddScoped<IContentFilter, ContentFilter>();
 
 var app = builder.Build();
 

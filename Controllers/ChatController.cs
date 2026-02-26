@@ -17,12 +17,21 @@ public class ChatController : ControllerBase
 
     private readonly IAIChatService _aiService;
     private readonly IJobMatchService _jobMatchService;
+    private readonly IInputValidator _inputValidator;
+    private readonly IContentFilter _contentFilter;
     private readonly ILogger<ChatController> _logger;
 
-    public ChatController(IAIChatService aiService, IJobMatchService jobMatchService, ILogger<ChatController> logger)
+    public ChatController(
+        IAIChatService aiService,
+        IJobMatchService jobMatchService,
+        IInputValidator inputValidator,
+        IContentFilter contentFilter,
+        ILogger<ChatController> logger)
     {
         _aiService = aiService;
         _jobMatchService = jobMatchService;
+        _inputValidator = inputValidator;
+        _contentFilter = contentFilter;
         _logger = logger;
     }
 
@@ -39,7 +48,7 @@ public class ChatController : ControllerBase
         }
 
         // Input validation - AI safety guardrail
-        var validationError = InputValidator.GetValidationError(request.Message);
+        var validationError = _inputValidator.GetValidationError(request.Message);
         if (validationError != null)
         {
             _logger.LogDebug("Chat input validation failed: {Error}", validationError);
@@ -47,7 +56,7 @@ public class ChatController : ControllerBase
         }
 
         // Content filter - block inappropriate content
-        if (ContentFilter.IsBlocked(request.Message))
+        if (_contentFilter.IsBlocked(request.Message))
         {
             _logger.LogDebug("Chat message blocked by content filter");
             return BadRequest(new { error = "Your message could not be processed." });

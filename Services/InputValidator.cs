@@ -2,11 +2,17 @@ using System.Text.RegularExpressions;
 
 namespace RodneyPortfolio.Services;
 
+public interface IInputValidator
+{
+    bool IsValid(string? message);
+    string? GetValidationError(string? message);
+}
+
 /// <summary>
 /// Validates user input before sending to the AI. Implements AI safety guardrails:
 /// max length, prompt injection pattern blocking, and basic sanitization.
 /// </summary>
-public static class InputValidator
+public class InputValidator : IInputValidator
 {
     private const int MaxLength = 500;
 
@@ -34,7 +40,7 @@ public static class InputValidator
     /// <summary>
     /// Validates the user message. Returns true if the input is safe to send to the AI.
     /// </summary>
-    public static bool IsValid(string? message)
+    public bool IsValid(string? message)
     {
         if (string.IsNullOrWhiteSpace(message))
             return false;
@@ -57,7 +63,7 @@ public static class InputValidator
     /// <summary>
     /// Returns a user-friendly error message when validation fails, or null if valid.
     /// </summary>
-    public static string? GetValidationError(string? message)
+    public string? GetValidationError(string? message)
     {
         if (string.IsNullOrWhiteSpace(message))
             return "Please enter a question.";
