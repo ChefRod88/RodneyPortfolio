@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Http;
 namespace ChurchWebsite.Services;
 
 /// <summary>Server-side IP location lookup for the Location page.</summary>
-public class LocationService
+public class LocationService : ILocationService
 {
     private const string TestIpForLocalhost = "8.8.8.8";
     private readonly IHttpContextAccessor _httpContextAccessor;

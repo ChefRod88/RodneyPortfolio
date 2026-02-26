@@ -2,8 +2,8 @@
 @model ChurchWebsite.Pages.LocationModel
 @{
     ViewData["Title"] = "Location";
-    var googleMapsUrl = "https://www.google.com/maps/dir//New+Bethel+Missionary,+123+Ave+Y+NE,+Winter+Haven,+FL+33881/@28.0548681,-81.740948,15z/data=!4m8!4m7!1m0!1m5!1m1!1s0x88dd12d2d635ff97:0x26f95ed4bae3757e!2m2!1d-81.7260765!2d28.0497068?entry=ttu&g_ep=EgoyMDI2MDIyMi4wIKXMDSoASAFQAw%3D%3D";
-    var appleMapsUrl = "https://maps.apple.com/?daddr=28.0497068,-81.7260765&q=New%20Bethel%20Missionary%20Baptist%20Church&dirflg=d";
+    var googleMapsUrl = "https://www.google.com/maps?um=1&ie=UTF-8&fb=1&gl=us&sa=X&geocode=KZf_NdbSEt2IMX5147rUXvkm&daddr=123+Ave+Y+NE,+Winter+Haven,+FL+33881";
+    var appleMapsUrl = "https://maps.apple.com/?daddr=123+Ave+Y+NE,+Winter+Haven,+FL+33881&dirflg=d";
 }
 
 <section class="location-page">
@@ -15,15 +15,13 @@
             <ol class="location-directions-steps" id="location-directions-steps"></ol>
             <div class="location-map-links" aria-label="Open route in map app">
                 <a href="@googleMapsUrl" class="btn btn-primary btn-sm location-map-link-btn" target="_blank" rel="noopener noreferrer">
-                    Open in Google Maps
+                    Google Maps
                 </a>
                 <a href="@appleMapsUrl" class="btn btn-outline-primary btn-sm location-map-link-btn" target="_blank" rel="noopener noreferrer">
-                    Open in Apple Maps
+                    Apple Maps
                 </a>
             </div>
         </aside>
-    </div>
-    <div class="container location-page-container">
         <div class="location-status-card"
              id="location-status-card"
              data-location-source="@Model.CurrentLocation.Source"
@@ -65,5 +63,6 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossorigin=""></script>
+    <script src="~/js/location-route-helpers.js" asp-append-version="true"></script>
     <script src="~/js/location-route.js" asp-append-version="true"></script>
 }

@@ -7,9 +7,9 @@ namespace ChurchWebsite.Pages.Groups;
 /// <summary>Groups list page. USE CASE: Display all groups from GroupService.</summary>
 public class IndexModel : PageModel
 {
-    private readonly GroupService _groupService;
+    private readonly IGroupService _groupService;
 
-    public IndexModel(GroupService groupService)
+    public IndexModel(IGroupService groupService)
     {
         _groupService = groupService;
     }

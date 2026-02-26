@@ -9,10 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();                                    // Enables Razor Pages (Index, About, etc.)
 builder.Services.AddHttpContextAccessor();                           // Needed for _Layout to read current path
 builder.Services.Configure<ChurchSettings>(builder.Configuration.GetSection(ChurchSettings.SectionName));  // Binds appsettings Church section
-builder.Services.AddScoped<SermonService>();                         // In-memory sermons; inject in Index, Sermons pages
-builder.Services.AddScoped<EventService>();                          // In-memory events; inject in Events pages
-builder.Services.AddScoped<GroupService>();                         // In-memory groups; inject in Groups pages
-builder.Services.AddHttpClient<LocationService>();                   // Server-side IP lookup for Location page
+builder.Services.AddScoped<ISermonService, SermonService>();         // In-memory sermons; inject in Index, Sermons pages
+builder.Services.AddScoped<IEventService, EventService>();           // In-memory events; inject in Events pages
+builder.Services.AddScoped<IGroupService, GroupService>();           // In-memory groups; inject in Groups pages
+builder.Services.AddHttpClient<ILocationService, LocationService>(); // Server-side IP lookup for Location page
 
 var app = builder.Build();
 

@@ -8,10 +8,10 @@ namespace ChurchWebsite.Pages;
 /// <summary>Location page. USE CASE: Show smart current-location detector UI.</summary>
 public class LocationModel : PageModel
 {
-    private readonly LocationService _locationService;
+    private readonly ILocationService _locationService;
     private readonly ChurchSettings _churchSettings;
 
-    public LocationModel(LocationService locationService, IOptions<ChurchSettings> churchOptions)
+    public LocationModel(ILocationService locationService, IOptions<ChurchSettings> churchOptions)
     {
         _locationService = locationService;
         _churchSettings = churchOptions.Value;

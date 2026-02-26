@@ -3,7 +3,7 @@ using ChurchWebsite.Models;
 namespace ChurchWebsite.Services;
 
 /// <summary>In-memory event data. USE CASE: Add/edit events; replace with DB later.</summary>
-public class EventService
+public class EventService : IEventService
 {
     private static readonly List<ChurchEvent> Events =
     [

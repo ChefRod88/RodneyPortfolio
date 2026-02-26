@@ -9,9 +9,9 @@ namespace ChurchWebsite.Pages;
 public class IndexModel : PageModel
 {
     private readonly ChurchSettings _church;
-    private readonly SermonService _sermonService;
+    private readonly ISermonService _sermonService;
 
-    public IndexModel(IOptions<ChurchSettings> churchOptions, SermonService sermonService)
+    public IndexModel(IOptions<ChurchSettings> churchOptions, ISermonService sermonService)
     {
         _church = churchOptions.Value;
         _sermonService = sermonService;
