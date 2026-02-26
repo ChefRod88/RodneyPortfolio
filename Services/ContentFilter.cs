@@ -2,11 +2,16 @@ using System.Text.RegularExpressions;
 
 namespace RodneyPortfolio.Services;
 
+public interface IContentFilter
+{
+    bool IsBlocked(string? message);
+}
+
 /// <summary>
 /// Content filter for AI safety. Blocks inappropriate content before it reaches the AI.
 /// Configurable block list for profanity and other unwanted content.
 /// </summary>
-public static class ContentFilter
+public class ContentFilter : IContentFilter
 {
     /// <summary>
     /// Words and phrases that should block the message. Expand as needed for your use case.
@@ -20,7 +25,7 @@ public static class ContentFilter
     /// <summary>
     /// Returns true if the message should be blocked (contains inappropriate content).
     /// </summary>
-    public static bool IsBlocked(string? message)
+    public bool IsBlocked(string? message)
     {
         if (string.IsNullOrWhiteSpace(message))
             return false;
