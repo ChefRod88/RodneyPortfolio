@@ -8,9 +8,9 @@ namespace ChurchWebsite.Pages.Sermons;
 /// <summary>Sermon detail page. USE CASE: Single sermon by id with video; 404 if not found.</summary>
 public class DetailsModel : PageModel
 {
-    private readonly SermonService _sermonService;
+    private readonly ISermonService _sermonService;
 
-    public DetailsModel(SermonService sermonService)
+    public DetailsModel(ISermonService sermonService)
     {
         _sermonService = sermonService;
     }

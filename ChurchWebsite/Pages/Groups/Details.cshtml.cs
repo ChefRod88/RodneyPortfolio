@@ -8,9 +8,9 @@ namespace ChurchWebsite.Pages.Groups;
 /// <summary>Group detail page. USE CASE: Single group by id; 404 if not found.</summary>
 public class DetailsModel : PageModel
 {
-    private readonly GroupService _groupService;
+    private readonly IGroupService _groupService;
 
-    public DetailsModel(GroupService groupService)
+    public DetailsModel(IGroupService groupService)
     {
         _groupService = groupService;
     }

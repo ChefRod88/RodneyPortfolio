@@ -8,9 +8,9 @@ namespace ChurchWebsite.Pages.Events;
 /// <summary>Event detail page. USE CASE: Single event by id; 404 if not found.</summary>
 public class DetailsModel : PageModel
 {
-    private readonly EventService _eventService;
+    private readonly IEventService _eventService;
 
-    public DetailsModel(EventService eventService)
+    public DetailsModel(IEventService eventService)
     {
         _eventService = eventService;
     }

@@ -7,9 +7,9 @@ namespace ChurchWebsite.Pages.Events;
 /// <summary>Events list page. USE CASE: Display all church events from EventService.</summary>
 public class IndexModel : PageModel
 {
-    private readonly EventService _eventService;
+    private readonly IEventService _eventService;
 
-    public IndexModel(EventService eventService)
+    public IndexModel(IEventService eventService)
     {
         _eventService = eventService;
     }

@@ -3,7 +3,7 @@ using ChurchWebsite.Models;
 namespace ChurchWebsite.Services;
 
 /// <summary>In-memory sermon data. USE CASE: Add/edit sermons; replace with DB later.</summary>
-public class SermonService
+public class SermonService : ISermonService
 {
     private static readonly List<Sermon> Sermons =
     [

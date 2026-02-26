@@ -10,6 +10,7 @@
   const panelMeta = document.getElementById('location-directions-meta');
   const panelSteps = document.getElementById('location-directions-steps');
   const directionsPanel = document.getElementById('location-directions-panel');
+  const helpers = (typeof window !== 'undefined' && window.LocationRouteHelpers) ? window.LocationRouteHelpers : null;
 
   const parseOptionalNumber = (value) => {
     if (typeof value !== 'string' || value.trim() === '') return null;
@@ -51,11 +52,21 @@
 
   let routeLayer = null;
   let travelMarker = null;
+  let currentLocationMarker = null;
   let inflight = false;
   let queued = false;
   let queuedCoords = null;
   let lastRequestedAt = 0;
   let activeRenderSeq = 0;
+  let lastRenderedOrigin = null;
+  let inflightOrigin = null;
+  let serverRenderTimeoutId = null;
+  let hasCompletedInitialRouteRender = false;
+
+  function isSameOrigin(a, b) {
+    if (!a || !b) return false;
+    return Math.abs(a.lat - b.lat) < 0.00001 && Math.abs(a.lon - b.lon) < 0.00001;
+  }
 
   function updateMeta(message) {
     if (panelMeta) panelMeta.textContent = message;
@@ -151,49 +162,50 @@
     if (!path || typeof path.getTotalLength !== 'function') return;
 
     const totalLength = path.getTotalLength();
+    const animationState = helpers && typeof helpers.buildRouteLineAnimationState === 'function'
+      ? helpers.buildRouteLineAnimationState(totalLength, 1800)
+      : {
+          strokeDasharray: String(totalLength),
+          strokeDashoffsetStart: String(totalLength),
+          strokeDashoffsetEnd: '0',
+          transition: 'stroke-dashoffset 1800ms ease-out'
+        };
+    if (!animationState) return;
+
     path.classList.add('route-line-animated');
-    path.style.strokeDasharray = String(totalLength);
-    path.style.strokeDashoffset = String(totalLength);
-    path.style.transition = 'stroke-dashoffset 1800ms ease-out';
+    path.style.strokeDasharray = animationState.strokeDasharray;
+    path.style.strokeDashoffset = animationState.strokeDashoffsetStart;
+    path.style.transition = animationState.transition;
     const cleanupStrokeAnimation = () => {
-      path.style.strokeDasharray = '';
-      path.style.strokeDashoffset = '';
-      path.style.transition = '';
+      if (helpers && typeof helpers.resetRouteLineAnimationStyle === 'function') {
+        helpers.resetRouteLineAnimationStyle(path.style);
+      } else {
+        path.style.strokeDasharray = '';
+        path.style.strokeDashoffset = '';
+        path.style.transition = '';
+      }
       path.removeEventListener('transitionend', cleanupStrokeAnimation);
     };
     path.addEventListener('transitionend', cleanupStrokeAnimation);
     requestAnimationFrame(() => {
-      path.style.strokeDashoffset = '0';
+      path.style.strokeDashoffset = animationState.strokeDashoffsetEnd;
     });
     // Fallback cleanup in case transitionend does not fire.
     setTimeout(cleanupStrokeAnimation, 2200);
   }
 
   function getFitBoundsPadding() {
-    const mobile = window.matchMedia('(max-width: 768px)').matches;
     const basePad = 30;
-    if (!directionsPanel) {
+    const panelRect = directionsPanel ? directionsPanel.getBoundingClientRect() : null;
+    if (helpers && typeof helpers.calculateFitBoundsPadding === 'function') {
+      return helpers.calculateFitBoundsPadding(panelRect, window.innerWidth, basePad);
+    }
+    if (!panelRect || panelRect.width <= 0 || panelRect.height <= 0) {
       return {
         paddingTopLeft: [basePad, basePad],
         paddingBottomRight: [basePad, basePad]
       };
     }
-
-    const panelRect = directionsPanel.getBoundingClientRect();
-    if (panelRect.width <= 0 || panelRect.height <= 0) {
-      return {
-        paddingTopLeft: [basePad, basePad],
-        paddingBottomRight: [basePad, basePad]
-      };
-    }
-
-    if (mobile) {
-      return {
-        paddingTopLeft: [basePad, basePad],
-        paddingBottomRight: [basePad, Math.ceil(panelRect.height + 24)]
-      };
-    }
-
     return {
       paddingTopLeft: [basePad, basePad],
       paddingBottomRight: [Math.ceil(panelRect.width + 24), Math.ceil((panelRect.height * 0.55) + 24)]
@@ -231,6 +243,22 @@
       }
     }
     requestAnimationFrame(tick);
+  }
+
+  function upsertCurrentLocationMarker(lat, lon) {
+    const icon = L.divIcon({
+      className: 'route-origin-ping-icon',
+      html: '<span class="route-origin-ping-core" aria-hidden="true"></span>',
+      iconSize: [18, 18],
+      iconAnchor: [9, 9]
+    });
+
+    if (!currentLocationMarker) {
+      currentLocationMarker = L.marker([lat, lon], { icon, zIndexOffset: 800 }).addTo(map);
+      return;
+    }
+
+    currentLocationMarker.setLatLng([lat, lon]);
   }
 
   async function fetchRoute(originLat, originLon) {
@@ -276,36 +304,52 @@
   }
 
   async function renderRoute(originLat, originLon) {
+    const requestedOrigin = { lat: originLat, lon: originLon };
+    if (routeLayer && lastRenderedOrigin && isSameOrigin(lastRenderedOrigin, requestedOrigin)) {
+      return;
+    }
+
     const now = Date.now();
     if (inflight || (now - lastRequestedAt < 900)) {
+      if (inflight && inflightOrigin && isSameOrigin(inflightOrigin, requestedOrigin)) {
+        return;
+      }
       queued = true;
       queuedCoords = { lat: originLat, lon: originLon };
       return;
     }
 
     inflight = true;
+    inflightOrigin = requestedOrigin;
     lastRequestedAt = now;
     activeRenderSeq += 1;
     const renderSeq = activeRenderSeq;
     try {
       updateMeta('Calculating fastest route...');
+      upsertCurrentLocationMarker(originLat, originLon);
       const path = await fetchRoute(originLat, originLon);
       if (!path || renderSeq !== activeRenderSeq) return;
       const coords = decodePolyline(path.points, false);
       if (!coords.length || renderSeq !== activeRenderSeq) return;
 
-      if (routeLayer) map.removeLayer(routeLayer);
-      routeLayer = L.polyline(coords, {
+      const nextRouteLayer = L.polyline(coords, {
         color: '#2563eb',
         weight: 5,
         opacity: 0.9
       }).addTo(map);
+      nextRouteLayer.bringToFront();
+      const previousRouteLayer = routeLayer;
+      routeLayer = nextRouteLayer;
+      if (previousRouteLayer) map.removeLayer(previousRouteLayer);
 
+      const shouldAnimateRouteLine = hasCompletedInitialRouteRender;
       let animationStarted = false;
       const runAnimations = () => {
         if (animationStarted || renderSeq !== activeRenderSeq) return;
         animationStarted = true;
-        animateRoutePath();
+        if (shouldAnimateRouteLine) {
+          animateRoutePath();
+        }
         animateTravelMarker(coords);
       };
 
@@ -322,11 +366,14 @@
 
       const steps = (path.instructions || []).map(parseStepText).filter(Boolean).slice(0, 12);
       setSteps(steps);
+      lastRenderedOrigin = { lat: originLat, lon: originLon };
+      hasCompletedInitialRouteRender = true;
     } catch (_error) {
       updateMeta('Could not calculate route right now. Please try again.');
       clearSteps();
     } finally {
       inflight = false;
+      inflightOrigin = null;
       if (queued) {
         queued = false;
         const next = queuedCoords ? { ...queuedCoords } : null;
@@ -366,16 +413,25 @@
   }
 
   document.addEventListener('church:location-resolved', (event) => {
+    if (serverRenderTimeoutId !== null) {
+      clearTimeout(serverRenderTimeoutId);
+      serverRenderTimeoutId = null;
+    }
+
     const detail = event && event.detail ? event.detail : {};
     const lat = typeof detail.latitude === 'number' && Number.isFinite(detail.latitude) ? detail.latitude : null;
     const lon = typeof detail.longitude === 'number' && Number.isFinite(detail.longitude) ? detail.longitude : null;
     if (lat === null || lon === null) return;
-    if (latestCoords && Math.abs(latestCoords.lat - lat) < 0.00001 && Math.abs(latestCoords.lon - lon) < 0.00001 && routeLayer) {
+    if (latestCoords && isSameOrigin(latestCoords, { lat, lon })) {
       return;
     }
     latestCoords = { lat, lon };
     renderRoute(lat, lon);
   });
 
-  tryRouteFromServerCoordinates();
+  // Slight delay helps avoid double-render flicker when browser location resolves immediately.
+  serverRenderTimeoutId = setTimeout(() => {
+    serverRenderTimeoutId = null;
+    tryRouteFromServerCoordinates();
+  }, 450);
 })();

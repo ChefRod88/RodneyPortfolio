@@ -3,7 +3,7 @@ using ChurchWebsite.Models;
 namespace ChurchWebsite.Services;
 
 /// <summary>In-memory group data. USE CASE: Add/edit groups; replace with DB later.</summary>
-public class GroupService
+public class GroupService : IGroupService
 {
     private static readonly List<Group> Groups =
     [
