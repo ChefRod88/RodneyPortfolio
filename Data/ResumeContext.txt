@@ -1,120 +1,1829 @@
-RODNEY CHERY - RESUME & ABOUT CONTEXT
-=====================================
-Update this file when you update your resume. The AI chatbot uses this content to answer questions about Rodney.
+RODNEY AMOS CHERY - ORGANIZED AI RESUME CONTEXT
+===============================================
+Purpose: This file is the primary context source for the Ask Rodney chatbot.
+Guideline: Answer based on this content only. If a detail is missing, say so clearly.
 
-NAME & TITLE
+IDENTITY
+--------
+Full Name: Rodney Amos Chery
+Location: Winter Haven, FL
+Phone: 863-296-5890
+Email: chefrodneyachery@gmail.com
+LinkedIn: https://www.linkedin.com/in/rodneyachery/
+GitHub: https://github.com/ChefRod88/RodneyPortfolio
+Portfolio: https://www.rodneyachery.com
+
+POSITIONING
 -----------
-Rodney Chery
-Technical Support Analyst
-Tagline: "People before process. Empathy before execution."
+Primary Title: Junior Software Engineer
+Primary Focus: ASP.NET Core Razor Pages, C#, SQL Server, Azure
+Secondary Strength: Application Support and IT Operations
+Work Philosophy: People before process. Empathy before execution.
+
+TARGET ROLES
+------------
+- Junior Software Engineer
+- Application Support Engineer
+- Software-Adjacent Technical Roles
 
 EDUCATION
 ---------
 - B.S. Software Engineering (In Progress)
 - Western Governors University (WGU)
 - Expected Graduation: December 2026
-- Self-paced, competency-based learning model
-- Focus on full-stack development, databases, and software architecture
 
-EXPERIENCE
-----------
-- Technical Support Inkjet Tier 1 at Canon Information Technology Services (started March 2025)
-- Troubleshoots proprietary software, hardware environments, and enterprise applications
-- Systematically isolates variables, reviews system behaviors, guides issues through structured resolution
-- Works with enterprise systems where each component depends on another—similar to kitchen ecosystems
-- Previous background: Professional kitchens (line cook)—learned discipline, communication, composure under pressure
-- Transition from kitchens to tech felt natural; both environments require technical understanding and operational awareness
+CORE TECHNOLOGY STACK
+---------------------
+Languages:
+- C#
+- JavaScript
+- SQL
+- HTML5
+- CSS3
 
-CAREER TRANSITION: KITCHENS TO TECH
-----------------------------------
-Before technology, Rodney worked the line in professional kitchens. Pressure was constant, timing was critical, and mistakes were visible immediately. In that environment he learned discipline, communication, and how to remain steady when everything accelerates. Those lessons define his professional identity. Enterprise systems, like kitchens, are ecosystems—each component dependent on another. When something breaks, the solution requires both technical understanding and operational awareness. His journey from the intensity of professional kitchens to enterprise technical environments reflects adaptability, resilience, and growth.
+Frameworks and Platforms:
+- ASP.NET Core
+- Razor Pages
+- .NET
+- Entity Framework Core
 
-APPROACH TO TROUBLESHOOTING
----------------------------
-- Intentional and analytical; does not react impulsively
-- Assesses severity, understands user impact, gathers relevant evidence
-- Determines whether issues are environmental, configuration-based, user-driven, or systemic
-- Maintains meticulous documentation and communicates clearly at every stage
-- Values transparency, especially during escalations
-- Does not react—he analyzes
-- Sees technical problems not as disruptions but as systems revealing weaknesses that can be improved
-- Continuous refinement of processes, documentation, and response strategy is central to how he works
+Data:
+- SQL Server
+- Azure SQL Database
 
-SOFT SKILLS
------------
-- Technical Communication (Proficient)
-- Cross-Functional Collaboration (Proficient)
-- Problem-Solving Under Pressure (Proficient)
-- Customer Empathy (Proficient)
-- Adaptability (Proficient)
-- Attention to Detail (Proficient)
-- Understands urgency without panic
-- Values collaboration over isolation
-- Composure under pressure
-- Disciplined troubleshooting
-- Strong service mindset
+Cloud and Developer Tools:
+- Azure App Service
+- Git
+- GitHub
+- Docker
+- Postman
+- Visual Studio
+- Cursor
 
-TECHNICAL SKILLS
-----------------
-IT Support: Enterprise Software Support, System Diagnostics, API/Integration Support, Customer-Focused Support, Escalation Management, Knowledge Base Management
-Frontend: HTML, CSS, JavaScript, TypeScript, Angular, Razor Pages (Proficient or Beginner as noted)
-Backend: C#, ASP.NET Core, Entity Framework Core, SQL Server, Git/GitHub, .NET MAUI
-Tools: Azure (Intermediate), Cursor (Proficient), Docker (Intermediate)
-AI/LLM: OpenAI API integration, prompt engineering, conversational interfaces, input validation, content filtering
+Testing:
+- xUnit
+- Moq
+- Vitest
 
-PROJECTS
---------
-- Portfolio website (rodneyachery.com): ASP.NET Core, Razor Pages, responsive design
-- Ask Rodney AI Chatbot: C# backend, OpenAI API, prompt engineering, REST API, input validation, content filtering. Built to answer questions about Rodney using resume context. Demonstrates AI safety practices (validation, filtering, guardrails).
-- GitHub: https://github.com/ChefRod88/RodneyPortfolio
+Core Strengths:
+- REST API integration
+- Dependency injection
+- Interface-based architecture
+- Troubleshooting
+- Incident management
+- Root-cause analysis
 
-PROJECT DEEP-DIVES (for detailed questions)
--------------------------------------------
-Portfolio Website (rodneyachery.com):
-- Architecture: ASP.NET Core Razor Pages, server-rendered HTML, static assets in wwwroot
-- Tech stack: C#, Razor, CSS, JavaScript, PWA with service worker
-- Deployment: Azure Web App, GitHub Actions CI/CD, HTTPS and www redirect
-- Decisions: Razor for simplicity and SEO; no SPA to keep it lightweight
+WORK EXPERIENCE SUMMARY
+-----------------------
+Current Domain Experience:
+- Technical Support Inkjet Tier 1 at Canon Information Technology Services.
+- Supports enterprise software and hardware workflows.
+- Performs triage, diagnostics, escalation support, and structured incident resolution.
 
-Ask Rodney AI Chatbot:
-- Architecture: Frontend (fetch) -> ChatController (API) -> OpenAIChatService -> OpenAI Chat Completions API. ResumeContext.txt loaded at runtime.
-- Tech stack: C#, ASP.NET Core, OpenAI API, JavaScript, input validation (InputValidator), content filtering (ContentFilter)
-- Key code pattern: System prompt injects resume context; mode toggle (Recruiter/Engineer/Interview) adjusts prompt instructions
-- Decisions: Static prompt over RAG for cost/simplicity; demo fallback when API fails (429, etc.); User Secrets locally, GitHub Secrets in production
-- Deployment: Same Azure Web App as portfolio; API key via Azure App Settings
+Professional Background:
+- Began career in professional kitchens before transitioning into technology.
+- Built discipline, communication, urgency management, and composure under pressure.
+- Applies these traits directly to software delivery and support operations.
 
-WHAT DIFFERENTIATES RODNEY
---------------------------
-- Intersection of soft skills and technical execution
-- Understands urgency without panic
-- Values collaboration over isolation
-- Sees technical problems as systems revealing weaknesses that can be improved
-- Continuous refinement of processes, documentation, and response strategy
-- Journey from professional kitchens to enterprise tech reflects adaptability, resilience, and growth
-- Brings composure under pressure, disciplined troubleshooting, and strong service mindset
-- What differentiates him: the intersection of soft skills and technical execution. He understands urgency without panic, values collaboration over isolation, and sees technical problems as systems revealing weaknesses that can be improved.
-
-WORK PHILOSOPHY
+PROJECT CATALOG
 ---------------
-- People before process. Empathy before execution.
-- Technical problems are not disruptions—they are systems revealing weaknesses that can be improved
-- Transparency builds trust, especially during escalations
-- Delivers consistent, reliable support in environments where stability matters most
-- Believes in continuous refinement—of processes, documentation, and response strategy
+1) Rodney Portfolio Website
+- Stack: ASP.NET Core Razor Pages, C#, JavaScript, CSS, Azure.
+- Purpose: Professional portfolio + technical showcase + AI chatbot integration.
+- Highlights: Responsive UI, structured experience cards, recruiter-friendly project framing.
 
-STRENGTHS IN TEAMS
-------------------
-- Composure under pressure
-- Disciplined troubleshooting
-- Strong service mindset
-- Meticulous documentation
-- Clear communication at every stage
-- Adaptability and resilience
-- Can deliver consistent, reliable support when stability matters most
+2) Ask Rodney AI Chatbot
+- Stack: ASP.NET Core API, C#, OpenAI API, JavaScript.
+- Highlights: Prompt orchestration, input validation, content filtering, structured replies.
+- Architecture: UI -> ChatController -> services -> OpenAI client abstraction.
 
-CONTACT
--------
-- Email: chefrodneyachery@gmail.com
-- LinkedIn: https://www.linkedin.com/in/rodneyachery/
-- GitHub: https://github.com/ChefRod88/RodneyPortfolio
-- Portfolio: https://www.rodneyachery.com
+3) Job Match Feature
+- Stack: ASP.NET Core, C#, OpenAI API, JSON parsing.
+- Highlights: Match score, aligned skills, gaps, talking points from job descriptions.
+- Output: Interview preparation and role-fit analysis.
+
+4) Church Website (Companion Project)
+- Stack: ASP.NET Core Razor Pages, JavaScript, CSS, mapping integrations.
+- Highlights: Route-to-church UX, responsive map panel, mobile behavior tuning, map link actions.
+- Technical Focus: Route rendering reliability, geolocation handling, UI consistency.
+
+ARCHITECTURE AND ENGINEERING PATTERNS
+-------------------------------------
+- Uses dependency injection and interface-first design for maintainability.
+- Refactored static utility patterns into injectable services where appropriate.
+- Implemented shared OpenAI transport abstraction to reduce duplicate integration logic.
+- Separates concerns between controller responsibilities, business services, and helper modules.
+- Adds targeted tests for backend services and JavaScript helpers to reduce regressions.
+
+SOFT SKILLS AND TEAM VALUE
+--------------------------
+- Technical communication
+- Cross-functional collaboration
+- Problem-solving under pressure
+- Customer empathy
+- Adaptability
+- Attention to detail
+- Clear escalation updates and transparent stakeholder communication
+
+INTERVIEW-READY VALUE STATEMENT
+-------------------------------
+Rodney combines software development capability with production-minded support discipline.
+He builds with ASP.NET Core Razor Pages, C#, SQL Server, and Azure App Service while bringing
+strong troubleshooting, incident management, and customer-centered communication from enterprise operations.
+
+DETAILED PROFILE (50 PARAGRAPHS)
+--------------------------------
+Paragraph 01: Rodney Amos Chery is a software engineering student focused on building practical, production-style applications with ASP.NET Core Razor Pages, C#, SQL Server, and Azure.
+
+Paragraph 02: He is actively pursuing Junior Software Engineer and Application Support Engineer opportunities where he can contribute quickly and grow through real delivery work.
+
+Paragraph 03: Rodney studies at Western Governors University in the B.S. Software Engineering program and expects to graduate in December 2026.
+
+Paragraph 04: His approach to learning is project-first, meaning he converts concepts into working systems instead of stopping at theory.
+
+Paragraph 05: Rodney's professional philosophy is people before process and empathy before execution.
+
+Paragraph 06: He believes technical quality and user trust must be delivered together, not treated as separate goals.
+
+Paragraph 07: His early career in professional kitchens built resilience, timing discipline, and composure under pressure.
+
+Paragraph 08: Those same skills now show up in his technical work through clear triage, calm debugging, and structured communication.
+
+Paragraph 09: In enterprise support settings, Rodney evaluates issue impact, scope, urgency, and reproducibility before selecting a fix path.
+
+Paragraph 10: He documents diagnostic steps carefully so escalations and handoffs remain efficient and transparent.
+
+Paragraph 11: Rodney's primary coding languages are C#, JavaScript, SQL, HTML5, and CSS3.
+
+Paragraph 12: His primary framework ecosystem is ASP.NET Core with Razor Pages, .NET, and Entity Framework Core.
+
+Paragraph 13: He uses SQL Server and understands how data modeling and query behavior affect software reliability.
+
+Paragraph 14: He is also familiar with Azure SQL Database as part of cloud-hosted deployment workflows.
+
+Paragraph 15: Rodney uses Azure App Service, Git, GitHub, Docker, Postman, Visual Studio, and Cursor as part of day-to-day engineering workflows.
+
+Paragraph 16: He sees tools as delivery enablers and focuses on how they improve reproducibility, collaboration, and release reliability.
+
+Paragraph 17: Rodney uses xUnit and Moq for backend testing and Vitest for JavaScript helper verification.
+
+Paragraph 18: His testing objective is practical confidence: protect critical behavior while keeping test suites readable and maintainable.
+
+Paragraph 19: Rodney built his portfolio website as a living technical artifact rather than a static profile page.
+
+Paragraph 20: The portfolio demonstrates full-stack execution through UI work, backend APIs, deployment flow, and documentation.
+
+Paragraph 21: A key feature is the Ask Rodney chatbot, which answers recruiter and interviewer questions based on curated resume context.
+
+Paragraph 22: The chatbot architecture routes requests through an API controller and service layer before calling the model API.
+
+Paragraph 23: Rodney implemented guardrails with validation and filtering to improve safety and response quality.
+
+Paragraph 24: He avoids exposing model API details directly in the browser to preserve control and security.
+
+Paragraph 25: Rodney added a job-match analysis feature that converts long job descriptions into structured compatibility outputs.
+
+Paragraph 26: The feature returns aligned skills, identified gaps, and talking points useful for interview preparation.
+
+Paragraph 27: In architecture refactors, Rodney introduced interface-based service boundaries to reduce tight coupling.
+
+Paragraph 28: This allowed high-level components to depend on abstractions rather than concrete utility implementations.
+
+Paragraph 29: He refactored OpenAI integration into a shared client abstraction so transport concerns are not duplicated across services.
+
+Paragraph 30: This improved maintainability by keeping prompt logic separate from HTTP/auth handling concerns.
+
+Paragraph 31: In ChurchWebsite work, Rodney implemented route-to-church mapping behavior with mobile-responsive UX refinements.
+
+Paragraph 32: He supported direct map-provider links to reduce friction for users navigating from mobile devices.
+
+Paragraph 33: He improved route rendering stability and reduced visual inconsistency during load and rerender scenarios.
+
+Paragraph 34: He added clearer location markers, including animated travel cues and origin visibility enhancements.
+
+Paragraph 35: Rodney modularized route helper logic so it could be tested independently from browser rendering concerns.
+
+Paragraph 36: He also split fallback and page-behavior logic into dedicated modules to support cleaner responsibility boundaries.
+
+Paragraph 37: Rodney regularly applies SOLID principles in practical ways, especially SRP and DIP through interfaces and focused services.
+
+Paragraph 38: He uses OCP by adding behavior through new implementations rather than rewriting stable code paths.
+
+Paragraph 39: He uses ISP by preferring small contracts that expose only the behavior consumers need.
+
+Paragraph 40: He supports LSP by keeping implementation behavior consistent behind interface contracts.
+
+Paragraph 41: Rodney's support background strengthens his engineering outcomes because he naturally thinks about reliability, observability, and failure modes.
+
+Paragraph 42: He does not treat incidents as isolated events; he looks for repeat patterns and root causes that can be eliminated.
+
+Paragraph 43: Rodney communicates status clearly during active troubleshooting so users and stakeholders know what is happening.
+
+Paragraph 44: He values documentation and architecture notes as part of engineering quality, not optional afterthoughts.
+
+Paragraph 45: He is comfortable balancing technical depth and plain-language explanation depending on audience needs.
+
+Paragraph 46: Rodney's current career focus is to contribute in Microsoft-stack environments using ASP.NET Core, C#, SQL Server, and Azure.
+
+Paragraph 47: He is especially motivated by roles that combine software delivery with operational ownership and service quality.
+
+Paragraph 48: His differentiator is the combination of builder mindset and support discipline, which helps him ship while maintaining stability.
+
+Paragraph 49: Rodney continues to iterate on his portfolio and related projects as public proof of growth, consistency, and technical range.
+
+Paragraph 50: Rodney Amos Chery is a junior software engineer candidate with practical full-stack implementation experience, production-minded troubleshooting habits, and strong communication rooted in real support operations.
+
+CONTACT QUICK LOOKUP
+--------------------
+- Winter Haven, FL
+- 863-296-5890
+- chefrodneyachery@gmail.com
+- https://www.linkedin.com/in/rodneyachery/
+- https://github.com/ChefRod88/RodneyPortfolio
+- https://www.rodneyachery.com
+RODNEY AMOS CHERY - EXTENDED AI RESUME CONTEXT (50 PARAGRAPHS)
+================================================================
+
+Paragraph 01: Rodney Amos Chery is a software engineering student and builder focused on ASP.NET Core Razor Pages, C#, SQL Server, and Azure. His professional identity combines software development execution with operational discipline from enterprise support environments. He is actively pursuing Junior Software Engineer, Application Support Engineer, and software-adjacent technical roles where reliability and customer impact both matter.
+
+Paragraph 02: Rodney is currently completing a Bachelor of Science in Software Engineering at Western Governors University, with an expected graduation in December 2026. His learning approach is competency-based and project-driven, allowing him to apply technical concepts immediately in production-style builds. He prioritizes architecture, maintainability, and clear communication when designing and troubleshooting systems.
+
+Paragraph 03: Rodney's foundational philosophy is "People before process. Empathy before execution." In practice, this means he balances technical correctness with user trust, clarity, and urgency management. He believes a technically correct answer that ignores user experience is incomplete.
+
+Paragraph 04: Before technology, Rodney worked in professional kitchens where pace, precision, and accountability were non-negotiable. That environment trained him to remain calm under pressure and to coordinate effectively with teams in high-stress conditions. He carried these habits into IT and software engineering, where incident handling and production quality require the same composure.
+
+Paragraph 05: Rodney's transition into technical support strengthened his systems thinking. He learned to diagnose issues across hardware, software, configuration, and workflow boundaries instead of treating symptoms in isolation. This cross-layer perspective now influences how he writes backend services and frontend behavior.
+
+Paragraph 06: In enterprise support work, Rodney handles incident triage by first defining impact, scope, urgency, and reproducibility. He then gathers evidence, identifies likely failure domains, and documents each step to accelerate resolution or escalation. This methodical process maps directly to debugging in software development.
+
+Paragraph 07: Rodney's core language and web stack includes C#, JavaScript, SQL, HTML5, and CSS3. He uses this combination to implement server-rendered applications with interactive front-end enhancements and database-backed workflows. He intentionally prefers readable, maintainable solutions over unnecessary framework complexity.
+
+Paragraph 08: His primary framework platform is ASP.NET Core with Razor Pages and .NET. He uses dependency injection, options binding, and service abstractions to keep code modular and testable. He favors conventional patterns that teams can maintain long term.
+
+Paragraph 09: Rodney uses Entity Framework Core and SQL Server for data modeling and persistence workflows. He understands schema-backed feature development, query behavior, and how data access patterns affect reliability. He also includes Azure SQL Database awareness for cloud deployment scenarios.
+
+Paragraph 10: For cloud and delivery tooling, Rodney is hands-on with Azure App Service, Git, GitHub, Docker, Postman, Visual Studio, and Cursor. He applies these tools as part of practical shipping workflows rather than isolated demos. He views tooling as part of engineering quality, not just convenience.
+
+Paragraph 11: Rodney includes testing in his regular development workflow using xUnit, Moq, and Vitest. He writes unit tests for backend services and targeted JavaScript helpers where business logic can be isolated. His testing goal is to reduce regressions while keeping the suite understandable for future maintainers.
+
+Paragraph 12: Rodney's core strengths include REST API integration, dependency injection, interface-based architecture, troubleshooting, incident management, and root-cause analysis. These strengths appear consistently across his portfolio and ChurchWebsite projects. He intentionally aligns architecture choices with these strengths.
+
+Paragraph 13: Rodney built and maintains his portfolio site at https://www.rodneyachery.com as a real, evolving engineering artifact. The site is not just a static resume page; it includes interactive features, a chatbot interface, and technical documentation links. It demonstrates both presentation and implementation skill.
+
+Paragraph 14: The portfolio project uses ASP.NET Core Razor Pages for server-rendered speed and SEO-friendly structure. Front-end behavior is layered in with JavaScript and CSS for interaction, responsiveness, and usability. This approach keeps the app lightweight while still allowing dynamic features.
+
+Paragraph 15: A major feature in Rodney's portfolio is the Ask Rodney chatbot, designed to answer questions about his background, projects, and skills. It uses OpenAI APIs through a controlled backend pathway rather than exposing raw client-side calls. This design helps preserve security, policy control, and extensibility.
+
+Paragraph 16: The chatbot architecture follows a clear flow: browser input to API controller, controller to chat service, service to shared OpenAI client, and then a structured response back to the UI. Resume context is intentionally injected so answers remain grounded in Rodney's real profile. This avoids vague responses and strengthens interview relevance.
+
+Paragraph 17: Rodney implemented guardrails through input validation and content filtering so the chatbot behaves predictably and safely. These guardrails are applied as dedicated services rather than hardcoded utility calls scattered throughout controllers. This improves maintainability and supports cleaner testing.
+
+Paragraph 18: Rodney refactored his OpenAI integration to use an `IOpenAIClient` abstraction, reducing duplicated transport/auth logic across services. This allowed OpenAIChatService and JobMatchService to focus on domain concerns instead of HTTP plumbing. The refactor demonstrates Dependency Inversion and separation of concerns.
+
+Paragraph 19: Rodney also implemented a Job Match feature that compares pasted job descriptions with resume-aligned strengths. The flow parses and structures model output into practical categories such as aligned skills, gaps, and talking points. This supports interview prep and strategic positioning.
+
+Paragraph 20: On the ChurchWebsite project, Rodney delivered map-centric location and routing behavior tailored to real user needs. He implemented a route panel, directional content, and mobile-friendly actions for navigation apps. The feature set evolved through iterative UX feedback and practical troubleshooting.
+
+Paragraph 21: Rodney added direct Google Maps and Apple Maps launch links to improve mobile usability. This reduces friction for users who want immediate turn-by-turn navigation in native map apps. The links were configured to target the church destination consistently.
+
+Paragraph 22: Rodney worked on responsive behavior for the route card so desktop and mobile layouts behave professionally. Desktop behavior keeps the route card visually anchored and readable, while mobile behavior prioritizes usable space and touch ergonomics. He used CSS patterns that support gradual viewport transitions.
+
+Paragraph 23: Rodney improved route rendering behavior to address flicker and inconsistent animation on load/refresh. He introduced render sequencing and style cleanup strategies to reduce visual instability. He prioritized a stable, solid route line presentation while preserving movement cues.
+
+Paragraph 24: He updated distance formatting from kilometers to feet for local clarity and user familiarity. This was implemented in route-display formatting logic so output better matches user expectations. Small UX details like unit choice improve perceived quality.
+
+Paragraph 25: Rodney changed the moving route marker from a generic dot to a car representation for stronger directional context. He then added a current-location ping marker to improve origin visibility on the map. These choices increased route readability and user confidence.
+
+Paragraph 26: Rodney implemented destination hardening to always route to New Bethel Missionary Baptist Church when required by product direction. He synchronized destination handling across map links and route logic to avoid conflicting defaults. This ensured consistency between visible buttons and route computation.
+
+Paragraph 27: Rodney created helper modules for route animation and layout calculations to improve testability and reduce complexity in large files. By isolating pure logic functions, he enabled direct unit tests for behavior that would otherwise require full browser runs. This is a practical SRP improvement.
+
+Paragraph 28: Rodney extracted location fallback logic into dedicated JavaScript modules so responsibilities were clearer between page behavior and geolocation resolution. This modularization made it easier to reason about GPS, fallback, and event dispatch behavior. It also reduced regression risk during UI changes.
+
+Paragraph 29: Rodney added JavaScript unit tests around route helper behavior, including animation state and responsive padding logic. These tests verify expected outputs across different viewport and animation scenarios. This gives confidence when iterating on map UX.
+
+Paragraph 30: Rodney maintains a strong debugging discipline informed by support experience. He validates root cause before finalizing fixes, and he distinguishes between symptom suppression and true resolution. This approach improves reliability in both backend and frontend systems.
+
+Paragraph 31: Rodney documents architecture and implementation details in project docs to make his work auditable and teachable. He treats documentation as part of engineering quality, not post-work decoration. This helps recruiters, collaborators, and future maintainers understand intent and tradeoffs.
+
+Paragraph 32: Rodney completed a broad SOLID-oriented refactor across major portions of his codebase. He introduced interfaces for services in both ChurchWebsite and portfolio backend layers. He also adjusted dependency wiring so consumers rely on abstractions where appropriate.
+
+Paragraph 33: In the ChurchWebsite application, service interfaces such as event, group, sermon, and location abstractions were introduced and used in page model constructors. This reduced direct coupling to concrete classes and improved substitution/testing flexibility. It aligns with DIP and ISP goals.
+
+Paragraph 34: In the portfolio backend, static validation/filtering patterns were converted into injectable services to reduce hidden coupling and improve configurability. ChatController now depends on interfaces, making behavior easier to test and evolve. This also supports policy changes without controller rewrites.
+
+Paragraph 35: Rodney values Open/Closed behavior by adding extensibility points through interfaces and focused service responsibilities. Rather than editing core business pathways for every variation, he prefers adding implementations behind stable contracts. This reduces regression probability in high-change components.
+
+Paragraph 36: Rodney practices Liskov-friendly design by keeping interfaces behaviorally coherent and avoiding surprising implementation semantics. He prefers small, clear contracts over broad "god" interfaces that force irrelevant methods on consumers. This supports predictable service substitution.
+
+Paragraph 37: Rodney applies Interface Segregation by dividing concerns into dedicated abstractions like validation, filtering, and transport client responsibilities. Consumers depend only on methods they actually need. This keeps controller and service surfaces compact and understandable.
+
+Paragraph 38: Rodney applies Single Responsibility at both file and feature levels. For example, map route rendering logic, geolocation fallback logic, and helper calculations are separated so each unit has one primary reason to change. This makes debugging and iteration faster.
+
+Paragraph 39: Rodney's front-end approach emphasizes responsive design, semantic markup, and practical accessibility. He refines content hierarchy so visitors quickly understand role, skills, and project depth. His objective is to balance clarity for non-technical users with technical credibility for recruiters.
+
+Paragraph 40: Rodney recently updated portfolio experience cards to align more directly with his target stack and job goals. The cards now emphasize Frontend Development, Backend Development, IT Support Operations, and Tools using stronger role-relevant terminology. AI/LLM content remains intentionally visible but not overstated.
+
+Paragraph 41: The updated frontend card highlights HTML5, CSS3, JavaScript, responsive design, accessibility, and Razor Pages. The backend card emphasizes C#, ASP.NET Core, .NET, Entity Framework Core, SQL Server, REST API integration, and dependency injection. This alignment improves both ATS relevance and recruiter scanability.
+
+Paragraph 42: The updated IT support operations card emphasizes troubleshooting, incident management, API/integration support, customer-focused support, escalation management, and root-cause analysis. This reflects Rodney's real enterprise support practice and differentiates him in junior software interviews. It also signals readiness for application support roles.
+
+Paragraph 43: The updated tools card highlights Azure App Service, Git/GitHub, Docker, Postman, Visual Studio, Cursor, and testing tools (xUnit/Moq/Vitest). This conveys practical delivery capability from coding through validation and deployment. It helps position Rodney as a builder who can ship and maintain.
+
+Paragraph 44: Rodney's communication style is structured, direct, and user-aware. He explains technical issues in plain language when needed, then deepens detail for technical audiences. This adaptability is a consistent strength in support incidents, stakeholder updates, and interview settings.
+
+Paragraph 45: Rodney is deliberate about security and operational hygiene in AI-enabled features. He keeps secrets out of source control, uses environment and app settings for key management, and adds fallback behavior for service disruptions. He treats reliability and safety as first-class requirements.
+
+Paragraph 46: Rodney demonstrates continuous improvement through iterative releases rather than one-time static projects. He accepts feedback, refines UI/UX behavior, strengthens architecture, and adds tests as complexity grows. This pattern reflects growth mindset and engineering maturity.
+
+Paragraph 47: Rodney's GitHub repository is https://github.com/ChefRod88/RodneyPortfolio and includes both application code and technical documentation artifacts. His repo history reflects feature delivery, refactoring, testing, and deployment-related changes. It serves as a transparent record of his development process.
+
+Paragraph 48: Rodney's portfolio is designed to support recruiter conversations, technical interviews, and practical demonstrations. Visitors can view his architecture choices, skill focus, and project outcomes in one place. The chatbot adds an interactive layer for guided exploration of his profile.
+
+Paragraph 49: Rodney seeks opportunities where he can contribute quickly with ASP.NET Core, Razor Pages, C#, SQL Server, and Azure while continuing to grow as a software engineer. He is especially aligned with teams that value maintainability, customer impact, and operational excellence. He is open to junior engineering and application support pathways that include real ownership.
+
+Paragraph 50: Contact details for Rodney Amos Chery are: Location Winter Haven, FL; Email chefrodneyachery@gmail.com; LinkedIn https://www.linkedin.com/in/rodneyachery/; GitHub https://github.com/ChefRod88/RodneyPortfolio; Portfolio https://www.rodneyachery.com; Phone 863-296-5890. Primary positioning statement: Junior Software Engineer with a strong foundation in ASP.NET Core Razor Pages, C#, SQL Server, Azure App Service, testing discipline, and production-minded troubleshooting.
+
+# Rodney Portfolio Website — Complete Technical Documentation
+
+**Author:** Rodney Chery  
+**Purpose:** I built this document to give recruiters, engineers, and hiring managers a full technical breakdown of my portfolio website. Every element, every decision, every line of code—I'm walking you through it all so you can see exactly what I built and how it works.
+
+---
+
+## Table of Contents
+
+1. [Executive Summary](#1-executive-summary)
+2. [Technology Stack](#2-technology-stack)
+3. [Architecture Overview](#3-architecture-overview)
+4. [Project Structure](#4-project-structure)
+5. [Application Entry Point](#5-application-entry-point)
+6. [Page Structure & HTML Breakdown](#6-page-structure--html-breakdown)
+7. [CSS Architecture](#7-css-architecture)
+8. [JavaScript Architecture](#8-javascript-architecture)
+9. [API Layer](#9-api-layer)
+10. [Services & Business Logic](#10-services--business-logic)
+11. [Data Layer](#11-data-layer)
+12. [Configuration & Secrets](#12-configuration--secrets)
+13. [CI/CD Pipeline](#13-cicd-pipeline)
+14. [Security](#14-security)
+15. [Accessibility](#15-accessibility)
+16. [PWA & Offline Support](#16-pwa--offline-support)
+
+---
+
+## 1. Executive Summary
+
+I built rodneyachery.com as a single-page portfolio that showcases my background, skills, and projects. The site includes:
+
+- **Profile/Hero** — Introduction with CV download and social links
+- **About** — Education, photo collage, and career narrative
+- **Experience** — Six skill cards (Soft Skills, IT Support, Frontend, Backend, Tools, AI/LLM)
+- **Projects** — Two project cards (Ask Rodney AI Chatbot, GitHub repo)
+- **Ask Rodney AI Chatbot** — Conversational AI that answers questions about my resume using OpenAI
+- **Job Match** — Paste a job description and get a compatibility analysis
+- **Contact** — Email and LinkedIn
+
+The stack is **ASP.NET Core 10**, **Razor Pages**, **C#**, **JavaScript**, **Bootstrap**, and **OpenAI Chat Completions API**. I host it on **Azure Web App** with **GitHub Actions** CI/CD.
+
+---
+
+## 2. Technology Stack
+
+| Layer | Technology | Version / Notes |
+|-------|------------|-----------------|
+| Runtime | .NET | 10.0 |
+| Backend | ASP.NET Core | Razor Pages + Web API |
+| Language | C# | Nullable reference types enabled |
+| Frontend | HTML5, CSS3, JavaScript | Vanilla JS, no framework |
+| UI Framework | Bootstrap | 5.x (via lib) |
+| AI | OpenAI Chat Completions | gpt-4o-mini |
+| Analytics | Google Analytics 4 | gtag.js |
+| Hosting | Azure Web App | Production |
+| CI/CD | GitHub Actions | Push to main triggers deploy |
+| PWA | Service Worker | Offline caching |
+
+---
+
+## 3. Architecture Overview
+
+### High-Level Data Flow
+
+```mermaid
+flowchart TB
+    subgraph User[User Browser]
+        Index[Index.cshtml]
+        site_js[site.js]
+        site_css[site.css]
+    end
+
+    subgraph ASPNET[ASP.NET Core]
+        Program[Program.cs]
+        Layout[_Layout.cshtml]
+        ChatController[ChatController]
+        OpenAIChatService[OpenAIChatService]
+        JobMatchService[JobMatchService]
+        ResumeContextLoader[ResumeContextLoader]
+        InputValidator[InputValidator]
+        ContentFilter[ContentFilter]
+    end
+
+    subgraph Data[Data]
+        ResumeContext[Data/ResumeContext.txt]
+    end
+
+    subgraph External[External]
+        OpenAI[OpenAI API]
+        GA4[Google Analytics]
+    end
+
+    User -->|HTTP| ASPNET
+    Index --> Layout
+    site_js -->|fetch POST /api/chat| ChatController
+    site_js -->|fetch POST /api/chat/job-match| ChatController
+    ChatController --> InputValidator
+    ChatController --> ContentFilter
+    ChatController --> OpenAIChatService
+    ChatController --> JobMatchService
+    OpenAIChatService --> ResumeContextLoader
+    OpenAIChatService --> OpenAI
+    JobMatchService --> ResumeContextLoader
+    JobMatchService --> OpenAI
+    ResumeContextLoader --> ResumeContext
+    Layout -->|gtag| GA4
+```
+
+### Component Diagram
+
+```mermaid
+flowchart LR
+    subgraph Frontend[Frontend]
+        Profile[Profile Section]
+        About[About Section]
+        Experience[Experience Section]
+        Projects[Projects Section]
+        Chat[Chat Section]
+        JobMatch[Job Match]
+        Contact[Contact Section]
+    end
+
+    subgraph API[API]
+        ChatAPI[POST /api/chat]
+        JobMatchAPI[POST /api/chat/job-match]
+    end
+
+    subgraph Services[Services]
+        AIService[OpenAIChatService]
+        JobMatchSvc[JobMatchService]
+        ResumeLoader[ResumeContextLoader]
+    end
+
+    Profile --> Contact
+    About --> Contact
+    Experience --> Contact
+    Projects --> Chat
+    Chat --> ChatAPI
+    JobMatch --> JobMatchAPI
+    ChatAPI --> AIService
+    JobMatchAPI --> JobMatchSvc
+    AIService --> ResumeLoader
+    JobMatchSvc --> ResumeLoader
+```
+
+---
+
+## 4. Project Structure
+
+```
+RodneyPortfolio/
+├── .github/workflows/
+│   └── main_rodney-portfolio.yml    # GitHub Actions: build + deploy to Azure
+├── Controllers/
+│   └── ChatController.cs           # REST API: /api/chat, /api/chat/job-match
+├── Data/
+│   └── ResumeContext.txt           # Resume + about content for AI context
+├── Models/
+│   ├── ChatRequest.cs              # { Message, Mode? }
+│   ├── ChatResponse.cs             # { Reply }
+│   ├── JobMatchRequest.cs          # { JobDescription }
+│   └── JobMatchResponse.cs         # { MatchScore, SkillsAligned, Gaps, TalkingPoints }
+├── Pages/
+│   ├── Shared/
+│   │   └── _Layout.cshtml          # Master layout, nav, footer, GA4, scripts
+│   ├── Index.cshtml                # Main portfolio page (all sections)
+│   ├── Index.cshtml.cs             # Page model
+│   ├── Error.cshtml                # Error page
+│   ├── Privacy.cshtml              # Privacy policy
+│   ├── _ViewStart.cshtml           # Sets Layout
+│   └── _ViewImports.cshtml         # Namespace imports, tag helpers
+├── Services/
+│   ├── IAIChatService.cs           # Interface for AI chat
+│   ├── OpenAIChatService.cs        # OpenAI integration, prompt engineering, demo fallback
+│   ├── IJobMatchService.cs         # Interface for job match
+│   ├── JobMatchService.cs          # Job description analysis via OpenAI
+│   ├── IResumeContextLoader.cs     # Interface for resume loader
+│   ├── ResumeContextLoader.cs      # Loads Data/ResumeContext.txt, caches in memory
+│   ├── InputValidator.cs           # Max length, prompt injection blocking
+│   └── ContentFilter.cs            # Profanity block list
+├── wwwroot/
+│   ├── assets/
+│   │   ├── images/                 # Profile photo, collage images
+│   │   ├── icons/                  # SVG icons (LinkedIn, GitHub, checkmark, etc.)
+│   │   └── resume/                 # Rodney Chery.pdf
+│   ├── css/
+│   │   └── site.css                # Custom styles (~1200+ lines)
+│   ├── js/
+│   │   └── site.js                 # Chatbot, job match, collage scroll, PWA
+│   ├── sw.js                       # Service worker for PWA
+│   ├── manifest.json               # PWA manifest
+│   ├── favicon.ico
+│   ├── favicon.svg
+│   └── lib/                        # Bootstrap, jQuery
+├── docs/                           # Documentation (this file and others)
+├── Program.cs                      # Entry point, DI, middleware
+├── appsettings.json                # OpenAI, GA4, logging
+├── appsettings.Development.json    # Dev overrides
+└── RodneyPortfolio.csproj          # .NET 10 project file
+```
+
+---
+
+## 5. Application Entry Point
+
+### Program.cs — What I Configure
+
+**Dependency Injection:**
+- `IResumeContextLoader` → `ResumeContextLoader` (scoped)
+- `IAIChatService` → `OpenAIChatService` (scoped)
+- `IJobMatchService` → `JobMatchService` (scoped)
+- `IHttpClientFactory` for OpenAI API calls
+
+**User Secrets:** In Development, I load User Secrets so the OpenAI API key is never committed. The key is read from `OpenAI:ApiKey`.
+
+**Middleware Pipeline (in order):**
+1. **Custom HTTPS/WWW redirect** — In production, I force `https://www.rodneyachery.com`. Localhost and 127.0.0.1 skip this.
+2. **Exception handler** — In production, unhandled exceptions go to `/Error`.
+3. **HSTS** — HTTP Strict Transport Security in production.
+4. **HTTPS redirection**
+5. **Routing**
+6. **Authorization**
+7. **Static assets** (Razor component static assets)
+8. **Static files** (wwwroot)
+9. **Controllers** (API routes)
+10. **Razor Pages** (page routes)
+
+---
+
+## 6. Page Structure & HTML Breakdown
+
+### 6.1 Master Layout (`_Layout.cshtml`)
+
+| Element | Purpose |
+|---------|---------|
+| `@inject IConfiguration` | I inject configuration to read `GoogleAnalytics:MeasurementId` |
+| `<!DOCTYPE html>` | HTML5 document |
+| `<html lang="en">` | Language attribute for accessibility |
+| `<head>` | Meta, PWA manifest, theme-color, Bootstrap, site.css, favicons |
+| `@if (!string.IsNullOrWhiteSpace(gaId))` | I only render the GA4 gtag script when a Measurement ID is configured |
+| `<script async src="...gtag/js?id=@gaId">` | Google Analytics 4 tracking script |
+| `<body>` | Nav, main content, footer, scripts |
+| `<nav id="hamburger-nav">` | Hamburger menu (logo + menu links) |
+| `<main role="main">` | Main content area, `@RenderBody()` |
+| `<footer>` | Nav links, copyright (year set by JS) |
+| `<script src="~/lib/jquery/dist/jquery.min.js">` | jQuery (Bootstrap dependency) |
+| `<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js">` | Bootstrap JS |
+| `<script src="~/js/site.js" asp-append-version="true">` | My custom JavaScript with cache busting |
+
+### 6.2 Index.cshtml — Section-by-Section
+
+#### Section 1: Profile / Hero (`<section id="profile">`)
+
+| Element | Tag | Classes / Attributes | Purpose |
+|---------|-----|----------------------|---------|
+| Container | `div` | `section__pic-container` | Wraps profile image |
+| Profile image | `img` | `src="~/assets/images/IMG_75871.jpg"`, `alt`, `loading="lazy"` | My photo, lazy-loaded |
+| Text container | `div` | `section__text` | Name, tagline, buttons |
+| Greeting | `p` | `section__text__p1` | "Hello, I'm" |
+| Name | `h1` | `title` | "Rodney Chery" |
+| Tagline | `p` | `section__text__p2` | "People before process. Empathy before execution." |
+| Button container | `div` | `btn-container` | Flex container for buttons |
+| Download CV | `button` | `btn btn-outline-dark` | Opens `/assets/resume/Rodney%20Chery.pdf` in new tab |
+| Contact Info | `button` | `btn btn-outline-dark` | Scrolls to `#contact` |
+| Socials | `div` | `id="socials-container"` | LinkedIn, GitHub icons |
+| LinkedIn icon | `img` | `icon` | `onclick` to LinkedIn |
+| GitHub icon | `img` | `icon` | `onclick` to GitHub |
+
+#### Section 2: About (`<section id="about">`)
+
+| Element | Tag | Purpose |
+|---------|-----|---------|
+| Education card | `div` | `details-container education-card` — Pill-shaped card with WGU degree info |
+| Section container | `div` | `section-container` — Flex layout for collage + text |
+| Collage grid | `div` | `about-collage-grid` — 2×2 grid of 4 images |
+| Collage images | `img` | `about-collage-img` — IMG_7753, IMG_7755, IMG_6985, IMG_77500 |
+| Text container | `div` | `text-container` — About narrative (kitchens → tech, troubleshooting) |
+| Arrow | `img` | `icon arrow` — Scrolls to `#experience` |
+
+#### Section 3: Experience (`<section id="experience">`)
+
+| Element | Purpose |
+|---------|---------|
+| `experience-details-container` | Wraps all skill rows |
+| `experience-rows` | Row container |
+| `experience-row experience-row-1` | First row: 3 cards |
+| `experience-row experience-row-2` | Second row: 3 cards |
+| `details-container skills-container` | Each skill card |
+| `article-container` | Grid of skill items |
+| `article` | Each skill: checkmark icon + `<h3>` + `<p>` (proficiency) |
+
+**Skill cards:**
+
+1. **Soft Skills** — Technical Communication, Cross-Functional Collaboration, Problem-Solving Under Pressure, Customer Empathy, Adaptability, Attention to Detail |
+2. **IT Support Operations** — Enterprise Software Support, System Diagnostics, API/Integration Support, Customer-Focused Support, Escalation Management, Knowledge Base Management |
+3. **Frontend Development** — HTML, CSS, JavaScript, TypeScript, Angular, Razor Pages |
+4. **Backend Development** — C#, ASP.NET Core, Entity Framework Core, SQL Server, Git/GitHub, .NET MAUI |
+5. **Tools** — Azure, Cursor, Docker |
+6. **AI / LLM Development** — AI/LLM API Integration, Conversational Interfaces, Prompt Engineering, RESTful APIs & JSON, Input Validation & Filtering |
+
+#### Section 4: Projects (`<section id="projects" class="projects-section">`)
+
+| Element | Purpose |
+|---------|---------|
+| `projects-grid` | Flex container for project cards |
+| **Card 1** — Ask Rodney AI Chatbot | |
+| `a` | `project-card project-card-link`, `href="#ask-rodney"`, `aria-label` |
+| `project-loader` | `div` — Contains loader animation |
+| `span` | `loader loader-ai` — Custom black spinning gears animation |
+
+| Element | Purpose |
+|---------|---------|
+| `project-btn` | Button text "Ask Rodney AI Chatbot" |
+| `project-description` | Description paragraph |
+| **Card 2** — GitHub | |
+| `a` | `project-card project-card-link`, `href` to GitHub, `target="_blank"`, `rel="noopener noreferrer"` |
+| `project-loader` | Contains default typewriter/cloud loader |
+| `span` | `loader` — Base loader (no `loader-ai`) |
+| `project-btn` | GitHub icon + "GitHub" text |
+
+**Project card styling:** I use a 4px solid black border, gray background on the second card (for cloud visibility), and a light shadow on hover.
+
+#### Section 5: Ask Rodney — AI Chatbot (`<section id="ask-rodney" class="chat-section">`)
+
+| Element | ID / Class | Purpose |
+|---------|------------|---------|
+| Messages container | `#chat-messages` | `chat-messages`, `role="log"`, `aria-live="polite"` — Scrollable message list |
+| Input | `#chat-input` | `chat-input`, `maxlength="500"`, `autocomplete="off"` |
+| Send button | `#chat-send` | `chat-send-btn`, `aria-label="Send message"` |
+| Character counter | `#chat-char-remaining` | Shows "500" initially, updates on input |
+| Docs buttons | `chat-docs-btn-container` | Links to Documentation, Secure Open API Key Docs |
+| Transparency panel | `chat-transparency-panel` | Collapsible "How this chatbot works" |
+| Toggle button | `#chat-transparency-toggle` | `aria-expanded`, `aria-controls` |
+| Content | `#chat-transparency-content` | `hidden` — Model, Architecture, Data, Safety, Hosting |
+| Job Match | `chat-job-match` | Sub-section |
+| Title | `chat-job-match-title` | "Job Match" |
+| Textarea | `#job-match-input` | `chat-job-match-input`, `maxlength="4000"`, `rows="4"` |
+| Character counter | `#job-match-char-remaining` | "4000" |
+| Analyze button | `#job-match-analyze` | `chat-job-match-btn` |
+| Result container | `#job-match-result` | `hidden` — Match score, skills, gaps, talking points |
+| Score value | `#job-match-score-value` | Displays 0–100 |
+| Lists | `#job-match-skills`, `#job-match-gaps`, `#job-match-talking` | `<ul>` elements — populated by JS |
+| Job Match docs | `chat-docs-btn-container` | Link to Job Match Feature Technical Docs |
+
+#### Section 6: Contact (`<section id="contact" class="contact-section">`)
+
+| Element | Purpose |
+|---------|---------|
+| `contact-card` | Flex container |
+| `contact-item` | Email link (`mailto:`) and LinkedIn link |
+| `contact-icon` | Envelope SVG, LinkedIn SVG |
+
+---
+
+## 7. CSS Architecture
+
+### 7.1 Organization
+
+I use comment blocks to separate major sections:
+
+- ROOT / TYPOGRAPHY
+- FOCUS / ACCESSIBILITY
+- PAGE / LAYOUT BASE
+- PROFILE SECTION
+- ABOUT SECTION
+- EXPERIENCE SECTION
+- PROJECTS SECTION
+- CHAT SECTION
+- JOB MATCH
+- CONTACT
+- RESPONSIVE
+
+### 7.2 Key Design Tokens
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| Root font size | 14px (mobile), 16px (desktop) | Base font |
+| `scroll-behavior` | smooth | Smooth scroll for anchor links |
+| Body background | `#ffffff` | White |
+| Profile title | `3rem`, `font-weight: 800` | Hero name |
+| Card border | `4px solid #000000` | Project cards |
+| Chat user message | Blue background | Right-aligned |
+| Chat assistant message | Gray background | Left-aligned |
+
+### 7.3 Project Card Loaders
+
+**AI Card (`loader-ai`):** I use a custom spinning gears animation. Two pseudo-elements (`::before`, `::after`) create two circles with radial gradients for gear teeth. `--base-color: #000000` and `--tooth-color: #ffffff` give black gears with white teeth. `animation: rotationBack` — one gear 3s, the other 4s reverse.
+
+**GitHub Card (default `loader`):** I use the base loader with a typewriter/crane-style animation. White circles and gray bars create a cloud-like appearance. The second card has a gray background (`#e5e7eb`) so the cloud outline is visible.
+
+### 7.4 Responsive Breakpoints
+
+- `768px` — Font size increase, layout adjustments
+- `1100px` — Projects grid wraps
+- Mobile — Hamburger menu, stacked layouts, full-width cards
+
+---
+
+## 8. JavaScript Architecture
+
+### 8.1 Functions & Responsibilities
+
+| Function | Purpose |
+|----------|---------|
+| `toggleMenu()` | Toggles `.open` on `.menu-links` and `.hamburger-icon` |
+| `initAutoScrollCollage()` | Auto-scrolls `.about-collage-banner` (if present). Respects `prefers-reduced-motion`. Pauses on hover/touch/wheel. Uses `requestAnimationFrame`. |
+| `initChatBot()` | Sets up chat UI, event listeners, transparency panel, job match |
+| `addMessage(text, role)` | Creates `div.chat-message.{role}`, sets `textContent`, appends, scrolls |
+| `setLoading(loading)` | Disables/enables input and send button |
+| `sendMessage(text)` | POSTs `{ message }` to `/api/chat`, shows loading, renders reply or error |
+| `updateCharCount()` | Updates `#chat-char-remaining` (500 - length) |
+| `initJobMatch()` | Sets up job match UI |
+| `renderList(ul, items)` | Clears `<ul>`, appends `<li>` for each item or "None" |
+| `analyze()` | POSTs `{ jobDescription }` to `/api/chat/job-match`, renders results |
+| `registerServiceWorker()` | Registers `/sw.js` for PWA |
+
+### 8.2 Event Listeners
+
+| Element | Event | Handler |
+|---------|-------|---------|
+| Send button | `click` | `sendMessage(inputEl.value)` |
+| Chat input | `keydown` | Enter (no Shift) → `sendMessage` |
+| Chat input | `input` | `updateCharCount` |
+| Transparency toggle | `click` | Toggle `aria-expanded`, `hidden` on content |
+| Job match input | `input` | `updateCharCount` |
+| Analyze button | `click` | `analyze()` |
+
+### 8.3 DOMContentLoaded
+
+- Set copyright year: `document.getElementById("copyright").textContent = "Copyright © ${year} Rodney Chery..."`
+- `initAutoScrollCollage()`
+- `registerServiceWorker()`
+- `initChatBot()` (which calls `initJobMatch()`)
+
+### 8.4 XSS Prevention
+
+I use `textContent` (not `innerHTML`) when rendering chat messages and job match list items. This prevents script injection.
+
+---
+
+## 9. API Layer
+
+### 9.1 ChatController
+
+**Route:** `[Route("api/[controller]")]` → `/api/chat`
+
+**POST /api/chat**
+
+| Step | Action |
+|------|--------|
+| 1 | Validate `request?.Message` not null |
+| 2 | `InputValidator.GetValidationError(message)` → return 400 if invalid |
+| 3 | `ContentFilter.IsBlocked(message)` → return 400 if blocked |
+| 4 | `_aiService.GetReplyAsync(message.Trim(), request.Mode, cancellationToken)` |
+| 5 | Return `{ reply }` or 500 on exception |
+
+**Request body:** `{ "message": string, "mode"?: "recruiter" | "engineer" | "interview" }`  
+**Response:** `{ "reply": string }`
+
+**POST /api/chat/job-match**
+
+| Step | Action |
+|------|--------|
+| 1 | Validate `request?.JobDescription` not null |
+| 2 | Trim, check length > 0 |
+| 3 | Check length ≤ 4000 |
+| 4 | `_jobMatchService.AnalyzeAsync(trimmed, cancellationToken)` |
+| 5 | Return `JobMatchResponse` or 500 on exception |
+
+**Request body:** `{ "jobDescription": string }`  
+**Response:** `{ matchScore, skillsAligned, gaps, talkingPoints }`
+
+---
+
+## 10. Services & Business Logic
+
+### 10.1 OpenAIChatService
+
+**Flow:**
+1. Read `OpenAI:ApiKey` from config. If empty → return "The chatbot is not configured."
+2. Load resume context via `IResumeContextLoader`.
+3. Build system prompt with `BuildSystemPrompt(resumeContext, mode)`.
+4. POST to `https://api.openai.com/v1/chat/completions` with `model`, `messages`, `max_tokens`.
+
+**On API failure (401, 403, 429, 500, etc.):** I log the error and return a demo response via `GetDemoResponseAsync()` — keyword-based answers from resume context. The user never sees the raw API error.
+
+**Prompt engineering:** I inject the current date for "how long at Canon" questions. I instruct the model to answer the specific question asked, vary response style, infer, calculate, and stay grounded in the context.
+
+### 10.2 JobMatchService
+
+**Flow:**
+1. Read API key. If empty → return fallback with "Chatbot is not configured."
+2. Load resume context.
+3. Build prompt: "Compare this job description to Rodney Chery's resume. Return JSON: matchScore, skillsAligned, gaps, talkingPoints."
+4. POST with `response_format: { type: "json_object" }`.
+5. Parse JSON with `JsonDocument`, extract arrays via `GetStringArray()`.
+6. `Math.Clamp(score, 0, 100)` for match score.
+
+**On failure:** Return `MatchScore: 0`, `Gaps: ["Unable to analyze..."]` or `["Could not parse analysis..."]`.
+
+### 10.3 ResumeContextLoader
+
+- Reads `Data/ResumeContext.txt` from `ContentRootPath`.
+- Caches in `_cachedContext` (in-memory, no expiration).
+- Returns placeholder message if file not found.
+
+### 10.4 InputValidator (Static)
+
+- Max length: 500 characters.
+- Blocked patterns: "ignore previous", "disregard", "system:", "you are now", "act as", etc.
+- `IsValid()` → bool; `GetValidationError()` → string or null.
+
+### 10.5 ContentFilter (Static)
+
+- Blocked terms: profanity list with word-boundary regex.
+- `IsBlocked()` → bool.
+
+---
+
+## 11. Data Layer
+
+### ResumeContext.txt Structure
+
+I maintain a plain-text file with:
+
+- NAME & TITLE
+- EDUCATION
+- EXPERIENCE
+- CAREER TRANSITION
+- APPROACH TO TROUBLESHOOTING
+- SOFT SKILLS
+- TECHNICAL SKILLS
+- PROJECTS
+- PROJECT DEEP-DIVES (Portfolio Website, Ask Rodney Chatbot)
+- WHAT DIFFERENTIATES RODNEY
+- WORK PHILOSOPHY
+- STRENGTHS IN TEAMS
+- CONTACT
+
+I update this file whenever my resume changes. The AI uses it as the sole source of truth.
+
+---
+
+## 12. Configuration & Secrets
+
+### appsettings.json
+
+```json
+{
+  "Logging": { "LogLevel": { "Default": "Information", "Microsoft.AspNetCore": "Warning" } },
+  "AllowedHosts": "*",
+  "OpenAI": { "ApiKey": "", "Model": "gpt-4o-mini" },
+  "GoogleAnalytics": { "MeasurementId": "G-GFRJYMRHKM" }
+}
+```
+
+### Secrets Management
+
+- **Local:** `dotnet user-secrets set "OpenAI:ApiKey" "sk-..."` — never committed.
+- **Production:** GitHub Secret `OPENAI_API_KEY` → Azure App Setting `OpenAI__ApiKey` via `Azure/appservice-settings@v1`.
+- **GA4:** `GA4_MEASUREMENT_ID` in GitHub Secrets for production override; otherwise `appsettings.json` value is used.
+
+---
+
+## 13. CI/CD Pipeline
+
+### .github/workflows/main_rodney-portfolio.yml
+
+**Triggers:** Push to `main`, manual `workflow_dispatch`.
+
+**Build job:**
+- Checkout, setup .NET 10.x
+- `dotnet build --configuration Release`
+- `dotnet publish` to artifact
+- Upload artifact
+
+**Deploy job:**
+- Download artifact
+- Azure login (client-id, tenant-id, subscription-id from secrets)
+- `azure/webapps-deploy@v3` → deploy to `rodney-portfolio`
+- `Azure/appservice-settings@v1` → set `OpenAI__ApiKey`
+- `Azure/appservice-settings@v1` → set `GoogleAnalytics__MeasurementId`
+
+---
+
+## 14. Security
+
+| Measure | Implementation |
+|---------|-----------------|
+| API key storage | User Secrets (dev), GitHub Secrets → Azure (prod) |
+| Input validation | 500 chars, prompt injection patterns blocked |
+| Content filtering | Profanity block list |
+
+| Measure | Implementation |
+|---------|-----------------|
+| XSS | `textContent` for user-generated content |
+| HTTPS | Enforced in production |
+| CORS | Default (same-origin) |
+| Open redirect | N/A — no redirect from user input |
+
+---
+
+## 15. Accessibility
+
+- `role="main"` on main content
+- `role="log"` and `aria-live="polite"` on chat messages
+- `aria-label` on send button, project cards
+- `aria-expanded` and `aria-controls` on transparency toggle
+- Semantic HTML (`section`, `article`, `h1`–`h4`)
+- Focus styles for buttons and form controls
+
+---
+
+## 16. PWA & Offline Support
+
+- **manifest.json** — App name, theme color, icons
+- **sw.js** — Service worker caches static assets
+- **registerServiceWorker()** — Registers on load, calls `reg.update()` for updates
+
+---
+
+## Summary
+
+This document covers the full technical stack of my portfolio website: from the HTML structure and CSS classes to the C# services, API endpoints, configuration, and deployment flow. I built it to be a single, authoritative reference for anyone who wants to understand how rodneyachery.com works from A to Z.
+
+---
+
+**Document version:** 1.0  
+**Last updated:** February 2026  
+**Repository:** GitHub.com/ChefRod88/RodneyPortfolio
+
+# Job Match Feature — Technical Documentation
+
+## Overview
+
+I built the **Job Match** feature so recruiters and hiring managers can paste a job description into my portfolio and get an AI-powered analysis of how my resume aligns with the role. It returns a match score, skills alignment, gaps, and suggested talking points for interviews. Let me walk you through how it works.
+
+---
+
+## Architecture
+
+Here's the flow from the UI to the API:
+
+```
+┌─────────────────┐     POST /api/chat/job-match      ┌──────────────────┐
+│  Job Match UI    │ ──────────────────────────────► │ ChatController   │
+│  (Index.cshtml)  │     { jobDescription: string }    │                  │
+└─────────────────┘                                   └────────┬─────────┘
+                                                               │
+                                                               ▼
+┌─────────────────┐     JobMatchResponse              ┌──────────────────┐
+│  Result Display │ ◄──────────────────────────────── │ JobMatchService  │
+│  (site.js)      │     matchScore, skillsAligned,   │                  │
+└─────────────────┘     gaps, talkingPoints           └────────┬─────────┘
+                                                               │
+                                                               ▼
+                                                      ┌──────────────────┐
+                                                      │ OpenAI API        │
+                                                      │ Chat Completions  │
+                                                      │ (gpt-4o-mini)     │
+                                                      └──────────────────┘
+```
+
+---
+
+## API Specification
+
+### Endpoint
+
+| Method | Path | Description |
+|--------|------|--------------|
+| POST | `/api/chat/job-match` | Analyzes job description against my resume |
+
+### Request
+
+**Content-Type:** `application/json`
+
+```json
+{
+  "jobDescription": "string (required, max 4000 characters)"
+}
+```
+
+**Validation:**
+- `jobDescription` is required
+- Cannot be empty (after trim)
+- Max length: 4,000 characters
+
+**Error responses:**
+- `400` — Missing, empty, or too long job description
+- `500` — Server error during analysis
+
+### Response (Success)
+
+**Status:** `200 OK`
+
+```json
+{
+  "matchScore": 75,
+  "skillsAligned": ["C#", "ASP.NET Core", "SQL Server", "Git"],
+  "gaps": ["Kubernetes", "5+ years experience"],
+  "talkingPoints": ["Emphasize Canon enterprise support experience", "Highlight OpenAI integration project"]
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `matchScore` | `int` | 0–100 compatibility score |
+| `skillsAligned` | `string[]` | Job requirements I have |
+| `gaps` | `string[]` | Job requirements I lack or am weak in |
+| `talkingPoints` | `string[]` | Suggested interview talking points |
+
+---
+
+## Backend Components
+
+### 1. ChatController (`Controllers/ChatController.cs`)
+
+- **Action:** `JobMatch([FromBody] JobMatchRequest request)`
+- **What it does:** Validates the request (required, non-empty, max 4000 chars), calls `IJobMatchService.AnalyzeAsync`, and returns the `JobMatchResponse` or an error.
+
+### 2. JobMatchService (`Services/JobMatchService.cs`)
+
+- **Dependencies:** `IResumeContextLoader`, `IConfiguration`, `IHttpClientFactory`, `ILogger`
+- **Flow:**
+  1. I load my resume context from `Data/ResumeContext.txt`
+  2. I build a structured prompt with the job description and my resume
+  3. I call the OpenAI Chat Completions API with `response_format: { type: "json_object" }`
+  4. I parse the JSON response into `JobMatchResponse`
+  5. I handle errors (missing API key, API failure, parse failure) with fallback responses
+
+### 3. Models
+
+**JobMatchRequest** (`Models/JobMatchRequest.cs`):
+```csharp
+public class JobMatchRequest
+{
+    [Required]
+    public string JobDescription { get; set; } = string.Empty;
+}
+```
+
+**JobMatchResponse** (`Models/JobMatchResponse.cs`):
+```csharp
+public class JobMatchResponse
+{
+    public int MatchScore { get; set; }
+    public List<string> SkillsAligned { get; set; } = new();
+    public List<string> Gaps { get; set; } = new();
+    public List<string> TalkingPoints { get; set; } = new();
+}
+```
+
+---
+
+## OpenAI Integration
+
+- **Model:** `gpt-4o-mini` (from config `OpenAI:Model`)
+- **API Key:** Same as the chatbot — `OpenAI:ApiKey` (User Secrets locally, GitHub Secrets in production)
+- **JSON Mode:** `response_format: { type: "json_object" }` ensures I get structured output
+- **Max Tokens:** 1024
+
+**Prompt structure:**
+1. I instruct the model to compare the job description vs. my resume
+2. I require JSON with keys: `matchScore`, `skillsAligned`, `gaps`, `talkingPoints`
+3. I provide the job description and resume context in delimited blocks
+
+---
+
+## Frontend Components
+
+### UI (Index.cshtml)
+
+- Textarea for job description (maxlength 4000)
+- Character counter
+- "Analyze" button
+- Result section (hidden until response):
+  - Match score (0–100%)
+  - Skills Aligned list
+  - Gaps list
+  - Talking Points list
+
+### JavaScript (site.js — `initJobMatch()`)
+
+- `fetch` to `POST /api/chat/job-match` with `{ jobDescription }`
+- Renders `matchScore`, `skillsAligned`, `gaps`, `talkingPoints` in the DOM
+- Handles errors via `alert`
+- Character count updates on input
+
+### CSS (site.css)
+
+- `.chat-job-match` — Container styling
+- `.chat-job-match-input` — Textarea
+- `.chat-job-match-btn` — Analyze button
+- `.chat-job-match-result` — Result section
+- `.chat-job-match-score` — Score display
+- `.chat-job-match-lists` — Grid for skills/gaps/talking points
+
+---
+
+## Error Handling
+
+| Scenario | Behavior |
+|----------|----------|
+| No API key configured | Returns `MatchScore: 0`, `Gaps: ["Chatbot is not configured."]` |
+| OpenAI API failure (401, 403, 429, 500) | Returns `MatchScore: 0`, `Gaps: ["Unable to analyze. Please try again later."]` |
+| Parse failure | Returns `MatchScore: 0`, `Gaps: ["Could not parse analysis. Please try again."]` |
+| Network exception | Same as API failure; logged and fallback returned |
+
+---
+
+## Dependency Injection
+
+I register the service in `Program.cs`:
+
+```csharp
+builder.Services.AddScoped<IJobMatchService, JobMatchService>();
+```
+
+---
+
+## File Summary
+
+| File | Purpose |
+|------|---------|
+| `Controllers/ChatController.cs` | Job Match API action |
+| `Services/IJobMatchService.cs` | Service interface |
+| `Services/JobMatchService.cs` | OpenAI integration, prompt, parsing |
+| `Models/JobMatchRequest.cs` | Request DTO |
+| `Models/JobMatchResponse.cs` | Response DTO |
+| `Pages/Index.cshtml` | Job Match UI markup |
+| `wwwroot/js/site.js` | `initJobMatch()` — fetch and render |
+| `wwwroot/css/site.css` | Job Match styles |
+
+---
+
+## Future Enhancements
+
+- **Embeddings:** Use semantic similarity (e.g., Azure AI Search) for richer matching
+- **Caching:** Cache results for identical job descriptions
+- **Rate limiting:** Limit requests per IP to prevent abuse
+
+# SOLID Learning Guide (RodneyPortfolio + ChurchWebsite)
+
+This document explains **why** the recent refactors were made, **how** they map to SOLID, and gives interview-ready definitions and examples.
+
+---
+
+## 1) SOLID Acronym: Technical and Plain-English Meanings
+
+## S — Single Responsibility Principle
+- **Technical:** A class/module should have only one reason to change (one cohesive responsibility).
+- **Plain English:** One thing should do one job well.
+
+## O — Open/Closed Principle
+- **Technical:** Software entities should be open for extension but closed for modification.
+- **Plain English:** Add new behavior by plugging in new code, not by rewriting old working code.
+
+## L — Liskov Substitution Principle
+- **Technical:** Subtypes must be replaceable for their base types without breaking correctness.
+- **Plain English:** If code expects a type/interface, any implementation should work the same way.
+
+## I — Interface Segregation Principle
+- **Technical:** Clients should not be forced to depend on methods they do not use; prefer focused interfaces.
+- **Plain English:** Keep interfaces small and specific, not huge “do-everything” contracts.
+
+## D — Dependency Inversion Principle
+- **Technical:** High-level modules should depend on abstractions, not concrete implementations.
+- **Plain English:** Depend on interfaces/contracts, not hardcoded classes.
+
+---
+
+## 2) Why These Changes Were Made
+
+The refactor focused on replacing rigid coupling and duplication with abstractions and single sources of truth.
+
+## A) ChurchWebsite service abstractions (DIP + OCP)
+- Introduced:
+  - `IEventService`, `IGroupService`, `ISermonService`, `ILocationService`
+- Updated page models to inject interfaces instead of concrete services.
+- Updated DI in `ChurchWebsite/Program.cs` to bind interface -> implementation.
+
+**Why this matters**
+- Before: page models were tightly coupled to specific classes.
+- After: page models depend on contracts, so you can swap in-memory services for DB/API implementations with minimal changes.
+- SOLID impact:
+  - **DIP:** high-level pages now depend on abstractions.
+  - **OCP:** easier extension with new implementations.
+
+## B) Destination configuration re-centralization (SRP + OCP + DIP)
+- Removed duplicated hardcoded church destination logic in view/JS.
+- Re-used destination values from `ChurchSettings` + page `data-*` attributes.
+- `location-route.js` consumes destination from page-provided data.
+
+**Why this matters**
+- Before: destination data existed in multiple places; one update required many edits.
+- After: one source of truth in settings/model flow.
+- SOLID impact:
+  - **SRP:** configuration lives in configuration models, not scattered constants.
+  - **OCP:** destination can change by config without rewriting routing logic.
+  - **DIP:** route logic depends on data contract (`data-*`) instead of hardcoded constants.
+
+## C) Guardrails refactor in API (SRP + DIP + ISP)
+- Converted static guardrails to injectable services:
+  - `IInputValidator` + `InputValidator`
+  - `IContentFilter` + `ContentFilter`
+- `ChatController` now consumes interfaces via DI.
+
+**Why this matters**
+- Before: controller was directly tied to static utilities.
+- After: policies are injectable and replaceable.
+- SOLID impact:
+  - **SRP:** guardrail logic is encapsulated in dedicated services.
+  - **DIP:** controller depends on interfaces.
+  - **ISP:** focused interfaces expose only relevant methods.
+
+## D) Shared OpenAI adapter (SRP + DIP + OCP)
+- Added `IOpenAIClient` / `OpenAIClient`.
+- `OpenAIChatService` and `JobMatchService` now share one HTTP/auth adapter.
+
+**Why this matters**
+- Before: duplicated HTTP/auth request plumbing in multiple services.
+- After: domain services focus on prompts/parsing; transport handled once.
+- SOLID impact:
+  - **SRP:** domain services no longer own transport concerns.
+  - **DIP:** services depend on `IOpenAIClient`, not `HttpClientFactory` details.
+  - **OCP:** changing provider transport behavior is centralized.
+
+## E) Frontend SRP split
+- Moved location fallback workflow from `ChurchWebsite/wwwroot/js/site.js` to `ChurchWebsite/wwwroot/js/location-fallback.js`.
+
+**Why this matters**
+- Before: one file had navigation, scrolling, and location logic mixed together.
+- After: concerns are separated by responsibility.
+- SOLID impact:
+  - **SRP:** each module has a clearer purpose.
+
+## F) Test hardening (supports LSP/DIP confidence)
+- Updated tests for new interfaces and new adapter boundaries.
+- Added `OpenAIClient` tests.
+- Added `ChurchWebsite.Tests` for settings destination behavior.
+
+**Why this matters**
+- When implementations are swapped behind interfaces, tests ensure substitutes still behave correctly (**LSP confidence**) and abstraction boundaries stay stable (**DIP confidence**).
+
+---
+
+## 3) One “Should Not Have Been Done” Example (Before) vs SOLID Version (After)
+
+## Example: Controller calling static utilities directly
+
+### Before (tight coupling; lower testability)
+```csharp
+// ChatController (old style)
+var validationError = InputValidator.GetValidationError(request.Message);
+if (ContentFilter.IsBlocked(request.Message)) { ... }
+```
+
+### Why this is weaker
+- Controller is tied to concrete static classes.
+- Harder to swap validation/filter policies.
+- Harder to mock in tests.
+
+### After (DIP + SRP + ISP)
+```csharp
+// ChatController (refactored style)
+var validationError = _inputValidator.GetValidationError(request.Message);
+if (_contentFilter.IsBlocked(request.Message)) { ... }
+```
+
+**Improvement**
+- Controller depends on contracts (`IInputValidator`, `IContentFilter`).
+- Validation/filter logic can evolve independently.
+- Easy to mock in unit tests.
+
+## Example 2: Hardcoded destination in multiple places (should not be done)
+
+### Before (duplication + brittle changes)
+```csharp
+// Location.cshtml (old style)
+var googleMapsUrl = "https://www.google.com/maps/dir//New+Bethel+Missionary,...";
+var appleMapsUrl = "https://maps.apple.com/?daddr=28.0497068,-81.7260765...";
+```
+
+```javascript
+// location-route.js (old style)
+const destination = {
+  name: 'New Bethel Missionary Baptist Church',
+  address: '123 Ave Y NE, Winter Haven, FL 33881',
+  lat: 28.0497068,
+  lon: -81.7260765
+};
+```
+
+### Why this is weaker
+- Same business data lives in multiple files.
+- If the address changes, devs must update every hardcoded location.
+- Higher risk of inconsistent behavior between UI links and routing logic.
+
+### After (single source of truth from settings)
+```csharp
+// Location.cshtml (refactored style)
+var destinationLabel = string.IsNullOrWhiteSpace(Model.Destination.AddressLabel)
+    ? Model.Destination.Name
+    : Model.Destination.AddressLabel;
+var destinationCoords = $"{Model.Destination.Latitude.ToString(System.Globalization.CultureInfo.InvariantCulture)},{Model.Destination.Longitude.ToString(System.Globalization.CultureInfo.InvariantCulture)}";
+var googleMapsUrl = $"https://www.google.com/maps/dir/?api=1&destination={Uri.EscapeDataString(destinationCoords)}&travelmode=driving";
+```
+
+```javascript
+// location-route.js (refactored style)
+const destination = {
+  name: card.dataset.destinationName || 'Church',
+  address: card.dataset.destinationAddress || '',
+  lat: parseOptionalNumber(card.dataset.destinationLat),
+  lon: parseOptionalNumber(card.dataset.destinationLon)
+};
+```
+
+### Why this change was made
+- Destination now comes from one configuration-driven source (`ChurchSettings.Routing.ChurchDestination`).
+- The view and JS consume data passed through the page model/`data-*` contract.
+- This improves:
+  - **SRP:** config responsibility stays in config/domain model.
+  - **OCP:** destination can change via config with no route algorithm rewrite.
+  - **DIP:** frontend route logic depends on a contract, not embedded constants.
+
+---
+
+## 4) Interview / Teaching Script You Can Recite
+
+Use this concise version:
+
+1. **S**: One class, one job, one reason to change.  
+2. **O**: Add new behavior by extending, not by editing stable code.  
+3. **L**: Any implementation of an interface should be safely substitutable.  
+4. **I**: Small, purpose-built interfaces; no forced unused methods.  
+5. **D**: Depend on abstractions, not concrete classes.
+
+Then give your concrete project example:
+- “We changed page models and controllers from concrete classes/static calls to interfaces (`IEventService`, `IInputValidator`, `IOpenAIClient`), which improved testability and made behavior easier to extend without breaking existing modules.”
+
+---
+
+## 5) Practical Memory Trick
+
+- **S** = **Single job**  
+- **O** = **Open to add, closed to rewrite**  
+- **L** = **Like-for-like replacement**  
+- **I** = **Interface fit-for-purpose**  
+- **D** = **Depend on contracts**
+
+If you can explain each with one real project example, recruiters will see you understand both theory and engineering practice.
+
+# Ask Rodney Chatbot API Specification
+
+## Overview
+
+The Ask Rodney chatbot allows visitors to ask questions about Rodney Chery's resume, experience, and background. The API is a REST endpoint that accepts a message and returns an AI-generated reply.
+
+## Endpoint
+
+```
+POST /api/chat
+```
+
+## Request
+
+### Headers
+
+| Header          | Value             |
+|-----------------|-------------------|
+| Content-Type    | application/json  |
+
+### Body
+
+```json
+{
+  "message": "What's Rodney's experience?"
+}
+```
+
+| Field    | Type   | Required | Description                    |
+|----------|--------|----------|--------------------------------|
+| message  | string | Yes      | The visitor's question. Max 500 characters. |
+
+## Response
+
+### Success (200 OK)
+
+```json
+{
+  "reply": "Rodney is a Technical Support Inkjet Tier 1 at Canon Information Technology Services. He troubleshoots proprietary software, hardware environments, and enterprise applications by systematically isolating variables and guiding issues through structured resolution."
+}
+```
+
+| Field  | Type   | Description                    |
+|--------|--------|--------------------------------|
+| reply  | string | The AI-generated response      |
+
+### Error Responses
+
+| Status | Description |
+|--------|-------------|
+| 400 Bad Request | Invalid input: empty message, exceeds max length (500 chars), contains blocked patterns, or fails content filter |
+| 500 Internal Server Error | Server or AI service error |
+
+#### 400 Error Body
+
+```json
+{
+  "error": "Message must be 500 characters or less."
+}
+```
+
+#### 500 Error Body
+
+```json
+{
+  "error": "Something went wrong. Please try again."
+}
+```
+
+## Input Validation
+
+- **Max length:** 500 characters
+- **Blocked patterns:** Prompt injection attempts (e.g., "ignore previous", "system:", "disregard") are rejected
+- **Content filter:** Inappropriate content is blocked
+
+## Configuration
+
+The chatbot requires an OpenAI API key. Configure in `appsettings.json` or User Secrets:
+
+```json
+{
+  "OpenAI": {
+    "ApiKey": "sk-...",
+    "Model": "gpt-4o-mini"
+  }
+}
+```
+
+- **ApiKey:** Your OpenAI API key. Required. If not set, the chatbot returns an error.
+- **Model:** OpenAI model (default: gpt-4o-mini)
+
+## Resume Context
+
+The AI uses content from `Data/ResumeContext.txt` as its knowledge base. Update this file when you update your resume.
+
+******************************************
+
+# Portfolio AI Skills Implementation Plan
+
+## Chatbot Purpose: "Ask Rodney"
+
+I built this chatbot as a **personal assistant** for my portfolio. Visitors can ask questions like:
+
+- "What's Rodney's background?"
+- "Tell me about his experience at Canon"
+- "What skills does he have?"
+- "What's his approach to troubleshooting?"
+- "What's his education?"
+- "Why did he transition from kitchens to tech?"
+
+The AI uses my **resume content** and **About Me** section as its knowledge base to answer accurately and in my voice.
+
+---
+
+## Job Requirements Mapping
+
+| Job Requirement                    | My Portfolio Implementation                                                       |
+| ---------------------------------- | ---------------------------------------------------------------------------------- |
+| Python, JS/TS, C#                  | C# backend + JavaScript frontend (I use ASP.NET Core)                              |
+| RESTful APIs, JSON                 | Backend API controller calling OpenAI; JSON request/response handling              |
+| Web app + UI design                | New chatbot section with modern conversational UI                                  |
+| AI/LLM integration                 | Azure OpenAI or OpenAI API (I use OpenAI)                                         |
+| Chatbots/conversational interfaces | "Ask Rodney" personal assistant chatbot                                            |
+| Prompt engineering                 | System prompt with resume + about content; instructs AI to answer only about me   |
+| AI safety                          | Input validation, content filtering, response guardrails, logging                  |
+
+---
+
+## Architecture Overview
+
+```mermaid
+flowchart TB
+    subgraph Frontend [Frontend - Index.cshtml]
+        ChatUI[Chat UI Component]
+        FetchAPI[fetch to /api/chat]
+    end
+
+    subgraph Backend [Backend - ASP.NET Core]
+        ChatController[ChatController API]
+        AIService[IAIChatService]
+        Validation[Input Validator]
+        Filter[Content Filter]
+    end
+
+    subgraph External [External]
+        OpenAI[OpenAI / Azure OpenAI API]
+    end
+
+    ChatUI -->|JSON POST| FetchAPI
+    FetchAPI --> ChatController
+    ChatController --> Validation
+    Validation --> Filter
+    Filter --> AIService
+    AIService -->|REST + JSON| OpenAI
+    OpenAI -->|JSON response| AIService
+    AIService --> ChatController
+    ChatController -->|JSON| FetchAPI
+```
+
+---
+
+## Step-by-Step Implementation Plan
+
+### Step 1: Add NuGet Package and Configuration
+
+**What I did:** I enabled HTTP calls to OpenAI/Azure OpenAI from C#.
+
+**Files I created/modified:**
+
+- [RodneyPortfolio.csproj](RodneyPortfolio.csproj) - I added the `OpenAI` NuGet package (or use HttpClient directly)
+- [appsettings.json](appsettings.json) - I added `OpenAI:ApiKey` and `OpenAI:Model` (e.g., `gpt-4o-mini` for cost)
+- [appsettings.Development.json](appsettings.Development.json) - Same keys; I use User Secrets for my real key
+
+**Use case:** I store the API key securely. The chatbot requires an API key; if not configured, it returns an error.
+
+**Code concept:**
+
+```json
+// appsettings.json
+"OpenAI": {
+  "ApiKey": "",
+  "Model": "gpt-4o-mini"
+}
+```
+
+---
+
+### Step 2: Create AI Chat Service (C#)
+
+**What I did:** I encapsulated LLM API calls, prompt templates, and response handling. This demonstrates RESTful API consumption and JSON handling.
+
+**Files I created:**
+
+- `Services/IAIChatService.cs` - Interface
+- `Services/OpenAIChatService.cs` - Implementation
+
+**Use case:** When someone asks "What's Rodney's experience?" — my service injects my resume + about content into the system prompt and returns a natural, on-brand response.
+
+**Data source:** I created a config file `Data/ResumeContext.txt` that I maintain with key resume points and about content. I update it when I update my resume. The service reads this and injects it into the system prompt.
+
+**Code concept:**
+
+```csharp
+// I load my resume/about content (from Data/ResumeContext.txt or config)
+var resumeContext = await _resumeContextLoader.LoadAsync();
+
+// Prompt template (prompt engineering)
+var systemPrompt = $@"You are a friendly assistant representing Rodney Chery. Your job is to answer questions about Rodney based ONLY on the following information. Do not make up facts. If asked something not covered below, say you don't have that information and suggest they check his resume or contact him.
+
+--- RESUME & ABOUT CONTENT ---
+{resumeContext}
+--- END ---
+
+Keep responses concise (2-4 sentences). Speak in third person about Rodney (e.g., 'He has...', 'Rodney brings...'). Be professional and warm.";
+
+// REST call to OpenAI (simplified)
+var response = await httpClient.PostAsJsonAsync(openAiUrl, new {
+    model = "gpt-4o-mini",
+    messages = new[] {
+        new { role = "system", content = systemPrompt },
+        new { role = "user", content = userMessage }
+    }
+});
+var json = await response.Content.ReadFromJsonAsync<OpenAIResponse>();
+```
+
+**AI safety:** I log requests/responses (without PII), enforce max token limit, and validate response structure.
+
+---
+
+### Step 2b: Resume Context Data
+
+**What I did:** I provided the AI with my resume and about content so it can answer accurately.
+
+**Files I created:**
+
+- `Data/ResumeContext.txt` - Plain text with key resume points, experience, skills, education, and about summary. I maintain this and update it when my resume changes.
+
+**Content I included (from my portfolio):**
+
+- Name, title (Technical Support Analyst)
+- Education: B.S. Software Engineering (WGU), expected Dec 2026
+- Experience: Canon IT Services (Technical Support Inkjet Tier 1), kitchen background
+- Skills: C#, ASP.NET, SQL, JavaScript, troubleshooting, etc.
+- About summary: kitchen-to-tech journey, troubleshooting approach, soft skills
+
+**Use case:** When someone asks "What does Rodney do?", the LLM has this context and can answer: "Rodney is a Technical Support Analyst at Canon IT Services with a background in professional kitchens. He brings composure under pressure and disciplined troubleshooting to enterprise support."
+
+---
+
+### Step 3: Input Validation and Content Filtering
+
+**What I did:** I implemented AI safety features: input validation, content filtering, and guardrails.
+
+**Files I created:**
+
+- `Services/InputValidator.cs` - I validate length and block injection patterns
+- `Services/ContentFilter.cs` - I block inappropriate keywords
+
+**Use case:** If someone pastes a 10,000-character string or attempts prompt injection — my validator rejects before calling the API.
+
+**Code concept:**
+
+```csharp
+// InputValidator
+- MaxLength: 500 characters
+- Block patterns: "ignore previous", "system:", "disregard", etc.
+- Trim and sanitize whitespace
+
+// ContentFilter
+- Block list: profanity, hate speech (configurable)
+- Optional: flag potential PII (SSN, credit card) and reject
+```
+
+---
+
+### Step 4: Chat API Controller
+
+**What I did:** I created a RESTful endpoint that the frontend calls. It handles JSON request/response.
+
+**Files I created:**
+
+- `Controllers/ChatController.cs` - `POST /api/chat` with `ChatRequest` / `ChatResponse` DTOs
+
+**Use case:** Frontend sends `{ "message": "What's Rodney's background?" }` → My controller validates, filters, calls `IAIChatService`, returns `{ "reply": "Rodney has a unique path from professional kitchens to tech..." }`.
+
+**Code concept:**
+
+```csharp
+[HttpPost]
+public async Task<IActionResult> Post([FromBody] ChatRequest request)
+{
+    if (!InputValidator.IsValid(request.Message))
+        return BadRequest(new { error = "Invalid input" });
+    if (ContentFilter.IsBlocked(request.Message))
+        return BadRequest(new { error = "Message blocked" });
+    
+    var reply = await _aiService.GetReplyAsync(request.Message);
+    return Ok(new ChatResponse { Reply = reply });
+}
+```
+
+---
+
+### Step 5: Chat UI Component (Frontend)
+
+**What I did:** I built a conversational "Ask Rodney" interface. Clean, professional chat UI.
+
+**Files I modified:**
+
+- [Pages/Index.cshtml](Pages/Index.cshtml) - I added "Ask About Rodney" or "Chat with Rodney" section before Contact
+- [wwwroot/css/site.css](wwwroot/css/site.css) - Styles for chat bubble, input, send button
+- [wwwroot/js/site.js](wwwroot/js/site.js) - `fetch` to `/api/chat`, render messages, handle loading/errors
+
+**Use case:** Visitor types "What's his experience?" → UI shows user message, loading state, then assistant reply in a chat bubble.
+
+**Code concept (JavaScript):**
+
+```javascript
+async function sendMessage(text) {
+  const res = await fetch('/api/chat', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ message: text })
+  });
+  const data = await res.json();
+  if (!res.ok) throw new Error(data.error || 'Request failed');
+  return data.reply;
+}
+```
+
+**UI elements:** Message list (scrollable), text input, send button, suggested questions: "What's Rodney's background?", "Tell me about his experience", "What skills does he have?", "What's his education?"
+
+---
+
+### Step 6: Register Services and Wire Up
+
+**What I did:** I set up dependency injection and routing.
+
+**Files I modified:**
+
+- [Program.cs](Program.cs) - I added `builder.Services.AddScoped<IAIChatService, OpenAIChatService>()`, `app.MapControllers()`
+
+---
+
+### Step 7: Update Skills Section
+
+**What I did:** I aligned my portfolio with job posting language.
+
+**Files I modified:**
+
+- [Pages/Index.cshtml](Pages/Index.cshtml) - I added an "AI / LLM Development" skills card
+
+**Skills I added:**
+
+- AI/LLM API Integration (OpenAI, Azure OpenAI)
+- Conversational Interfaces / Chatbots
+- Prompt Engineering
+- RESTful APIs & JSON
+- Input Validation & Content Filtering
+
+---
+
+### Step 8: Add Project Card for AI Chatbot
+
+**What I did:** I showcased the chatbot as a portfolio project.
+
+**Files I modified:**
+
+- [Pages/Index.cshtml](Pages/Index.cshtml) - I added project card in Projects section linking to the chatbot demo (anchor or same page)
+
+---
+
+### Step 9: Documentation
+
+**What I did:** I created technical documentation (required by the job).
+
+**Deliverables:**
+
+- Inline code comments in `OpenAIChatService`, `ChatController`, validation/filter logic
+- `docs/CHATBOT_API.md` - API spec (endpoint, request/response schema, error codes)
+- Brief "How to use" in the chatbot UI (e.g., "Ask anything about Rodney—his background, experience, or skills")
+
+---
+
+### Step 10: Unit Tests (Required)
+
+**What I did:** I created unit and integration tests for AI features (required by the job).
+
+**Files I created:**
+
+- `Tests/RodneyPortfolio.Tests.csproj` - xUnit project
+- `Tests/InputValidatorTests.cs` - Test max length, block patterns
+- `Tests/ContentFilterTests.cs` - Test block list
+- `Tests/OpenAIChatServiceTests.cs` - Mock HTTP, test prompt construction and response parsing
+
+---
+
+## API Key
+
+- **Production:** I use Azure Key Vault or User Secrets; I never commit keys.
+- **Required:** The chatbot requires an OpenAI API key. If not configured, it returns an error message.
+
+---
+
+## Suggested Implementation Order
+
+1. Step 1 (config) + Step 2b (ResumeContext.txt) + Step 2 (service)
+2. Step 3 (validation/filter) + Step 4 (controller)
+3. Step 5 (UI)
+4. Step 6 (DI/wiring)
+5. Step 7 + 8 (skills + project card)
+6. Step 9 (docs)
+7. Step 10 (tests, required)
+
+---
+
+## Files Summary
+
+| Action | Path                                                                                    |
+| ------ | --------------------------------------------------------------------------------------- |
+| Modify | `RodneyPortfolio.csproj`, `Program.cs`, `appsettings.json`                              |
+| Create | `Services/IAIChatService.cs`, `Services/OpenAIChatService.cs`, `Data/ResumeContext.txt` |
+| Create | `Services/InputValidator.cs`, `Services/ContentFilter.cs`                               |
+| Create | `Controllers/ChatController.cs`, `Models/ChatRequest.cs`, `Models/ChatResponse.cs`      |
+| Modify | `Pages/Index.cshtml`, `wwwroot/css/site.css`, `wwwroot/js/site.js`                      |
+| Create | `docs/CHATBOT_API.md`                                                                   |
+| Create | `Tests/` project and test classes                                                       |
