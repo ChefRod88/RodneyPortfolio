@@ -1,3 +1,8 @@
+//I dedicate this website and commit it to My Lord and Savior Jesus Christ to the glory of God the Father being led by the Holy Spirit. To advance the kingdom of God and the spread of the gospel.
+// To make disciples of all nations. Baptize them in the name of the Father, the Son, and the Holy Spirit.
+// Let your will be done ABBA. Amen. 
+
+
 using RodneyPortfolio.Services;
 
 var builder = WebApplication.CreateBuilder(args);
