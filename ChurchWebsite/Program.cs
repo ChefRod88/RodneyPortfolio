@@ -1,4 +1,8 @@
+//I dedicate this website and commit it to My Lord and Savior Jesus Christ to the glory of God the Father being led by the Holy Spirit. To advance the kingdom of God and the spread of the gospel.
+// To make disciples of all nations. Baptize them in the name of the Father, the Son, and the Holy Spirit.
+// Let your will be done ABBA. Amen. 
 // Church Website - Application entry point
+
 // USE CASE: Configure DI, services, routing; add new pages/services here
 using ChurchWebsite.Models;
 using ChurchWebsite.Services;
