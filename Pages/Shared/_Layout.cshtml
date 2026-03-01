@@ -12,13 +12,18 @@
 
     <!-- PWA: Web App Manifest -->
     <link rel="manifest" href="~/manifest.json" />
-    <meta name="theme-color" content="#212529" />
+    <meta name="theme-color" content="#020c14" />
 
-    <!-- PWA: iOS-specific meta tags for "Add to Home Screen" -->
+    <!-- PWA: iOS-specific meta tags -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Rodney Chery" />
     <link rel="apple-touch-icon" href="~/assets/images/icon-192.png" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
@@ -37,13 +42,18 @@
       gtag('config', '@gaId');
     </script>
     }
-
 </head>
 
-
 <body>
+
+    <!-- BLUE MATRIX RAIN CANVAS -->
+    <canvas id="rc-matrix"></canvas>
+    <div class="rc-vignette"></div>
+    <div class="rc-scanlines"></div>
+
+    <!-- NAV -->
     <nav id="hamburger-nav">
-        <div class="logo">Rodney Chery</div>
+        <div class="logo">RC<span class="logo-accent">//</span>SYS</div>
         <div class="hamburger-menu">
             <div class="hamburger-icon" onclick="toggleMenu()">
                 <span></span>
@@ -53,37 +63,96 @@
             <div class="menu-links">
                 <ul>
                     <li><a href="#about" onclick="toggleMenu()">About</a></li>
-                    <li><a href="#experience" onclick="toggleMenu()">Experience</a></li>
-                    <li><a href="#projects" onclick="toggleMenu()">Projects</a></li>
-                    <li><a href="#contact" onclick="toggleMenu()">Contact</a></li>
+                    <li><a href="#experience" onclick="toggleMenu()">Stack</a></li>
+                    <li><a href="#projects" onclick="toggleMenu()">Deploy</a></li>
+                    <li><a href="#contact" onclick="toggleMenu()">Link</a></li>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <main role="main" class="container pb-3">
+    <main role="main" class="rc-main">
         @RenderBody()
     </main>
 
-    <footer class="border-top footer text-muted py-4">
-        <div class="container text-center">
-            <div class="menu-links d-flex justify-content-center mb-3">
-                <ul class="d-flex gap-4 list-unstyled mb-0">
-                    <li><a class="nav-link" href="#about">About</a></li>
-                    <li><a class="nav-link" href="#experience">Experience</a></li>
-                    <li><a class="nav-link" href="#projects">Projects</a></li>
-                    <li><a class="nav-link" href="#contact">Contact</a></li>
-                </ul>
+    <footer class="rc-footer">
+        <div class="rc-footer-inner">
+            <div class="rc-footer-links">
+                <a href="#about">About</a>
+                <a href="#experience">Stack</a>
+                <a href="#projects">Deploy</a>
+                <a href="#contact">Link</a>
             </div>
-
-            <small id="copyright">Copyright &copy; 2026 Rodney Chery. All Rights Reserved.</small>
+            <small id="copyright">© 2026 RODNEY CHERY // ALL RIGHTS RESERVED // NODE_ONLINE</small>
         </div>
     </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- MATRIX RAIN SCRIPT -->
+    <script>
+    (function () {
+        const canvas = document.getElementById('rc-matrix');
+        const ctx = canvas.getContext('2d');
+        const chars = 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホ0123456789ABCDEFabcdef{}[]<>/\\|=+-*01{}#@';
+        const fontSize = 13;
+        let cols, drops;
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        function initDrops() {
+            cols = Math.floor(canvas.width / fontSize);
+            drops = Array.from({ length: cols }, () => Math.random() * -80);
+        }
+        resize(); initDrops();
+        window.addEventListener('resize', () => { resize(); initDrops(); });
+
+        function draw() {
+            ctx.fillStyle = 'rgba(2,12,20,0.052)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.font = fontSize + 'px "Share Tech Mono", monospace';
+            for (let i = 0; i < cols; i++) {
+                const y = drops[i] * fontSize;
+                // lead char — bright cyan
+                ctx.fillStyle = 'rgba(0,220,255,0.95)';
+                ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, y);
+                // second — mid
+                ctx.fillStyle = 'rgba(0,160,210,0.6)';
+                ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, y - fontSize);
+                // trail — deep
+                ctx.fillStyle = 'rgba(0,80,130,0.3)';
+                ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, y - fontSize * 2);
+                if (y > canvas.height && Math.random() > 0.975) drops[i] = Math.random() * -40;
+                drops[i] += 0.48 + Math.random() * 0.38;
+            }
+        }
+        setInterval(draw, 46);
+
+        // scroll fade-in
+        const observer = new IntersectionObserver(entries => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.style.opacity = '1';
+                    e.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.08 });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll('.rc-fade').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(22px)';
+                el.style.transition = 'opacity 0.65s ease, transform 0.65s ease';
+                observer.observe(el);
+            });
+        });
+    })();
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
-
 </html>
