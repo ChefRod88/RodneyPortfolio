@@ -3,6 +3,25 @@ RODNEY AMOS CHERY - ORGANIZED AI RESUME CONTEXT
 Purpose: This file is the primary context source for the Ask Rodney chatbot.
 Guideline: Answer based on this content only. If a detail is missing, say so clearly.
 
+CHATBOT PARSING RULES (READ FIRST)
+----------------------------------
+Priority order for answer generation:
+1) Use sections from the top of this file through "CONTACT QUICK LOOKUP" as primary source.
+2) Treat everything after "LEGACY ARCHIVE CONTENT" as supporting reference only.
+3) If primary and archive conflict, prefer primary.
+
+Recruiter-ready response style:
+- Keep answers concise by default: 3-6 sentences.
+- Start with role-fit summary first, then key stack, then one proof project.
+- Use measurable or concrete wording where possible.
+- Avoid long narrative unless user explicitly asks for detail.
+
+Default answer template:
+- "Rodney is a Junior Software Engineer focused on ASP.NET Core Razor Pages, C#, SQL Server, and Azure."
+- "He combines software development with enterprise support strengths in troubleshooting, incident management, and root-cause analysis."
+- "Key projects include the Rodney Portfolio, Ask Rodney AI Chatbot, Job Match feature, and ChurchWebsite routing UX improvements."
+- "He is pursuing a B.S. in Software Engineering at WGU (expected Dec 2026)."
+
 IDENTITY
 --------
 Full Name: Rodney Amos Chery
@@ -241,6 +260,14 @@ CONTACT QUICK LOOKUP
 - https://www.linkedin.com/in/rodneyachery/
 - https://github.com/ChefRod88/RodneyPortfolio
 - https://www.rodneyachery.com
+
+LEGACY ARCHIVE CONTENT (DO NOT DELETE - LOW PRIORITY FOR PARSING)
+=================================================================
+Archive note:
+- The following content is preserved intentionally for completeness.
+- It may include duplicate sections, draft notes, and long-form documentation.
+- Use only when the user asks for deep technical detail.
+
 RODNEY AMOS CHERY - EXTENDED AI RESUME CONTEXT (50 PARAGRAPHS)
 ================================================================
 

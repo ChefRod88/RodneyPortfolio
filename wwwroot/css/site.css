@@ -65,11 +65,11 @@ body {
 }
 
 #profile .section__pic-container {
-  width: 200px;
-  height: 200px;
-  flex: 0 0 200px;
-  margin-top: 96px;
-  margin-left: 96px;
+  width: 100px;
+  height: 100px;
+  flex: 0 0 100px;
+  margin-top: 210px;
+  margin-left: 300px;
 }
 
 #profile .section__pic-container img {
@@ -82,7 +82,7 @@ body {
 
 #profile .section__text {
   margin-top: 210px;
-  margin-right: 96px;
+  margin-right: 330px;
 }
 
 #profile .btn-container {
@@ -118,6 +118,13 @@ body {
   justify-content: center;
   gap: 0.5in;
   flex-wrap: nowrap;
+}
+
+#about .about-left-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
 }
 
 #about .about-details-container {
@@ -160,12 +167,36 @@ body {
   align-items: center;
   justify-content: center;
   gap: 2rem;
-  padding: 1.5rem 2rem;
+  width: 2in;
+  height: 1in;
+  padding: 0.3rem 0.45rem;
   border: 2px solid #e5e7eb;
-  border-radius: 999px;
+  border-radius: 16px;
   background-color: #ffffff;
-  max-width: fit-content;
-  margin: 16px auto 0;
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#about .about-education-center .details-container {
+  column-gap: 0.4rem;
+  row-gap: 0.05rem;
+}
+
+#about .about-education-center .details-container .icon {
+  width: 16px;
+  height: 16px;
+}
+
+#about .about-education-center h3 {
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+#about .about-education-center p {
+  font-size: 0.54rem;
+  line-height: 1.1;
+  white-space: normal;
 }
 
 #about .section__pic-container {
@@ -193,8 +224,7 @@ body {
   width: 280px;
   height: 280px;
   flex: 0 0 280px;
-  margin-top: 96px;
-  margin-left: 96px;
+  margin: 0;
 }
 
 #about .about-collage-grid .about-collage-img {
