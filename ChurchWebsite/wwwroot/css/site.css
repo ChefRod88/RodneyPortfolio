@@ -1,827 +1,1052 @@
 /* ============================================
-   ROOT / TYPOGRAPHY (Calvary-inspired)
-   USE CASE: Change church brand colors, fonts, base sizing
-   LOCATION: Affects entire site
+   NEW BETHEL MISSIONARY BAPTIST CHURCH
+   Modern Redesign — site.css
+   Design Direction: Editorial-Dark / Luxury Gospel
+   Palette: Deep Navy + Pure White + Liturgical Gold
+   Typography: Playfair Display (headings) + DM Sans (body)
    ============================================ */
-/* CSS variables - reusable colors; change here to update theme site-wide */
+
+/* ─── CSS VARIABLES ─── */
 :root {
-  --church-primary: #003DA5;        /* Main blue for buttons, links, accents */
-  --church-primary-dark: #002d7a;  /* Darker blue for hover states */
-  --church-secondary: #FBC457;     /* Gold/yellow accent (e.g. transparent nav hover) */
-  --church-secondary-dark: #e5a83d;/* Darker gold for hover */
-  --church-warm: #8b7355;          /* Brown/tan accent */
-  --church-neutral: #6b6b6b;       /* Gray for nav links, muted text */
-  --church-light: #f8f6f3;         /* Off-white background (marquee section) */
-  --church-footer-bg: #111111;      /* Dark footer background */
+  --church-primary: #1a1a2e;
+  --church-primary-dark: #0f0f1e;
+  --church-secondary: #C9A84C;
+  --church-secondary-dark: #a8852e;
+  --church-warm: #8b7355;
+  --church-neutral: #9ca3af;
+  --church-light: #f9f8f6;
+  --church-footer-bg: #0d0d1a;
+
+  --white: #ffffff;
+  --off-white: #fafaf8;
+  --surface: #f4f3f0;
+  --text-primary: #0f0f1e;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
+  --gold: #C9A84C;
+  --gold-light: #e8cc7a;
+  --gold-pale: rgba(201,168,76,0.10);
+  --border-light: rgba(15,15,30,0.08);
+  --border-gold: rgba(201,168,76,0.3);
+
+  --section-pad: clamp(60px, 8vw, 110px);
+  --radius-sm: 4px;
+  --radius: 8px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
+  --shadow-lg: 0 16px 48px rgba(0,0,0,0.14), 0 6px 20px rgba(0,0,0,0.08);
+  --shadow-gold: 0 8px 32px rgba(201,168,76,0.2);
 }
 
-/* Base font size 14px on mobile; enables rem-based sizing */
+/* ─── BASE ─── */
+*, *::before, *::after { box-sizing: border-box; }
+
 html {
-  font-size: 14px;
-  scroll-behavior: smooth;  /* Smooth scroll when clicking anchor links */
-  min-height: 100%;  /* Allow document to grow with content; footer flows to bottom of page */
+  font-size: 16px;
+  scroll-behavior: smooth;
+  min-height: 100%;
 }
 
-/* Larger base font on tablets and up */
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
+@media (max-width: 768px) { html { font-size: 15px; } }
 
-/* Body: flex column so footer stays at bottom; font stack for typography */
 body {
-  font-family: 'Poppins', 'Source Sans 3', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: #333;
-  background-color: #fff;
-  margin: 0;
-  padding: 0;
+  font-family: 'DM Sans', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: var(--text-primary);
+  background-color: var(--white);
+  margin: 0; padding: 0;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  -webkit-font-smoothing: antialiased;
 }
 
-.playwrite-nz-basic-guides-regular {
-  font-family: "Playwrite NZ Basic Guides", cursive;
-  font-weight: 400;
-  font-style: normal;
+body > main { flex: 1 0 auto; }
+
+h1, h2, h3, h4, h5 {
+  font-family: 'Playfair Display', Georgia, serif;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
 }
 
-.archivo-black {
-  font-family: "Archivo Black", sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
+/* Old font classes — kept for compatibility */
+.playwrite-nz-basic-guides-regular { font-family: 'Playfair Display', serif; }
+.archivo-black { font-family: 'Playfair Display', serif; font-weight: 900; }
 
-
-/* Main content area grows to push footer down when content is short */
-body > main {
-  flex: 1 0 auto;
-}
-
-/* ============================================
-   GLOBAL FOOTER BAR
-   USE CASE: Copyright bar on every page
-   LOCATION: Shared layout footer
-   ============================================ */
-.global-footer {
-  background-color: #fff !important;
-  color: #111 !important;
-  min-height: 0.75in;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.1rem 0.75rem;
-  text-align: center;
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
-}
-
-.global-footer-inner {
-  width: 100%;
-  font-size: clamp(0.7rem, 1.3vw, 0.9rem);
-  line-height: 1.25;
-}
-
-/* ============================================
-   FOCUS / ACCESSIBILITY
-   USE CASE: Keyboard focus rings, WCAG contrast
-   LOCATION: Buttons, links, form controls site-wide
-   ============================================ */
-/* Focus ring: visible outline for keyboard users; white inner + blue outer ring */
+/* ─── ACCESSIBILITY ─── */
 .btn:focus, .btn:active:focus, .btn-link.nav-link:focus,
 .form-control:focus, .form-check-input:focus, a:focus-visible {
-  box-shadow: 0 0 0 2px white, 0 0 0 4px var(--church-primary);
+  box-shadow: 0 0 0 2px white, 0 0 0 4px var(--gold);
   outline: none;
 }
 
-/* ============================================
-   NAV - Main navigation bar
-   USE CASE: Styling for Home, About, Next Steps, Media, Request Prayer
-   LOCATION: Top of every page (shared via _Layout.cshtml)
-   ============================================ */
-/* Navbar animates when background/color changes (e.g. scroll on home) */
-.navbar {
-  transition: background-color 0.3s, color 0.3s;
+/* ─── FOOTER BAR ─── */
+.global-footer {
+  background-color: var(--church-footer-bg) !important;
+  color: rgba(255,255,255,0.45) !important;
+  min-height: 54px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 0.75rem 1.5rem;
+  text-align: center;
+  border-top: 1px solid rgba(201,168,76,0.15);
+}
+.global-footer-inner {
+  width: 100%;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  line-height: 1.4;
 }
 
-/* Church name in nav - always primary blue */
+/* ============================================
+   NAVIGATION
+   ============================================ */
+.navbar {
+  transition: background-color 0.35s ease, box-shadow 0.35s ease, padding 0.3s ease;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+/* Brand */
 .navbar-brand {
   color: var(--church-primary) !important;
+  transition: opacity 0.2s;
 }
+.navbar-brand:hover { opacity: 0.75; }
 
-/* Home-page brand can render multiple appsettings name lines */
 .navbar-brand-multiline {
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
-  line-height: 1.05;
-  font-size: clamp(0.55rem, 0.95vw, 0.78rem);
-  letter-spacing: 0.02em;
+  line-height: 1.1;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: clamp(0.55rem, 0.95vw, 0.8rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   white-space: normal;
-  max-width: 140px;
+  max-width: 155px;
+  color: var(--church-primary) !important;
 }
+.navbar-brand-multiline span { display: block; }
 
-.navbar-brand-multiline span {
-  display: block;
-}
-
-/* Nav links default black - always visible */
 .nav-link {
-  color: #000 !important;
+  font-family: 'DM Sans', sans-serif;
   font-weight: 500;
+  font-size: 0.82rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text-secondary) !important;
+  padding: 0.5rem 0.875rem !important;
+  position: relative;
   transition: color 0.2s;
 }
-
-/* Nav links: black font + black underline on hover; active keeps blue for current page */
-.nav-link:hover {
-  color: #000 !important;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 1px; left: 0.875rem; right: 0.875rem;
+  height: 1.5px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+  transform-origin: left;
 }
-.nav-link.active {
-  color: #000 !important;
+.nav-link:hover { color: var(--text-primary) !important; }
+.nav-link:hover::after,
+.nav-link.active::after { transform: scaleX(1); }
+.nav-link.active { color: var(--text-primary) !important; }
+
+/* Dropdown */
+.dropdown-menu {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-lg);
+  padding: 0.4rem;
+  margin-top: 0.4rem !important;
+  background: var(--white);
+  min-width: 200px;
+}
+.dropdown-item {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.84rem;
+  font-weight: 500;
+  color: var(--text-secondary) !important;
+  padding: 0.55rem 0.875rem !important;
+  border-radius: var(--radius-sm);
+  transition: background 0.15s, color 0.15s;
+  letter-spacing: 0.02em;
+}
+.dropdown-item:hover, .dropdown-item:focus {
+  background: var(--gold-pale) !important;
+  color: var(--text-primary) !important;
+}
+.dropdown-item.active, .dropdown-item:active {
+  background: var(--gold-pale) !important;
+  color: var(--text-primary) !important;
+}
+.dropdown-divider { border-color: var(--border-light); margin: 0.25rem 0.4rem; }
+.location-current-item { cursor: default; pointer-events: none; opacity: 0.4; }
+
+/* Dropdown toggles */
+.nav-link.dropdown-toggle:hover {
+  color: var(--text-primary) !important;
 }
 
-/* When over hero: nav has no background so hero shows through */
+/* ── Home: transparent nav over hero ── */
 body.home-page .navbar.navbar-transparent {
   background-color: transparent !important;
   border-color: transparent !important;
   box-shadow: none !important;
 }
-
-/* Transparent nav: black text (matches user preference; may need white if hero is very dark) */
 body.home-page .navbar.navbar-transparent .navbar-brand,
-body.home-page .navbar.navbar-transparent .nav-link,
-body.home-page .navbar.navbar-transparent .dropdown-toggle {
-  color: #000 !important;
+body.home-page .navbar.navbar-transparent .navbar-brand-multiline {
+  color: #fff !important;
 }
-
-/* Transparent nav hover: black font + black underline */
-body.home-page .navbar.navbar-transparent .nav-link:hover {
-  color: #000 !important;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+body.home-page .navbar.navbar-transparent .nav-link {
+  color: rgba(255,255,255,0.8) !important;
 }
+body.home-page .navbar.navbar-transparent .nav-link:hover,
 body.home-page .navbar.navbar-transparent .nav-link.active {
-  color: #000 !important;
+  color: #fff !important;
 }
-
-/* Mobile hamburger button - white border when transparent */
+body.home-page .navbar.navbar-transparent .nav-link::after {
+  background: rgba(255,255,255,0.65);
+}
 body.home-page .navbar.navbar-transparent .navbar-toggler {
-  border-color: rgba(255, 255, 255, 0.5);
-  color: #fff;
+  border-color: rgba(255,255,255,0.4);
 }
-
-/* Hamburger icon: invert to white (Bootstrap default is dark) */
 body.home-page .navbar.navbar-transparent .navbar-toggler-icon {
   filter: brightness(0) invert(1);
 }
-
-/* Dropdown triggers: same black + underline on hover */
-.nav-link.dropdown-toggle:hover {
-  color: #000 !important;
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
-
-/* Dropdown items: keep nav color, not global link blue */
-.dropdown-item {
-  color: #000 !important;
-}
-
-.dropdown-item:hover,
-.dropdown-item:focus {
-  color: #000 !important;
-}
-
-.dropdown-item.active,
-.dropdown-item:active {
-  color: #000 !important;
-  background: rgba(0, 0, 0, 0.08) !important;
-}
-
-.location-current-item {
-  cursor: default;
-  pointer-events: none;
-}
-
 body.home-page .navbar.navbar-transparent .nav-link.dropdown-toggle:hover {
-  color: #000 !important;
-  text-decoration: underline;
-  text-underline-offset: 4px;
+  color: #fff !important;
 }
 
-/* MOBILE: Hamburger menu - dropdown panel under hamburger, professional iPhone style */
+/* ── Mobile ── */
 @media (max-width: 991.98px) {
   .navbar-brand-multiline {
     font-size: clamp(0.5rem, 2.2vw, 0.68rem);
-    line-height: 1.03;
-    max-width: 110px;
+    max-width: 115px;
   }
-
-  /* On mobile: solid nav background so hamburger + menu are always visible */
   body.home-page .navbar.navbar-transparent,
   .navbar {
     background-color: #fff !important;
-    border-color: rgba(0, 0, 0, 0.1) !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08) !important;
+    border-color: rgba(0,0,0,0.08) !important;
+    box-shadow: 0 1px 0 var(--border-light), var(--shadow-sm) !important;
   }
-  /* Navbar container: relative so menu can position under hamburger; overflow visible so dropdown isn't clipped */
-  .navbar .container {
-    position: relative;
-    overflow: visible;
+  body.home-page .navbar.navbar-transparent .navbar-brand,
+  body.home-page .navbar.navbar-transparent .navbar-brand-multiline {
+    color: var(--church-primary) !important;
   }
-  .navbar {
-    overflow: visible;
+  body.home-page .navbar.navbar-transparent .nav-link {
+    color: var(--text-secondary) !important;
   }
-  /* Hamburger: dark icon so three lines are visible on white nav (override transparent-nav white icon) */
-  body.home-page .navbar.navbar-transparent .navbar-toggler,
-  body.home-page .navbar .navbar-toggler,
-  .navbar .navbar-toggler {
-    border-color: rgba(0, 0, 0, 0.2) !important;
+  body.home-page .navbar.navbar-transparent .navbar-toggler {
+    border-color: rgba(0,0,0,0.15) !important;
     color: #333 !important;
+  }
+  body.home-page .navbar.navbar-transparent .navbar-toggler-icon {
+    filter: none !important;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0,0,0,0.75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+  }
+  .navbar .container { position: relative; overflow: visible; }
+  .navbar { overflow: visible; }
+  .navbar .navbar-toggler {
+    border-color: rgba(0,0,0,0.2) !important;
     padding: 0.5rem 0.75rem;
-    min-width: 44px;
-    min-height: 44px;
+    min-width: 44px; min-height: 44px;
   }
-  body.home-page .navbar.navbar-transparent .navbar-toggler-icon,
-  body.home-page .navbar .navbar-toggler-icon,
-  .navbar .navbar-toggler-icon {
-    filter: none !important;  /* Dark lines - override transparent nav's invert(1) which made it white */
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(0, 0, 0, 0.75)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
-  }
-  /* Menu: dropdown panel right under hamburger, slightly overlapping - NOT below church name */
   .navbar-collapse {
     position: absolute !important;
-    top: calc(100% - 6px) !important;  /* Slight overlap with nav bar */
-    right: max(0.5rem, env(safe-area-inset-right)) !important;  /* iPhone notch safe area */
+    top: calc(100% - 6px) !important;
+    right: max(0.5rem, env(safe-area-inset-right)) !important;
     left: auto !important;
     width: min(300px, calc(100vw - 2rem)) !important;
     margin: 0 !important;
-    padding: 0.75rem 0 !important;
+    padding: 0.5rem !important;
     background: #fff !important;
-    border-radius: 12px !important;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08) !important;
-    border: 1px solid rgba(0, 0, 0, 0.06) !important;
+    border-radius: var(--radius-lg) !important;
+    box-shadow: var(--shadow-lg) !important;
+    border: 1px solid var(--border-light) !important;
     z-index: 1050 !important;
     max-height: 70vh;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
   }
-  /* Nav items: compact, touch-friendly (44px min for iPhone) */
-  .navbar-collapse .navbar-nav {
-    flex-direction: column;
-    gap: 0;
-  }
-  .navbar-collapse .nav-item {
-    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-  }
-  .navbar-collapse .nav-item:last-child {
-    border-bottom: none;
-  }
+  .navbar-collapse .navbar-nav { flex-direction: column; gap: 2px; }
+  .navbar-collapse .nav-item { border-bottom: none; }
   .navbar-collapse .nav-link {
-    padding: 0.875rem 1.25rem !important;
-    font-size: 0.9375rem;
+    padding: 0.75rem 1rem !important;
+    font-size: 0.875rem;
     min-height: 44px;
-    display: flex;
-    align-items: center;
+    display: flex; align-items: center;
+    border-radius: var(--radius-sm);
   }
-  /* Dropdowns: inline expand, clean styling */
+  .navbar-collapse .nav-link:hover,
+  .navbar-collapse .nav-link.active {
+    background: var(--gold-pale);
+    color: var(--text-primary) !important;
+  }
+  .navbar-collapse .nav-link::after { display: none; }
   .navbar-collapse .dropdown-menu {
     position: static !important;
-    float: none;
-    border: none;
-    box-shadow: none;
-    padding: 0 0 0.5rem 1.5rem;
-    margin: 0;
-    background: transparent;
+    float: none; border: none; box-shadow: none;
+    padding: 0 0 0.5rem 1rem; margin: 0;
+    background: transparent; min-width: auto;
   }
   .navbar-collapse .dropdown-item {
-    padding: 0.625rem 0;
-    font-size: 0.875rem;
-    color: var(--church-neutral, #6b6b6b);
-    min-height: 40px;
-    display: flex;
-    align-items: center;
+    font-size: 0.84rem;
+    color: var(--text-muted) !important;
+    padding: 0.5rem 0.75rem !important;
+    min-height: 40px; display: flex; align-items: center;
   }
-  .navbar-collapse .dropdown-item:hover {
-    color: var(--church-primary);
-    background: transparent;
-  }
-  .navbar-collapse .dropdown-divider {
-    margin: 0.5rem 0;
-  }
+  .navbar-collapse .dropdown-item:hover { color: var(--text-primary) !important; }
+  .navbar-collapse .dropdown-divider { margin: 0.3rem 0; }
 }
 
 /* ============================================
-   FOOTER (Calvary-style: dark, icons)
-   USE CASE: Contact info, social links, copyright
-   LOCATION: Bottom of every page (shared via _Layout.cshtml)
+   HERO
    ============================================ */
-/* Footer: at bottom of page content; on short pages sticks to viewport bottom */
-body > footer.footer {
-  flex-shrink: 0;
-  margin-top: auto;
-}
-
-/* Footer container: dark bg, white text, top border */
-.footer {
-  background-color: #fff !important;
-  color: #111 !important;
-  padding: 1rem 0;
-  border-top: 1px solid rgba(0, 0, 0, 0.12);
-  box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Section labels (Email, Find Us, Call Us) - bold white */
-.footer h5,
-.footer .footer-label {
-  color: #fff;
-  font-weight: 600;
-}
-
-/* Footer links and text - slightly muted white */
-.footer a,
-.footer p,
-.footer .text-muted {
-  color: rgba(255, 255, 255, 0.85) !important;
-}
-
-/* Footer link hover - gold */
-.footer a:hover {
-  color: var(--church-secondary) !important;
-}
-
-/* SVG icons next to contact info */
-.footer .footer-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  opacity: 0.9;
-}
-
-/* Each contact row: icon + text side by side */
-.footer .footer-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
-}
-
-.footer .footer-item:last-child {
-  margin-bottom: 0;
-}
-
-.footer .footer-item a {
-  text-decoration: none;
-}
-
-/* Contact values use playful font */
-.footer .footer-contact-value {
-  font-family: 'Bubblegum Sans', cursive;
-}
-
-/* Social icons: circular buttons, subtle bg */
-.footer .footer-socials a {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
-  transition: background 0.2s;
-}
-
-/* Social hover: gold background */
-.footer .footer-socials a:hover {
-  background: var(--church-secondary);
-  color: #1a1a1a !important;
-}
-
-/* Copyright line - smaller, muted */
-.footer .footer-copyright {
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.875rem;
-  margin-top: 0.25in;
-}
-
-/* ============================================
-   CALVARY-STYLE HERO
-   USE CASE: Full-screen hero with headline, CTAs, scroll prompt
-   LOCATION: Home page (Pages/Index.cshtml)
-   ============================================ */
-/* Hero: full viewport height, centered content, image behind */
 .hero-calvary {
   position: relative;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center; justify-content: center;
   overflow: hidden;
 }
-
-/* Background image - set via inline style in Index.cshtml */
 .hero-calvary-bg {
-  position: absolute;
-  inset: 0;
+  position: absolute; inset: 0;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  transform: scale(1.04);
+  transition: transform 10s ease;
 }
+.hero-calvary:hover .hero-calvary-bg { transform: scale(1); }
 
-/* Dark gradient overlay so white text is readable over image */
 .hero-calvary-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10,10,25,0.3) 0%,
+    rgba(10,10,25,0.55) 45%,
+    rgba(10,10,25,0.9) 100%
+  );
 }
 
-/* Headline and buttons - above overlay */
+/* Gold accent stripe at bottom */
+.hero-calvary::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  z-index: 2;
+}
+
 .hero-calvary-content {
   position: relative;
   z-index: 1;
-  padding: 2rem 0;
+  padding: 2rem 0 5rem;
+  width: 100%;
 }
 
-/* Main headline - large white text with shadow */
 .hero-calvary-headline {
-  font-size: 2.5rem;
-  font-weight: 700;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(2.2rem, 5.5vw, 5rem);
+  font-weight: 900;
   color: #fff;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
-  margin-bottom: 1.5rem;
+  text-shadow: 0 2px 20px rgba(0,0,0,0.25);
+  line-height: 1.1;
+  letter-spacing: -0.015em;
+  margin-bottom: 2rem;
 }
 
-/* Larger headline on desktop */
-@media (min-width: 768px) {
-  .hero-calvary-headline {
-    font-size: 3.5rem;
-  }
-}
-
-/* CTA buttons: min 44px height for touch targets */
 .hero-calvary-ctas .btn {
-  min-height: 44px;
+  min-height: 52px;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600;
+  font-size: 0.84rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0 2rem;
+  border-radius: var(--radius-sm);
+  transition: all 0.25s ease;
 }
 
-/* "Click here to see more" link at bottom - scrolls to #three-cards-section */
 .hero-scroll-prompt {
   position: absolute;
-  bottom: 1.25in;
-  left: 50%;
+  bottom: 1.25in; left: 50%;
   transform: translateX(-50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
-  color: #fff;
+  display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+  color: rgba(255,255,255,0.55);
   text-decoration: none;
-  font-size: 0.9rem;
+  font-size: 0.7rem;
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
   opacity: 0.95;
   transition: opacity 0.2s;
   z-index: 2;
 }
-
-.hero-scroll-prompt:hover {
-  opacity: 1;
-  color: #fff;
-  text-decoration: underline;
-}
-
-.hero-scroll-text {
-  white-space: nowrap;
-}
-
-/* Down arrow - bounces to draw attention */
+.hero-scroll-prompt:hover { opacity: 1; color: rgba(255,255,255,0.85); }
+.hero-scroll-text { white-space: nowrap; }
 .hero-scroll-arrow {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.25rem; height: 1.25rem;
   animation: hero-scroll-bounce 2s ease-in-out infinite;
 }
-
 @keyframes hero-scroll-bounce {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(0.25rem); }
+  50% { transform: translateY(5px); }
 }
 
 /* ============================================
-   THREE IMAGE CARDS (Calvary-style)
-   USE CASE: Get To Know Us, Events, Next Steps cards on home
-   LOCATION: Home page below hero (Pages/Index.cshtml)
+   THREE IMAGE CARDS
    ============================================ */
-/* Card links: full block, no underline */
 .three-cards-section .card-image-link {
-  display: block;
-  text-decoration: none;
-  color: inherit;
+  display: block; text-decoration: none; color: inherit;
+  overflow: hidden;
 }
-
-/* Each card: image bg, content at bottom */
 .card-image-overlay {
   position: relative;
   min-height: 25rem;
-  background-size: cover;
-  background-position: center;
-  display: flex;
-  align-items: flex-end;
+  background-size: cover; background-position: center;
+  display: flex; align-items: flex-end;
   padding: 2rem;
+  overflow: hidden;
+  transition: transform 0.5s ease;
 }
+.card-image-link:hover .card-image-overlay { transform: scale(1.02); }
 
-/* Gradient so text is readable over image */
 .card-image-gradient {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.7));
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom,
+    rgba(10,10,25,0.05) 0%,
+    rgba(10,10,25,0.35) 55%,
+    rgba(10,10,25,0.88) 100%);
+  transition: background 0.3s;
 }
-
-/* Title and "Learn More" text */
+.card-image-link:hover .card-image-gradient {
+  background: linear-gradient(to bottom,
+    rgba(10,10,25,0.1) 0%,
+    rgba(10,10,25,0.45) 55%,
+    rgba(10,10,25,0.92) 100%);
+}
 .card-image-content {
-  position: relative;
-  z-index: 1;
-  color: #fff;
+  position: relative; z-index: 1; color: #fff;
 }
-
 .card-image-content h3 {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 1.55rem; font-weight: 700;
+  margin-bottom: 0.35rem;
+  text-shadow: 0 1px 8px rgba(0,0,0,0.3);
 }
-
+.card-image-content h3::before {
+  content: '';
+  display: block;
+  width: 28px; height: 2px;
+  background: var(--gold);
+  margin-bottom: 0.55rem;
+  transition: width 0.3s ease;
+}
+.card-image-link:hover .card-image-content h3::before { width: 48px; }
 .card-image-cta {
-  font-size: 0.95rem;
-  opacity: 0.9;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.78rem; font-weight: 600;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--gold-light);
+  transition: letter-spacing 0.3s;
 }
-
-.card-image-link:hover .card-image-cta {
-  text-decoration: underline;
-}
+.card-image-link:hover .card-image-cta { letter-spacing: 0.2em; }
 
 /* ============================================
-   WELCOME HOME MARQUEE
-   USE CASE: Scrolling "WELCOME HOME" text strip
-   LOCATION: Home page between cards and mission (Pages/Index.cshtml)
+   MARQUEE
    ============================================ */
-/* Marquee container: hides overflow so text scrolls off-screen */
 .marquee-section {
-  background: var(--church-light);
+  background: var(--church-primary);
   overflow: hidden;
-  padding: 1.5rem 0;
+  padding: 1.1rem 0;
   user-select: none;
+  border-top: 1px solid rgba(201,168,76,0.18);
+  border-bottom: 1px solid rgba(201,168,76,0.18);
 }
-
-/* Flex row of "WELCOME HOME" text - animates left */
 .marquee-track {
-  display: flex;
-  gap: 3rem;
+  display: flex; gap: 3rem;
   width: max-content;
-  animation: marquee-scroll 25s linear infinite;
+  animation: marquee-scroll 30s linear infinite;
+  align-items: center;
 }
-
 .marquee-text {
-  font-size: 2rem;
-  font-weight: 800;
-  color: var(--church-primary);
-  letter-spacing: 0.2em;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.3rem, 2.8vw, 2rem);
+  font-weight: 700; font-style: italic;
+  color: rgba(255,255,255,0.14);
+  letter-spacing: 0.07em;
   white-space: nowrap;
 }
-
-@media (min-width: 768px) {
-  .marquee-text {
-    font-size: 3rem;
-  }
-}
-
-/* Respect user preference: no animation for reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .marquee-track {
-    animation: none;
-  }
+  .marquee-track { animation: none; }
 }
-
 @keyframes marquee-scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
 /* ============================================
-   MISSION STATEMENT
-   USE CASE: Blue gradient section with mission text
-   LOCATION: Home page (Pages/Index.cshtml)
+   MISSION SECTION
    ============================================ */
-/* Blue gradient section - mission statement from appsettings */
 .mission-section {
-  background: linear-gradient(135deg, var(--church-primary) 0%, var(--church-primary-dark) 100%);
-  padding: 4rem 0;
+  background: var(--church-primary);
+  padding: var(--section-pad) 0;
   color: #fff;
+  position: relative;
+  overflow: hidden;
 }
+.mission-section::before {
+  content: '';
+  position: absolute; inset: 0;
+  background-image:
+    radial-gradient(circle at 15% 50%, rgba(201,168,76,0.07) 0%, transparent 50%),
+    radial-gradient(circle at 85% 30%, rgba(201,168,76,0.05) 0%, transparent 45%);
+}
+.mission-section .container { position: relative; z-index: 1; }
 
 .mission-headline {
-  font-size: 1.75rem;
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.7rem, 3.5vw, 2.8rem);
   font-weight: 700;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.18;
+  color: #fff;
 }
-
 @media (min-width: 768px) {
-  .mission-headline {
-    font-size: 2.25rem;
-  }
+  .mission-headline { font-size: clamp(1.7rem, 3.5vw, 2.8rem); }
 }
-
 .mission-subtext {
-  font-size: 1rem;
-  opacity: 0.9;
+  font-size: 0.97rem;
+  color: rgba(255,255,255,0.65);
+  font-weight: 300;
+  line-height: 1.75;
   margin-bottom: 0;
 }
 
 /* ============================================
    MINISTRY CARDS
-   USE CASE: Kids, Youth, Young Adults cards in "Get Connected"
-   LOCATION: Home page (Pages/Index.cshtml)
    ============================================ */
-/* Kids, Youth, Young Adults cards - image bg, content at bottom */
 .ministry-card {
   position: relative;
-  min-height: 16rem;
-  background-size: cover;
-  background-position: center;
-  border-radius: 0.5rem;
+  min-height: 20rem;
+  background-size: cover; background-position: center;
+  border-radius: var(--radius-lg);
   overflow: hidden;
-  display: flex;
-  align-items: flex-end;
+  display: flex; align-items: flex-end;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  cursor: pointer;
 }
-
+.ministry-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
 .ministry-card--full-image {
   background-size: contain;
   background-repeat: no-repeat;
-  background-color: #f8f9fa; /* fills letterbox/pillarbox areas if aspect ratio differs */
+  background-color: var(--surface);
 }
-
 .ministry-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.75));
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, transparent 40%, rgba(10,10,25,0.88) 100%);
 }
-
 .ministry-card-content {
-  position: relative;
-  z-index: 1;
-  padding: 1.5rem;
-  color: #fff;
+  position: relative; z-index: 1;
+  padding: 1.5rem; color: #fff; width: 100%;
 }
-
 .ministry-card-content h5 {
-  font-weight: 700;
-  margin-bottom: 0.25rem;
+  font-family: 'Playfair Display', serif;
+  font-weight: 700; font-size: 1.15rem;
+  margin-bottom: 0.25rem; color: #fff;
+}
+.ministry-card-content p.small {
+  color: rgba(255,255,255,0.7);
+  font-size: 0.83rem; margin-bottom: 0.75rem;
 }
 
 /* ============================================
-   LATEST SERMONS SECTION
-   USE CASE: "Watch & Listen" sermon thumbnails on home
-   LOCATION: Home page (Pages/Index.cshtml), Sermons pages
+   SERMONS SECTION
    ============================================ */
-/* Blue gradient - "Watch & Listen" section on home */
 .sermons-section {
-  background: linear-gradient(135deg, var(--church-primary) 0%, var(--church-primary-dark) 100%);
+  background: var(--church-primary);
   color: #fff;
+  padding: var(--section-pad) 0;
+  position: relative; overflow: hidden;
 }
-
+.sermons-section::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+}
+.sermons-section h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 3vw, 2.3rem);
+  font-weight: 700; color: #fff; line-height: 1.2;
+  margin-bottom: 0.875rem;
+}
 .sermon-thumb-link {
-  display: block;
-  text-decoration: none;
-  color: #fff;
+  display: block; text-decoration: none; color: #fff;
 }
-
-/* 16:9 thumbnail - bg image set inline in Index/Sermons */
 .sermon-thumb {
   aspect-ratio: 16/9;
-  background-size: cover;
-  background-position: center;
-  border-radius: 0.5rem;
+  background-size: cover; background-position: center;
+  border-radius: var(--radius);
+  overflow: hidden; position: relative;
+  transition: transform 0.35s ease;
 }
-
+.sermon-thumb::after {
+  content: '▶';
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem;
+  color: rgba(255,255,255,0);
+  background: rgba(10,10,25,0);
+  transition: all 0.3s;
+}
+.sermon-thumb-link:hover .sermon-thumb { transform: scale(1.03); }
+.sermon-thumb-link:hover .sermon-thumb::after {
+  color: rgba(255,255,255,0.9);
+  background: rgba(10,10,25,0.45);
+}
 .sermon-thumb-title {
-  color: rgba(255, 255, 255, 0.9);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.855rem;
+  color: rgba(255,255,255,0.8);
+  margin-top: 0.6rem; line-height: 1.4;
+  transition: color 0.2s;
 }
-
-.sermon-thumb-link:hover .sermon-thumb-title {
-  color: #fff;
-  text-decoration: underline;
-}
+.sermon-thumb-link:hover .sermon-thumb-title { color: #fff; }
 
 /* ============================================
-   BUTTONS - Church theme
-   USE CASE: .btn-church-primary, .btn-church-secondary
-   LOCATION: CTAs site-wide
+   BUTTONS
    ============================================ */
-/* Primary CTA - blue background */
 .btn-church-primary {
   background-color: var(--church-primary);
   border-color: var(--church-primary);
   color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600; font-size: 0.83rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  transition: all 0.25s;
 }
-
 .btn-church-primary:hover {
-  background-color: var(--church-primary-dark);
-  border-color: var(--church-primary-dark);
-  color: #fff;
+  background-color: var(--gold);
+  border-color: var(--gold);
+  color: var(--church-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-gold);
 }
 
-/* Secondary CTA - gold background */
 .btn-church-secondary {
-  background-color: var(--church-secondary);
-  border-color: var(--church-secondary);
-  color: #1a1a1a;
+  background-color: var(--gold);
+  border-color: var(--gold);
+  color: var(--church-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 700; font-size: 0.83rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  border-radius: var(--radius-sm);
+  transition: all 0.25s;
 }
-
 .btn-church-secondary:hover {
-  background-color: var(--church-secondary-dark);
-  border-color: var(--church-secondary-dark);
-  color: #1a1a1a;
+  background-color: var(--gold-light);
+  border-color: var(--gold-light);
+  color: var(--church-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-gold);
 }
 
-/* Utility: min 50% viewport height */
-.min-vh-50 {
-  min-height: 50vh;
-}
-
-/* ============================================
-   CARDS - Touch-friendly, accessible
-   USE CASE: Generic card hover, min touch target
-   LOCATION: Events, Groups, Sermons list/detail pages
-   ============================================ */
-/* Generic cards: lift and shadow on hover */
-.card {
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
-}
-
-/* Links in cards: min 44px for touch targets */
-.card a {
-  min-height: 44px;
-}
-
-/* Groups page: compact buttons - fit text, professional look */
-.groups-page .card .btn.btn-sm {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-  white-space: nowrap;
-}
-
-/* ============================================
-   BUTTONS - Ensure sufficient contrast
-   USE CASE: Override Bootstrap .btn-primary for church colors
-   LOCATION: Forms, CTAs site-wide
-   ============================================ */
-/* Override Bootstrap .btn-primary with church colors */
 .btn-primary {
   background-color: var(--church-primary);
   border-color: var(--church-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600; letter-spacing: 0.06em;
+  border-radius: var(--radius-sm);
 }
-
 .btn-primary:hover {
-  background-color: var(--church-primary-dark);
-  border-color: var(--church-primary-dark);
-}
-
-/* Outline button - blue border, fills on hover */
-.btn-outline-primary {
-  border-color: var(--church-primary);
+  background-color: var(--gold);
+  border-color: var(--gold);
   color: var(--church-primary);
 }
 
+.btn-outline-primary {
+  border-color: var(--church-primary);
+  color: var(--church-primary);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600; letter-spacing: 0.06em;
+  border-radius: var(--radius-sm);
+}
 .btn-outline-primary:hover {
   background-color: var(--church-primary);
-  border-color: var(--church-primary);
-  color: #fff;
+  border-color: var(--church-primary); color: #fff;
 }
+
+.btn-outline-light {
+  border-color: rgba(255,255,255,0.45) !important;
+  color: #fff !important;
+  background: rgba(255,255,255,0.07) !important;
+  backdrop-filter: blur(4px);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600; letter-spacing: 0.08em;
+  border-radius: var(--radius-sm);
+  transition: all 0.25s !important;
+}
+.btn-outline-light:hover {
+  border-color: rgba(255,255,255,0.88) !important;
+  background: rgba(255,255,255,0.16) !important;
+}
+
+.min-vh-50 { min-height: 50vh; }
 
 /* ============================================
-   FORM PLACEHOLDERS
-   USE CASE: Floating label placeholder styling
-   LOCATION: Prayer form, any form with .form-floating
+   CARDS (Generic)
    ============================================ */
-/* Placeholder text alignment for floating labels (Prayer form) */
-.form-floating > .form-control-plaintext::placeholder,
-.form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+.card {
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-lg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+.card a { min-height: 44px; }
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+}
+.groups-page .card .btn.btn-sm {
+  padding-left: 0.875rem;
+  padding-right: 0.875rem;
+  white-space: nowrap;
 }
 
+/* Badge */
+.badge.bg-light {
+  background: var(--gold-pale) !important;
+  color: var(--gold) !important;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600; font-size: 0.7rem;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  border: 1px solid var(--border-gold);
+  padding: 0.3em 0.65em;
+}
+/* Override bootstrap text-primary inside badge */
+.badge.bg-light.text-primary { color: var(--gold) !important; }
+
+/* ============================================
+   FORMS
+   ============================================ */
+.form-control, .form-select {
+  border-color: var(--border-light);
+  border-radius: var(--radius-sm);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem; padding: 0.7rem 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  color: var(--text-primary);
+}
+.form-control:focus, .form-select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.14);
+  outline: none;
+}
+.form-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.79rem; font-weight: 600;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text-secondary); margin-bottom: 0.4rem;
+}
+.form-floating > .form-control-plaintext::placeholder,
+.form-floating > .form-control::placeholder {
+  color: var(--bs-secondary-color); text-align: end;
+}
 .form-floating > .form-control-plaintext:focus::placeholder,
 .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
 
 /* ============================================
-   RESPONSIVE TYPOGRAPHY
-   USE CASE: Smaller display sizes on mobile
-   LOCATION: Page titles on small screens
+   ABOUT PAGE
    ============================================ */
-/* Smaller page titles on mobile to prevent overflow */
+.about-page {
+  background: #0a0a18;
+  color: #fff; min-height: 100%;
+}
+.about-page h1, .about-page h2, .about-page h3,
+.about-page h4, .about-page h5, .about-page h6 {
+  color: #fff;
+  font-family: 'Playfair Display', serif;
+}
+.about-page .text-muted { color: rgba(255,255,255,0.6) !important; }
+.about-page .lead { color: rgba(255,255,255,0.85); font-weight: 300; }
+.about-page .border-top { border-color: rgba(255,255,255,0.12) !important; }
+.about-page .btn-primary {
+  background: var(--gold); border-color: var(--gold);
+  color: var(--church-primary); font-weight: 700;
+}
+.about-page .btn-primary:hover {
+  background: var(--gold-light); border-color: var(--gold-light);
+}
+.about-heading-box {
+  display: inline-block;
+  border: 2px solid var(--gold);
+  padding: 0.35rem 0.875rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.7rem; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold);
+}
+.about-nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(10,10,24,0.96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 0.55rem 0; margin-bottom: 2rem;
+}
+.about-nav .nav-link {
+  color: rgba(255,255,255,0.55) !important;
+  font-weight: 500; font-size: 0.79rem;
+  letter-spacing: 0.1em; padding: 0.45rem 0.875rem !important;
+}
+.about-nav .nav-link:hover { color: var(--gold) !important; }
+.about-nav .nav-link.active { color: var(--gold) !important; font-weight: 600; }
+.about-nav .nav-link::after { background: var(--gold); }
+
+.about-section {
+  scroll-margin-top: 5rem;
+  padding-top: 2rem; padding-bottom: 3rem;
+}
+.about-section:first-of-type { padding-top: 0; }
+
+.about-team-group { margin-bottom: 2.5rem; }
+.about-team-group h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 1.25rem;
+}
+.about-team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+}
+.about-team-member { text-align: center; margin-bottom: 0; }
+.about-team-photo {
+  width: 200px; height: 200px;
+  object-fit: cover; border-radius: 50%;
+  display: block; margin: 0 auto 0.875rem;
+  border: 3px solid rgba(201,168,76,0.25);
+  background: rgba(255,255,255,0.05);
+}
+.about-team-member h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem; font-weight: 600;
+  margin-bottom: 0.2rem; line-height: 1.3;
+}
+.about-team-member .role {
+  font-size: 0.79rem;
+  color: rgba(255,255,255,0.5);
+  font-family: 'DM Sans', sans-serif;
+  letter-spacing: 0.05em;
+}
+.about-belief-item {
+  margin-bottom: 1.75rem; padding-bottom: 1.75rem;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.about-belief-item:last-child { border-bottom: none; }
+.about-belief-item h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.1rem; font-weight: 700;
+  color: #fff; margin-bottom: 0.5rem;
+}
+.about-belief-item p {
+  font-size: 0.92rem; color: rgba(255,255,255,0.72);
+  margin-bottom: 0.25rem;
+}
+.about-belief-item .scripture {
+  font-size: 0.8rem; color: var(--gold);
+  font-style: italic;
+}
+.about-culture-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 1rem;
+}
+.about-culture-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: var(--radius);
+  padding: 1.25rem; text-align: center; color: #fff;
+  transition: background 0.2s, border-color 0.2s;
+}
+.about-culture-card:hover {
+  background: rgba(201,168,76,0.1);
+  border-color: rgba(201,168,76,0.28);
+}
+.about-culture-card strong {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.9rem;
+}
+.about-partners-intro { margin-bottom: 1.5rem; color: rgba(255,255,255,0.78); }
+.about-page .bg-light {
+  background: rgba(255,255,255,0.05) !important;
+  border-radius: var(--radius-lg); color: #fff;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+.about-page .bg-light .text-muted { color: rgba(255,255,255,0.6) !important; }
+
+/* ============================================
+   LOCATION PAGE
+   ============================================ */
+.location-page {
+  min-height: calc(100vh - 0.75in);
+  position: relative; padding: 0;
+}
+.location-map-shell {
+  position: relative; width: 100%;
+  min-height: calc(100vh - 0.75in);
+}
+.location-map {
+  width: 100%;
+  min-height: calc(100vh - 0.75in);
+  z-index: 1;
+}
+.location-directions-panel {
+  position: absolute;
+  right: 0.75rem; bottom: 0.75rem;
+  width: min(380px, calc(100% - 1.5rem), calc(100dvh - 3rem));
+  aspect-ratio: 1/1; overflow: hidden;
+  z-index: 1030;
+  border: 1px solid rgba(17,24,39,0.1);
+  border-radius: var(--radius-lg);
+  background: rgba(255,255,255,0.96);
+  backdrop-filter: blur(6px);
+  box-shadow: var(--shadow-lg);
+  padding: 0.875rem 1rem;
+  display: flex; flex-direction: column;
+}
+.location-directions-title {
+  margin: 0 0 0.25rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 0.95rem; font-weight: 700;
+  color: var(--text-primary);
+}
+.location-directions-meta {
+  margin: 0 0 0.5rem;
+  font-size: 0.78rem; color: var(--text-secondary);
+}
+.location-directions-steps {
+  margin: 0; padding-left: 1.15rem;
+  color: var(--text-primary);
+  font-size: 0.8rem; line-height: 1.38;
+  flex: 1 1 auto; overflow: auto;
+}
+.location-directions-steps li { margin-bottom: 0.42rem; }
+.location-map-links {
+  display: grid; grid-template-columns: repeat(2,1fr);
+  gap: 0.5rem; margin-top: 0.75rem;
+}
+.location-map-link-btn {
+  min-height: 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.8rem; font-weight: 600; letter-spacing: 0.05em;
+}
+.location-status-card {
+  position: absolute;
+  left: 50%; top: 0.75rem;
+  transform: translateX(-50%);
+  background: rgba(255,255,255,0.96);
+  border: 1px solid rgba(17,24,39,0.1);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  padding: 0.2rem 0.55rem;
+  width: min(5in, calc(100% - 1rem));
+  height: auto; min-height: 0.5in; max-height: 0.5in;
+  display: flex; align-items: center;
+  overflow: hidden; z-index: 1030;
+}
+.location-status-header {
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 0; margin-right: 0.5rem; flex-shrink: 0;
+}
+.location-status-dot {
+  width: 0.65rem; height: 0.65rem;
+  border-radius: 50%; display: inline-block;
+}
+.dot-online { background: #16a34a; animation: location-dot-pulse 1.8s infinite; }
+.dot-offline { background: #dc2626; animation: location-dot-pulse 1.8s infinite; }
+.location-status-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.9rem; font-weight: 700;
+  color: var(--text-primary);
+}
+.location-status-text {
+  font-size: 0.8rem; font-weight: 500;
+  color: var(--text-primary);
+  margin: 0 !important;
+  white-space: nowrap; overflow: hidden;
+  text-overflow: ellipsis; flex: 1 1 auto;
+}
+.location-status-meta { display: none; }
+.location-refresh-btn {
+  margin-left: auto;
+  padding: 0.16rem 0.45rem;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  background: #fff; color: var(--text-primary);
+  font-size: 0.7rem; font-family: 'DM Sans', sans-serif;
+  line-height: 1.1; white-space: nowrap; cursor: pointer; flex-shrink: 0;
+}
+.location-refresh-btn:disabled { opacity: 0.65; cursor: wait; }
+
+/* Route animation */
+.route-line-animated { stroke-linecap: round; stroke-linejoin: round; }
+.leaflet-marker-icon.route-travel-dot { filter: drop-shadow(0 0 4px rgba(37,99,235,0.5)); }
+.leaflet-marker-icon.route-travel-car-icon { width: 22px !important; height: 22px !important; }
+.route-travel-car { width: 22px; height: 22px; font-size: 18px; line-height: 22px; text-align: center; filter: drop-shadow(0 1px 2px rgba(17,24,39,0.45)); }
+.leaflet-marker-icon.route-origin-ping-icon { width: 18px !important; height: 18px !important; }
+.route-origin-ping-core {
+  position: relative; display: inline-block;
+  width: 12px; height: 12px; margin: 3px;
+  border-radius: 50%; background: #16a34a;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 0 rgba(22,163,74,0.65);
+  animation: route-origin-ping 1.6s infinite;
+}
+@keyframes route-origin-ping {
+  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(22,163,74,0.55); }
+  70% { transform: scale(1.08); box-shadow: 0 0 0 10px rgba(22,163,74,0); }
+  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(22,163,74,0); }
+}
+@keyframes location-dot-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dot-online, .dot-offline, .route-origin-ping-core { animation: none; }
+}
+@media (max-width: 768px) {
+  .location-directions-panel {
+    left: 0.5rem; right: 0.5rem; bottom: 0.5rem;
+    width: auto; aspect-ratio: auto;
+    min-height: clamp(180px, 28dvh, 280px);
+    max-height: min(44dvh, 360px);
+  }
+  .location-map-links { grid-template-columns: repeat(2,1fr); }
+  .location-status-card { top: 0.5rem; width: min(5in, 92vw); }
+}
+
+/* ============================================
+   RESPONSIVE TYPOGRAPHY
+   ============================================ */
 @media (max-width: 767px) {
   .display-4 { font-size: 2rem; }
   .display-5 { font-size: 1.75rem; }
@@ -829,454 +1054,47 @@ body > footer.footer {
 }
 
 /* ============================================
-   ABOUT PAGE - Passion Creek style
-   USE CASE: Team, Beliefs, Culture, Partners sections
-   LOCATION: About.cshtml only
+   HERO EYEBROW & MISSION LABEL
+   (new elements added in redesigned pages)
    ============================================ */
-/* Black background wrapper - full page */
-.about-page {
-  background: #000;
-  color: #fff;
-  min-height: 100%;
-}
-
-.about-page h1,
-.about-page h2,
-.about-page h3,
-.about-page h4,
-.about-page h5,
-.about-page h6 {
-  color: #fff;
-}
-
-.about-page .text-muted {
-  color: rgba(255, 255, 255, 0.75) !important;
-}
-
-.about-page .lead {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.about-page .border-top {
-  border-color: rgba(255, 255, 255, 0.2) !important;
-}
-
-.about-page .btn-primary {
-  background: var(--church-primary);
-  border-color: var(--church-primary);
-  color: #fff;
-}
-
-.about-heading-box {
-  display: inline-block;
-  border: 2px solid var(--church-primary);
-  padding: 0.5rem 1rem;
-}
-
-/* Sticky in-page nav - horizontal links */
-.about-nav {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background: #000;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  padding: 0.75rem 0;
-  margin-bottom: 2rem;
-}
-
-.about-nav .nav-link {
-  color: rgba(255, 255, 255, 0.8) !important;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-}
-
-.about-nav .nav-link:hover {
-  color: var(--church-primary) !important;
-}
-
-.about-nav .nav-link.active {
-  color: var(--church-primary) !important;
-  font-weight: 600;
-}
-
-/* Section spacing and scroll offset for anchor links */
-.about-section {
-  scroll-margin-top: 5rem;
-  padding-top: 2rem;
-  padding-bottom: 3rem;
-}
-
-.about-section:first-of-type {
-  padding-top: 0;
-}
-
-/* Team - grouped by role */
-.about-team-group {
-  margin-bottom: 2.5rem;
-}
-
-.about-team-group h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--church-primary);
-  margin-bottom: 1rem;
-}
-
-.about-team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
-  gap: 0.5in;
-}
-
-.about-team-member {
-  text-align: center;
-  margin-bottom: 0;
-}
-
-.about-team-photo {
-  width: 360px;
-  height: 360px;
-  object-fit: cover;
-  border-radius: 50%;
-  display: block;
-  margin: 0 auto 0.75rem;
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.about-team-member h4 {
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-  line-height: 1.3;
-}
-
-.about-team-member .role {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* Beliefs - doctrinal statements */
-.about-belief-item {
-  margin-bottom: 1.5rem;
-}
-
-.about-belief-item h3 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--church-primary);
-  margin-bottom: 0.5rem;
-}
-
-.about-belief-item p {
-  font-size: 0.95rem;
-  color: rgba(255, 255, 255, 0.85);
-  margin-bottom: 0.25rem;
-}
-
-.about-belief-item .scripture {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.6);
-}
-
-/* Culture placeholder cards */
-.about-culture-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 1rem;
-}
-
-.about-culture-card {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 0.5rem;
-  padding: 1rem;
-  text-align: center;
-  color: #fff;
-}
-
-.about-culture-card strong {
-  font-size: 0.9rem;
-}
-
-/* Partners section */
-.about-partners-intro {
-  margin-bottom: 1.5rem;
-  color: rgba(255, 255, 255, 0.85);
-}
-
-/* About page - light boxes on dark background */
-.about-page .bg-light {
-  background: rgba(255, 255, 255, 0.1) !important;
-  color: #fff;
-}
-
-.about-page .bg-light .text-muted {
-  color: rgba(255, 255, 255, 0.7) !important;
-}
-
-/* ============================================
-   LOCATION PAGE - Smart location detector
-   USE CASE: Show current location + online/offline status dot
-   LOCATION: Location.cshtml
-   ============================================ */
-.location-page {
-  min-height: calc(100vh - 0.75in);
-  position: relative;
-  padding: 0;
-}
-
-.location-map-shell {
-  position: relative;
-  width: 100%;
-  min-height: calc(100vh - 0.75in);
-}
-
-.location-map {
-  width: 100%;
-  min-height: calc(100vh - 0.75in);
-  z-index: 1;
-}
-
-.location-directions-panel {
-  position: absolute;
-  right: 0.75rem;
-  bottom: 0.75rem;
-  width: min(380px, calc(100% - 1.5rem), calc(100dvh - 3rem));
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  z-index: 1030;
-  border: 1px solid rgba(17, 24, 39, 0.12);
-  border-radius: 0.65rem;
-  background: rgba(255, 255, 255, 0.94);
-  backdrop-filter: blur(4px);
-  box-shadow: 0 8px 20px rgba(17, 24, 39, 0.08);
-  padding: 0.75rem 0.85rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.location-directions-title {
-  margin: 0 0 0.25rem 0;
-  font-size: 0.95rem;
+.hero-eyebrow {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
   font-weight: 700;
-  color: #111827;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #e8cc7a;
 }
 
-.location-directions-meta {
-  margin: 0 0 0.5rem 0;
-  font-size: 0.78rem;
-  color: #374151;
+.mission-label {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
 }
 
-.location-directions-steps {
-  margin: 0;
-  padding-left: 1.15rem;
-  color: #111827;
-  font-size: 0.8rem;
-  line-height: 1.35;
-  flex: 1 1 auto;
-  overflow: auto;
+.sermons-eyebrow {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gold);
 }
 
-.location-directions-steps li {
-  margin-bottom: 0.42rem;
-}
-
-.location-map-links {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.5rem;
-  margin-top: 0.75rem;
-}
-
-.location-map-link-btn {
-  min-height: 44px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+.ministry-section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  font-weight: 700;
+  color: #fff;
   text-align: center;
 }
 
-.location-status-card {
-  position: absolute;
-  left: 50%;
-  top: 0.75rem;
-  transform: translateX(-50%);
-  background: rgba(255, 255, 255, 0.94);
-  border: 1px solid rgba(17, 24, 39, 0.12);
-  border-radius: 0.65rem;
-  box-shadow: 0 6px 16px rgba(17, 24, 39, 0.08);
-  padding: 0.2rem 0.55rem;
-  width: min(5in, calc(100% - 1rem));
-  height: auto;
-  min-height: 0.5in;
-  max-height: 0.5in;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  z-index: 1030;
-}
-
-.location-status-header {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 0;
-  margin-right: 0.5rem;
-  flex-shrink: 0;
-}
-
-.location-status-dot {
-  width: 0.65rem;
-  height: 0.65rem;
-  border-radius: 50%;
-  display: inline-block;
-}
-
-.dot-online {
-  background: #16a34a;
-  box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.65);
-  animation: location-dot-pulse 1.8s infinite;
-}
-
-.dot-offline {
-  background: #dc2626;
-  box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.55);
-  animation: location-dot-pulse 1.8s infinite;
-}
-
-.location-status-title {
+.ministry-section-sub {
+  font-family: 'DM Sans', sans-serif;
   font-size: 0.9rem;
-  font-weight: 600;
-  color: #111827;
-}
-
-.location-status-text {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: #111827;
-  margin: 0 !important;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex: 1 1 auto;
-}
-
-.location-status-meta {
-  display: none;
-}
-
-.location-refresh-btn {
-  margin-left: auto;
-  padding: 0.16rem 0.45rem;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: 0.35rem;
-  background: #fff;
-  color: #111827;
-  font-size: 0.7rem;
-  line-height: 1.1;
-  white-space: nowrap;
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.location-refresh-btn:disabled {
-  opacity: 0.7;
-  cursor: wait;
-}
-
-.route-line-animated {
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.leaflet-marker-icon.route-travel-dot {
-  filter: drop-shadow(0 0 4px rgba(37, 99, 235, 0.5));
-}
-
-.leaflet-marker-icon.route-travel-car-icon {
-  width: 22px !important;
-  height: 22px !important;
-}
-
-.route-travel-car {
-  width: 22px;
-  height: 22px;
-  font-size: 18px;
-  line-height: 22px;
+  color: rgba(255,255,255,0.45);
   text-align: center;
-  filter: drop-shadow(0 1px 2px rgba(17, 24, 39, 0.45));
-}
-
-.leaflet-marker-icon.route-origin-ping-icon {
-  width: 18px !important;
-  height: 18px !important;
-}
-
-.route-origin-ping-core {
-  position: relative;
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  margin: 3px;
-  border-radius: 50%;
-  background: #16a34a;
-  border: 2px solid #ffffff;
-  box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.65);
-  animation: route-origin-ping 1.6s infinite;
-}
-
-@keyframes route-origin-ping {
-  0% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.55);
-  }
-  70% {
-    transform: scale(1.08);
-    box-shadow: 0 0 0 10px rgba(22, 163, 74, 0);
-  }
-  100% {
-    transform: scale(1);
-    box-shadow: 0 0 0 0 rgba(22, 163, 74, 0);
-  }
-}
-
-@keyframes location-dot-pulse {
-  0% {
-    transform: scale(1);
-  }
-  70% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .dot-online,
-  .dot-offline,
-  .route-origin-ping-core {
-    animation: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .location-directions-panel {
-    left: 0.5rem;
-    right: 0.5rem;
-    bottom: 0.5rem;
-    width: auto;
-    aspect-ratio: auto;
-    min-height: clamp(180px, 28dvh, 280px);
-    max-height: min(44dvh, 360px);
-  }
-
-  .location-map-links {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .location-status-card {
-    top: 0.5rem;
-    width: min(5in, 92vw);
-  }
 }

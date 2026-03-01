@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SolidDry.Application/SolidDry.Application.csproj" />
+    <Project Path="src/SolidDry.Core/SolidDry.Core.csproj" />
+    <Project Path="src/SolidDry.Infrastructure/SolidDry.Infrastructure.csproj" />
+    <Project Path="src/SolidDry.Web/SolidDry.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SolidDry.UnitTests/SolidDry.UnitTests.csproj" />
+  </Folder>
+</Solution>
