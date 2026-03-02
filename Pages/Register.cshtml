@@ -1,0 +1,117 @@
+@page "/Portal/Register"
+@model RodneyPortfolio.Pages.Portal.RegisterModel
+@{
+    ViewData["Title"] = "Register — RC Dev Portal";
+    Layout = "_Layout";
+}
+
+<div class="portal-form-page rc-fade">
+    <div class="portal-form-hero">
+        <a href="/Portal" class="portal-back">&#8249; Back to Portal</a>
+        <div class="portal-hero-badge">// New Client Registration</div>
+        <h1 class="title">Create Your Account</h1>
+        <p class="portal-hero-sub">Fill in your details below. We'll send a 6-digit verification code to your email to confirm your identity.</p>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="portal-alert portal-alert-error rc-glass">&#9888; @Model.ErrorMessage</div>
+    }
+
+    <div class="portal-form-card rc-glass rc-fade">
+        <form method="post" asp-page-handler="Register" class="portal-form">
+            @Html.AntiForgeryToken()
+
+            <div class="portal-form-section">
+                <div class="portal-form-section-label">// 01 — Your Identity</div>
+                <div class="portal-form-row">
+                    <div class="portal-field">
+                        <label class="portal-label">First Name *</label>
+                        <input asp-for="Input.FirstName" class="portal-input" placeholder="First" />
+                        <span asp-validation-for="Input.FirstName" class="portal-field-error"></span>
+                    </div>
+                    <div class="portal-field">
+                        <label class="portal-label">Last Name *</label>
+                        <input asp-for="Input.LastName" class="portal-input" placeholder="Last" />
+                        <span asp-validation-for="Input.LastName" class="portal-field-error"></span>
+                    </div>
+                </div>
+                <div class="portal-form-row">
+                    <div class="portal-field">
+                        <label class="portal-label">Email Address *</label>
+                        <input asp-for="Input.Email" class="portal-input" placeholder="you@company.com" />
+                        <span asp-validation-for="Input.Email" class="portal-field-error"></span>
+                    </div>
+                    <div class="portal-field">
+                        <label class="portal-label">Phone Number *</label>
+                        <input asp-for="Input.Phone" class="portal-input" placeholder="(555) 000-0000" />
+                        <span asp-validation-for="Input.Phone" class="portal-field-error"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portal-form-section">
+                <div class="portal-form-section-label">// 02 — Business Information</div>
+                <div class="portal-form-row">
+                    <div class="portal-field portal-field-full">
+                        <label class="portal-label">Company / Organization <span class="portal-optional">(optional)</span></label>
+                        <input asp-for="Input.CompanyName" class="portal-input" placeholder="Acme Corp or New Bethel Church" />
+                    </div>
+                </div>
+                <div class="portal-form-row">
+                    <div class="portal-field portal-field-full">
+                        <label class="portal-label">Billing Address *</label>
+                        <input asp-for="Input.BillingAddress" class="portal-input" placeholder="123 Main St" />
+                        <span asp-validation-for="Input.BillingAddress" class="portal-field-error"></span>
+                    </div>
+                </div>
+                <div class="portal-form-row portal-form-row-3">
+                    <div class="portal-field portal-field-grow">
+                        <label class="portal-label">City *</label>
+                        <input asp-for="Input.City" class="portal-input" placeholder="Winter Haven" />
+                        <span asp-validation-for="Input.City" class="portal-field-error"></span>
+                    </div>
+                    <div class="portal-field">
+                        <label class="portal-label">State *</label>
+                        <input asp-for="Input.State" class="portal-input" placeholder="FL" maxlength="2" />
+                        <span asp-validation-for="Input.State" class="portal-field-error"></span>
+                    </div>
+                    <div class="portal-field">
+                        <label class="portal-label">ZIP *</label>
+                        <input asp-for="Input.ZipCode" class="portal-input" placeholder="33880" />
+                        <span asp-validation-for="Input.ZipCode" class="portal-field-error"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portal-form-section">
+                <div class="portal-form-section-label">// 03 — Service Interest</div>
+                <div class="portal-tier-grid">
+                    <label class="portal-tier-option">
+                        <input type="radio" asp-for="Input.TierInterest" value="Starter" class="portal-tier-radio" />
+                        <div class="portal-tier-name">Starter</div>
+                        <div class="portal-tier-price">$80 / mo</div>
+                        <div class="portal-tier-note">Small site, 1hr support</div>
+                    </label>
+                    <label class="portal-tier-option portal-tier-featured">
+                        <input type="radio" asp-for="Input.TierInterest" value="Growth" class="portal-tier-radio" />
+                        <div class="portal-tier-badge">Popular</div>
+                        <div class="portal-tier-name">Growth</div>
+                        <div class="portal-tier-price">$160 / mo</div>
+                        <div class="portal-tier-note">AI integration, 3hr support</div>
+                    </label>
+                    <label class="portal-tier-option">
+                        <input type="radio" asp-for="Input.TierInterest" value="Custom" class="portal-tier-radio" />
+                        <div class="portal-tier-name">Custom</div>
+                        <div class="portal-tier-price">Scoped</div>
+                        <div class="portal-tier-note">Enterprise / dedicated</div>
+                    </label>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-outline-dark portal-submit-btn">Send Verification Code &rarr;</button>
+            <p class="portal-form-note">By registering, you agree that RC Dev may contact you at the provided email and phone regarding your account.</p>
+        </form>
+    </div>
+    <p class="portal-switch-link">Already have an account? <a href="/Portal/Login" class="faq-link">Sign in here &rarr;</a></p>
+</div>

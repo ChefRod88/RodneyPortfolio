@@ -25,7 +25,34 @@ builder.Services.AddScoped<IOpenAIClient, OpenAIClient>();
 builder.Services.AddScoped<IInputValidator, InputValidator>();
 builder.Services.AddScoped<IContentFilter, ContentFilter>();
 builder.Services.Configure<QuoteEmailOptions>(builder.Configuration.GetSection(QuoteEmailOptions.SectionName));
+builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddScoped<IQuoteSubmissionService, QuoteSubmissionService>();
+builder.Services.AddScoped<IInvoiceService, JsonInvoiceService>();
+builder.Services.AddScoped<IPaymentEmailService, PaymentEmailService>();
+
+// ══════════════════════════════════════════════════════════════
+// ADD THESE TO Program.cs — after existing service registrations
+// ══════════════════════════════════════════════════════════════
+
+// Portal services
+builder.Services.AddScoped<IClientPortalService, ClientPortalService>();
+builder.Services.AddScoped<IPortalEmailService, PortalEmailService>();
+
+// Session (for ASP.NET Core session middleware)
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromHours(24);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
+});
+
+// ──────────────────────────────────────────────────
+// In the middleware pipeline (after app.UseRouting()):
+// app.UseSession();
+// ──────────────────────────────────────────────────
+
 
 var app = builder.Build();
 
@@ -85,6 +112,7 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseRouting();
+app.UseSession();
 
 app.UseAuthorization();
 
