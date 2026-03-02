@@ -1,3 +1,71 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-code" viewBox="0 0 16 16">
-  <path d="M5.854 4.854a.5.5 0 1 0-.708-.708l-3.5 3.5a.5.5 0 0 0 0 .708l3.5 3.5a.5.5 0 0 0 .708-.708L2.707 8zm4.292 0a.5.5 0 0 1 .708-.708l3.5 3.5a.5.5 0 0 1 0 .708l-3.5 3.5a.5.5 0 0 1-.708-.708L13.293 8z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Dark background -->
+  <rect width="32" height="32" rx="4" fill="#020c14"/>
+
+  <!-- Outer head border glow -->
+  <rect x="4" y="5" width="24" height="22" rx="3" fill="none" stroke="#00d4ff" stroke-width="0.8" opacity="0.35"/>
+
+  <!-- Head body -->
+  <rect x="5" y="6" width="22" height="20" rx="2.5" fill="#041018" stroke="#00d4ff" stroke-width="1"/>
+
+  <!-- Antenna base -->
+  <rect x="15" y="2" width="2" height="4" rx="0.5" fill="#00d4ff" opacity="0.9"/>
+  <!-- Antenna top dot -->
+  <circle cx="16" cy="1.5" r="1.2" fill="#00d4ff"/>
+  <circle cx="16" cy="1.5" r="0.6" fill="#ffffff" opacity="0.8"/>
+
+  <!-- Forehead bar -->
+  <rect x="8" y="8" width="16" height="1.5" rx="0.5" fill="#00d4ff" opacity="0.25"/>
+
+  <!-- LEFT EYE — hexagonal visor style -->
+  <rect x="7" y="11" width="7" height="5" rx="1" fill="#001a28" stroke="#00d4ff" stroke-width="0.9"/>
+  <!-- Eye glow inner -->
+  <rect x="8" y="12" width="5" height="3" rx="0.5" fill="#00d4ff" opacity="0.18"/>
+  <!-- Pupil / scan line -->
+  <rect x="9" y="13" width="3" height="1" rx="0.3" fill="#00d4ff" opacity="0.9"/>
+  <!-- Pupil dot -->
+  <circle cx="10.5" cy="13.5" r="0.9" fill="#00d4ff"/>
+  <circle cx="10.5" cy="13.5" r="0.4" fill="#ffffff" opacity="0.9"/>
+
+  <!-- RIGHT EYE -->
+  <rect x="18" y="11" width="7" height="5" rx="1" fill="#001a28" stroke="#00d4ff" stroke-width="0.9"/>
+  <rect x="19" y="12" width="5" height="3" rx="0.5" fill="#00d4ff" opacity="0.18"/>
+  <rect x="20" y="13" width="3" height="1" rx="0.3" fill="#00d4ff" opacity="0.9"/>
+  <circle cx="21.5" cy="13.5" r="0.9" fill="#00d4ff"/>
+  <circle cx="21.5" cy="13.5" r="0.4" fill="#ffffff" opacity="0.9"/>
+
+  <!-- Nose bridge / center sensor -->
+  <rect x="15" y="17" width="2" height="1" rx="0.3" fill="#00d4ff" opacity="0.5"/>
+
+  <!-- MOUTH — grid of small vents -->
+  <rect x="8"  y="19" width="16" height="4" rx="1" fill="#001a28" stroke="#00d4ff" stroke-width="0.7" opacity="0.9"/>
+  <!-- Mouth grid lines vertical -->
+  <line x1="11"  y1="19" x2="11"  y2="23" stroke="#00d4ff" stroke-width="0.5" opacity="0.4"/>
+  <line x1="14"  y1="19" x2="14"  y2="23" stroke="#00d4ff" stroke-width="0.5" opacity="0.4"/>
+  <line x1="17"  y1="19" x2="17"  y2="23" stroke="#00d4ff" stroke-width="0.5" opacity="0.4"/>
+  <line x1="20"  y1="19" x2="20"  y2="23" stroke="#00d4ff" stroke-width="0.5" opacity="0.4"/>
+  <!-- Mouth grid lines horizontal -->
+  <line x1="8"   y1="21" x2="24"  y2="21" stroke="#00d4ff" stroke-width="0.5" opacity="0.4"/>
+  <!-- Active cell glow -->
+  <rect x="9"   y="20" width="1.5" height="1.5" rx="0.2" fill="#00d4ff" opacity="0.7"/>
+  <rect x="15"  y="19.5" width="1.5" height="1.5" rx="0.2" fill="#00d4ff" opacity="0.5"/>
+  <rect x="21"  y="20" width="1.5" height="1.5" rx="0.2" fill="#00d4ff" opacity="0.7"/>
+
+  <!-- Left ear / side plate -->
+  <rect x="2" y="12" width="3" height="6" rx="1" fill="#041018" stroke="#00d4ff" stroke-width="0.7"/>
+  <rect x="2.8" y="13.5" width="1.4" height="3" rx="0.3" fill="#00d4ff" opacity="0.3"/>
+
+  <!-- Right ear / side plate -->
+  <rect x="27" y="12" width="3" height="6" rx="1" fill="#041018" stroke="#00d4ff" stroke-width="0.7"/>
+  <rect x="27.8" y="13.5" width="1.4" height="3" rx="0.3" fill="#00d4ff" opacity="0.3"/>
+
+  <!-- Corner accent marks -->
+  <path d="M5 6 L7 6" stroke="#00d4ff" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+  <path d="M5 6 L5 8" stroke="#00d4ff" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+  <path d="M27 6 L25 6" stroke="#00d4ff" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+  <path d="M27 6 L27 8" stroke="#00d4ff" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+  <path d="M5 26 L7 26" stroke="#00d4ff" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+  <path d="M5 26 L5 24" stroke="#00d4ff" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+  <path d="M27 26 L25 26" stroke="#00d4ff" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
+  <path d="M27 26 L27 24" stroke="#00d4ff" stroke-width="1" stroke-linecap="round" opacity="0.6"/>
 </svg>
