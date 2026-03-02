@@ -1,0 +1,57 @@
+@page "/Admin/Accounts"
+@model RodneyPortfolio.Pages.Admin.AccountsModel
+@{
+    ViewData["Title"] = "Admin Accounts";
+    Layout = "_Layout";
+}
+
+<div class="portal-form-page rc-fade" style="max-width:1000px;margin:0 auto">
+    <div class="portal-form-hero">
+        <div class="portal-hero-badge">// Admin Panel</div>
+        <h1 class="title">Client Accounts</h1>
+        <p class="portal-hero-sub">Manage registered client portal accounts.</p>
+    </div>
+
+    <div class="portal-form-card rc-glass rc-fade">
+        <div style="overflow-x:auto">
+            <table class="table table-dark table-striped align-middle" style="margin-bottom:0">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Status</th>
+                        <th>Registered</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @if (Model.Accounts.Count == 0)
+                {
+                    <tr>
+                        <td colspan="5">No accounts found.</td>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var account in Model.Accounts)
+                    {
+                        <tr>
+                            <td>@account.FullName</td>
+                            <td>@account.Email</td>
+                            <td>@account.Status</td>
+                            <td>@account.RegisteredAt.ToLocalTime().ToString("yyyy-MM-dd HH:mm")</td>
+                            <td class="text-end">
+                                <form method="post" asp-page-handler="Delete" style="display:inline">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@account.Id" />
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+@page "/Admin/Login"
+@model RodneyPortfolio.Pages.Admin.AdminLoginModel
+@{
+    ViewData["Title"] = "Admin Login";
+    Layout = "_Layout";
+}
+
+<div class="portal-form-page rc-fade" style="max-width:420px;margin:0 auto">
+    <div class="portal-form-hero" style="text-align:center">
+        <div class="portal-hero-badge">// Administrator Access Only</div>
+        <h1 class="title">RC Dev Admin</h1>
+        <p class="portal-hero-sub">Enter your 4-digit PIN to access the admin panel.</p>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+    {
+        <div class="portal-alert portal-alert-error rc-glass">&#9888; @Model.ErrorMessage</div>
+    }
+
+    <div class="portal-form-card rc-glass rc-fade">
+        <form method="post" asp-page-handler="Login" class="portal-form">
+            @Html.AntiForgeryToken()
+            <div class="portal-form-section">
+                <div class="portal-form-section-label">// Enter PIN</div>
+                <div class="portal-field portal-field-full">
+                    <label class="portal-label">4-Digit PIN</label>
+                    <input name="Pin" type="password" maxlength="4" minlength="4"
+                           class="portal-otp-input" placeholder="&#9679;&#9679;&#9679;&#9679;"
+                           inputmode="numeric" pattern="[0-9]{4}" autofocus
+                           style="font-size:2rem;letter-spacing:0.6em;text-align:center" />
+                </div>
+            </div>
+            <button type="submit" class="btn btn-outline-dark portal-submit-btn" style="width:100%;text-align:center">
+                Access Admin Panel &rarr;
+            </button>
+        </form>
+    </div>
+
+    <p style="text-align:center;margin-top:1.5rem">
+        <a href="/Portal" class="portal-back">&#8249; Back to Client Portal</a>
+    </p>
+</div>

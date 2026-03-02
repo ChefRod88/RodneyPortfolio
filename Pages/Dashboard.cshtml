@@ -1,0 +1,292 @@
+@page "/Portal/Dashboard"
+@model RodneyPortfolio.Pages.Portal.DashboardModel
+@using RodneyPortfolio.Models
+@{
+    ViewData["Title"] = "Dashboard -- RC Dev Portal";
+    Layout = "_Layout";
+}
+
+<div class="portal-dash rc-fade">
+
+    <!-- TOP BAR -->
+    <div class="portal-dash-topbar">
+        <div class="portal-dash-greeting">
+            <span class="portal-dash-label">// Welcome back</span>
+            <span class="portal-dash-name">@Model.Account.FirstName @Model.Account.LastName</span>
+            @if (Model.Account.CompanyName is not null)
+            {
+                <span class="portal-dash-company">@Model.Account.CompanyName</span>
+            }
+        </div>
+        <div class="portal-dash-meta">
+            <span class="portal-dash-tier pay-client-tier pay-tier-@Model.Account.TierInterest.ToLower()">@Model.Account.TierInterest</span>
+            <form method="post" asp-page-handler="Logout" style="display:inline">
+                @Html.AntiForgeryToken()
+                <button type="submit" class="pay-logout">Sign Out</button>
+            </form>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.StatusMessage))
+    {
+        <div class="portal-alert portal-alert-success rc-glass">&#10003; @Model.StatusMessage</div>
+    }
+
+    <!-- STATS -->
+    <div class="pay-stats rc-fade">
+        <div class="pay-stat rc-glass">
+            <span class="pay-stat-val">$@Model.TotalDue.ToString("F2")</span>
+            <span class="pay-stat-label">Balance Due</span>
+        </div>
+        <div class="pay-stat rc-glass">
+            <span class="pay-stat-val">@Model.UnpaidCount</span>
+            <span class="pay-stat-label">Open Invoices</span>
+        </div>
+        <div class="pay-stat rc-glass">
+            <span class="pay-stat-val">$@Model.TotalPaid.ToString("F2")</span>
+            <span class="pay-stat-label">Total Paid</span>
+        </div>
+    </div>
+
+    <!-- TABS -->
+    <div class="portal-tabs rc-fade">
+        <button class="portal-tab portal-tab-active" onclick="showTab('invoices', this)">Invoices</button>
+        <button class="portal-tab" onclick="showTab('history', this)">Payment History</button>
+        <button class="portal-tab" onclick="showTab('account', this)">My Account</button>
+        <button class="portal-tab" onclick="showTab('support', this)">Support</button>
+    </div>
+
+    <!-- TAB: INVOICES -->
+    <div id="tab-invoices" class="portal-tab-content rc-fade">
+        @if (!Model.OpenInvoices.Any())
+        {
+            <div class="pay-empty rc-glass">
+                <span class="pay-empty-icon">&#10003;</span>
+                <p>No open invoices. You are all caught up!</p>
+            </div>
+        }
+        else
+        {
+            <div class="pay-invoices">
+                @foreach (var inv in Model.OpenInvoices)
+                {
+                    <div class="pay-invoice-card rc-glass @(inv.Status == InvoiceStatus.Overdue ? "pay-card-overdue" : "")">
+                        <div class="pay-inv-left">
+                            <div class="pay-inv-id">#@inv.Id[..8].ToUpper()</div>
+                            <div class="pay-inv-desc">@inv.Description</div>
+                            <div class="pay-inv-dates">Issued @inv.IssuedAt.ToString("MMM dd, yyyy") &nbsp;&#183;&nbsp; Due @inv.DueAt.ToString("MMM dd, yyyy")</div>
+                        </div>
+                        <div class="pay-inv-right">
+                            <div class="pay-inv-amount">$@inv.Amount.ToString("F2")</div>
+                            <div class="pay-inv-status pay-status-@inv.Status.ToString().ToLower()">
+                                @(inv.Status == InvoiceStatus.Overdue ? "&#9888; Overdue" : "&#9679; Unpaid")
+                            </div>
+                            <button class="btn btn-outline-dark pay-now-btn"
+                                    data-invoice-id="@inv.Id"
+                                    data-amount="@inv.Amount"
+                                    data-desc="@inv.Description"
+                                    onclick="openPayModal(this)">
+                                Pay Now
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <!-- TAB: HISTORY -->
+    <div id="tab-history" class="portal-tab-content" style="display:none">
+        @if (!Model.PaidInvoices.Any())
+        {
+            <div class="pay-empty rc-glass"><p>No payment history yet.</p></div>
+        }
+        else
+        {
+            <div class="pay-invoices">
+                @foreach (var inv in Model.PaidInvoices)
+                {
+                    <div class="pay-invoice-card rc-glass pay-card-paid">
+                        <div class="pay-inv-left">
+                            <div class="pay-inv-id">#@inv.Id[..8].ToUpper()</div>
+                            <div class="pay-inv-desc">@inv.Description</div>
+                            <div class="pay-inv-dates">Paid @inv.PaidAt?.ToString("MMM dd, yyyy")</div>
+                        </div>
+                        <div class="pay-inv-right">
+                            <div class="pay-inv-amount">$@inv.Amount.ToString("F2")</div>
+                            <div class="pay-inv-status pay-status-paid">&#10003; Paid</div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+
+    <!-- TAB: ACCOUNT -->
+    <div id="tab-account" class="portal-tab-content" style="display:none">
+        <div class="portal-account-grid">
+            <div class="rc-glass portal-account-card">
+                <div class="portal-form-section-label">// Contact Information</div>
+                <div class="portal-account-row"><span>Name</span><span>@Model.Account.FullName</span></div>
+                <div class="portal-account-row"><span>Email</span><span>@Model.Account.Email</span></div>
+                <div class="portal-account-row"><span>Phone</span><span>@Model.Account.Phone</span></div>
+                @if (Model.Account.CompanyName is not null)
+                {
+                    <div class="portal-account-row"><span>Company</span><span>@Model.Account.CompanyName</span></div>
+                }
+            </div>
+            <div class="rc-glass portal-account-card">
+                <div class="portal-form-section-label">// Billing Address</div>
+                <div class="portal-account-row"><span>Street</span><span>@Model.Account.BillingAddress</span></div>
+                <div class="portal-account-row"><span>City</span><span>@Model.Account.City</span></div>
+                <div class="portal-account-row"><span>State</span><span>@Model.Account.State</span></div>
+                <div class="portal-account-row"><span>ZIP</span><span>@Model.Account.ZipCode</span></div>
+            </div>
+            <div class="rc-glass portal-account-card">
+                <div class="portal-form-section-label">// Service Plan</div>
+                <div class="portal-account-row"><span>Tier</span><span class="pay-client-tier pay-tier-@Model.Account.TierInterest.ToLower()">@Model.Account.TierInterest</span></div>
+                <div class="portal-account-row"><span>Status</span><span style="color:#22c55e">@Model.Account.Status</span></div>
+                <div class="portal-account-row"><span>Member Since</span><span>@Model.Account.RegisteredAt.ToString("MMM dd, yyyy")</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB: SUPPORT -->
+    <div id="tab-support" class="portal-tab-content" style="display:none">
+        <div class="portal-form-card rc-glass" style="max-width:580px">
+            <form method="post" asp-page-handler="Support" class="portal-form">
+                @Html.AntiForgeryToken()
+                <div class="portal-form-section">
+                    <div class="portal-form-section-label">// Submit a Support Request</div>
+                    <div class="portal-field portal-field-full">
+                        <label class="portal-label">Subject *</label>
+                        <input asp-for="SupportMsg.Subject" class="portal-input" placeholder="e.g. Site is down, need to update contact info" />
+                        <span asp-validation-for="SupportMsg.Subject" class="portal-field-error"></span>
+                    </div>
+                    <div class="portal-field portal-field-full">
+                        <label class="portal-label">Message *</label>
+                        <textarea asp-for="SupportMsg.Message" class="portal-input portal-textarea" rows="5" placeholder="Describe what you need..."></textarea>
+                        <span asp-validation-for="SupportMsg.Message" class="portal-field-error"></span>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-outline-dark portal-submit-btn">Send Message &rarr;</button>
+                <p class="portal-form-note">Response within 48 business hours per your service agreement.</p>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+<!-- PAYMENT MODAL (reused from Payments.cshtml) -->
+<div id="payModal" class="pay-modal-overlay" style="display:none" onclick="closeModalOutside(event)">
+    <div class="pay-modal rc-glass">
+        <div class="pay-modal-header">
+            <span class="pay-modal-label">// Secure Payment</span>
+            <button class="pay-modal-close" onclick="closePayModal()">&#10005;</button>
+        </div>
+        <div class="pay-modal-invoice-info">
+            <span id="modalDesc" class="pay-modal-desc"></span>
+            <span id="modalAmount" class="pay-modal-amount"></span>
+        </div>
+        <div id="payment-element"></div>
+        <div id="pay-processing" style="display:none" class="pay-processing">
+            <span class="pay-spinner"></span> Processing payment...
+        </div>
+        <div id="pay-success" style="display:none" class="pay-success-msg">
+            <span>&#10003;</span> Payment successful! A receipt has been sent to your email.
+        </div>
+        <div id="pay-error-msg" class="pay-error" style="display:none"></div>
+        <button id="submitPayBtn" class="btn btn-outline-dark pay-submit-btn" onclick="submitPayment()">Confirm Payment</button>
+        <p class="pay-secure-note">&#128274; Secured by Stripe &middot; Card details never touch our server</p>
+    </div>
+</div>
+
+<style>
+.portal-dash { max-width: 900px; margin: 0 auto; padding: 3rem 3rem 6rem; }
+.portal-dash-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+.portal-dash-greeting { display: flex; flex-direction: column; gap: 0.2rem; }
+.portal-dash-label { font-family: var(--font-mono); font-size: 0.58rem; color: rgba(0,212,255,0.4); letter-spacing: 0.2em; text-transform: uppercase; }
+.portal-dash-name { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: var(--white); letter-spacing: 0.04em; }
+.portal-dash-company { font-family: var(--font-mono); font-size: 0.62rem; color: rgba(142,207,223,0.4); letter-spacing: 0.08em; }
+.portal-dash-meta { display: flex; align-items: center; gap: 1.2rem; }
+
+.portal-tabs { display: flex; gap: 0; border-bottom: 1px solid rgba(0,212,255,0.12); margin-bottom: 2rem; overflow-x: auto; }
+.portal-tab { background: none; border: none; border-bottom: 2px solid transparent; color: rgba(142,207,223,0.4); font-family: var(--font-display); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.9rem 1.4rem; cursor: pointer; transition: color 0.2s, border-color 0.2s; white-space: nowrap; margin-bottom: -1px; }
+.portal-tab:hover { color: rgba(142,207,223,0.7); }
+.portal-tab-active { color: var(--c) !important; border-color: var(--c) !important; }
+.portal-tab-content { animation: fadeIn 0.3s ease; }
+@@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
+
+.portal-account-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+.portal-account-card { padding: 1.5rem; }
+.portal-account-row { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid rgba(0,212,255,0.06); font-size: 0.85rem; }
+.portal-account-row span:first-child { font-family: var(--font-mono); font-size: 0.6rem; color: rgba(142,207,223,0.35); letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; }
+.portal-account-row span:last-child { color: var(--white); font-family: var(--font-body); text-align: right; }
+
+.portal-alert { padding: 1rem 1.5rem; margin-bottom: 1.5rem; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.08em; }
+.portal-alert-error { border-color: rgba(239,68,68,0.3) !important; color: #ef4444; }
+.portal-alert-success { border-color: rgba(34,197,94,0.3) !important; color: #22c55e; }
+
+.portal-textarea { resize: vertical; min-height: 120px; }
+
+@@media (max-width: 640px) {
+    .portal-dash { padding: 2rem 1.5rem 5rem; }
+    .pay-stats { grid-template-columns: 1fr 1fr; }
+}
+</style>
+
+@section Scripts {
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+function showTab(name, btn) {
+    document.querySelectorAll(".portal-tab-content").forEach(t => t.style.display = "none");
+    document.querySelectorAll(".portal-tab").forEach(t => t.classList.remove("portal-tab-active"));
+    document.getElementById("tab-" + name).style.display = "block";
+    btn.classList.add("portal-tab-active");
+}
+
+const stripe = Stripe("@Model.StripePublishableKey");
+let elements, currentInvoiceId;
+
+async function openPayModal(btn) {
+    currentInvoiceId = btn.dataset.invoiceId;
+    document.getElementById("modalDesc").textContent = btn.dataset.desc;
+    document.getElementById("modalAmount").textContent = "$" + parseFloat(btn.dataset.amount).toFixed(2);
+    document.getElementById("payModal").style.display = "flex";
+    document.getElementById("pay-error-msg").style.display = "none";
+    document.getElementById("pay-success").style.display = "none";
+    document.getElementById("submitPayBtn").style.display = "block";
+    document.getElementById("pay-processing").style.display = "none";
+
+    const resp = await fetch("/Payments?handler=CreatePaymentIntent", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "RequestVerificationToken": document.querySelector("input[name='__RequestVerificationToken']")?.value ?? "" },
+        body: JSON.stringify({ invoiceId: currentInvoiceId })
+    });
+    const data = await resp.json();
+    if (!data.clientSecret) { showPayError("Unable to initialize payment."); return; }
+    elements = stripe.elements({ clientSecret: data.clientSecret, appearance: stripeAppearance() });
+    elements.create("payment").mount("#payment-element");
+}
+
+async function submitPayment() {
+    document.getElementById("submitPayBtn").style.display = "none";
+    document.getElementById("pay-processing").style.display = "flex";
+    const { error, paymentIntent } = await stripe.confirmPayment({ elements, redirect: "if_required" });
+    if (error) { showPayError(error.message); document.getElementById("submitPayBtn").style.display = "block"; document.getElementById("pay-processing").style.display = "none"; return; }
+    await fetch("/Payments?handler=ConfirmPayment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "RequestVerificationToken": document.querySelector("input[name='__RequestVerificationToken']")?.value ?? "" },
+        body: JSON.stringify({ invoiceId: currentInvoiceId, paymentIntentId: paymentIntent.id })
+    });
+    document.getElementById("pay-processing").style.display = "none";
+    document.getElementById("pay-success").style.display = "block";
+    setTimeout(() => window.location.reload(), 3000);
+}
+
+function closePayModal() { document.getElementById("payModal").style.display = "none"; if (elements) { document.getElementById("payment-element").innerHTML = ""; elements = null; } }
+function closeModalOutside(e) { if (e.target.id === "payModal") closePayModal(); }
+function showPayError(msg) { const el = document.getElementById("pay-error-msg"); el.textContent = msg; el.style.display = "block"; }
+function stripeAppearance() { return { theme: "night", variables: { colorPrimary: "#00d4ff", colorBackground: "#020c14", colorText: "#e8f4f8", fontFamily: "Rajdhani, sans-serif", borderRadius: "4px" } }; }
+</script>
+}
