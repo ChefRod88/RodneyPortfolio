@@ -4,6 +4,7 @@
 
 
 using RodneyPortfolio.Services;
+using RodneyPortfolio.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,8 @@ builder.Services.AddScoped<IJobMatchService, JobMatchService>();
 builder.Services.AddScoped<IOpenAIClient, OpenAIClient>();
 builder.Services.AddScoped<IInputValidator, InputValidator>();
 builder.Services.AddScoped<IContentFilter, ContentFilter>();
+builder.Services.Configure<QuoteEmailOptions>(builder.Configuration.GetSection(QuoteEmailOptions.SectionName));
+builder.Services.AddScoped<IQuoteSubmissionService, QuoteSubmissionService>();
 
 var app = builder.Build();
 
