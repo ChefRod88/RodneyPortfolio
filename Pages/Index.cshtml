@@ -7,24 +7,21 @@
 <main role="main">
 
     <!-- PROFILE / HERO -->
-    <section id="profile">
+    <section id="profile" class="rc-fade">
         <div class="section__pic-container">
-            <!-- Put your image in: wwwroot/assets/images/ -->
             <img src="~/assets/images/IMG_75871.jpg" alt="Rodney Chery profile picture" loading="lazy" />
         </div>
 
         <div class="section__text">
-            <p class="section__text__p1">Hello, I'm</p>
+            <p class="section__text__p1">Full Stack Engineer — Winter Haven, FL</p>
             <h1 class="title">Rodney Chery</h1>
-            <p class="section__text__p2">Junior Software Engineer</p>
+            <p class="section__text__p2">Technical Support Analyst · Freelance Fullstack Developer</p>
 
             <div class="btn-container">
-                <!-- Put your resume in: wwwroot/assets/resume/Rodney Chery.pdf -->
                 <button class="btn btn-outline-dark"
                         onclick="window.open('/assets/resume/RCJSWE.pdf', '_blank')">
                     Download CV
                 </button>
-
                 <button class="btn btn-outline-dark" onclick="location.href='#contact'">
                     Contact Info
                 </button>
@@ -36,11 +33,18 @@
                 <img src="~/assets/icons/github.svg" alt="Rodney Chery GitHub" class="icon"
                      onclick="window.open('https://github.com/ChefRod88/RodneyPortfolio/blob/main/docs/RODNEY_PORTFOLIO_TECHNICAL_DOCUMENTATION.md', '_blank')" />
             </div>
+
+            <!-- Status dots -->
+            <div class="rc-status-row">
+                <div class="rc-sdot"><span class="rc-sdot-dot"></span>Available for opportunities</div>
+                <div class="rc-sdot"><span class="rc-sdot-dot" style="animation-delay:.7s"></span>Azure · Docker · ASP.NET</div>
+                <div class="rc-sdot"><span class="rc-sdot-dot" style="animation-delay:1.4s"></span>WGU Dec 2026</div>
+            </div>
         </div>
     </section>
 
     <!-- ABOUT -->
-    <section id="about">
+    <section id="about" class="rc-fade">
         <p class="section__text__p1">Get To Know More</p>
         <h1 class="title">About Me</h1>
 
@@ -71,35 +75,15 @@
                     <p>
                         Before I ever worked in technology, I worked the line in professional kitchens—where pressure was constant, timing was critical, and mistakes were visible immediately. In that environment, you learn discipline. You learn communication. Most importantly, you learn how to remain steady when everything around you accelerates. Those lessons have defined my professional identity.
                         <br /><br />
-                        Transitioning into technology as a Technical Support Inkjet Tier 1 at Canon Information Technology Services felt natural. Enterprise systems, like kitchens, are ecosystems—each component dependent on another. When something breaks, the solution requires both technical understanding and operational awareness. I troubleshoot proprietary software, hardware environments, and enterprise applications by systematically isolating variables, reviewing system behaviors, and guiding issues through structured resolution.
+                        Transitioning into technology as a Technical Support Analyst at Canon Information Technology Services felt natural. Enterprise systems, like kitchens, are ecosystems—each component dependent on another. When something breaks, the solution requires both technical understanding and operational awareness. I troubleshoot proprietary software, hardware environments, and enterprise applications by systematically isolating variables, reviewing system behaviors, and guiding issues through structured resolution.
                         <br /><br />
                         My approach to troubleshooting is intentional. I do not react—I analyze. I assess severity, understand user impact, gather relevant evidence, and determine whether the issue is environmental, configuration-based, user-driven, or systemic. I maintain meticulous documentation and communicate clearly at every stage because transparency builds trust, especially during escalations.
                         <br /><br />
-                        What differentiates me is the intersection of soft skills and technical execution. I understand urgency without panic. I value collaboration over isolation. I see technical problems not as disruptions, but as systems revealing weaknesses that can be improved. Continuous refinement—of processes, documentation, and response strategy—is central to how I work.
+                        What differentiates me is the intersection of soft skills and technical execution. I understand urgency without panic. I value collaboration over isolation. I see technical problems not as disruptions, but as systems revealing weaknesses that can be improved.
                         <br /><br />
-                        My journey from the intensity of professional kitchens to enterprise technical environments reflects adaptability, resilience, and growth. I bring composure under pressure, disciplined troubleshooting, and a strong service mindset to every challenge. That combination enables me to deliver consistent, reliable support in environments where stability matters most.
-                        <br /><br />
-                        <br />
-                        
+                        My journey from the intensity of professional kitchens to enterprise technical environments reflects adaptability, resilience, and growth. I bring composure under pressure, disciplined troubleshooting, and a strong service mindset to every challenge.
                     </p>
                 </div>
-
-                @* <div class="about-collage-banner" aria-label="Photo collage">
-                    <div class="collage-track">
-                        <img src="~/assets/project-1.png" alt="Collage placeholder 1" class="collage-img" loading="lazy" />
-                        <img src="~/assets/project-2.png" alt="Collage placeholder 2" class="collage-img" loading="lazy" />
-                        <img src="~/assets/project-3.png" alt="Collage placeholder 3" class="collage-img" loading="lazy" />
-                        <img src="~/assets/project-1.png" alt="Collage placeholder 4" class="collage-img" loading="lazy" />
-                        <img src="~/assets/project-2.png" alt="Collage placeholder 5" class="collage-img" loading="lazy" />
-                        <img src="~/assets/project-3.png" alt="Collage placeholder 6" class="collage-img" loading="lazy" />
-                        <img src="~/assets/project-1.png" alt="Collage placeholder 1 duplicate" class="collage-img" loading="lazy" />
-                        <img src="~/assets/project-2.png" alt="Collage placeholder 2 duplicate" class="collage-img" loading="lazy" />
-                        <img src="~/assets/project-3.png" alt="Collage placeholder 3 duplicate" class="collage-img" loading="lazy" />
-                        <img src="~/assets/project-1.png" alt="Collage placeholder 4 duplicate" class="collage-img" loading="lazy" />
-                        <img src="~/assets/project-2.png" alt="Collage placeholder 5 duplicate" class="collage-img" loading="lazy" />
-                        <img src="~/assets/project-3.png" alt="Collage placeholder 6 duplicate" class="collage-img" loading="lazy" />
-                    </div>
-                </div> *@
             </div>
         </div>
 
@@ -107,204 +91,204 @@
     </section>
 
     <!-- EXPERIENCE / SKILLS -->
-    <section id="experience">
+    <section id="experience" class="rc-fade">
         <p class="section__text__p1">Explore My</p>
         <h1 class="title">Experience</h1>
         <div class="experience-details-container">
-            <!-- Row 1: first 3 cards | Row 2: remaining cards (add new cards here) -->
             <div class="experience-rows">
+
+                <!-- ROW 1 -->
                 <div class="experience-row experience-row-1">
-                <div class="details-container skills-container">
-                    <h2 class="experience-sub-title">Soft Skills</h2>
 
-                    <div class="article-container">
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Technical Communication</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Cross-Functional Collaboration</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Problem-Solving Under Pressure</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Customer Empathy</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Adaptability</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Attention to Detail</h3><p>Proficient</p></div>
-                        </article>
+                    <div class="details-container skills-container rc-fade">
+                        <h2 class="experience-sub-title">Soft Skills</h2>
+                        <div class="article-container">
+                            <article data-icon="💬">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Technical Communication</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="🤝">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Cross-Functional Collaboration</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="⚡">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Problem-Solving Under Pressure</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="❤">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Customer Empathy</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="🔄">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Adaptability</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="🔍">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Attention to Detail</h3><p>Proficient</p></div>
+                            </article>
+                        </div>
                     </div>
-                </div>
 
-                <div class="details-container skills-container">
-                    <h2 class="experience-sub-title">IT Support Operations</h2>
-
-                    <div class="article-container">
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Troubleshooting</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Incident Management</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>API / Integration Support</h3><p>Intermediate</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Customer-Focused Support</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Escalation Management</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Root-Cause Analysis</h3><p>Proficient</p></div>
-                        </article>
+                    <div class="details-container skills-container rc-fade">
+                        <h2 class="experience-sub-title">IT Support Operations</h2>
+                        <div class="article-container">
+                            <article data-icon="🔧">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Troubleshooting</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="📋">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Incident Management</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="🔗">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>API / Integration Support</h3><p>Intermediate</p></div>
+                            </article>
+                            <article data-icon="🎯">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Customer-Focused Support</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="📈">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Escalation Management</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="🧩">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Root-Cause Analysis</h3><p>Proficient</p></div>
+                            </article>
+                        </div>
                     </div>
-                </div>
 
-                <div class="details-container skills-container">
-                    <h2 class="experience-sub-title">Frontend Development</h2>
-
-                    <div class="article-container">
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>HTML5</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>CSS3</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>JavaScript</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Responsive Design</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Accessibility (A11y)</h3><p>Intermediate</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Razor Pages</h3><p>Proficient</p></div>
-                        </article>
+                    <div class="details-container skills-container rc-fade">
+                        <h2 class="experience-sub-title">Frontend Development</h2>
+                        <div class="article-container">
+                            <article data-icon="H5">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>HTML5</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="C3">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>CSS3</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="JS">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>JavaScript</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="📱">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Responsive Design</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="♿">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Accessibility (A11y)</h3><p>Intermediate</p></div>
+                            </article>
+                            <article data-icon="⚙">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Razor Pages</h3><p>Proficient</p></div>
+                            </article>
+                        </div>
                     </div>
-                </div>
+
                 </div>
 
+                <!-- ROW 2 -->
                 <div class="experience-row experience-row-2">
-                <div class="details-container skills-container">
-                    <h2 class="experience-sub-title">Backend Development</h2>
 
-                    <div class="article-container">
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>C#</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>ASP.NET Core</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>.NET</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Entity Framework Core</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>SQL Server</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>REST API Integration</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Dependency Injection</h3><p>Proficient</p></div>
-                        </article>
+                    <div class="details-container skills-container rc-fade">
+                        <h2 class="experience-sub-title">Backend Development</h2>
+                        <div class="article-container">
+                            <article data-icon="C#">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>C#</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="◈">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>ASP.NET Core</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon=".NET">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>.NET</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="EF">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Entity Framework Core</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="SQL">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>SQL Server</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="API">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>REST API Integration</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="DI">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Dependency Injection</h3><p>Proficient</p></div>
+                            </article>
+                        </div>
                     </div>
-                </div>
 
-                <div class="ai-tools-container skills-container">
-                    <h2 class="experience-sub-title">Tools</h2>
-
-                    <div class="ai-tools-article-container">
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Azure App Service</h3><p>Intermediate</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Git / GitHub</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Docker</h3><p>Intermediate</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Postman</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Visual Studio</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Cursor</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>xUnit / Moq / Vitest</h3><p>Intermediate</p></div>
-                        </article>
+                    <div class="ai-tools-container skills-container rc-fade">
+                        <h2 class="experience-sub-title">Tools</h2>
+                        <div class="ai-tools-article-container">
+                            <article data-icon="Az">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Azure App Service</h3><p>Intermediate</p></div>
+                            </article>
+                            <article data-icon="Git">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Git / GitHub</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="🐳">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Docker</h3><p>Intermediate</p></div>
+                            </article>
+                            <article data-icon="PM">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Postman</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="VS">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Visual Studio</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="AI">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Cursor</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="xU">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>xUnit / Moq / Vitest</h3><p>Intermediate</p></div>
+                            </article>
+                        </div>
                     </div>
-                </div>
 
-                <div class="details-container skills-container">
-                    <h2 class="experience-sub-title">AI / LLM Development</h2>
-
-                    <div class="article-container">
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>AI/LLM API Integration</h3><p>OpenAI, Azure OpenAI</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Conversational Interfaces</h3><p>Chatbots</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Prompt Engineering</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>RESTful APIs &amp; JSON</h3><p>Proficient</p></div>
-                        </article>
-                        <article>
-                            <img src="~/assets/icons/patch-check-fill.svg" alt="Checkmark" class="icon" />
-                            <div><h3>Input Validation &amp; Filtering</h3><p>Proficient</p></div>
-                        </article>
+                    <div class="details-container skills-container rc-fade">
+                        <h2 class="experience-sub-title">AI / LLM Development</h2>
+                        <div class="article-container">
+                            <article data-icon="🤖">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>AI/LLM API Integration</h3><p>OpenAI, Azure OpenAI</p></div>
+                            </article>
+                            <article data-icon="💬">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Conversational Interfaces</h3><p>Chatbots</p></div>
+                            </article>
+                            <article data-icon="✏">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Prompt Engineering</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="{}">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>RESTful APIs &amp; JSON</h3><p>Proficient</p></div>
+                            </article>
+                            <article data-icon="🛡">
+                                <img src="~/assets/icons/patch-check-fill.svg" alt="" class="icon" />
+                                <div><h3>Input Validation &amp; Filtering</h3><p>Proficient</p></div>
+                            </article>
+                        </div>
                     </div>
-                </div>
+
                 </div>
             </div>
         </div>
@@ -313,47 +297,46 @@
     </section>
 
     <!-- PROJECTS -->
-    <section id="projects" class="projects-section">
-    <p class="section__text__p1 text-center">Browse My Recent</p>
-    <h1 class="title text-center">Projects</h1>
-    <p class="text-center text-muted mb-4">Refactor In Progress.</p>
+    <section id="projects" class="projects-section rc-fade">
+        <p class="section__text__p1 text-center">Browse My Recent</p>
+        <h1 class="title text-center">Projects</h1>
+        <p class="text-center mb-4" style="font-family:'Share Tech Mono',monospace;font-size:0.7rem;color:rgba(0,212,255,0.4);letter-spacing:0.15em;">// REFACTOR IN PROGRESS</p>
 
-    <div class="projects-grid">
+        <div class="projects-grid">
 
-        <a class="project-card project-card-link"
-           href="#ask-rodney"
-           aria-label="Ask Rodney AI Chatbot">
-            <div class="project-loader">
-                <span class="loader loader-ai"></span>
-            </div>
-            <span class="btn btn-color-2 project-btn d-inline-flex align-items-center gap-2">
-                <span>Ask Rodney AI Chatbot</span>
-            </span>
-            <p class="project-description text-muted mt-2 mb-0">AI-powered chatbot that answers questions about Rodney's resume, experience, and skills. Built with C#, OpenAI API, prompt engineering, and input validation.</p>
-        </a>
+            <a class="project-card project-card-link"
+               href="#ask-rodney"
+               aria-label="Ask Rodney AI Chatbot">
+                <div class="project-loader">
+                    <span class="loader loader-ai"></span>
+                </div>
+                <span class="btn btn-color-2 project-btn d-inline-flex align-items-center gap-2">
+                    <span>Ask Rodney AI Chatbot</span>
+                </span>
+                <p class="project-description text-muted mt-2 mb-0">AI-powered chatbot that answers questions about Rodney's resume, experience, and skills. Built with C#, OpenAI API, prompt engineering, and input validation.</p>
+            </a>
 
-        <a class="project-card project-card-link"
-           href="https://github.com/ChefRod88/RodneyPortfolio/blob/main/docs/RODNEY_PORTFOLIO_TECHNICAL_DOCUMENTATION.md"
-           target="_blank"
-           rel="noopener noreferrer">
-            <div class="project-loader">
-                <span class="loader"></span>
-            </div>
+            <a class="project-card project-card-link"
+               href="https://github.com/ChefRod88/RodneyPortfolio/blob/main/docs/RODNEY_PORTFOLIO_TECHNICAL_DOCUMENTATION.md"
+               target="_blank"
+               rel="noopener noreferrer">
+                <div class="project-loader">
+                    <span class="loader"></span>
+                </div>
+                <span class="btn btn-color-2 project-btn d-inline-flex align-items-center gap-2">
+                    <img src="~/assets/icons/github.svg" alt="GitHub repository" class="icon github-icon" />
+                    <span>GitHub</span>
+                </span>
+            </a>
 
-            <span class="btn btn-color-2 project-btn d-inline-flex align-items-center gap-2">
-                <img src="~/assets/icons/github.svg" alt="GitHub repository" class="icon github-icon" />
-                <span>GitHub</span>
-            </span>
-        </a>
-
-       </div>
+        </div>
     </section>
 
     <!-- ASK RODNEY - AI CHATBOT -->
-    <section id="ask-rodney" class="chat-section">
+    <section id="ask-rodney" class="chat-section rc-fade">
         <p class="section__text__p1 text-center">Ask About Rodney</p>
         <h1 class="title text-center">Chat with Rodney</h1>
-        <p class="text-center text-muted mb-3">Ask anything about Rodney—his background, experience, or skills.</p>
+        <p class="text-center mb-3" style="font-size:0.9rem;color:rgba(142,207,223,0.55);font-weight:300;">Ask anything about Rodney—his background, experience, or skills.</p>
 
         <div class="chat-container">
             <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div>
@@ -365,16 +348,14 @@
             </div>
             <p class="chat-char-count"><span id="chat-char-remaining">500</span> characters remaining</p>
         </div>
+
         <div class="chat-docs-btn-container">
             <a href="https://github.com/ChefRod88/RodneyPortfolio/blob/main/docs/portfolio_ai_skills_implementation_67024d2c.plan.md"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="chat-docs-btn">Documentation</a>
+               target="_blank" rel="noopener noreferrer" class="chat-docs-btn">Documentation</a>
             <a href="https://github.com/ChefRod88/RodneyPortfolio/blob/main/docs/OPENAI_API_KEY_SETUP.md"
-               target="_blank"
-               rel="noopener noreferrer"
-               class="chat-docs-btn">Secure Open API Key Docs</a>
+               target="_blank" rel="noopener noreferrer" class="chat-docs-btn">Secure Open API Key Docs</a>
         </div>
+
         <div class="chat-transparency-panel">
             <button type="button" class="chat-transparency-toggle" id="chat-transparency-toggle" aria-expanded="false" aria-controls="chat-transparency-content">
                 How this chatbot works
@@ -394,6 +375,7 @@
                 </dl>
             </div>
         </div>
+
         <div class="chat-job-match">
             <h3 class="chat-job-match-title">Job Match</h3>
             <p class="chat-job-match-desc">Paste a job description to see how Rodney's resume aligns.</p>
@@ -421,36 +403,29 @@
                     </div>
                 </div>
             </div>
-            <div class="chat-docs-btn-container" style="margin-top: 1rem;">
+            <div class="chat-docs-btn-container" style="margin-top:1rem;">
                 <a href="https://github.com/ChefRod88/RodneyPortfolio/blob/main/docs/JOB_MATCH_FEATURE.md"
-                   target="_blank"
-                   rel="noopener noreferrer"
-                   class="chat-docs-btn">Job Match Feature Technical Docs</a>
+                   target="_blank" rel="noopener noreferrer" class="chat-docs-btn">Job Match Feature Technical Docs</a>
             </div>
         </div>
     </section>
 
     <!-- CONTACT -->
-<section id="contact" class="contact-section">
-    <p class="contact-subtitle">Get In Touch</p>
-    <h1 class="contact-title">Contact Me</h1>
+    <section id="contact" class="contact-section rc-fade">
+        <p class="contact-subtitle">Get In Touch</p>
+        <h1 class="contact-title">Contact Me</h1>
 
-    <div class="contact-card">
-        <a href="mailto:chefrodneyachery@gmail.com" class="contact-item">
-            <img src="~/assets/icons/envelope.svg" alt="Email icon" class="contact-icon" />
-            <span>chefrodneyachery@gmail.com</span>
-        </a>
-
-        <a href="https://www.linkedin.com/in/rodneyachery/"
-           target="_blank"
-           rel="noopener noreferrer"
-           class="contact-item">
-            <img src="~/assets/icons/linkedin.svg" alt="LinkedIn icon" class="contact-icon" />
-            <span>LinkedIn</span>
-        </a>
-    </div>
-</section>
-
+        <div class="contact-card">
+            <a href="mailto:chefrodneyachery@gmail.com" class="contact-item">
+                <img src="~/assets/icons/envelope.svg" alt="Email icon" class="contact-icon" />
+                <span>chefrodneyachery@gmail.com</span>
+            </a>
+            <a href="https://www.linkedin.com/in/rodneyachery/"
+               target="_blank" rel="noopener noreferrer" class="contact-item">
+                <img src="~/assets/icons/linkedin.svg" alt="LinkedIn icon" class="contact-icon" />
+                <span>LinkedIn</span>
+            </a>
+        </div>
+    </section>
 
 </main>
-
