@@ -79,4 +79,21 @@ jobs:
           app-name: 'rodney-portfolio'
           slot-name: 'Production'
           app-settings-json: '[{"name": "GoogleAnalytics__MeasurementId", "value": "${{ secrets.GA4_MEASUREMENT_ID }}", "slotSetting": false}]'
+
+      # Quote form SMTP config for live submissions
+      # REQUIRED secret: QUOTE_SMTP_PASSWORD (Google App Password)
+      - name: Set Quote SMTP settings in Azure
+        uses: Azure/appservice-settings@v1
+        with:
+          app-name: 'rodney-portfolio'
+          slot-name: 'Production'
+          app-settings-json: '[
+            {"name":"QuoteEmail__SmtpHost","value":"smtp.gmail.com","slotSetting":false},
+            {"name":"QuoteEmail__SmtpPort","value":"587","slotSetting":false},
+            {"name":"QuoteEmail__EnableSsl","value":"true","slotSetting":false},
+            {"name":"QuoteEmail__SmtpUsername","value":"chefrodneyachery@gmail.com","slotSetting":false},
+            {"name":"QuoteEmail__FromEmail","value":"chefrodneyachery@gmail.com","slotSetting":false},
+            {"name":"QuoteEmail__ToEmail","value":"chefrodneyachery@gmail.com","slotSetting":false},
+            {"name":"QuoteEmail__SmtpPassword","value":"${{ secrets.QUOTE_SMTP_PASSWORD }}","slotSetting":false}
+          ]'
           
