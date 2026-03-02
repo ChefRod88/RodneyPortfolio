@@ -7,14 +7,12 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@ViewData["Title"] - RodneyPortfolio</title>
+    <title>@ViewData["Title"]</title>
     <script type="importmap"></script>
 
-    <!-- PWA: Web App Manifest -->
+    <!-- PWA -->
     <link rel="manifest" href="~/manifest.json" />
     <meta name="theme-color" content="#020c14" />
-
-    <!-- PWA: iOS-specific meta tags -->
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Rodney Chery" />
@@ -41,30 +39,32 @@
       gtag('config', '@gaId');
     </script>
     }
+
+    @await RenderSectionAsync("Head", required: false)
 </head>
 
 <body>
 
-    <!-- BLUE MATRIX RAIN CANVAS -->
+    <!-- MATRIX RAIN CANVAS -->
     <canvas id="rc-matrix"></canvas>
     <div class="rc-vignette"></div>
     <div class="rc-scanlines"></div>
 
     <!-- NAV -->
     <nav id="hamburger-nav">
-        <div class="logo">RC<span class="logo-accent">//</span>SYS</div>
+        <a href="/" class="logo" style="text-decoration:none;">RC<span class="logo-accent">//</span>DEV</a>
         <div class="hamburger-menu">
             <div class="hamburger-icon" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span></span><span></span><span></span>
             </div>
             <div class="menu-links">
                 <ul>
-                    <li><a href="#about" onclick="toggleMenu()">About</a></li>
-                    <li><a href="#experience" onclick="toggleMenu()">Stack</a></li>
-                    <li><a href="#projects" onclick="toggleMenu()">Deploy</a></li>
-                    <li><a href="#contact" onclick="toggleMenu()">Link</a></li>
+                    <li><a href="#about"        onclick="toggleMenu()">About</a></li>
+                    <li><a href="#services"      onclick="toggleMenu()">Services</a></li>
+                    <li><a href="#capabilities"  onclick="toggleMenu()">Work</a></li>
+                    <li><a href="#pricing"       onclick="toggleMenu()">Pricing</a></li>
+                    <li><a href="#testimonials"  onclick="toggleMenu()">Reviews</a></li>
+                    <li><a href="#quote"         onclick="toggleMenu()" class="nav-quote-btn">Get a Quote</a></li>
                 </ul>
             </div>
         </div>
@@ -78,11 +78,13 @@
         <div class="rc-footer-inner">
             <div class="rc-footer-links">
                 <a href="#about">About</a>
-                <a href="#experience">Stack</a>
-                <a href="#projects">Deploy</a>
-                <a href="#contact">Link</a>
+                <a href="#services">Services</a>
+                <a href="#capabilities">Work</a>
+                <a href="#pricing">Pricing</a>
+                <a href="#quote">Quote</a>
+                <a href="#contact">Contact</a>
             </div>
-            <small id="copyright">© 2026 RODNEY CHERY // ALL RIGHTS RESERVED // NODE_ONLINE</small>
+            <small id="copyright">© 2026 RODNEY CHERY · FULL STACK AI DEVELOPER · ALL RIGHTS RESERVED</small>
         </div>
     </footer>
 
@@ -90,7 +92,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
-    <!-- MATRIX RAIN SCRIPT -->
+    <!-- MATRIX RAIN -->
     <script>
     (function () {
         const canvas = document.getElementById('rc-matrix');
@@ -99,10 +101,7 @@
         const fontSize = 13;
         let cols, drops;
 
-        function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
         function initDrops() {
             cols = Math.floor(canvas.width / fontSize);
             drops = Array.from({ length: cols }, () => Math.random() * -80);
@@ -116,13 +115,10 @@
             ctx.font = fontSize + 'px "Share Tech Mono", monospace';
             for (let i = 0; i < cols; i++) {
                 const y = drops[i] * fontSize;
-                // lead char — bright cyan
                 ctx.fillStyle = 'rgba(0,220,255,0.95)';
                 ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, y);
-                // second — mid
                 ctx.fillStyle = 'rgba(0,160,210,0.6)';
                 ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, y - fontSize);
-                // trail — deep
                 ctx.fillStyle = 'rgba(0,80,130,0.3)';
                 ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * fontSize, y - fontSize * 2);
                 if (y > canvas.height && Math.random() > 0.975) drops[i] = Math.random() * -40;
@@ -131,7 +127,7 @@
         }
         setInterval(draw, 46);
 
-        // scroll fade-in
+        // Scroll fade-in
         const observer = new IntersectionObserver(entries => {
             entries.forEach(e => {
                 if (e.isIntersecting) {
@@ -150,6 +146,18 @@
             });
         });
     })();
+
+    // Hamburger toggle
+    function toggleMenu() {
+        document.querySelector('.menu-links').classList.toggle('open');
+        document.querySelector('.hamburger-icon').classList.toggle('open');
+    }
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('#hamburger-nav')) {
+            document.querySelector('.menu-links')?.classList.remove('open');
+            document.querySelector('.hamburger-icon')?.classList.remove('open');
+        }
+    });
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
