@@ -1,0 +1,442 @@
+@page
+@model RodneyPortfolio.Pages.FaqModel
+@{
+    ViewData["Title"] = "FAQ & Service Standards";
+}
+
+<div class="faq-page rc-fade">
+
+    <!-- ═══ HERO ═══ -->
+    <div class="faq-hero">
+        <p class="section__text__p1">Know Before You Build</p>
+        <h1 class="title">FAQ &amp; Service Standards</h1>
+        <p class="faq-hero-sub">Transparent answers about how I work, what's included, and what to expect — so we can focus on building something great together.</p>
+    </div>
+
+    <!-- ═══ QUICK NAV ═══ -->
+    <div class="faq-quicknav rc-glass rc-fade">
+        <span class="faq-quicknav-label">// Jump to section</span>
+        <div class="faq-quicknav-links">
+            <a href="#general">General</a>
+            <a href="#sla">SLA</a>
+            <a href="#support">Support</a>
+            <a href="#hosting">Hosting</a>
+            <a href="#newwork">New Work</a>
+        </div>
+    </div>
+
+    <!-- ═══ GENERAL QUESTIONS ═══ -->
+    <div class="faq-section rc-fade" id="general">
+        <div class="faq-section-header">
+            <span class="faq-section-num">01</span>
+            <h2 class="faq-section-title">General Questions</h2>
+        </div>
+
+        <div class="faq-cards">
+
+            <div class="faq-card rc-glass">
+                <button class="faq-q" aria-expanded="false">
+                    What is included in the monthly fee?
+                    <span class="faq-chevron">›</span>
+                </button>
+                <div class="faq-a">
+                    <p>Your monthly subscription covers <span class="faq-highlight">enterprise-grade Azure hosting</span>, security monitoring, uptime tracking, and technical maintenance. It ensures your site stays online, protected against digital threats, and running at peak performance.</p>
+                    <p>Think of it as the difference between a cheap $5/month shared server that crashes under load — and a dedicated cloud infrastructure built to handle real traffic, real AI workloads, and real security requirements.</p>
+                </div>
+            </div>
+
+            <div class="faq-card rc-glass">
+                <button class="faq-q" aria-expanded="false">
+                    Is there a setup fee?
+                    <span class="faq-chevron">›</span>
+                </button>
+                <div class="faq-a">
+                    <p>Yes. The monthly fee covers ongoing hosting and support after launch. There is a <span class="faq-highlight">one-time development fee</span> to design, build, and deploy your site — this is scoped and quoted before any work begins.</p>
+                    <p>You'll always receive a written scope and fixed price before I write a single line of code. No surprises.</p>
+                </div>
+            </div>
+
+            <div class="faq-card rc-glass">
+                <button class="faq-q" aria-expanded="false">
+                    Why Azure hosting instead of cheap shared hosting?
+                    <span class="faq-chevron">›</span>
+                </button>
+                <div class="faq-a">
+                    <p>Shared hosting ($5–$15/month) puts your site on a server with hundreds of other websites. When one gets traffic-spiked or hacked, it affects everyone. Azure Web Apps give your project:</p>
+                    <ul class="faq-list">
+                        <li>Dedicated compute resources — your site's performance is never affected by other tenants</li>
+                        <li>Auto-scaling — handles traffic spikes without crashing</li>
+                        <li>Built-in SSL, DDoS protection, and enterprise firewall</li>
+                        <li>Global CDN for fast load times from anywhere</li>
+                        <li>CI/CD pipeline — updates deploy automatically without downtime</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-card rc-glass">
+                <button class="faq-q" aria-expanded="false">
+                    Do I own my website and code?
+                    <span class="faq-chevron">›</span>
+                </button>
+                <div class="faq-a">
+                    <p>Yes — <span class="faq-highlight">100%</span>. When the project is delivered and paid in full, you own every line of code, all assets, and the full repository. There is no vendor lock-in. If you ever want to take your project elsewhere, it's yours to do so.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ═══ SLA ═══ -->
+    <div class="faq-section rc-fade" id="sla">
+        <div class="faq-section-header">
+            <span class="faq-section-num">02</span>
+            <h2 class="faq-section-title">Service Level Agreement</h2>
+        </div>
+
+        <!-- Car analogy callout -->
+        <div class="faq-callout rc-glass rc-fade">
+            <div class="faq-callout-icon">💡</div>
+            <div>
+                <div class="faq-callout-title">// The Simple Way to Think About It</div>
+                <p class="faq-callout-text">"Think of your monthly fee like an insurance policy and a tune-up. It keeps the engine running and the doors locked. If you want to paint the car a different color next month, we can definitely do that — but that's an extra project."</p>
+            </div>
+        </div>
+
+        <div class="faq-cards">
+
+            <div class="faq-card rc-glass">
+                <button class="faq-q" aria-expanded="false">
+                    What exactly is "included support"?
+                    <span class="faq-chevron">›</span>
+                </button>
+                <div class="faq-a">
+                    <p>Included support covers everything needed to keep your site functioning <span class="faq-highlight">as originally delivered</span>:</p>
+                    <ul class="faq-list">
+                        <li><strong>Uptime Monitoring</strong> — Azure environment stays active and accessible</li>
+                        <li><strong>Security Patches</strong> — Critical updates applied to containers, CMS, and dependencies</li>
+                        <li><strong>Bug Fixes</strong> — Repairing errors in original code (excluding issues from client interference)</li>
+                        <li><strong>Minor Configuration</strong> — Updating DNS records, rotating API keys, adjusting existing settings</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-card rc-glass">
+                <button class="faq-q" aria-expanded="false">
+                    How much support time do I get per month?
+                    <span class="faq-chevron">›</span>
+                </button>
+                <div class="faq-a">
+                    <!-- Support tier table -->
+                    <div class="faq-tier-table">
+                        <div class="faq-tier-row faq-tier-head">
+                            <span>Tier</span>
+                            <span>Monthly Hours</span>
+                            <span>Includes</span>
+                        </div>
+                        <div class="faq-tier-row">
+                            <span class="faq-tier-name">Starter</span>
+                            <span class="faq-tier-hours">1 hr / mo</span>
+                            <span class="faq-tier-desc">Minor updates, text/image changes</span>
+                        </div>
+                        <div class="faq-tier-row faq-tier-featured">
+                            <span class="faq-tier-name">Growth</span>
+                            <span class="faq-tier-hours">3 hrs / mo</span>
+                            <span class="faq-tier-desc">Updates + AI/API monitoring</span>
+                        </div>
+                        <div class="faq-tier-row">
+                            <span class="faq-tier-name">Custom</span>
+                            <span class="faq-tier-hours">Scoped</span>
+                            <span class="faq-tier-desc">Dedicated retainer — negotiated</span>
+                        </div>
+                    </div>
+                    <p style="margin-top:1rem;">Unused hours do <span class="faq-highlight">not</span> roll over to the next month.</p>
+                </div>
+            </div>
+
+            <div class="faq-card rc-glass">
+                <button class="faq-q" aria-expanded="false">
+                    What are your response times?
+                    <span class="faq-chevron">›</span>
+                </button>
+                <div class="faq-a">
+                    <div class="faq-response-grid">
+                        <div class="faq-response-card faq-response-critical">
+                            <div class="faq-response-type">🔴 Critical</div>
+                            <div class="faq-response-example">Site Down / Broken App</div>
+                            <div class="faq-response-time">Response within 4–8 hours</div>
+                            <div class="faq-response-note">Business days only</div>
+                        </div>
+                        <div class="faq-response-card faq-response-standard">
+                            <div class="faq-response-type">🟡 Standard</div>
+                            <div class="faq-response-example">Broken link / Text fix</div>
+                            <div class="faq-response-time">Response within 48 hours</div>
+                            <div class="faq-response-note">Business days only</div>
+                        </div>
+                        <div class="faq-response-card faq-response-new">
+                            <div class="faq-response-type">🔵 New Request</div>
+                            <div class="faq-response-example">New feature / New page</div>
+                            <div class="faq-response-time">Separate project quote</div>
+                            <div class="faq-response-note">Scoped before any work</div>
+                        </div>
+                    </div>
+                    <p style="margin-top:1rem;font-size:0.88rem;">Business hours: <span class="faq-highlight">Monday – Friday, 6:00 AM – 9:00 PM EST</span></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ═══ SUPPORT ═══ -->
+    <div class="faq-section rc-fade" id="support">
+        <div class="faq-section-header">
+            <span class="faq-section-num">03</span>
+            <h2 class="faq-section-title">Support Scope</h2>
+        </div>
+
+        <div class="faq-cards">
+
+            <div class="faq-card rc-glass">
+                <button class="faq-q" aria-expanded="false">
+                    What counts as "support"?
+                    <span class="faq-chevron">›</span>
+                </button>
+                <div class="faq-a">
+                    <p>Support covers maintaining what was originally built and delivered. Specifically:</p>
+                    <ul class="faq-list">
+                        <li>Fixing bugs in existing code or logic</li>
+                        <li>Updating text or images on existing pages</li>
+                        <li>Ensuring contact forms and integrations continue to function</li>
+                        <li>Applying security and dependency updates</li>
+                        <li>Monitoring Azure uptime and resolving infrastructure issues</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-card rc-glass">
+                <button class="faq-q" aria-expanded="false">
+                    What is NOT included in support?
+                    <span class="faq-chevron">›</span>
+                </button>
+                <div class="faq-a">
+                    <p>Anything that <span class="faq-highlight">changes or extends</span> the original scope is a New Request and will be quoted separately. This includes:</p>
+                    <ul class="faq-list">
+                        <li>Adding new pages or entirely new sections</li>
+                        <li>Redesigning existing elements — colors, fonts, layouts, branding</li>
+                        <li>Writing or generating new marketing copy or content</li>
+                        <li>Integrating new third-party tools not in the original build</li>
+                        <li>Building new AI features or expanding existing AI functionality</li>
+                        <li>Creating graphic design assets for marketing materials</li>
+                    </ul>
+                    <p style="margin-top:1rem;">These are handled as separate project quotes — scoped, priced, and approved before work begins.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ═══ HOSTING ═══ -->
+    <div class="faq-section rc-fade" id="hosting">
+        <div class="faq-section-header">
+            <span class="faq-section-num">04</span>
+            <h2 class="faq-section-title">Hosting &amp; Infrastructure</h2>
+        </div>
+
+        <div class="faq-cards">
+
+            <div class="faq-card rc-glass">
+                <button class="faq-q" aria-expanded="false">
+                    What does infrastructure management include?
+                    <span class="faq-chevron">›</span>
+                </button>
+                <div class="faq-a">
+                    <p>The monthly retainer covers management of your Azure or cloud infrastructure — including:</p>
+                    <ul class="faq-list">
+                        <li>Azure Web App configuration and maintenance</li>
+                        <li>Docker container management and updates</li>
+                        <li>CI/CD pipeline monitoring (GitHub Actions)</li>
+                        <li>SSL certificate renewal</li>
+                        <li>Domain and DNS configuration</li>
+                        <li>Environment variable and secrets management</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-card rc-glass">
+                <button class="faq-q" aria-expanded="false">
+                    What happens if my AI usage exceeds the plan?
+                    <span class="faq-chevron">›</span>
+                </button>
+                <div class="faq-a">
+                    <p>AI features (like chatbots or document analyzers) consume API tokens and compute resources. If your usage exceeds the tier's allotted budget:</p>
+                    <ul class="faq-list">
+                        <li>You will be notified before overage charges apply</li>
+                        <li>Overage is billed at <span class="faq-highlight">cost + 15%</span></li>
+                        <li>You can set a hard usage cap to prevent unexpected charges</li>
+                    </ul>
+                    <p style="margin-top:1rem;">The same applies to database egress or storage overages on Azure.</p>
+                </div>
+            </div>
+
+            <div class="faq-card rc-glass">
+                <button class="faq-q" aria-expanded="false">
+                    Are there any long-term contracts?
+                    <span class="faq-chevron">›</span>
+                </button>
+                <div class="faq-a">
+                    <p>No long-term contracts required. Monthly plans are <span class="faq-highlight">month-to-month</span> with 30 days written notice to cancel. If you choose to cancel, I'll provide a full handoff — code repository, documentation, and migration support — so you're never left stranded.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ═══ NEW WORK ═══ -->
+    <div class="faq-section rc-fade" id="newwork">
+        <div class="faq-section-header">
+            <span class="faq-section-num">05</span>
+            <h2 class="faq-section-title">New Work &amp; Billing</h2>
+        </div>
+
+        <div class="faq-cards">
+
+            <div class="faq-card rc-glass">
+                <button class="faq-q" aria-expanded="false">
+                    How do I request a new feature or page?
+                    <span class="faq-chevron">›</span>
+                </button>
+                <div class="faq-a">
+                    <p>Simple — just reach out via the <a href="/#quote" class="faq-link">Quote Request form</a> or email directly. Describe what you want built, and I'll respond within 48 hours with a scope summary and fixed price. No work begins until you approve in writing.</p>
+                </div>
+            </div>
+
+            <div class="faq-card rc-glass">
+                <button class="faq-q" aria-expanded="false">
+                    How is new work billed?
+                    <span class="faq-chevron">›</span>
+                </button>
+                <div class="faq-a">
+                    <p>New projects outside of your monthly support scope are billed as either:</p>
+                    <ul class="faq-list">
+                        <li><strong>Fixed-price project</strong> — scoped upfront, 50% deposit to start, 50% on delivery</li>
+                        <li><strong>Hourly rate</strong> — for smaller, well-defined tasks (rate provided in scope)</li>
+                    </ul>
+                    <p style="margin-top:1rem;">You'll always know the price before any work begins. No surprise invoices.</p>
+                </div>
+            </div>
+
+            <div class="faq-card rc-glass">
+                <button class="faq-q" aria-expanded="false">
+                    What if I'm not happy with the work?
+                    <span class="faq-chevron">›</span>
+                </button>
+                <div class="faq-a">
+                    <p>Every project includes a <span class="faq-highlight">revision round</span> built into the scope. If the delivered work doesn't match what was agreed in writing, I'll fix it at no additional charge. My goal is a client who's proud to show their site to everyone they know.</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ═══ CTA ═══ -->
+    <div class="faq-cta rc-glass rc-fade">
+        <div class="faq-cta-inner">
+            <p class="section__text__p1">Still Have Questions?</p>
+            <h2 class="faq-cta-title">Let's Talk About Your Project</h2>
+            <p class="faq-cta-sub">Every project starts with a free 30-minute discovery call. No hard sell — just a real conversation about what you need and whether we're a good fit.</p>
+            <div class="faq-cta-btns">
+                <a href="/#quote" class="btn btn-outline-dark">Request a Quote</a>
+                <a href="mailto:chefrodneyachery@gmail.com" class="btn btn-outline-dark faq-btn-ghost">Email Directly</a>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+/* ── FAQ PAGE STYLES ── */
+.faq-page { max-width: 900px; margin: 0 auto; padding: 4rem 3rem 6rem; }
+.faq-hero { text-align: center; padding: 3rem 0 2.5rem; }
+.faq-hero-sub { font-size: 1.05rem; line-height: 1.82; color: rgba(142,207,223,0.58); font-weight: 300; max-width: 620px; margin: 0 auto; font-family: var(--font-body); }
+
+/* Quick nav */
+.faq-quicknav { display: flex; align-items: center; gap: 2rem; padding: 1rem 1.5rem; margin-bottom: 3.5rem; flex-wrap: wrap; }
+.faq-quicknav-label { font-family: var(--font-mono); font-size: 0.6rem; color: rgba(142,207,223,0.35); letter-spacing: 0.2em; white-space: nowrap; }
+.faq-quicknav-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+.faq-quicknav-links a { font-family: var(--font-mono); font-size: 0.68rem; color: rgba(142,207,223,0.5); letter-spacing: 0.15em; text-decoration: none; text-transform: uppercase; transition: color 0.2s; }
+.faq-quicknav-links a:hover { color: var(--c); }
+
+/* Section */
+.faq-section { margin-bottom: 4rem; }
+.faq-section-header { display: flex; align-items: baseline; gap: 1.2rem; margin-bottom: 1.8rem; }
+.faq-section-num { font-family: var(--font-display); font-size: 3rem; font-weight: 900; color: rgba(0,212,255,0.08); line-height: 1; }
+.faq-section-title { font-family: var(--font-display); font-size: clamp(1.1rem, 2.5vw, 1.5rem); font-weight: 600; color: var(--white); letter-spacing: 0.06em; }
+
+/* Cards */
+.faq-cards { display: flex; flex-direction: column; gap: 0.8rem; }
+.faq-card { overflow: hidden; }
+.faq-q { width: 100%; background: none; border: none; color: var(--white); font-family: var(--font-display); font-size: 0.82rem; font-weight: 600; letter-spacing: 0.06em; padding: 1.4rem 1.6rem; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; transition: color 0.2s; }
+.faq-q:hover { color: var(--c); }
+.faq-q[aria-expanded="true"] { color: var(--c); }
+.faq-chevron { font-size: 1.4rem; color: var(--c); transition: transform 0.3s; flex-shrink: 0; font-family: var(--font-mono); font-weight: 300; opacity: 0.7; }
+.faq-q[aria-expanded="true"] .faq-chevron { transform: rotate(90deg); }
+.faq-a { display: none; padding: 0 1.6rem 1.6rem; border-top: 1px solid rgba(0,212,255,0.1); }
+.faq-a.open { display: block; }
+.faq-a p { font-size: 0.97rem; line-height: 1.82; color: rgba(142,207,223,0.68); font-weight: 300; margin-bottom: 0.8rem; font-family: var(--font-body); }
+.faq-a p:last-child { margin-bottom: 0; }
+.faq-a strong { color: var(--white); font-weight: 600; }
+.faq-highlight { color: var(--c); }
+.faq-link { color: var(--c); text-decoration: none; border-bottom: 1px solid rgba(0,212,255,0.3); transition: border-color 0.2s; }
+.faq-link:hover { border-color: var(--c); }
+
+/* List */
+.faq-list { list-style: none; padding: 0; margin: 0.8rem 0 0; }
+.faq-list li { font-family: var(--font-body); font-size: 0.95rem; line-height: 1.72; color: rgba(142,207,223,0.62); font-weight: 300; padding: 0.35rem 0; border-bottom: 1px solid rgba(0,212,255,0.06); padding-left: 1.2rem; position: relative; }
+.faq-list li::before { content: '›'; position: absolute; left: 0; color: var(--c); font-family: var(--font-mono); }
+.faq-list li strong { color: var(--white); font-weight: 500; }
+
+/* Callout */
+.faq-callout { display: flex; gap: 1.2rem; padding: 1.8rem; margin-bottom: 1.8rem; align-items: flex-start; border-left: 3px solid var(--c) !important; }
+.faq-callout-icon { font-size: 1.6rem; flex-shrink: 0; margin-top: 0.1rem; }
+.faq-callout-title { font-family: var(--font-mono); font-size: 0.62rem; color: var(--c); letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 0.6rem; }
+.faq-callout-text { font-family: var(--font-body); font-size: 1rem; line-height: 1.82; color: rgba(142,207,223,0.72); font-style: italic; font-weight: 300; margin: 0; }
+
+/* Tier table */
+.faq-tier-table { border: 1px solid var(--border); overflow: hidden; }
+.faq-tier-row { display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 0; border-bottom: 1px solid rgba(0,212,255,0.08); }
+.faq-tier-row:last-child { border-bottom: none; }
+.faq-tier-row > span { padding: 0.75rem 1rem; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.08em; }
+.faq-tier-head { background: rgba(0,212,255,0.05); }
+.faq-tier-head > span { color: var(--c); font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; opacity: 0.8; }
+.faq-tier-name { color: var(--white); font-weight: 600; }
+.faq-tier-hours { color: var(--c); text-shadow: var(--glow-sm); }
+.faq-tier-desc { color: rgba(142,207,223,0.52); }
+.faq-tier-featured { background: rgba(0,212,255,0.04); }
+.faq-tier-featured .faq-tier-name::after { content: ' ★'; color: var(--c); font-size: 0.6rem; }
+
+/* Response cards */
+.faq-response-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem; }
+.faq-response-card { padding: 1.2rem; border: 1px solid rgba(0,212,255,0.12); background: rgba(0,10,18,0.4); text-align: center; }
+.faq-response-type { font-family: var(--font-display); font-size: 0.62rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 0.4rem; color: var(--white); }
+.faq-response-example { font-family: var(--font-mono); font-size: 0.6rem; color: rgba(142,207,223,0.45); letter-spacing: 0.08em; margin-bottom: 0.5rem; }
+.faq-response-time { font-family: var(--font-display); font-size: 0.72rem; font-weight: 700; color: var(--c); text-shadow: var(--glow-sm); margin-bottom: 0.25rem; }
+.faq-response-note { font-family: var(--font-mono); font-size: 0.55rem; color: rgba(142,207,223,0.3); letter-spacing: 0.1em; }
+.faq-response-critical { border-color: rgba(239,68,68,0.25); }
+.faq-response-standard { border-color: rgba(234,179,8,0.25); }
+.faq-response-new { border-color: rgba(0,212,255,0.25); }
+
+/* CTA */
+.faq-cta { margin-top: 3rem; padding: 3.5rem 3rem; text-align: center; }
+.faq-cta-title { font-family: var(--font-display); font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; color: var(--white); letter-spacing: 0.04em; margin: 0.5rem 0 1rem; }
+.faq-cta-sub { font-size: 1rem; line-height: 1.78; color: rgba(142,207,223,0.58); font-weight: 300; max-width: 540px; margin: 0 auto 2rem; }
+.faq-cta-btns { display: flex; gap: 1.2rem; justify-content: center; flex-wrap: wrap; }
+.faq-btn-ghost { background: transparent !important; border-color: rgba(0,212,255,0.3) !important; color: rgba(142,207,223,0.6) !important; }
+.faq-btn-ghost:hover { background: rgba(0,212,255,0.08) !important; color: var(--c) !important; }
+
+@@media (max-width: 768px) {
+    .faq-page { padding: 3rem 1.5rem 5rem; }
+    .faq-response-grid { grid-template-columns: 1fr; }
+    .faq-tier-row { grid-template-columns: 1fr 1fr; }
+    .faq-tier-row .faq-tier-desc { display: none; }
+    .faq-quicknav { flex-direction: column; gap: 0.8rem; }
+}
+</style>

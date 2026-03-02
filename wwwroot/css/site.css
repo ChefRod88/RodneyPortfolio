@@ -1928,3 +1928,17 @@ h1.title::after {
   box-shadow: var(--glow) !important;
 }
 .rc-nav-cta::after { display: none !important; }
+
+/* ── NAV FAQ STANDARDS BUTTON ── */
+.rc-nav-faq {
+  background: rgba(0,212,255,0.06) !important;
+  border: 1px solid rgba(0,212,255,0.18) !important;
+  padding: 0.32rem 0.9rem !important;
+  color: rgba(142,207,223,0.7) !important;
+  transition: background 0.2s, color 0.2s !important;
+}
+.rc-nav-faq:hover {
+  background: rgba(0,212,255,0.14) !important;
+  color: var(--c) !important;
+}
+.rc-nav-faq::after { display: none !important; }
