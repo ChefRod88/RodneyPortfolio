@@ -47,7 +47,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-      
+
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -96,4 +96,28 @@ jobs:
             {"name":"QuoteEmail__ToEmail","value":"chefrodneyachery@gmail.com","slotSetting":false},
             {"name":"QuoteEmail__SmtpPassword","value":"${{ secrets.QUOTE_SMTP_PASSWORD }}","slotSetting":false}
           ]'
+
+      # Stripe payment integration
+      # REQUIRED secrets: STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY
+      - name: Set Stripe keys in Azure
+        uses: Azure/appservice-settings@v1
+        with:
+          app-name: 'rodney-portfolio'
+          slot-name: 'Production'
+          app-settings-json: '[
+            {"name":"Stripe__PublishableKey","value":"${{ secrets.STRIPE_PUBLISHABLE_KEY }}","slotSetting":false},
+            {"name":"Stripe__SecretKey","value":"${{ secrets.STRIPE_SECRET_KEY }}","slotSetting":false}
+          ]'
+
+      # Azure SQL connection string for client portal
+      # REQUIRED secret: PORTAL_DB_CONNECTION_STRING
+      - name: Set connection string in Azure
+        uses: Azure/appservice-settings@v1
+        with:
+          app-name: 'rodney-portfolio'
+          slot-name: 'Production'
+          app-settings-json: '[
+            {"name":"ConnectionStrings__PortalDb","value":"${{ secrets.PORTAL_DB_CONNECTION_STRING }}","slotSetting":false}
+          ]'
+
           
