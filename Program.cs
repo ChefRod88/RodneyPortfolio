@@ -51,23 +51,27 @@ var sqlConnectionString =
     builder.Configuration.GetConnectionString("AzureSQL")
     ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
-if (string.IsNullOrWhiteSpace(sqlConnectionString))
-{
-    throw new InvalidOperationException(
-        "No SQL connection string configured. Set ConnectionStrings:AzureSQL or ConnectionStrings:DefaultConnection.");
-}
+var hasSqlConnection = !string.IsNullOrWhiteSpace(sqlConnectionString);
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(sqlConnectionString, sql =>
-    {
-        // Helps with transient Azure SQL faults during startup and migrations.
-        sql.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(15), errorNumbersToAdd: null);
-    }));
+if (hasSqlConnection)
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlServer(sqlConnectionString, sql =>
+        {
+            sql.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(15), errorNumbersToAdd: null);
+        }));
+}
+else
+{
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseInMemoryDatabase("FallbackDb"));
+}
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
+if (hasSqlConnection)
 {
+    using var scope = app.Services.CreateScope();
     var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("StartupMigrations");
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
     try
@@ -76,8 +80,13 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        logger.LogError(ex, "Database migration failed during startup. App will continue without migration — queries that depend on missing schema may fail at runtime.");
+        logger.LogError(ex, "Database migration failed during startup. App will continue — DB-dependent features may fail at runtime.");
     }
+}
+else
+{
+    var startupLogger = app.Services.GetRequiredService<ILoggerFactory>().CreateLogger("Startup");
+    startupLogger.LogWarning("No SQL connection string found. Running without database — portal/payment features will be unavailable.");
 }
 
 // STEP 6: Canonical domain + HTTPS redirect middleware
