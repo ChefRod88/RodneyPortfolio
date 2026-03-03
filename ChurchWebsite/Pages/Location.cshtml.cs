@@ -24,6 +24,7 @@ public class LocationModel : PageModel
         Error = "not-loaded"
     };
 
+    public ChurchSettings Church => _churchSettings;
     public ChurchDestinationSettings Destination => _churchSettings.Routing.ChurchDestination;
     public string RoutingProvider => _churchSettings.Routing.Provider;
     public string GraphHopperApiKey => _churchSettings.Routing.GraphHopperApiKey;

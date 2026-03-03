@@ -1,176 +1,244 @@
-@* USE CASE: Home page - hero, three cards, marquee, mission, ministries, latest sermons *@
+@* HOME PAGE — New Bethel Missionary Baptist Church *@
 @page
 @model IndexModel
 @{
     ViewData["Title"] = "Home";
     var church = Model.Church;
-    /* Hero image: use appsettings value or placeholder; headline: use appsettings or tagline */
     var heroImageUrl = !string.IsNullOrWhiteSpace(church.HeroImageUrl) ? church.HeroImageUrl : "https://picsum.photos/seed/church1/1920/1080";
     var heroHeadline = !string.IsNullOrWhiteSpace(church.HeroHeadline) ? church.HeroHeadline : church.Tagline;
 }
 
-<!-- HERO: Full viewport, bg image from appsettings, overlay for text readability, Plan A Visit + Watch Online buttons -->
-<section class="hero-calvary" aria-label="Welcome">
-    <div class="hero-calvary-bg" style="background-image: url('@heroImageUrl');"></div>
-    <div class="hero-calvary-overlay"></div>
-    <div class="hero-calvary-content">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10 text-center">
-                    <h1 class="hero-calvary-headline">@heroHeadline</h1>
-                    <div class="hero-calvary-ctas">
-                        <a asp-page="/About" class="btn btn-church-primary btn-lg px-4 me-2 mb-2">Plan A Visit</a>
-                        <a asp-page="/Live" class="btn btn-outline-light btn-lg px-4 mb-2">Watch Online</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+@section Head {
+<style>
+:root{--g:#C9A84C;--gl:#F0D080;--gg:rgba(201,168,76,.35);--d:#070710;--s1:#0E0E1C;--s2:#14142A;--s3:#1C1C38;--tp:#F0EDE6;--tm:#9A9485;--glass:rgba(255,255,255,.04);--gb:rgba(201,168,76,.18)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--d);color:var(--tp);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden}
+.ix-hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.ix-hero-bg{position:absolute;inset:0;background-size:cover;background-position:center;filter:brightness(.32) saturate(.75)}
+.ix-canvas{position:absolute;inset:0;pointer-events:none;z-index:1}
+.ix-vignette{position:absolute;inset:0;background:radial-gradient(ellipse 80% 80% at 50% 50%,transparent 25%,rgba(7,7,16,.85) 100%);z-index:2}
+.ix-hero-content{position:relative;z-index:3;text-align:center;padding:2rem;max-width:880px}
+.ix-badge{display:inline-flex;align-items:center;gap:8px;background:var(--glass);border:1px solid var(--gb);border-radius:100px;padding:5px 20px;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--g);margin-bottom:2rem;backdrop-filter:blur(12px)}
+.ix-badge-dot{width:6px;height:6px;border-radius:50%;background:var(--g);box-shadow:0 0 8px var(--g);animation:bdot 2s infinite;flex-shrink:0}
+@@keyframes bdot{0%,100%{opacity:1}50%{opacity:.25}}
+.ix-h1{font-size:clamp(2.4rem,8vw,6rem);font-weight:800;line-height:1.02;letter-spacing:-.025em;margin-bottom:1.2rem;background:linear-gradient(140deg,#fff 0%,var(--gl) 38%,#fff 62%,var(--g) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ix-sub{font-size:clamp(.9rem,2.5vw,1.2rem);color:var(--tm);margin-bottom:2.5rem;max-width:520px;margin-left:auto;margin-right:auto;line-height:1.7}
+.ix-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--g),#7a5500);color:#070710;border:none;padding:14px 32px;border-radius:100px;font-size:.86rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.btn-gold::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.18),transparent);opacity:0;transition:opacity .3s}
+.btn-gold:hover::before{opacity:1}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 16px 44px var(--gg);color:#070710}
+.btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--gl);border:1px solid rgba(201,168,76,.45);padding:13px 32px;border-radius:100px;font-size:.86rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;text-decoration:none;transition:all .3s}
+.btn-ghost:hover{background:rgba(201,168,76,.1);border-color:var(--g);color:var(--gl);transform:translateY(-2px)}
+.ix-scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--tm);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;animation:float 2.8s ease-in-out infinite}
+.ix-scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,var(--g),transparent)}
+@@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
+.ix-stats{background:var(--s1);border-top:1px solid var(--gb);border-bottom:1px solid var(--gb);padding:2.75rem 1.5rem}
+.ix-stats-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center}
+@@media(max-width:600px){.ix-stats-inner{grid-template-columns:repeat(2,1fr)}}
+.ix-stat-num{font-size:clamp(1.8rem,5vw,3rem);font-weight:800;line-height:1;background:linear-gradient(135deg,var(--gl),var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.ix-stat-label{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--tm);margin-top:.4rem}
+.ix-3cards{display:grid;grid-template-columns:repeat(3,1fr)}
+@@media(max-width:768px){.ix-3cards{grid-template-columns:1fr}}
+.ix-card{position:relative;height:440px;overflow:hidden;text-decoration:none;display:block}
+@@media(max-width:768px){.ix-card{height:260px}}
+.ix-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .85s cubic-bezier(.23,1,.32,1)}
+.ix-card:hover .ix-card-bg{transform:scale(1.08)}
+.ix-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,16,.92) 0%,rgba(7,7,16,.28) 55%,transparent 100%);transition:opacity .4s}
+.ix-card:hover .ix-card-overlay{opacity:.88}
+.ix-card-body{position:absolute;bottom:0;left:0;right:0;padding:2.25rem;transform:translateY(6px);transition:transform .42s cubic-bezier(.23,1,.32,1)}
+.ix-card:hover .ix-card-body{transform:translateY(0)}
+.ix-card-eye{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--g);margin-bottom:.4rem;display:block}
+.ix-card-title{font-size:clamp(1.3rem,3vw,1.85rem);font-weight:700;color:#fff;margin-bottom:.65rem;line-height:1.15}
+.ix-card-cta{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gl);transition:gap .3s}
+.ix-card:hover .ix-card-cta{gap:12px}
+.ix-card-line{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--g),transparent);transform:scaleX(0);transition:transform .42s}
+.ix-card:hover .ix-card-line{transform:scaleX(1)}
+.ix-marquee{overflow:hidden;background:var(--s2);padding:.9rem 0;border-top:1px solid var(--gb);border-bottom:1px solid var(--gb)}
+.ix-marquee-track{display:flex;width:max-content;animation:marquee 24s linear infinite}
+.ix-marquee-track:hover{animation-play-state:paused}
+.ix-marquee-item{white-space:nowrap;font-size:clamp(.8rem,1.8vw,1rem);font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--g);padding:0 2.5rem;display:flex;align-items:center;gap:2rem}
+.ix-marquee-item::after{content:'✦';font-size:.65rem;color:rgba(201,168,76,.35)}
+@@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.ix-mission{padding:110px 1.5rem;background:linear-gradient(135deg,var(--d) 0%,var(--s2) 50%,var(--d) 100%);position:relative;overflow:hidden;text-align:center}
+.ix-mission::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 50% 50%,rgba(201,168,76,.07),transparent)}
+.ix-mission-inner{max-width:720px;margin:0 auto;position:relative}
+.ix-mission-quote{font-size:7rem;line-height:.8;color:rgba(201,168,76,.1);font-family:Georgia,serif;display:block;margin-bottom:-.6rem}
+.ix-section-eye{font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--g);margin-bottom:.85rem;display:block}
+.ix-mission-h2{font-size:clamp(1.7rem,5vw,3rem);font-weight:700;line-height:1.18;margin-bottom:1.25rem;color:#fff}
+.ix-mission-sub{font-size:clamp(.88rem,2vw,1.05rem);color:var(--tm);line-height:1.78;margin-bottom:2.5rem;max-width:580px;margin-left:auto;margin-right:auto}
+.ix-divider{width:56px;height:2px;background:linear-gradient(90deg,transparent,var(--g),transparent);margin:0 auto 2.5rem}
+.ix-ministry{padding:90px 1.5rem;background:var(--s1)}
+.ix-ministry-inner{max-width:1200px;margin:0 auto}
+.ix-section-title{font-size:clamp(1.7rem,4vw,2.8rem);font-weight:700;color:#fff;margin-bottom:3rem}
+.ix-min-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+@@media(max-width:768px){.ix-min-grid{grid-template-columns:1fr}}
+.ix-min-card{position:relative;height:370px;border-radius:20px;overflow:hidden;cursor:pointer}
+.ix-min-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .7s cubic-bezier(.23,1,.32,1)}
+.ix-min-card:hover .ix-min-bg{transform:scale(1.09)}
+.ix-min-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,16,.96) 0%,rgba(7,7,16,.35) 55%,transparent 100%)}
+.ix-min-glow{position:absolute;inset:0;border:1px solid transparent;border-radius:20px;transition:border-color .4s}
+.ix-min-card:hover .ix-min-glow{border-color:rgba(201,168,76,.45)}
+.ix-min-body{position:absolute;bottom:0;left:0;right:0;padding:2rem;transform:translateY(14px);transition:transform .45s cubic-bezier(.23,1,.32,1)}
+.ix-min-card:hover .ix-min-body{transform:translateY(0)}
+.ix-min-tag{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:.35rem}
+.ix-min-title{font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:.5rem}
+.ix-min-desc{font-size:.82rem;color:rgba(255,255,255,.58);line-height:1.6;max-height:0;overflow:hidden;transition:max-height .4s}
+.ix-min-card:hover .ix-min-desc{max-height:80px}
+.ix-min-cta{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-top:.75rem;opacity:0;transform:translateY(8px);transition:all .35s .1s}
+.ix-min-card:hover .ix-min-cta{opacity:1;transform:translateY(0)}
+.ix-sermons{padding:90px 1.5rem;background:var(--d)}
+.ix-sermons-inner{max-width:1200px;margin:0 auto}
+.ix-sermons-layout{display:grid;grid-template-columns:300px 1fr;gap:4rem;align-items:start}
+@@media(max-width:900px){.ix-sermons-layout{grid-template-columns:1fr;gap:2.5rem}}
+.ix-sermons-aside h2{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:700;color:#fff;line-height:1.2;margin-bottom:1rem}
+.ix-sermons-aside p{font-size:.88rem;color:var(--tm);line-height:1.72;margin-bottom:2rem}
+.ix-sermon-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
+@@media(max-width:640px){.ix-sermon-grid{grid-template-columns:1fr}}
+.ix-sermon-card{text-decoration:none;display:block;border-radius:14px;overflow:hidden;background:var(--s1);border:1px solid var(--gb);transition:all .35s cubic-bezier(.23,1,.32,1)}
+.ix-sermon-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 30px var(--gg);border-color:var(--g)}
+.ix-sermon-thumb{height:150px;background-size:cover;background-position:center;position:relative}
+.ix-sermon-thumb::after{content:'▶';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:rgba(255,255,255,.8);background:rgba(0,0,0,.28);opacity:0;transition:opacity .3s}
+.ix-sermon-card:hover .ix-sermon-thumb::after{opacity:1}
+.ix-sermon-body{padding:1rem}
+.ix-sermon-series{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--g);margin-bottom:.3rem}
+.ix-sermon-title{font-size:.88rem;font-weight:600;color:#fff;line-height:1.4}
+.sr{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.23,1,.32,1),transform .7s cubic-bezier(.23,1,.32,1)}
+.sr.visible{opacity:1;transform:translateY(0)}
+.sr-d1{transition-delay:.1s}.sr-d2{transition-delay:.2s}.sr-d3{transition-delay:.3s}
+@@media(max-width:480px){.ix-ctas{flex-direction:column;align-items:center}.btn-gold,.btn-ghost{width:100%;max-width:280px;justify-content:center}}
+</style>
+}
+
+<section class="ix-hero" id="hero">
+  <div class="ix-hero-bg" style="background-image:url('@heroImageUrl')"></div>
+  <canvas class="ix-canvas" id="heroCanvas"></canvas>
+  <div class="ix-vignette"></div>
+  <div class="ix-hero-content">
+    <div class="ix-badge"><span class="ix-badge-dot"></span>Winter Haven, Florida</div>
+    <h1 class="ix-h1">@heroHeadline</h1>
+    <p class="ix-sub">Every Sunday we gather, worship, and grow together as one family in Christ.</p>
+    <div class="ix-ctas">
+      <a asp-page="/About" class="btn-gold">Plan A Visit <span>→</span></a>
+      <a asp-page="/Live" class="btn-ghost">Watch Online <span>▶</span></a>
     </div>
-    <!-- Scroll prompt: smooth-scrolls to three-cards-section when clicked (site.js) -->
-    <a href="#three-cards-section" class="hero-scroll-prompt" aria-label="Scroll to see more">
-        <span class="hero-scroll-text">Click here to see more of the website</span>
-        <svg class="hero-scroll-arrow" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3" /></svg>
-    </a>
+  </div>
+  <a href="#stats" class="ix-scroll-hint"><span>Scroll</span><div class="ix-scroll-line"></div></a>
 </section>
 
-<!-- THREE CARDS: Get To Know Us (About), Events, Next Steps (Groups) - each links to respective page -->
-<section id="three-cards-section" class="three-cards-section">
-    <div class="row g-0">
-        <div class="col-md-4">
-            <a asp-page="/About" class="card-image-link">
-                <div class="card-image-overlay" style="background-image: url('/images/IMG_7631.jpg');">
-                    <div class="card-image-gradient"></div>
-                    <div class="card-image-content">
-                        <h3>Get To Know Us</h3>
-                        <span class="card-image-cta">Learn More →</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a asp-page="/Events/Index" class="card-image-link">
-                <div class="card-image-overlay" style="background-image: url('/images/IMG_7728.jpg');">
-                    <div class="card-image-gradient"></div>
-                    <div class="card-image-content">
-                        <h3>Events</h3>
-                        <span class="card-image-cta">See What's Happening →</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-        <div class="col-md-4">
-            <a asp-page="/Groups/Index" class="card-image-link">
-                <div class="card-image-overlay" style="background-image: url('/images/IMG_7729.JPG');">
-                    <div class="card-image-gradient"></div>
-                    <div class="card-image-content">
-                        <h3>Next Steps</h3>
-                        <span class="card-image-cta">Get Connected →</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-    </div>
+<div class="ix-stats sr" id="stats">
+  <div class="ix-stats-inner">
+    <div><div class="ix-stat-num" data-target="1965" data-suffix="">1965</div><div class="ix-stat-label">Established</div></div>
+    <div><div class="ix-stat-num" data-target="500" data-suffix="+">0+</div><div class="ix-stat-label">Members</div></div>
+    <div><div class="ix-stat-num" data-target="52" data-suffix="">0</div><div class="ix-stat-label">Services / Year</div></div>
+    <div><div class="ix-stat-num" data-target="1" data-suffix="">1</div><div class="ix-stat-label">Community</div></div>
+  </div>
+</div>
+
+<div class="ix-3cards" id="three-cards-section">
+  <a asp-page="/About" class="ix-card sr">
+    <div class="ix-card-bg" style="background-image:url('/images/IMG_7631.jpg')"></div>
+    <div class="ix-card-overlay"></div>
+    <div class="ix-card-body"><span class="ix-card-eye">Who We Are</span><div class="ix-card-title">Get To Know Us</div><span class="ix-card-cta">Learn More →</span></div>
+    <div class="ix-card-line"></div>
+  </a>
+  <a asp-page="/Events/Index" class="ix-card sr sr-d1">
+    <div class="ix-card-bg" style="background-image:url('/images/IMG_7728.jpg')"></div>
+    <div class="ix-card-overlay"></div>
+    <div class="ix-card-body"><span class="ix-card-eye">What's Happening</span><div class="ix-card-title">Events</div><span class="ix-card-cta">See Schedule →</span></div>
+    <div class="ix-card-line"></div>
+  </a>
+  <a asp-page="/Groups/Index" class="ix-card sr sr-d2">
+    <div class="ix-card-bg" style="background-image:url('/images/IMG_7729.JPG')"></div>
+    <div class="ix-card-overlay"></div>
+    <div class="ix-card-body"><span class="ix-card-eye">Your Journey</span><div class="ix-card-title">Next Steps</div><span class="ix-card-cta">Get Connected →</span></div>
+    <div class="ix-card-line"></div>
+  </a>
+</div>
+
+<div class="ix-marquee" aria-hidden="true">
+  <div class="ix-marquee-track">
+    @for(int i=0;i<10;i++){<span class="ix-marquee-item">WELCOME TO NEW BETHEL</span>}
+  </div>
+</div>
+
+<section class="ix-mission sr">
+  <div class="ix-mission-inner">
+    <span class="ix-mission-quote">"</span>
+    <span class="ix-section-eye">Our Purpose</span>
+    <h2 class="ix-mission-h2">@(string.IsNullOrWhiteSpace(church.MissionStatement)?church.Tagline:church.MissionStatement)</h2>
+    <div class="ix-divider"></div>
+    @if(!string.IsNullOrWhiteSpace(church.MissionSubtext)){<p class="ix-mission-sub">@church.MissionSubtext</p>}
+    <a asp-page="/About" asp-fragment="beliefs" class="btn-gold">What We Believe →</a>
+  </div>
 </section>
 
-<!-- MARQUEE: Scrolling "WELCOME HOME" text; animation in site.css; aria-hidden for screen readers -->
-<section class="marquee-section" aria-hidden="true">
-    <div class="marquee-track">
-        <span class="marquee-text">WELCOME TO NEW BETHEL</span>
-        <span class="marquee-text">WELCOME TO NEW BETHEL</span>
-        <span class="marquee-text">WELCOME TO NEW BETHEL</span>
-        <span class="marquee-text">WELCOME TO NEW BETHEL</span>
+<section class="ix-ministry">
+  <div class="ix-ministry-inner">
+    <div class="sr"><span class="ix-section-eye">Get Involved</span><h2 class="ix-section-title">Get Connected</h2></div>
+    <div class="ix-min-grid">
+      <div class="ix-min-card sr">
+        <div class="ix-min-bg" style="background-image:url('/images/IMG_7732.jpg')"></div>
+        <div class="ix-min-overlay"></div><div class="ix-min-glow"></div>
+        <div class="ix-min-body"><div class="ix-min-tag">Ministry</div><div class="ix-min-title">Kids</div><p class="ix-min-desc">A vibrant, safe place where children discover Jesus and grow in faith.</p><a asp-page="/Groups/Index" class="ix-min-cta">Learn More →</a></div>
+      </div>
+      <div class="ix-min-card sr sr-d1">
+        <div class="ix-min-bg" style="background-image:url('/images/NBMBC_MEN.png')"></div>
+        <div class="ix-min-overlay"></div><div class="ix-min-glow"></div>
+        <div class="ix-min-body"><div class="ix-min-tag">Ministry</div><div class="ix-min-title">Men's Ministry</div><p class="ix-min-desc">Men growing in faith, brotherhood, and servant leadership together.</p><a asp-page="/Groups/Index" class="ix-min-cta">Learn More →</a></div>
+      </div>
+      <div class="ix-min-card sr sr-d2">
+        <div class="ix-min-bg" style="background-image:url('/images/CityWideMission.png')"></div>
+        <div class="ix-min-overlay"></div><div class="ix-min-glow"></div>
+        <div class="ix-min-body"><div class="ix-min-tag">Outreach</div><div class="ix-min-title">City Wide Mission</div><p class="ix-min-desc">Reaching the streets of Winter Haven with love and the Gospel.</p><a asp-page="/Groups/Index" class="ix-min-cta">Learn More →</a></div>
+      </div>
     </div>
+  </div>
 </section>
 
-<!-- MISSION: Blue gradient; MissionStatement + MissionSubtext from appsettings; "What We Believe" links to About -->
-<section class="mission-section">
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 text-center">
-                <h2 class="mission-headline">@(string.IsNullOrWhiteSpace(church.MissionStatement) ? church.Tagline : church.MissionStatement)</h2>
-                @if (!string.IsNullOrWhiteSpace(church.MissionSubtext))
-                {
-                    <p class="mission-subtext">@church.MissionSubtext</p>
-                }
-                <a asp-page="/About" asp-fragment="beliefs" class="btn btn-church-secondary btn-lg mt-3">What We Believe</a>
+<section class="ix-sermons sr">
+  <div class="ix-sermons-inner">
+    <div class="ix-sermons-layout">
+      <div class="ix-sermons-aside">
+        <span class="ix-section-eye">Word of God</span>
+        <h2>Watch & Listen To Our Latest Sermons</h2>
+        <p>Catch up on our latest teachings. Stream live or browse our library.</p>
+        <a asp-page="/Sermons/Index" class="btn-gold">View All Sermons →</a>
+      </div>
+      <div class="ix-sermon-grid">
+        @foreach(var sermon in Model.LatestSermons.Take(3)){
+          <a asp-page="/Sermons/Details" asp-route-id="@sermon.Id" class="ix-sermon-card">
+            <div class="ix-sermon-thumb" style="background-image:url('https://picsum.photos/seed/sermon@(sermon.Id)/400/300')"></div>
+            <div class="ix-sermon-body">
+              @if(!string.IsNullOrWhiteSpace(sermon.Series)){<div class="ix-sermon-series">@sermon.Series</div>}
+              <div class="ix-sermon-title">@sermon.Title</div>
             </div>
-        </div>
+          </a>
+        }
+        @if(Model.LatestSermons.Count==0){
+          <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--tm)"><p style="margin-bottom:1rem">No sermons yet — check back soon!</p><a asp-page="/Sermons/Index" class="btn-gold" style="font-size:.8rem;padding:10px 22px">View Sermons</a></div>
+        }
+      </div>
     </div>
+  </div>
 </section>
 
-<!-- MINISTRIES: Kids, Youth, Young Adults - placeholder cards; all "Learn More" link to Groups -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <h2 class="text-center mb-5">Get Connected</h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="ministry-card ministry-card--full-image" style="background-image: url('/images/IMG_7732.jpg');">
-                    <div class="ministry-card-overlay"></div>
-                    <div class="ministry-card-content">
-                        <h5>Kids</h5>
-                        <p class="small mb-2">Ministry for children</p>
-                        <a asp-page="/Groups/Index" class="btn btn-church-primary btn-sm">Learn More</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="ministry-card ministry-card--full-image" style="background-image: url('/images/NBMBC_MEN.png');">
-                    <div class="ministry-card-overlay"></div>
-                    <div class="ministry-card-content">
-                        <h5>Men's Ministry</h5>
-                        <p class="small mb-2">Men's Ministry is a place where men can come together to grow in their faith and serve the Lord.</p>
-                        <a asp-page="/Groups/Index" class="btn btn-church-primary btn-sm">Learn More</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="ministry-card ministry-card--full-image" style="background-image: url('/images/CityWideMission.png');">
-                    <div class="ministry-card-overlay"></div>
-                    <div class="ministry-card-content">
-                        <h5>City Wide Mission</h5>
-                        <p class="small mb-2">We are committed to reaching to those who are in need in our community.</p>
-                        <a asp-page="/Groups/Index" class="btn btn-church-primary btn-sm">Learn More</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> -->
-</section>
-
-<!-- SERMONS: Latest 3 from SermonService; thumbnails link to Sermons/Details; empty state if none -->
-<section class="sermons-section py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-4 mb-4 mb-lg-0">
-                <h2 class="mb-3">Watch & Listen To our Latest Sermons</h2>
-                <p class="text-white-50">Catch up on our latest teachings. Stream live or browse our sermon library.</p>
-                <a asp-page="/Sermons/Index" class="btn btn-church-secondary">View All Sermons</a>
-            </div>
-            <div class="col-lg-8">
-                <div class="row g-3">
-                    @foreach (var sermon in Model.LatestSermons.Take(3))
-                    {
-                        <div class="col-md-4">
-                            <a asp-page="/Sermons/Details" asp-route-id="@sermon.Id" class="sermon-thumb-link">
-                                <div class="sermon-thumb" style="background-image: url('https://picsum.photos/seed/sermon@(sermon.Id)/400/300');"></div>
-                                @if (!string.IsNullOrWhiteSpace(sermon.Series))
-                                {
-                                    <span class="badge bg-light text-primary mt-2">@sermon.Series</span>
-                                }
-                                <p class="sermon-thumb-title mt-2 mb-0 small">@sermon.Title</p>
-                            </a>
-                        </div>
-                    }
-                    @if (Model.LatestSermons.Count == 0)
-                    {
-                        <div class="col-12 text-center text-white-50 py-4">
-                            <p class="mb-0">No sermons yet. Check back soon!</p>
-                            <a asp-page="/Sermons/Index" class="btn btn-church-secondary btn-sm mt-2">View Sermons</a>
-                        </div>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
+@section Scripts {
+<script>
+(function(){
+  var canvas=document.getElementById('heroCanvas'),ctx=canvas.getContext('2d'),W,H;
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
+  var pts=Array.from({length:90},function(){return{x:Math.random()*2000,y:Math.random()*1000,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*1.4+.3,a:Math.random()*.55+.1}});
+  (function loop(){ctx.clearRect(0,0,W,H);pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(201,168,76,'+p.a+')';ctx.fill()});requestAnimationFrame(loop)})();
+  var srObs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:.1});
+  document.querySelectorAll('.sr').forEach(function(el){srObs.observe(el)});
+  function animCount(el){var target=+el.dataset.target,suffix=el.dataset.suffix||'',dur=1800,start=Date.now();(function tick(){var p=Math.min((Date.now()-start)/dur,1),ease=1-Math.pow(1-p,3),val=Math.round(ease*target);el.textContent=val+suffix;if(p<1)requestAnimationFrame(tick)})()}
+  var statsEl=document.querySelector('.ix-stats');
+  if(statsEl){new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.querySelectorAll('[data-target]').forEach(function(el){animCount(el);el.removeAttribute('data-target')})}})},{threshold:.4}).observe(statsEl)}
+  var cardObs=new IntersectionObserver(function(e){e.forEach(function(x,i){if(x.isIntersecting)setTimeout(function(){x.target.classList.add('visible')},i*80)})},{threshold:.08});
+  document.querySelectorAll('.ix-min-card,.ix-sermon-card').forEach(function(el){cardObs.observe(el)});
+})();
+</script>
+}

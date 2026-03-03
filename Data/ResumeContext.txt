@@ -27,7 +27,7 @@ IDENTITY
 Full Name: Rodney Amos Chery
 Location: Winter Haven, FL
 Phone: 863-296-5890
-Email: chefrodneyachery@gmail.com
+Email: rodney@globalrcdev.com
 LinkedIn: https://www.linkedin.com/in/rodneyachery/
 GitHub: https://github.com/ChefRod88/RodneyPortfolio
 Portfolio: https://www.rodneyachery.com
@@ -256,7 +256,7 @@ CONTACT QUICK LOOKUP
 --------------------
 - Winter Haven, FL
 - 863-296-5890
-- chefrodneyachery@gmail.com
+- rodney@globalrcdev.com
 - https://www.linkedin.com/in/rodneyachery/
 - https://github.com/ChefRod88/RodneyPortfolio
 - https://www.rodneyachery.com
@@ -369,7 +369,7 @@ Paragraph 48: Rodney's portfolio is designed to support recruiter conversations,
 
 Paragraph 49: Rodney seeks opportunities where he can contribute quickly with ASP.NET Core, Razor Pages, C#, SQL Server, and Azure while continuing to grow as a software engineer. He is especially aligned with teams that value maintainability, customer impact, and operational excellence. He is open to junior engineering and application support pathways that include real ownership.
 
-Paragraph 50: Contact details for Rodney Amos Chery are: Location Winter Haven, FL; Email chefrodneyachery@gmail.com; LinkedIn https://www.linkedin.com/in/rodneyachery/; GitHub https://github.com/ChefRod88/RodneyPortfolio; Portfolio https://www.rodneyachery.com; Phone 863-296-5890. Primary positioning statement: Junior Software Engineer with a strong foundation in ASP.NET Core Razor Pages, C#, SQL Server, Azure App Service, testing discipline, and production-minded troubleshooting.
+Paragraph 50: Contact details for Rodney Amos Chery are: Location Winter Haven, FL; Email rodney@globalrcdev.com; LinkedIn https://www.linkedin.com/in/rodneyachery/; GitHub https://github.com/ChefRod88/RodneyPortfolio; Portfolio https://www.rodneyachery.com; Phone 863-296-5890. Primary positioning statement: Junior Software Engineer with a strong foundation in ASP.NET Core Razor Pages, C#, SQL Server, Azure App Service, testing discipline, and production-minded troubleshooting.
 
 # Rodney Portfolio Website — Complete Technical Documentation
 
