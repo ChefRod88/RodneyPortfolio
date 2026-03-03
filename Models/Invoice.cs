@@ -25,6 +25,10 @@ public class Invoice
     public InvoiceStatus Status { get; set; } = InvoiceStatus.Unpaid;
     public string? StripePaymentIntentId { get; set; }
     public string? StripeCheckoutSessionId { get; set; }
+
+    public string? PaymentMethod { get; set; }
+
+    public string? InvoiceNumber { get; set; }
 }
 
 public enum InvoiceStatus
@@ -32,5 +36,7 @@ public enum InvoiceStatus
     Unpaid,
     Paid,
     Overdue,
-    Cancelled
+    Cancelled,
+
+    PendingCashApp
 }

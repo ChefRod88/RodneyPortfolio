@@ -11,5 +11,6 @@ public interface IInvoiceService
     Task SaveClientAsync(ClientRecord client, CancellationToken ct = default);
     Task<List<ClientRecord>> GetAllClientsAsync(CancellationToken ct = default);
     Task<List<Invoice>> GetAllInvoicesAsync(CancellationToken ct = default);
+    Task UpdateInvoiceAsync(Invoice invoice, CancellationToken ct = default);
     Task MarkInvoicePaidAsync(string invoiceId, string stripePaymentIntentId, CancellationToken ct = default);
 }
