@@ -33,10 +33,6 @@ builder.Services.AddScoped<IQuoteSubmissionService, QuoteSubmissionService>();
 builder.Services.AddScoped<IInvoiceService, SqlInvoiceService>();
 builder.Services.AddScoped<IPaymentEmailService, PaymentEmailService>();
 
-// ══════════════════════════════════════════════════════════════
-// ADD THESE TO Program.cs — after existing service registrations
-// ══════════════════════════════════════════════════════════════
-
 // Portal services
 builder.Services.AddScoped<IClientPortalService, SqlClientPortalService>();
 builder.Services.AddScoped<IPortalEmailService, PortalEmailService>();
@@ -51,10 +47,6 @@ builder.Services.AddSession(options =>
     options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
 });
 
-// ──────────────────────────────────────────────────
-// In the middleware pipeline (after app.UseRouting()):
-// app.UseSession();
-// ──────────────────────────────────────────────────
 var sqlConnectionString =
     builder.Configuration.GetConnectionString("AzureSQL")
     ?? builder.Configuration.GetConnectionString("DefaultConnection");
@@ -84,15 +76,7 @@ using (var scope = app.Services.CreateScope())
     }
     catch (Exception ex)
     {
-        // In development, keep the app running even when remote SQL is unreachable.
-        if (app.Environment.IsDevelopment())
-        {
-            logger.LogWarning(ex, "Database migration skipped in Development due to connectivity/availability.");
-        }
-        else
-        {
-            throw;
-        }
+        logger.LogError(ex, "Database migration failed during startup. App will continue without migration — queries that depend on missing schema may fail at runtime.");
     }
 }
 
