@@ -68,6 +68,9 @@ public class JsonInvoiceService : IInvoiceService
         await SaveInvoicesAsync(invoices);
     }
 
+    public async Task UpdateInvoiceAsync(Invoice invoice, CancellationToken ct = default)
+        => await SaveInvoiceAsync(invoice, ct);
+
     public async Task MarkInvoicePaidAsync(string invoiceId, string stripePaymentIntentId, CancellationToken ct = default)
     {
         var invoices = await LoadInvoicesAsync();

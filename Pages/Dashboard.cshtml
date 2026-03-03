@@ -81,12 +81,8 @@
                             <div class="pay-inv-status pay-status-@inv.Status.ToString().ToLower()">
                                 @(inv.Status == InvoiceStatus.Overdue ? "&#9888; Overdue" : "&#9679; Unpaid")
                             </div>
-                            <button class="btn btn-outline-dark pay-now-btn"
-                                    data-invoice-id="@inv.Id"
-                                    data-amount="@inv.Amount"
-                                    data-desc="@inv.Description"
-                                    onclick="openPayModal(this)">
-                                Pay Now
+                            <button class="pay-now-btn" onclick="openPaymentModal('@inv.Id', @inv.Amount, '@inv.Id[..8].ToUpper()', '@inv.Description')">
+                                Pay Now &mdash; $@inv.Amount.ToString("F2")
                             </button>
                         </div>
                     </div>
@@ -110,7 +106,13 @@
                         <div class="pay-inv-left">
                             <div class="pay-inv-id">#@inv.Id[..8].ToUpper()</div>
                             <div class="pay-inv-desc">@inv.Description</div>
-                            <div class="pay-inv-dates">Paid @inv.PaidAt?.ToString("MMM dd, yyyy")</div>
+                            <div class="pay-inv-dates">
+                                Paid @inv.PaidAt?.ToString("MMM dd, yyyy")
+                                @if (!string.IsNullOrEmpty(inv.StripePaymentIntentId))
+                                {
+                                    <span class="pay-method-badge">via Card</span>
+                                }
+                            </div>
                         </div>
                         <div class="pay-inv-right">
                             <div class="pay-inv-amount">$@inv.Amount.ToString("F2")</div>
@@ -177,27 +179,88 @@
 
 </div>
 
-<!-- PAYMENT MODAL (reused from Payments.cshtml) -->
-<div id="payModal" class="pay-modal-overlay" style="display:none" onclick="closeModalOutside(event)">
-    <div class="pay-modal rc-glass">
-        <div class="pay-modal-header">
-            <span class="pay-modal-label">// Secure Payment</span>
-            <button class="pay-modal-close" onclick="closePayModal()">&#10005;</button>
+<!-- ══════════════════════════════════════════════════════════
+     UNIFIED PAYMENT MODAL — Stripe + Cash App
+     ══════════════════════════════════════════════════════════ -->
+<div id="paymentModal" class="pm-overlay" style="display:none">
+    <div class="pm-container">
+
+        <!-- Header -->
+        <div class="pm-header">
+            <div class="pm-header-left">
+                <div class="pm-icon">⚡</div>
+                <div>
+                    <div class="pm-title">Complete Payment</div>
+                    <div class="pm-subtitle" id="pm-invoice-label">Invoice #—</div>
+                </div>
+            </div>
+            <div class="pm-amount-badge">
+                <span class="pm-amount-label">DUE</span>
+                <span class="pm-amount-value" id="pm-amount-display">$0.00</span>
+            </div>
         </div>
-        <div class="pay-modal-invoice-info">
-            <span id="modalDesc" class="pay-modal-desc"></span>
-            <span id="modalAmount" class="pay-modal-amount"></span>
+
+        <!-- Method Tabs -->
+        <div class="pm-tabs">
+            <button class="pm-tab pm-tab-active" onclick="switchPayTab('stripe')" id="pm-tab-stripe">
+                <span>💳</span> Pay by Card
+            </button>
+            <button class="pm-tab" onclick="switchPayTab('cashapp')" id="pm-tab-cashapp">
+                <span style="color:#00d632;font-weight:900;">$</span> Cash App
+            </button>
         </div>
-        <div id="payment-element"></div>
-        <div id="pay-processing" style="display:none" class="pay-processing">
-            <span class="pay-spinner"></span> Processing payment...
+
+        <!-- Stripe Panel -->
+        <div id="pm-panel-stripe" class="pm-panel">
+            <div class="pm-secure-badge">🔒 Secured by Stripe &middot; 256-bit encryption</div>
+            <div id="payment-element"></div>
+            <div id="pm-stripe-error" class="pm-error"></div>
+            <div id="pm-processing" style="display:none" class="pm-processing">
+                <span class="pm-spinner"></span> Processing payment...
+            </div>
+            <div id="pm-success" style="display:none" class="pm-success-msg">
+                &#10003; Payment successful! A receipt has been sent to your email.
+            </div>
+            <button id="pm-stripe-btn" class="pm-pay-btn" onclick="submitStripePayment()">
+                Confirm Payment
+            </button>
+            <p class="pay-secure-note">&#128274; Card details never touch our server</p>
         </div>
-        <div id="pay-success" style="display:none" class="pay-success-msg">
-            <span>&#10003;</span> Payment successful! A receipt has been sent to your email.
+
+        <!-- Cash App Panel -->
+        <div id="pm-panel-cashapp" class="pm-panel" style="display:none">
+            <div class="pm-cashapp-inner">
+                <div class="pm-cashapp-header">
+                    <div class="pm-cashapp-logo">$</div>
+                    <div>
+                        <div class="pm-cashapp-handle">$ChefRodneyChery</div>
+                        <div class="pm-cashapp-note">Send payment directly via Cash App</div>
+                    </div>
+                </div>
+                <div class="pm-qr-wrapper">
+                    <img src="/images/cashapp-qr.png" alt="Cash App QR Code" class="pm-qr-img"
+                         onerror="this.style.display='none';document.getElementById('pm-qr-fallback').style.display='flex';" />
+                    <div id="pm-qr-fallback" style="display:none;align-items:center;justify-content:center;padding:20px;color:#888;font-size:0.85rem;text-align:center;flex-direction:column;gap:8px;">
+                        <div style="font-size:2rem;">📱</div>
+                        <div>Add your QR code image to /wwwroot/images/cashapp-qr.png</div>
+                    </div>
+                </div>
+                <a href="https://cash.app/$ChefRodneyChery" target="_blank" class="pm-cashapp-btn">
+                    Open Cash App &rarr;
+                </a>
+                <div class="pm-cashapp-steps">
+                    <div class="pm-step"><span class="pm-step-num">1</span> Open Cash App on your phone</div>
+                    <div class="pm-step"><span class="pm-step-num">2</span> Scan QR or tap the button above</div>
+                    <div class="pm-step"><span class="pm-step-num">3</span> Send <strong id="pm-cashapp-amount">$0.00</strong> &mdash; include your invoice # in the note</div>
+                    <div class="pm-step"><span class="pm-step-num">4</span> Click the button below once sent</div>
+                </div>
+                <button class="pm-confirm-btn" onclick="submitCashApp()">
+                    I&rsquo;ve Sent the Payment
+                </button>
+            </div>
         </div>
-        <div id="pay-error-msg" class="pay-error" style="display:none"></div>
-        <button id="submitPayBtn" class="btn btn-outline-dark pay-submit-btn" onclick="submitPayment()">Confirm Payment</button>
-        <p class="pay-secure-note">&#128274; Secured by Stripe &middot; Card details never touch our server</p>
+
+        <button class="pm-close" onclick="closePaymentModal()">&#10005; Cancel</button>
     </div>
 </div>
 
@@ -209,25 +272,69 @@
 .portal-dash-name { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: var(--white); letter-spacing: 0.04em; }
 .portal-dash-company { font-family: var(--font-mono); font-size: 0.62rem; color: rgba(142,207,223,0.4); letter-spacing: 0.08em; }
 .portal-dash-meta { display: flex; align-items: center; gap: 1.2rem; }
-
 .portal-tabs { display: flex; gap: 0; border-bottom: 1px solid rgba(0,212,255,0.12); margin-bottom: 2rem; overflow-x: auto; }
 .portal-tab { background: none; border: none; border-bottom: 2px solid transparent; color: rgba(142,207,223,0.4); font-family: var(--font-display); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.9rem 1.4rem; cursor: pointer; transition: color 0.2s, border-color 0.2s; white-space: nowrap; margin-bottom: -1px; }
 .portal-tab:hover { color: rgba(142,207,223,0.7); }
 .portal-tab-active { color: var(--c) !important; border-color: var(--c) !important; }
 .portal-tab-content { animation: fadeIn 0.3s ease; }
 @@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
-
 .portal-account-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
 .portal-account-card { padding: 1.5rem; }
 .portal-account-row { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid rgba(0,212,255,0.06); font-size: 0.85rem; }
 .portal-account-row span:first-child { font-family: var(--font-mono); font-size: 0.6rem; color: rgba(142,207,223,0.35); letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; }
 .portal-account-row span:last-child { color: var(--white); font-family: var(--font-body); text-align: right; }
-
 .portal-alert { padding: 1rem 1.5rem; margin-bottom: 1.5rem; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.08em; }
 .portal-alert-error { border-color: rgba(239,68,68,0.3) !important; color: #ef4444; }
 .portal-alert-success { border-color: rgba(34,197,94,0.3) !important; color: #22c55e; }
-
 .portal-textarea { resize: vertical; min-height: 120px; }
+.pay-now-btn { background: linear-gradient(135deg,#00d4ff,#0099cc); color:#000; border:none; border-radius:6px; padding:0.5rem 1rem; font-weight:700; font-size:0.75rem; cursor:pointer; font-family:var(--font-mono); letter-spacing:0.05em; transition:all 0.2s; margin-top:0.5rem; }
+.pay-now-btn:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(0,212,255,0.3); }
+.pay-method-badge { display:inline-block; background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); border-radius:4px; font-size:0.6rem; padding:2px 6px; margin-left:6px; color:rgba(0,212,255,0.6); font-family:var(--font-mono); letter-spacing:0.05em; text-transform:uppercase; }
+
+/* Payment Modal */
+.pm-overlay { position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.88); display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); animation:pm-fade 0.2s ease; }
+@@keyframes pm-fade { from{opacity:0} to{opacity:1} }
+.pm-container { background:#0d1117; border:1px solid rgba(0,212,255,0.2); border-radius:16px; width:min(480px,95vw); overflow:hidden; box-shadow:0 0 60px rgba(0,212,255,0.08),0 20px 60px rgba(0,0,0,0.6); animation:pm-up 0.25s ease; }
+@@keyframes pm-up { from{transform:translateY(20px);opacity:0} to{transform:none;opacity:1} }
+.pm-header { background:linear-gradient(135deg,rgba(0,212,255,0.06),rgba(0,212,255,0.02)); border-bottom:1px solid rgba(0,212,255,0.12); padding:20px 24px; display:flex; align-items:center; justify-content:space-between; }
+.pm-header-left { display:flex; align-items:center; gap:14px; }
+.pm-icon { font-size:1.5rem; }
+.pm-title { color:#00d4ff; font-weight:700; font-size:0.95rem; font-family:var(--font-mono,monospace); }
+.pm-subtitle { color:#666; font-size:0.78rem; margin-top:2px; }
+.pm-amount-badge { background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); border-radius:10px; padding:8px 14px; text-align:right; }
+.pm-amount-label { display:block; font-size:0.6rem; color:rgba(0,212,255,0.6); letter-spacing:0.12em; font-family:var(--font-mono,monospace); }
+.pm-amount-value { display:block; font-size:1.3rem; font-weight:700; color:#00d4ff; font-family:var(--font-mono,monospace); }
+.pm-tabs { display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid rgba(0,212,255,0.08); }
+.pm-tab { background:none; border:none; border-bottom:2px solid transparent; cursor:pointer; padding:14px; color:#555; display:flex; align-items:center; justify-content:center; gap:8px; font-size:0.82rem; font-family:var(--font-display,sans-serif); font-weight:600; letter-spacing:0.05em; transition:all 0.2s; margin-bottom:-1px; }
+.pm-tab:hover { color:#aaa; background:rgba(255,255,255,0.03); }
+.pm-tab-active { color:#00d4ff !important; border-bottom-color:#00d4ff !important; background:rgba(0,212,255,0.05) !important; }
+.pm-panel { padding:24px; }
+.pm-secure-badge { display:flex; align-items:center; gap:8px; color:#4a9; font-size:0.72rem; margin-bottom:16px; background:rgba(0,212,255,0.05); border-radius:6px; padding:8px 12px; }
+.pm-error { color:#ef4444; font-size:0.78rem; min-height:18px; margin:8px 0; }
+.pm-processing { display:flex; align-items:center; gap:10px; color:#aaa; font-size:0.82rem; padding:10px 0; }
+.pm-spinner { display:inline-block; width:16px; height:16px; border:2px solid rgba(0,212,255,0.2); border-top-color:#00d4ff; border-radius:50%; animation:spin 0.7s linear infinite; }
+@@keyframes spin { to{transform:rotate(360deg)} }
+.pm-success-msg { color:#22c55e; font-size:0.85rem; padding:10px 0; }
+.pm-pay-btn { width:100%; padding:14px; background:linear-gradient(135deg,#00d4ff,#0099cc); color:#000; font-weight:700; font-size:0.9rem; border:none; border-radius:8px; cursor:pointer; font-family:var(--font-mono,monospace); letter-spacing:0.05em; transition:all 0.2s; margin-top:8px; }
+.pm-pay-btn:hover { transform:translateY(-1px); box-shadow:0 4px 20px rgba(0,212,255,0.3); }
+.pm-pay-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+.pay-secure-note { font-size:0.68rem; color:#444; text-align:center; margin-top:10px; }
+.pm-cashapp-inner { display:flex; flex-direction:column; gap:16px; }
+.pm-cashapp-header { display:flex; align-items:center; gap:14px; }
+.pm-cashapp-logo { width:44px; height:44px; border-radius:12px; background:linear-gradient(135deg,#00d632,#00a825); display:flex; align-items:center; justify-content:center; font-size:1.4rem; font-weight:900; color:#fff; }
+.pm-cashapp-handle { color:#00d632; font-weight:700; font-size:1.05rem; }
+.pm-cashapp-note { color:#666; font-size:0.78rem; }
+.pm-qr-wrapper { background:#fff; border-radius:12px; padding:12px; display:flex; justify-content:center; align-items:center; min-height:160px; }
+.pm-qr-img { width:140px; height:140px; display:block; }
+.pm-cashapp-btn { display:block; text-align:center; padding:12px; background:linear-gradient(135deg,#00d632,#00a825); color:#fff; font-weight:700; border-radius:8px; text-decoration:none; font-size:0.88rem; transition:all 0.2s; }
+.pm-cashapp-btn:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(0,214,50,0.3); }
+.pm-cashapp-steps { display:flex; flex-direction:column; gap:10px; }
+.pm-step { display:flex; align-items:flex-start; gap:10px; color:#aaa; font-size:0.8rem; line-height:1.5; }
+.pm-step-num { min-width:22px; height:22px; border-radius:50%; background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); color:#00d4ff; font-size:0.68rem; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px; flex-shrink:0; }
+.pm-confirm-btn { width:100%; padding:13px; background:transparent; border:1px solid rgba(0,214,50,0.4); color:#00d632; font-weight:700; font-size:0.88rem; border-radius:8px; cursor:pointer; transition:all 0.2s; }
+.pm-confirm-btn:hover { background:rgba(0,214,50,0.08); border-color:#00d632; }
+.pm-close { width:100%; padding:12px; background:none; border:none; border-top:1px solid rgba(0,212,255,0.08); color:#444; cursor:pointer; font-size:0.78rem; transition:color 0.2s; }
+.pm-close:hover { color:#888; }
 
 @@media (max-width: 640px) {
     .portal-dash { padding: 2rem 1.5rem 5rem; }
@@ -236,8 +343,8 @@
 </style>
 
 @section Scripts {
-<script src="https://js.stripe.com/v3/"></script>
 <script>
+// ── Dashboard tab switching ───────────────────────────────────
 function showTab(name, btn) {
     document.querySelectorAll(".portal-tab-content").forEach(t => t.style.display = "none");
     document.querySelectorAll(".portal-tab").forEach(t => t.classList.remove("portal-tab-active"));
@@ -245,48 +352,128 @@ function showTab(name, btn) {
     btn.classList.add("portal-tab-active");
 }
 
+// ── Payment modal state ───────────────────────────────────────
 const stripe = Stripe("@Model.StripePublishableKey");
-let elements, currentInvoiceId;
+let stripeElements = null;
+let currentInvoiceId = null;
 
-async function openPayModal(btn) {
-    currentInvoiceId = btn.dataset.invoiceId;
-    document.getElementById("modalDesc").textContent = btn.dataset.desc;
-    document.getElementById("modalAmount").textContent = "$" + parseFloat(btn.dataset.amount).toFixed(2);
-    document.getElementById("payModal").style.display = "flex";
-    document.getElementById("pay-error-msg").style.display = "none";
-    document.getElementById("pay-success").style.display = "none";
-    document.getElementById("submitPayBtn").style.display = "block";
-    document.getElementById("pay-processing").style.display = "none";
-
-    const resp = await fetch("/Payments?handler=CreatePaymentIntent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "RequestVerificationToken": document.querySelector("input[name='__RequestVerificationToken']")?.value ?? "" },
-        body: JSON.stringify({ invoiceId: currentInvoiceId })
-    });
-    const data = await resp.json();
-    if (!data.clientSecret) { showPayError("Unable to initialize payment."); return; }
-    elements = stripe.elements({ clientSecret: data.clientSecret, appearance: stripeAppearance() });
-    elements.create("payment").mount("#payment-element");
+function openPaymentModal(invoiceId, amount, invoiceNum, desc) {
+    currentInvoiceId = invoiceId;
+    document.getElementById("pm-invoice-label").textContent = "Invoice #" + invoiceNum + (desc ? " \u2014 " + desc : "");
+    document.getElementById("pm-amount-display").textContent = "$" + parseFloat(amount).toFixed(2);
+    document.getElementById("pm-cashapp-amount").textContent = "$" + parseFloat(amount).toFixed(2);
+    document.getElementById("paymentModal").style.display = "flex";
+    resetStripePanel();
+    switchPayTab("stripe");
+    initStripeElements(invoiceId);
 }
 
-async function submitPayment() {
-    document.getElementById("submitPayBtn").style.display = "none";
-    document.getElementById("pay-processing").style.display = "flex";
-    const { error, paymentIntent } = await stripe.confirmPayment({ elements, redirect: "if_required" });
-    if (error) { showPayError(error.message); document.getElementById("submitPayBtn").style.display = "block"; document.getElementById("pay-processing").style.display = "none"; return; }
-    await fetch("/Payments?handler=ConfirmPayment", {
+function closePaymentModal() {
+    document.getElementById("paymentModal").style.display = "none";
+    if (stripeElements) {
+        document.getElementById("payment-element").innerHTML = "";
+        stripeElements = null;
+    }
+}
+
+// ── Payment method tab switch ─────────────────────────────────
+function switchPayTab(tab) {
+    document.querySelectorAll(".pm-tab").forEach(t => t.classList.remove("pm-tab-active"));
+    document.getElementById("pm-panel-stripe").style.display = "none";
+    document.getElementById("pm-panel-cashapp").style.display = "none";
+    document.getElementById("pm-tab-" + tab).classList.add("pm-tab-active");
+    document.getElementById("pm-panel-" + tab).style.display = "block";
+}
+
+// ── Stripe ────────────────────────────────────────────────────
+async function initStripeElements(invoiceId) {
+    try {
+        const csrf = document.querySelector("input[name='__RequestVerificationToken']")?.value ?? "";
+        const resp = await fetch("/Portal/Dashboard?handler=CreatePaymentIntent", {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "RequestVerificationToken": csrf },
+            body: JSON.stringify({ invoiceId })
+        });
+        const data = await resp.json();
+        if (!data.clientSecret) { showPmError("Unable to initialize payment. Please try again."); return; }
+        stripeElements = stripe.elements({
+            clientSecret: data.clientSecret,
+            appearance: {
+                theme: "night",
+                variables: { colorPrimary: "#00d4ff", colorBackground: "#0d1117", colorText: "#e8f4f8", fontFamily: "Rajdhani, sans-serif", borderRadius: "6px" }
+            }
+        });
+        stripeElements.create("payment").mount("#payment-element");
+    } catch (err) {
+        showPmError("Payment setup failed. Please refresh and try again.");
+    }
+}
+
+async function submitStripePayment() {
+    if (!stripeElements) return;
+    const btn = document.getElementById("pm-stripe-btn");
+    btn.disabled = true;
+    document.getElementById("pm-processing").style.display = "flex";
+    document.getElementById("pm-stripe-error").textContent = "";
+
+    const { error, paymentIntent } = await stripe.confirmPayment({ elements: stripeElements, redirect: "if_required" });
+
+    if (error) {
+        showPmError(error.message);
+        btn.disabled = false;
+        document.getElementById("pm-processing").style.display = "none";
+        return;
+    }
+
+    const csrf = document.querySelector("input[name='__RequestVerificationToken']")?.value ?? "";
+    await fetch("/Portal/Dashboard?handler=ConfirmPayment", {
         method: "POST",
-        headers: { "Content-Type": "application/json", "RequestVerificationToken": document.querySelector("input[name='__RequestVerificationToken']")?.value ?? "" },
+        headers: { "Content-Type": "application/json", "RequestVerificationToken": csrf },
         body: JSON.stringify({ invoiceId: currentInvoiceId, paymentIntentId: paymentIntent.id })
     });
-    document.getElementById("pay-processing").style.display = "none";
-    document.getElementById("pay-success").style.display = "block";
-    setTimeout(() => window.location.reload(), 3000);
+
+    document.getElementById("pm-processing").style.display = "none";
+    document.getElementById("pm-success").style.display = "block";
+    btn.style.display = "none";
+    setTimeout(() => { closePaymentModal(); location.reload(); }, 2500);
 }
 
-function closePayModal() { document.getElementById("payModal").style.display = "none"; if (elements) { document.getElementById("payment-element").innerHTML = ""; elements = null; } }
-function closeModalOutside(e) { if (e.target.id === "payModal") closePayModal(); }
-function showPayError(msg) { const el = document.getElementById("pay-error-msg"); el.textContent = msg; el.style.display = "block"; }
-function stripeAppearance() { return { theme: "night", variables: { colorPrimary: "#00d4ff", colorBackground: "#020c14", colorText: "#e8f4f8", fontFamily: "Rajdhani, sans-serif", borderRadius: "4px" } }; }
+// ── Cash App ──────────────────────────────────────────────────
+async function submitCashApp() {
+    const csrf = document.querySelector("input[name='__RequestVerificationToken']")?.value ?? "";
+    await fetch("/Portal/Dashboard?handler=CashAppPending", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "RequestVerificationToken": csrf },
+        body: JSON.stringify({ invoiceId: currentInvoiceId })
+    });
+    closePaymentModal();
+    showToast("📱 Thanks! We'll confirm your Cash App payment shortly.");
+    setTimeout(() => location.reload(), 3000);
+}
+
+// ── Helpers ───────────────────────────────────────────────────
+function resetStripePanel() {
+    const btn = document.getElementById("pm-stripe-btn");
+    btn.disabled = false;
+    btn.style.display = "block";
+    document.getElementById("pm-processing").style.display = "none";
+    document.getElementById("pm-success").style.display = "none";
+    document.getElementById("pm-stripe-error").textContent = "";
+    document.getElementById("payment-element").innerHTML = "";
+    stripeElements = null;
+}
+
+function showPmError(msg) {
+    document.getElementById("pm-stripe-error").textContent = msg;
+}
+
+function showToast(msg) {
+    const t = document.createElement("div");
+    t.style.cssText = "position:fixed;bottom:24px;right:24px;background:#0d1117;border:1px solid rgba(0,212,255,0.3);color:#00d4ff;padding:14px 20px;border-radius:10px;font-family:monospace;font-size:0.82rem;z-index:99999;box-shadow:0 4px 30px rgba(0,212,255,0.1);max-width:300px;line-height:1.5;";
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => t.remove(), 3500);
+}
 </script>
 }
+

@@ -81,6 +81,12 @@ public class SqlInvoiceService : IInvoiceService
             .OrderByDescending(i => i.IssuedAt)
             .ToListAsync(ct);
 
+    public async Task UpdateInvoiceAsync(Invoice invoice, CancellationToken ct = default)
+    {
+        _db.Invoices.Update(invoice);
+        await _db.SaveChangesAsync(ct);
+    }
+
     public async Task MarkInvoicePaidAsync(string invoiceId, string stripePaymentIntentId, CancellationToken ct = default)
     {
         var invoice = await _db.Invoices.FindAsync(new object[] { invoiceId }, ct);

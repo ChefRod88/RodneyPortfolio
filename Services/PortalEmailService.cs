@@ -10,6 +10,8 @@ public interface IPortalEmailService
     Task SendOtpAsync(string toEmail, string toName, string code, string purpose, CancellationToken ct = default);
     Task SendWelcomeAsync(ClientAccount account, CancellationToken ct = default);
     Task SendSupportMessageAsync(ClientAccount account, SupportMessageInput msg, CancellationToken ct = default);
+    Task SendReceiptAsync(ClientAccount account, Invoice invoice, CancellationToken ct = default);
+    Task SendCashAppPendingAsync(ClientAccount account, Invoice invoice, CancellationToken ct = default);
 }
 
 public class PortalEmailService : IPortalEmailService
@@ -74,6 +76,49 @@ public class PortalEmailService : IPortalEmailService
             </div>
             """;
         await SendAsync(_options.ToEmail, $"[RC Dev Support] {msg.Subject} — {account.FullName}", body);
+    }
+
+    public async Task SendReceiptAsync(ClientAccount account, Invoice invoice, CancellationToken ct = default)
+    {
+        var body = $"""
+            <div style="background:#020c14;color:#e8f4f8;font-family:sans-serif;padding:2rem;max-width:520px;margin:0 auto;border:1px solid rgba(0,212,255,0.2)">
+              <div style="font-size:0.6rem;letter-spacing:0.25em;color:#00d4ff;text-transform:uppercase;margin-bottom:1rem">RC Dev // Payment Receipt</div>
+              <h2 style="color:#fff;font-size:1.3rem;margin:0 0 1rem">Payment Received</h2>
+              <p style="color:rgba(142,207,223,0.75);line-height:1.7">Hi {account.FirstName}, your payment has been received successfully.</p>
+              <div style="background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.3);padding:1rem 1.2rem;margin:1rem 0">
+                <p style="margin:0.2rem 0"><strong>Invoice:</strong> #{invoice.Id[..8].ToUpperInvariant()}</p>
+                <p style="margin:0.2rem 0"><strong>Description:</strong> {invoice.Description}</p>
+                <p style="margin:0.2rem 0"><strong>Amount:</strong> ${invoice.Amount:F2}</p>
+                <p style="margin:0.2rem 0"><strong>Paid At:</strong> {(invoice.PaidAt ?? DateTimeOffset.UtcNow):MMM dd, yyyy h:mm tt} UTC</p>
+              </div>
+              <p style="color:rgba(142,207,223,0.45);font-size:0.85rem">Thank you for your business.</p>
+              <hr style="border-color:rgba(0,212,255,0.1);margin:1.5rem 0"/>
+              <p style="color:rgba(142,207,223,0.3);font-size:0.7rem">RC Dev · rodneyachery.com</p>
+            </div>
+            """;
+
+        await SendAsync(account.Email, $"Receipt — Invoice #{invoice.Id[..8].ToUpperInvariant()}", body);
+    }
+
+    public async Task SendCashAppPendingAsync(ClientAccount account, Invoice invoice, CancellationToken ct = default)
+    {
+        var body = $"""
+            <div style="background:#020c14;color:#e8f4f8;font-family:sans-serif;padding:2rem;max-width:520px;margin:0 auto;border:1px solid rgba(0,212,255,0.2)">
+              <div style="font-size:0.6rem;letter-spacing:0.25em;color:#00d4ff;text-transform:uppercase;margin-bottom:1rem">RC Dev // Payment Pending</div>
+              <h2 style="color:#fff;font-size:1.3rem;margin:0 0 1rem">Cash App Payment Pending</h2>
+              <p style="color:rgba(142,207,223,0.75);line-height:1.7">Hi {account.FirstName}, we are waiting for your Cash App payment confirmation.</p>
+              <div style="background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.3);padding:1rem 1.2rem;margin:1rem 0">
+                <p style="margin:0.2rem 0"><strong>Invoice:</strong> #{invoice.Id[..8].ToUpperInvariant()}</p>
+                <p style="margin:0.2rem 0"><strong>Description:</strong> {invoice.Description}</p>
+                <p style="margin:0.2rem 0"><strong>Amount Due:</strong> ${invoice.Amount:F2}</p>
+              </div>
+              <p style="color:rgba(142,207,223,0.45);font-size:0.85rem">Once the payment is confirmed, you will receive a receipt email automatically.</p>
+              <hr style="border-color:rgba(0,212,255,0.1);margin:1.5rem 0"/>
+              <p style="color:rgba(142,207,223,0.3);font-size:0.7rem">RC Dev · rodneyachery.com</p>
+            </div>
+            """;
+
+        await SendAsync(account.Email, $"Payment Pending — Invoice #{invoice.Id[..8].ToUpperInvariant()}", body);
     }
 
     private async Task SendAsync(string toEmail, string subject, string htmlBody)

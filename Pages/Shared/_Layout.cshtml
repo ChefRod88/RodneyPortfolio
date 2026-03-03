@@ -28,6 +28,10 @@
     <link rel="stylesheet" href="~/RodneyPortfolio.styles.css" asp-append-version="true" />
     <link rel="icon" type="image/svg+xml" href="~/favicon.svg" />
 
+    <!-- Stripe Elements -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <input type="hidden" id="stripe-pub-key" value="@Configuration["Stripe:PublishableKey"]" />
+
     @if (!string.IsNullOrWhiteSpace(gaId))
     {
     <!-- Google tag (gtag.js) -->
