@@ -4,7 +4,7 @@
 
 ---
 
-**Email:** chefrodneyachery@gmail.com  
+**Email:** rodney@globalrcdev.com  
 **LinkedIn:** [linkedin.com/in/rodneyachery](https://www.linkedin.com/in/rodneyachery/)  
 **Portfolio:** [rodneyachery.com](https://www.rodneyachery.com)  
 **GitHub:** [github.com/ChefRod88/RodneyPortfolio](https://github.com/ChefRod88/RodneyPortfolio)

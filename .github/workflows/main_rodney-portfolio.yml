@@ -91,9 +91,9 @@ jobs:
             {"name":"QuoteEmail__SmtpHost","value":"smtp.gmail.com","slotSetting":false},
             {"name":"QuoteEmail__SmtpPort","value":"587","slotSetting":false},
             {"name":"QuoteEmail__EnableSsl","value":"true","slotSetting":false},
-            {"name":"QuoteEmail__SmtpUsername","value":"chefrodneyachery@gmail.com","slotSetting":false},
-            {"name":"QuoteEmail__FromEmail","value":"chefrodneyachery@gmail.com","slotSetting":false},
-            {"name":"QuoteEmail__ToEmail","value":"chefrodneyachery@gmail.com","slotSetting":false},
+            {"name":"QuoteEmail__SmtpUsername","value":"rodney@globalrcdev.com","slotSetting":false},
+            {"name":"QuoteEmail__FromEmail","value":"rodney@globalrcdev.com","slotSetting":false},
+            {"name":"QuoteEmail__ToEmail","value":"rodney@globalrcdev.com","slotSetting":false},
             {"name":"QuoteEmail__SmtpPassword","value":"${{ secrets.QUOTE_SMTP_PASSWORD }}","slotSetting":false}
           ]'
 

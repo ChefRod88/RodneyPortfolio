@@ -144,7 +144,7 @@ Behave like generative AI with a loaded document: infer, calculate, extract, and
         else if (q.Contains("education") || q.Contains("degree") || q.Contains("school") || q.Contains("graduate"))
             reply = "Rodney is pursuing a B.S. in Software Engineering at Western Governors University, expected December 2026. The program is self-paced and competency-based, with focus on full-stack development, databases, and software architecture.";
         else if (q.Contains("contact") || q.Contains("email") || q.Contains("linkedin") || q.Contains("reach"))
-            reply = "You can reach Rodney at chefrodneyachery@gmail.com, on LinkedIn at linkedin.com/in/rodneyachery, or via his portfolio at rodneyachery.com.";
+            reply = "You can reach Rodney at rodney@globalrcdev.com, on LinkedIn at linkedin.com/in/rodneyachery, or via his portfolio at rodneyachery.com.";
         else if (q.Contains("strength") || q.Contains("differentiate") || q.Contains("what makes"))
             reply = "Rodney's strengths include composure under pressure, disciplined troubleshooting, strong service mindset, meticulous documentation, and clear communication. His intersection of soft skills and technical execution sets him apart.";
         else if (q.Contains("how long") || q.Contains("tenure") || q.Contains("years at"))

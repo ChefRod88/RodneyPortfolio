@@ -1,19 +1,470 @@
-@* USE CASE: About page - Team, Beliefs, Partners *@
+@* USE CASE: About page - Leadership, History, Beliefs *@
 @page
 @model AboutModel
 @{
     ViewData["Title"] = "About Us";
-    var canvaEmbedUrl = "https://www.canva.com/design/DAHCQFKVf4I/_bNRQb2COdku2zne1lYB0A/view?embed";
 }
 
-<div style="width: 100%; height: calc(100vh - 64px);">
-    <iframe
-        src="@canvaEmbedUrl"
-        title="About Us Canva Embed"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        allow="fullscreen"
-        style="width: 100%; height: 100%; border: 0;"
-        allowfullscreen>
-    </iframe>
+<style>
+    :root {
+        --gold: #C9A84C;
+        --gold-light: #F0D080;
+        --gold-glow: rgba(201, 168, 76, 0.35);
+        --deep: #0A0A0F;
+        --surface: #10101A;
+        --surface2: #16162A;
+        --surface3: #1C1C35;
+        --text-primary: #F0EDE6;
+        --text-muted: #9A9485;
+        --glass: rgba(255,255,255,0.04);
+        --glass-border: rgba(201,168,76,0.2);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--deep); color: var(--text-primary); font-family: 'Segoe UI', system-ui, sans-serif; overflow-x: hidden; }
+
+    /* HERO */
+    .hero {
+        position: relative; min-height: 100vh; display: flex; align-items: center;
+        justify-content: center; overflow: hidden;
+        background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.12) 0%, transparent 70%),
+                    linear-gradient(180deg, #0A0A0F 0%, #0D0D1F 100%);
+    }
+    .hero-grid {
+        position: absolute; inset: 0;
+        background-image: linear-gradient(rgba(201,168,76,0.06) 1px, transparent 1px),
+                          linear-gradient(90deg, rgba(201,168,76,0.06) 1px, transparent 1px);
+        background-size: 60px 60px;
+        mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent 100%);
+    }
+    .hero-orb { position: absolute; border-radius: 50%; filter: blur(80px); pointer-events: none; }
+    .hero-orb-1 { width: 600px; height: 600px; top: -200px; left: -100px; background: radial-gradient(circle, rgba(201,168,76,0.15), transparent 70%); }
+    .hero-orb-2 { width: 400px; height: 400px; bottom: -100px; right: -50px; background: radial-gradient(circle, rgba(58,123,255,0.1), transparent 70%); }
+    .hero-content { position: relative; text-align: center; padding: 2rem; max-width: 800px; z-index: 2; }
+    .hero-eyebrow {
+        display: inline-flex; align-items: center; gap: 10px;
+        background: var(--glass); border: 1px solid var(--glass-border); border-radius: 100px;
+        padding: 6px 20px; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+        color: var(--gold); margin-bottom: 1.5rem; backdrop-filter: blur(10px);
+    }
+    .hero-eyebrow::before { content:''; width:6px; height:6px; background:var(--gold); border-radius:50%; box-shadow: 0 0 8px var(--gold); animation: pulse 2s infinite; }
+    @@keyframes pulse { 0%,100%{opacity:1;box-shadow:0 0 6px var(--gold)} 50%{opacity:.4;box-shadow:0 0 18px var(--gold)} }
+    .hero h1 {
+        font-size: clamp(2.5rem, 7vw, 5.5rem); font-weight: 800; line-height: 1.05; letter-spacing: -0.02em;
+        background: linear-gradient(135deg, #F0D080 0%, #C9A84C 40%, #F0D080 70%, #C9A84C 100%);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem;
+    }
+    .hero-sub { font-size: clamp(1rem, 2vw, 1.2rem); color: var(--text-muted); margin-bottom: 1rem; letter-spacing: 0.05em; }
+    .hero-location { display: inline-flex; align-items: center; gap: 6px; color: var(--gold-light); font-size: 0.9rem; opacity: 0.8; }
+    .scroll-indicator {
+        position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+        display: flex; flex-direction: column; align-items: center; gap: 8px;
+        color: var(--text-muted); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+        animation: float 3s ease-in-out infinite;
+    }
+    .scroll-indicator .line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--gold), transparent); }
+    @@keyframes float { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(8px)} }
+
+    /* SECTIONS */
+    section { padding: 100px 2rem; }
+    .container { max-width: 1200px; margin: 0 auto; }
+    .section-label {
+        display: inline-flex; align-items: center; gap: 12px;
+        font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold); margin-bottom: 1rem;
+    }
+    .section-label::before, .section-label::after { content:''; flex:1; height:1px; background:linear-gradient(90deg, var(--gold), transparent); }
+    .section-label::before { width: 30px; }
+    .section-title {
+        font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; line-height: 1.1; margin-bottom: 1rem;
+        background: linear-gradient(135deg, #fff 0%, #C9A84C 100%);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .section-divider { width: 60px; height: 3px; background: linear-gradient(90deg, var(--gold), transparent); margin-bottom: 3rem; border-radius: 2px; }
+
+    /* PASTOR */
+    #leadership { background: var(--surface); }
+    .pastor-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    @@media(max-width:768px) { .pastor-grid { grid-template-columns: 1fr; } }
+    .pastor-card {
+        background: linear-gradient(145deg, var(--surface2), var(--surface3));
+        border: 1px solid var(--glass-border); border-radius: 24px; overflow: hidden;
+        position: relative; transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+    }
+    .pastor-card:hover { transform: translateY(-8px); box-shadow: 0 40px 100px rgba(0,0,0,0.6), 0 0 60px var(--gold-glow); border-color: var(--gold); }
+    .pastor-image-wrap {
+        position: relative; height: 280px; background: linear-gradient(145deg, #1a1a2e, #16213e);
+        display: flex; align-items: center; justify-content: center; overflow: hidden;
+    }
+    .pastor-image-wrap::after { content:''; position:absolute; bottom:0;left:0;right:0; height:60%; background:linear-gradient(to top, var(--surface2), transparent); }
+    .pastor-avatar {
+        width: 140px; height: 140px; border-radius: 50%;
+        background: linear-gradient(135deg, var(--gold), #8B6914);
+        display: flex; align-items: center; justify-content: center;
+        font-size: 3.5rem; font-weight: 700; color: var(--deep);
+        border: 3px solid rgba(201,168,76,0.4); box-shadow: 0 0 40px var(--gold-glow), 0 0 80px rgba(201,168,76,0.1);
+        position: relative; z-index: 1;
+    }
+    .pastor-ring { position: absolute; border-radius: 50%; border: 1px solid rgba(201,168,76,0.2); animation: expand 4s ease-out infinite; }
+    .pastor-ring:nth-child(1){width:160px;height:160px;animation-delay:0s}
+    .pastor-ring:nth-child(2){width:200px;height:200px;animation-delay:1s}
+    .pastor-ring:nth-child(3){width:240px;height:240px;animation-delay:2s}
+    @@keyframes expand { 0%{opacity:.6;transform:scale(.9)} 100%{opacity:0;transform:scale(1.2)} }
+    .pastor-body { padding: 1.5rem 2rem 2rem; }
+    .pastor-role { font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.4rem; }
+    .pastor-name { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.75rem; color: #fff; }
+    .pastor-bio { font-size: 0.9rem; color: var(--text-muted); line-height: 1.7; }
+
+    /* MINISTERS */
+    #ministers { background: var(--deep); }
+    .ministers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+    .minister-card {
+        background: var(--surface); border: 1px solid var(--glass-border); border-radius: 18px;
+        padding: 2rem 1.5rem; text-align: center; transition: all 0.35s cubic-bezier(0.23,1,0.32,1);
+        position: relative; overflow: hidden; cursor: pointer;
+    }
+    .minister-card::after { content:''; position:absolute; bottom:0;left:0;right:0; height:3px; background:linear-gradient(90deg,transparent,var(--gold),transparent); transform:scaleX(0); transition:transform 0.4s; }
+    .minister-card:hover::after { transform: scaleX(1); }
+    .minister-card:hover { background: var(--surface2); border-color: var(--gold); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px var(--gold-glow); }
+    .minister-avatar { width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--surface3),#2a2a4a);border:2px solid rgba(201,168,76,0.3);display:flex;align-items:center;justify-content:center;font-size:1.6rem;font-weight:700;margin:0 auto 1rem;transition:all 0.3s;color:var(--gold-light); }
+    .minister-card:hover .minister-avatar { border-color: var(--gold); box-shadow: 0 0 20px var(--gold-glow); }
+    .minister-role { font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.3rem; }
+    .minister-name { font-size: 1.05rem; font-weight: 600; color: #fff; margin-bottom: 0.5rem; }
+    .minister-desc { font-size: 0.82rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* DEACONS */
+    #deacons { background: var(--surface); }
+    .deacon-tabs { display:flex;gap:4px;background:var(--surface2);border-radius:12px;padding:4px;margin-bottom:2.5rem;max-width:360px;border:1px solid var(--glass-border); }
+    .tab-btn { flex:1;padding:0.6rem 1rem;border:none;border-radius:9px;background:transparent;color:var(--text-muted);font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.3s;letter-spacing:0.05em; }
+    .tab-btn.active { background:linear-gradient(135deg,var(--gold),#8B6914);color:var(--deep);box-shadow:0 4px 20px var(--gold-glow); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.2rem; }
+    .deacon-card { background:var(--surface2);border:1px solid var(--glass-border);border-radius:16px;padding:1.5rem 1rem;text-align:center;transition:all 0.3s;position:relative; }
+    .deacon-card:hover { border-color:var(--gold);transform:translateY(-4px);box-shadow:0 15px 40px rgba(0,0,0,0.3),0 0 20px var(--gold-glow); }
+    .deacon-badge { position:absolute;top:12px;right:12px;width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 8px var(--gold); }
+    .deacon-avatar { width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:700;margin:0 auto 0.8rem;color:var(--deep); }
+    .deacon-card.male .deacon-avatar { background:linear-gradient(135deg,#3A7BFF,#1a3a8f);color:#fff; }
+    .deacon-card.female .deacon-avatar { background:linear-gradient(135deg,var(--gold),#8B6914); }
+    .deacon-name { font-size: 0.9rem; font-weight: 600; color: #fff; margin-bottom: 0.2rem; }
+    .deacon-title { font-size: 0.7rem; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase; }
+
+    /* MUSIC */
+    #music { background: var(--deep); }
+    .music-card {
+        background: linear-gradient(135deg, var(--surface2) 0%, #1a1a3a 100%);
+        border: 1px solid var(--glass-border); border-radius: 28px; padding: 3rem;
+        display: grid; grid-template-columns: auto 1fr; gap: 3rem; align-items: center;
+        position: relative; overflow: hidden; transition: all 0.4s;
+    }
+    @@media(max-width:640px) { .music-card { grid-template-columns: 1fr; text-align: center; } }
+    .music-card::before { content:'♪';position:absolute;right:3rem;top:50%;transform:translateY(-50%);font-size:10rem;color:rgba(201,168,76,0.04);pointer-events:none;line-height:1; }
+    .music-card:hover { border-color: var(--gold); box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 50px var(--gold-glow); }
+    .music-avatar { width:120px;height:120px;border-radius:24px;background:linear-gradient(135deg,var(--gold),#5a3e00);display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:800;color:var(--deep);border:2px solid rgba(201,168,76,0.4);box-shadow:0 0 40px var(--gold-glow);flex-shrink:0; }
+    .music-info .role { font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--gold);margin-bottom:0.4rem; }
+    .music-info h3 { font-size:2rem;font-weight:700;color:#fff;margin-bottom:0.75rem; }
+    .music-info p { color:var(--text-muted);line-height:1.7;max-width:560px; }
+    .music-tags { display:flex;flex-wrap:wrap;gap:8px;margin-top:1rem; }
+    .music-tag { background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.25);border-radius:100px;padding:4px 14px;font-size:0.75rem;color:var(--gold-light);letter-spacing:0.05em; }
+
+    /* HISTORY */
+    #history { background: var(--surface); }
+    .timeline { position:relative;padding-left:2rem; }
+    .timeline::before { content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,var(--gold),rgba(201,168,76,0.1));border-radius:2px; }
+    .timeline-item { position:relative;padding:0 0 2.5rem 2rem;opacity:0;transform:translateX(-20px);transition:all 0.5s cubic-bezier(0.23,1,0.32,1); }
+    .timeline-item.visible { opacity:1;transform:translateX(0); }
+    .timeline-dot { position:absolute;left:-2.55rem;top:4px;width:14px;height:14px;border-radius:50%;background:var(--gold);border:3px solid var(--surface);box-shadow:0 0 12px var(--gold); }
+    .timeline-year { font-size:0.7rem;letter-spacing:0.2em;color:var(--gold);text-transform:uppercase;margin-bottom:0.3rem; }
+    .timeline-event { font-size:1rem;font-weight:600;color:#fff;margin-bottom:0.3rem; }
+    .timeline-detail { font-size:0.88rem;color:var(--text-muted);line-height:1.6; }
+
+    /* BELIEFS */
+    #beliefs { background: var(--deep); }
+    .beliefs-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem; }
+    .belief-card { background:var(--surface);border:1px solid var(--glass-border);border-radius:20px;padding:2rem;position:relative;overflow:hidden;transition:all 0.35s cubic-bezier(0.23,1,0.32,1);cursor:pointer; }
+    .belief-card:hover { border-color:var(--gold);background:var(--surface2);transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,0.4),0 0 30px var(--gold-glow); }
+    .belief-number { position:absolute;top:1rem;right:1.5rem;font-size:3.5rem;font-weight:800;color:rgba(201,168,76,0.06);line-height:1;transition:color 0.3s; }
+    .belief-card:hover .belief-number { color:rgba(201,168,76,0.12); }
+    .belief-icon { font-size:1.8rem;margin-bottom:0.8rem; }
+    .belief-title { font-size:1rem;font-weight:700;color:#fff;margin-bottom:0.5rem; }
+    .belief-text { font-size:0.85rem;color:var(--text-muted);line-height:1.65; }
+
+    /* CTA */
+    .cta-section { background:linear-gradient(135deg,var(--surface2),#0D0D1F);padding:80px 2rem;text-align:center;border-top:1px solid var(--glass-border);position:relative;overflow:hidden; }
+    .cta-section::before { content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 0%,rgba(201,168,76,0.08),transparent); }
+    .cta-section h2 { font-size:2.5rem;font-weight:700;margin-bottom:0.75rem;position:relative; }
+    .cta-section p { color:var(--text-muted);margin-bottom:2rem;position:relative; }
+    .btn-gold { display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--gold),#8B6914);color:var(--deep);border:none;padding:14px 36px;border-radius:100px;font-size:0.9rem;font-weight:700;letter-spacing:0.05em;cursor:pointer;text-decoration:none;transition:all 0.3s;position:relative; }
+    .btn-gold:hover { transform:translateY(-2px);box-shadow:0 15px 40px var(--gold-glow); }
+
+    /* NAV DOTS */
+    .nav-dots { position:fixed;right:2rem;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:100; }
+    @@media(max-width:768px) { .nav-dots { display:none; } }
+    .nav-dot { width:8px;height:8px;border-radius:50%;background:rgba(201,168,76,0.3);cursor:pointer;transition:all 0.3s;position:relative; }
+    .nav-dot::before { content:attr(data-label);position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:0.7rem;color:var(--gold);white-space:nowrap;opacity:0;transition:opacity 0.3s;letter-spacing:0.1em; }
+    .nav-dot:hover::before { opacity:1; }
+    .nav-dot.active { background:var(--gold);box-shadow:0 0 10px var(--gold);transform:scale(1.4); }
+
+    /* UTILS */
+    .text-center { text-align: center; }
+    .animate-in { opacity:0;transform:translateY(30px);transition:all 0.6s cubic-bezier(0.23,1,0.32,1); }
+    .animate-in.visible { opacity:1;transform:translateY(0); }
+</style>
+
+<!-- NAV DOTS -->
+<nav class="nav-dots" id="navDots">
+    <div class="nav-dot active" data-label="Home"       data-target="hero"       onclick="scrollToSection('hero')"></div>
+    <div class="nav-dot"        data-label="Leadership" data-target="leadership" onclick="scrollToSection('leadership')"></div>
+    <div class="nav-dot"        data-label="Ministers"  data-target="ministers"  onclick="scrollToSection('ministers')"></div>
+    <div class="nav-dot"        data-label="Deacons"    data-target="deacons"    onclick="scrollToSection('deacons')"></div>
+    <div class="nav-dot"        data-label="Music"      data-target="music"      onclick="scrollToSection('music')"></div>
+    <div class="nav-dot"        data-label="History"    data-target="history"    onclick="scrollToSection('history')"></div>
+    <div class="nav-dot"        data-label="Beliefs"    data-target="beliefs"    onclick="scrollToSection('beliefs')"></div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-content">
+        <div class="hero-eyebrow">Est. Winter Haven, Florida</div>
+        <h1>New Bethel<br/>Missionary Baptist</h1>
+        <p class="hero-sub">A Community Rooted in Faith &mdash; A Church Built on Love</p>
+        <p class="hero-location">&#128205; Winter Haven, Florida</p>
+    </div>
+    <div class="scroll-indicator">
+        <span>Scroll</span>
+        <div class="line"></div>
+    </div>
+</section>
+
+<!-- LEADERSHIP -->
+<section id="leadership">
+    <div class="container">
+        <div class="text-center animate-in">
+            <div class="section-label">Our Shepherds</div>
+            <h2 class="section-title">Pastoral Leadership</h2>
+            <div class="section-divider" style="margin:0 auto 3rem;"></div>
+        </div>
+        <div class="pastor-grid">
+            <div class="pastor-card animate-in">
+                <div class="pastor-image-wrap">
+                    <div class="pastor-ring"></div>
+                    <div class="pastor-ring"></div>
+                    <div class="pastor-ring"></div>
+                    <div class="pastor-avatar">P</div>
+                </div>
+                <div class="pastor-body">
+                    <div class="pastor-role">Senior Pastor</div>
+                    <div class="pastor-name">Pastor [Full Name]</div>
+                    <p class="pastor-bio">A devoted servant of God, Pastor [Name] has led New Bethel Missionary Baptist Church with unwavering faith, wisdom, and compassion. Called to ministry at an early age, he has dedicated his life to preaching the Gospel, empowering families, and building a strong community of believers in Winter Haven and beyond.</p>
+                </div>
+            </div>
+            <div class="pastor-card animate-in">
+                <div class="pastor-image-wrap">
+                    <div class="pastor-ring"></div>
+                    <div class="pastor-ring"></div>
+                    <div class="pastor-ring"></div>
+                    <div class="pastor-avatar" style="background:linear-gradient(135deg,#C9A84C,#5a3e00);">FL</div>
+                </div>
+                <div class="pastor-body">
+                    <div class="pastor-role">First Lady</div>
+                    <div class="pastor-name">First Lady [Full Name]</div>
+                    <p class="pastor-bio">First Lady [Name] is a pillar of grace, strength, and service within the New Bethel family. A gifted leader in her own right, she actively ministers to women and families, nurturing a culture of love, healing, and spiritual growth throughout the congregation.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MINISTERS -->
+<section id="ministers">
+    <div class="container">
+        <div class="text-center animate-in">
+            <div class="section-label">Called to Serve</div>
+            <h2 class="section-title">Our Ministers</h2>
+            <div class="section-divider" style="margin:0 auto 3rem;"></div>
+        </div>
+        <div class="ministers-grid">
+            <div class="minister-card animate-in">
+                <div class="minister-avatar">M1</div>
+                <div class="minister-role">Minister</div>
+                <div class="minister-name">Minister [Name]</div>
+                <p class="minister-desc">Serving in the areas of outreach and evangelism, bringing the Word to the streets of Winter Haven.</p>
+            </div>
+            <div class="minister-card animate-in">
+                <div class="minister-avatar">M2</div>
+                <div class="minister-role">Minister</div>
+                <div class="minister-name">Minister [Name]</div>
+                <p class="minister-desc">Dedicated to youth ministry and discipleship, raising up the next generation of believers.</p>
+            </div>
+            <div class="minister-card animate-in">
+                <div class="minister-avatar">M3</div>
+                <div class="minister-role">Minister</div>
+                <div class="minister-name">Minister [Name]</div>
+                <p class="minister-desc">Focused on family counseling and community outreach, strengthening the bonds of our congregation.</p>
+            </div>
+            <div class="minister-card animate-in">
+                <div class="minister-avatar">M4</div>
+                <div class="minister-role">Minister</div>
+                <div class="minister-name">Minister [Name]</div>
+                <p class="minister-desc">Leads Sunday School and Bible study, equipping the body with sound doctrine and Biblical truth.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- DEACONS -->
+<section id="deacons">
+    <div class="container">
+        <div class="text-center animate-in">
+            <div class="section-label">Servant Leaders</div>
+            <h2 class="section-title">Deacons &amp; Deaconesses</h2>
+            <div class="section-divider" style="margin:0 auto 2.5rem;"></div>
+        </div>
+        <div class="deacon-tabs animate-in">
+            <button class="tab-btn active" onclick="switchTab('deacons-panel', this)">Deacons</button>
+            <button class="tab-btn"        onclick="switchTab('deaconesses-panel', this)">Deaconesses</button>
+        </div>
+        <div class="tab-panel active" id="deacons-panel">
+            <div class="deacon-card male animate-in"><div class="deacon-badge"></div><div class="deacon-avatar">D1</div><div class="deacon-name">Deacon [Name]</div><div class="deacon-title">Senior Deacon</div></div>
+            <div class="deacon-card male animate-in"><div class="deacon-badge"></div><div class="deacon-avatar">D2</div><div class="deacon-name">Deacon [Name]</div><div class="deacon-title">Deacon</div></div>
+            <div class="deacon-card male animate-in"><div class="deacon-badge"></div><div class="deacon-avatar">D3</div><div class="deacon-name">Deacon [Name]</div><div class="deacon-title">Deacon</div></div>
+            <div class="deacon-card male animate-in"><div class="deacon-badge"></div><div class="deacon-avatar">D4</div><div class="deacon-name">Deacon [Name]</div><div class="deacon-title">Deacon</div></div>
+            <div class="deacon-card male animate-in"><div class="deacon-badge"></div><div class="deacon-avatar">D5</div><div class="deacon-name">Deacon [Name]</div><div class="deacon-title">Deacon</div></div>
+        </div>
+        <div class="tab-panel" id="deaconesses-panel">
+            <div class="deacon-card female animate-in"><div class="deacon-badge"></div><div class="deacon-avatar">DC1</div><div class="deacon-name">Deaconess [Name]</div><div class="deacon-title">Senior Deaconess</div></div>
+            <div class="deacon-card female animate-in"><div class="deacon-badge"></div><div class="deacon-avatar">DC2</div><div class="deacon-name">Deaconess [Name]</div><div class="deacon-title">Deaconess</div></div>
+            <div class="deacon-card female animate-in"><div class="deacon-badge"></div><div class="deacon-avatar">DC3</div><div class="deacon-name">Deaconess [Name]</div><div class="deacon-title">Deaconess</div></div>
+            <div class="deacon-card female animate-in"><div class="deacon-badge"></div><div class="deacon-avatar">DC4</div><div class="deacon-name">Deaconess [Name]</div><div class="deacon-title">Deaconess</div></div>
+            <div class="deacon-card female animate-in"><div class="deacon-badge"></div><div class="deacon-avatar">DC5</div><div class="deacon-name">Deaconess [Name]</div><div class="deacon-title">Deaconess</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- MUSIC DIRECTOR -->
+<section id="music">
+    <div class="container">
+        <div class="animate-in">
+            <div class="section-label">Praise &amp; Worship</div>
+            <h2 class="section-title">Music Ministry</h2>
+            <div class="section-divider"></div>
+        </div>
+        <div class="music-card animate-in">
+            <div class="music-avatar">MD</div>
+            <div class="music-info">
+                <div class="role">Music Director</div>
+                <h3>[Director's Name]</h3>
+                <p>With an anointed gift for worship, our Music Director leads the congregation into the presence of God each and every Sunday. Classically trained and Spirit-led, [Name] oversees all musical ministries at New Bethel — from the choir to the praise team — ensuring that every note glorifies the Lord.</p>
+                <div class="music-tags">
+                    <span class="music-tag">Choir Director</span>
+                    <span class="music-tag">Praise Team</span>
+                    <span class="music-tag">Instrumentalists</span>
+                    <span class="music-tag">Worship Leader</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CHURCH HISTORY -->
+<section id="history">
+    <div class="container">
+        <div class="text-center animate-in">
+            <div class="section-label">Our Story</div>
+            <h2 class="section-title">Church History</h2>
+            <div class="section-divider" style="margin:0 auto 3rem;"></div>
+        </div>
+        <div style="max-width:720px;margin:0 auto;">
+            <div class="timeline">
+                <div class="timeline-item animate-in">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">Founding</div>
+                    <div class="timeline-event">New Bethel Is Born</div>
+                    <div class="timeline-detail">New Bethel Missionary Baptist Church was established in Winter Haven, Florida, by a small but faithful group of believers committed to building a house of worship rooted in Biblical truth and community service.</div>
+                </div>
+                <div class="timeline-item animate-in">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">Early Growth</div>
+                    <div class="timeline-event">Building the Foundation</div>
+                    <div class="timeline-detail">The congregation grew steadily as families across Winter Haven joined the fellowship. New ministries were established — Sunday School, the choir, and outreach programs — all grounded in the Great Commission.</div>
+                </div>
+                <div class="timeline-item animate-in">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">Expansion</div>
+                    <div class="timeline-event">Community Impact</div>
+                    <div class="timeline-detail">New Bethel expanded its reach, partnering with local organizations to serve the needy, feed the hungry, and provide resources to families in Polk County and surrounding areas.</div>
+                </div>
+                <div class="timeline-item animate-in">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-year">Today</div>
+                    <div class="timeline-event">A Thriving Church Family</div>
+                    <div class="timeline-detail">Today, New Bethel Missionary Baptist Church stands as a vibrant, growing congregation — a beacon of hope, healing, and purpose in Winter Haven, Florida. We carry our history forward with joy and look toward the future with faith.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BELIEFS -->
+<section id="beliefs">
+    <div class="container">
+        <div class="text-center animate-in">
+            <div class="section-label">What We Stand On</div>
+            <h2 class="section-title">Our Core Beliefs</h2>
+            <div class="section-divider" style="margin:0 auto 3rem;"></div>
+        </div>
+        <div class="beliefs-grid">
+            <div class="belief-card animate-in"><div class="belief-number">01</div><div class="belief-icon">&#10013;&#65039;</div><div class="belief-title">The Holy Bible</div><div class="belief-text">We believe the Bible is the inspired, infallible Word of God — the supreme authority in all matters of faith and practice.</div></div>
+            <div class="belief-card animate-in"><div class="belief-number">02</div><div class="belief-icon">&#128330;</div><div class="belief-title">The Holy Trinity</div><div class="belief-text">We believe in one God eternally existing in three persons: Father, Son (Jesus Christ), and Holy Spirit.</div></div>
+            <div class="belief-card animate-in"><div class="belief-number">03</div><div class="belief-icon">&#128293;</div><div class="belief-title">Salvation by Grace</div><div class="belief-text">We believe salvation is a gift of God's grace through faith in Jesus Christ alone — not by works, but by the blood of the Lamb.</div></div>
+            <div class="belief-card animate-in"><div class="belief-number">04</div><div class="belief-icon">&#128167;</div><div class="belief-title">Baptism &amp; Communion</div><div class="belief-text">We observe believer's baptism by immersion and the Lord's Supper as sacred ordinances that celebrate our faith and covenant.</div></div>
+            <div class="belief-card animate-in"><div class="belief-number">05</div><div class="belief-icon">&#127758;</div><div class="belief-title">The Great Commission</div><div class="belief-text">We are called to make disciples of all nations, baptizing them and teaching them the commands of Christ (Matthew 28:19-20).</div></div>
+            <div class="belief-card animate-in"><div class="belief-number">06</div><div class="belief-icon">&#9889;</div><div class="belief-title">The Resurrection</div><div class="belief-text">We believe in the bodily resurrection of Jesus Christ and the promise of eternal life for all who believe in His name.</div></div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+    <h2 class="animate-in">Come Worship With Us</h2>
+    <p class="animate-in">New Bethel Missionary Baptist Church &mdash; Winter Haven, Florida</p>
+    <a href="/contact" class="btn-gold animate-in"><span>Plan Your Visit</span><span>&#8594;</span></a>
 </div>
+
+<script>
+    // Intersection observer for scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.animate-in, .timeline-item').forEach(el => observer.observe(el));
+
+    // Staggered card entry
+    const cardObserver = new IntersectionObserver((entries) => {
+        entries.forEach((e, i) => { if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.minister-card, .deacon-card, .belief-card').forEach(el => cardObserver.observe(el));
+
+    // Nav dot active state
+    const sections = ['hero','leadership','ministers','deacons','music','history','beliefs'];
+    const dots = document.querySelectorAll('.nav-dot');
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                dots.forEach(d => d.classList.toggle('active', d.dataset.target === e.target.id));
+            }
+        });
+    }, { threshold: 0.4 });
+    sections.forEach(id => { const el = document.getElementById(id); if (el) sectionObserver.observe(el); });
+
+    function scrollToSection(id) {
+        document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function switchTab(panelId, btn) {
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(panelId).classList.add('active');
+        btn.classList.add('active');
+    }
+</script>
+

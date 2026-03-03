@@ -1,55 +1,174 @@
-@* USE CASE: Prayer request form - name, email, request, anonymous option *@
+@* PRAYER REQUEST PAGE — New Bethel Missionary Baptist Church *@
 @page
 @model PrayerModel
 @{
     ViewData["Title"] = "Request Prayer";
 }
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <h1 class="display-5 fw-bold mb-2">Request Prayer</h1>
-            <p class="text-muted mb-4">We would be honored to pray for you. Share your request below.</p>
+@section Head {
+<style>
+:root{--g:#C9A84C;--gl:#F0D080;--gg:rgba(201,168,76,.35);--d:#070710;--s1:#0E0E1C;--s2:#14142A;--tp:#F0EDE6;--tm:#9A9485;--gb:rgba(201,168,76,.18)}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--d);color:var(--tp);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden}
+.pr-page{min-height:100vh;position:relative}
+.pr-canvas{position:fixed;inset:0;pointer-events:none;z-index:0}
+.pr-content{position:relative;z-index:1;padding:80px 1.5rem 100px}
+.pr-hero{text-align:center;max-width:640px;margin:0 auto 3.5rem}
+.pr-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.04);border:1px solid var(--gb);border-radius:100px;padding:5px 18px;font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:var(--g);margin-bottom:1.25rem;backdrop-filter:blur(10px)}
+.pr-hero h1{font-size:clamp(2.2rem,7vw,4rem);font-weight:800;line-height:1.05;background:linear-gradient(135deg,#fff 0%,var(--gl) 50%,var(--g) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.85rem}
+.pr-hero-sub{font-size:clamp(.88rem,2.5vw,1.05rem);color:var(--tm);line-height:1.75;max-width:460px;margin:0 auto}
+.pr-grid{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 380px;gap:3rem;align-items:start}
+@@media(max-width:900px){.pr-grid{grid-template-columns:1fr}}
+.pr-form-card{background:var(--s1);border:1px solid var(--gb);border-radius:24px;padding:2.5rem;position:relative;overflow:hidden}
+.pr-form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--g),transparent)}
+.pr-field{margin-bottom:1.5rem}
+.pr-label{display:block;font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--g);margin-bottom:.6rem;font-weight:600}
+.pr-label .opt{font-size:.62rem;color:var(--tm);text-transform:none;font-weight:400;margin-left:.35rem;letter-spacing:.06em}
+.pr-input{width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.2);border-radius:12px;padding:.85rem 1.1rem;color:var(--tp);font-size:.9rem;font-family:inherit;transition:all .3s;outline:none}
+.pr-input:focus{border-color:var(--g);background:rgba(201,168,76,.06);box-shadow:0 0 0 3px rgba(201,168,76,.12)}
+.pr-input::placeholder{color:var(--tm)}
+textarea.pr-input{min-height:140px;resize:vertical;line-height:1.65}
+.pr-error{font-size:.75rem;color:#ff6b6b;margin-top:.35rem;display:block}
+.pr-char{font-size:.68rem;color:var(--tm);text-align:right;margin-top:.3rem}
+.pr-check-wrap{display:flex;align-items:center;gap:.75rem;cursor:pointer;padding:.5rem 0}
+.pr-checkbox{width:22px;height:22px;border:1.5px solid rgba(201,168,76,.35);border-radius:6px;background:rgba(255,255,255,.03);appearance:none;-webkit-appearance:none;cursor:pointer;position:relative;flex-shrink:0;transition:all .25s}
+.pr-checkbox:checked{background:linear-gradient(135deg,var(--g),#7a5500);border-color:var(--g)}
+.pr-checkbox:checked::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:.75rem;color:#070710;font-weight:700}
+.pr-check-label{font-size:.88rem;color:var(--tm);cursor:pointer;line-height:1.4;user-select:none}
+.pr-submit{width:100%;background:linear-gradient(135deg,var(--g),#7a5500);color:#070710;border:none;border-radius:14px;padding:1.1rem;font-size:.9rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:all .35s;position:relative;overflow:hidden;margin-top:.5rem;display:flex;align-items:center;justify-content:center;gap:.5rem}
+.pr-submit::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.2),transparent);opacity:0;transition:opacity .3s}
+.pr-submit:hover::before{opacity:1}
+.pr-submit:hover{transform:translateY(-2px);box-shadow:0 16px 40px var(--gg)}
+.pr-submit.loading{pointer-events:none;opacity:.75}
+.pr-spinner{display:none;width:18px;height:18px;border:2px solid rgba(7,7,16,.3);border-top-color:#070710;border-radius:50%;animation:spin .7s linear infinite}
+.pr-submit.loading .pr-spinner{display:inline-block}
+@@keyframes spin{to{transform:rotate(360deg)}}
+.pr-success{text-align:center;padding:3rem 1.5rem}
+.pr-success-ring{width:88px;height:88px;border-radius:50%;background:linear-gradient(135deg,var(--g),#7a5500);display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 1.5rem;box-shadow:0 0 50px var(--gg);animation:popIn .6s cubic-bezier(.23,1,.32,1)}
+@@keyframes popIn{0%{transform:scale(0) rotate(-180deg);opacity:0}80%{transform:scale(1.1)}100%{transform:scale(1);opacity:1}}
+.pr-success h3{font-size:1.75rem;font-weight:700;color:#fff;margin-bottom:.75rem}
+.pr-success p{color:var(--tm);line-height:1.75;max-width:360px;margin:0 auto 2rem;font-size:.92rem}
+.pr-cats{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.6rem}
+.pr-cat{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.18);border-radius:100px;padding:5px 14px;font-size:.72rem;letter-spacing:.04em;color:var(--gl);cursor:pointer;transition:all .25s;user-select:none}
+.pr-cat:hover{background:rgba(201,168,76,.14);border-color:rgba(201,168,76,.4)}
+.pr-cat.active{background:rgba(201,168,76,.22);border-color:var(--g);color:#fff}
+.pr-sidebar{}
+.pr-info{background:var(--s1);border:1px solid var(--gb);border-radius:20px;padding:1.75rem;margin-bottom:1.1rem;position:relative;overflow:hidden}
+.pr-info::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--g),transparent)}
+.pr-info-eye{font-size:.6rem;letter-spacing:.22em;text-transform:uppercase;color:var(--g);margin-bottom:.85rem;display:block}
+.pr-info-h3{font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:.55rem}
+.pr-info-p{font-size:.84rem;color:var(--tm);line-height:1.72}
+.pr-verse{font-size:.86rem;font-style:italic;color:var(--tp);line-height:1.75;padding:1.1rem 1.25rem;border-left:2px solid var(--g);background:rgba(201,168,76,.06);border-radius:0 10px 10px 0;margin-bottom:.5rem}
+.pr-verse-ref{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--g);padding-left:1.25rem}
+.pr-link{display:inline-flex;align-items:center;gap:6px;color:var(--g);font-size:.82rem;text-decoration:none;margin-top:.9rem;letter-spacing:.04em;transition:gap .25s}
+.pr-link:hover{gap:10px}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,var(--g),#7a5500);color:#070710;border:none;padding:12px 28px;border-radius:100px;font-size:.85rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;cursor:pointer;transition:all .3s}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 14px 36px var(--gg);color:#070710}
+.sr{opacity:0;transform:translateY(24px);transition:opacity .65s,transform .65s}
+.sr.visible{opacity:1;transform:translateY(0)}
+</style>
+}
 
-            @* If form was just submitted, show thank-you instead of form *@
-            @if (Model.Submitted)
-            {
-                <div class="alert alert-success text-center py-5">
-                    <h4 class="alert-heading">Thank You</h4>
-                    <p class="mb-0">We're praying for you. Thank you for sharing your request with us.</p>
-                </div>
-            }
-            else
-            {
-                @* Form: Name/Email optional; PrayerRequest required; ShareAnonymously checkbox *@
-                <form method="post" class="card border-0 shadow-sm p-4">
-                    <div class="mb-3">
-                        <label asp-for="Name" class="form-label">Name <span class="text-muted">(optional)</span></label>
-                        <input asp-for="Name" class="form-control" placeholder="Your name" />
-                    </div>
-                    <div class="mb-3">
-                        <label asp-for="Email" class="form-label">Email <span class="text-muted">(optional)</span></label>
-                        <input asp-for="Email" type="email" class="form-control" placeholder="your@email.com" />
-                        <span asp-validation-for="Email" class="text-danger small"></span>
-                    </div>
-                    <div class="mb-3">
-                        <label asp-for="PrayerRequest" class="form-label">Prayer Request</label>
-                        <textarea asp-for="PrayerRequest" class="form-control" rows="5" placeholder="Share your prayer request..." required></textarea>
-                        <span asp-validation-for="PrayerRequest" class="text-danger small"></span>
-                    </div>
-                    <div class="mb-4">
-                        <div class="form-check">
-                            <input asp-for="ShareAnonymously" class="form-check-input" type="checkbox" />
-                            <label asp-for="ShareAnonymously" class="form-check-label">Share anonymously</label>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Submit Request</button>
-                </form>
-            }
-        </div>
+<div class="pr-page">
+  <canvas class="pr-canvas" id="prCanvas"></canvas>
+  <div class="pr-content">
+    <div class="pr-hero sr">
+      <div class="pr-eyebrow">🙏 We're Here For You</div>
+      <h1>Request Prayer</h1>
+      <p class="pr-hero-sub">We would be honored to lift you up. Share your request and our prayer team will stand with you in faith.</p>
     </div>
+    <div class="pr-grid">
+      <div class="pr-form-card sr">
+        @if(Model.Submitted){
+          <div class="pr-success">
+            <div class="pr-success-ring">🙏</div>
+            <h3>Thank You</h3>
+            <p>We're praying for you. Our prayer team has received your request and will be lifting you up before the Lord.</p>
+            <a asp-page="/Index" class="btn-gold">Return Home →</a>
+          </div>
+        } else {
+          <form method="post" id="prayerForm">
+            <div class="pr-field">
+              <div class="pr-label">Prayer Category <span class="opt">(tap to select)</span></div>
+              <div class="pr-cats">
+                <span class="pr-cat" data-ph="I'm requesting prayer for healing and health...">🏥 Healing</span>
+                <span class="pr-cat" data-ph="I'm requesting prayer for my family and relationships...">👨‍👩‍👧 Family</span>
+                <span class="pr-cat" data-ph="I'm requesting prayer for financial breakthrough...">💼 Finances</span>
+                <span class="pr-cat" data-ph="I'm requesting prayer for spiritual growth and direction...">🌱 Spiritual Growth</span>
+                <span class="pr-cat" data-ph="I'm requesting prayer as I navigate grief and loss...">💙 Grief &amp; Loss</span>
+                <span class="pr-cat" data-ph="I have a prayer request I'd like to share...">🙏 General</span>
+              </div>
+            </div>
+            <div class="pr-field">
+              <label asp-for="Name" class="pr-label">Your Name <span class="opt">(optional)</span></label>
+              <input asp-for="Name" class="pr-input" placeholder="Your name" autocomplete="name" />
+            </div>
+            <div class="pr-field">
+              <label asp-for="Email" class="pr-label">Email <span class="opt">(optional)</span></label>
+              <input asp-for="Email" type="email" class="pr-input" placeholder="your@email.com" autocomplete="email" />
+              <span asp-validation-for="Email" class="pr-error"></span>
+            </div>
+            <div class="pr-field">
+              <label asp-for="PrayerRequest" class="pr-label">Your Prayer Request</label>
+              <textarea asp-for="PrayerRequest" id="prayerText" class="pr-input" rows="6" placeholder="Share your heart with us..." required maxlength="1000"></textarea>
+              <div class="pr-char"><span id="charCount">0</span> / 1000</div>
+              <span asp-validation-for="PrayerRequest" class="pr-error"></span>
+            </div>
+            <div class="pr-field">
+              <label class="pr-check-wrap">
+                <input asp-for="ShareAnonymously" type="checkbox" class="pr-checkbox" />
+                <span class="pr-check-label">Share my request anonymously with the congregation</span>
+              </label>
+            </div>
+            <button type="submit" class="pr-submit" id="prayerSubmit">
+              <span class="pr-spinner" id="prayerSpinner"></span>
+              <span id="prayerBtnText">Submit Prayer Request</span>
+            </button>
+          </form>
+        }
+      </div>
+      <div class="pr-sidebar sr">
+        <div class="pr-info">
+          <span class="pr-info-eye">Our Promise</span>
+          <h3 class="pr-info-h3">You Are Not Alone</h3>
+          <p class="pr-info-p">Our prayer team receives every request and lifts each need before the Lord with faith, sincerity, and love. You are seen, heard, and covered.</p>
+        </div>
+        <div class="pr-info">
+          <span class="pr-info-eye">God's Word</span>
+          <div class="pr-verse">"Do not be anxious about anything, but in every situation, by prayer and petition, with thanksgiving, present your requests to God."</div>
+          <div class="pr-verse-ref">— Philippians 4:6</div>
+        </div>
+        <div class="pr-info">
+          <span class="pr-info-eye">God's Word</span>
+          <div class="pr-verse">"The prayer of a righteous person is powerful and effective."</div>
+          <div class="pr-verse-ref">— James 5:16</div>
+        </div>
+        <div class="pr-info">
+          <span class="pr-info-eye">Need To Talk In Person?</span>
+          <h3 class="pr-info-h3">Come See Us</h3>
+          <p class="pr-info-p">Our pastoral team is available for prayer and counseling. Join us any Sunday at New Bethel.</p>
+          <a asp-page="/Location" class="pr-link">📍 Get Directions →</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+<partial name="_ValidationScriptsPartial" />
+<script>
+(function(){
+  var canvas=document.getElementById('prCanvas'),ctx=canvas.getContext('2d'),W,H;
+  function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
+  resize();window.addEventListener('resize',resize);
+  var orbs=Array.from({length:4},function(_,i){return{x:Math.random()*1200,y:Math.random()*800,r:120+i*100,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,a:.05+i*.008}});
+  (function loop(){ctx.clearRect(0,0,W,H);orbs.forEach(function(o){o.x+=o.vx;o.y+=o.vy;if(o.x<-o.r)o.x=W+o.r;if(o.x>W+o.r)o.x=-o.r;if(o.y<-o.r)o.y=H+o.r;if(o.y>H+o.r)o.y=-o.r;var g=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);g.addColorStop(0,'rgba(201,168,76,'+o.a+')');g.addColorStop(1,'rgba(201,168,76,0)');ctx.beginPath();ctx.arc(o.x,o.y,o.r,0,Math.PI*2);ctx.fillStyle=g;ctx.fill()});requestAnimationFrame(loop)})();
+  var textarea=document.getElementById('prayerText');
+  document.querySelectorAll('.pr-cat').forEach(function(chip){chip.addEventListener('click',function(){document.querySelectorAll('.pr-cat').forEach(function(c){c.classList.remove('active')});this.classList.add('active');if(textarea){textarea.placeholder=this.dataset.ph||'Share your heart...';textarea.focus()}})});
+  if(textarea){textarea.addEventListener('input',function(){var el=document.getElementById('charCount');if(el)el.textContent=this.value.length})}
+  var form=document.getElementById('prayerForm');
+  if(form){form.addEventListener('submit',function(){var btn=document.getElementById('prayerSubmit'),txt=document.getElementById('prayerBtnText');if(btn)btn.classList.add('loading');if(txt)txt.textContent='Submitting...'})}
+  document.querySelectorAll('.sr').forEach(function(el){new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:.08}).observe(el)});
+})();
+</script>
 }
