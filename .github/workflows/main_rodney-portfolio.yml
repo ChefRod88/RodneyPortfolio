@@ -96,4 +96,28 @@ jobs:
             {"name":"QuoteEmail__ToEmail","value":"chefrodneyachery@gmail.com","slotSetting":false},
             {"name":"QuoteEmail__SmtpPassword","value":"${{ secrets.QUOTE_SMTP_PASSWORD }}","slotSetting":false}
           ]'
-          
+
+
+      # Stripe payment integration
+      # REQUIRED secrets: STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY
+      - name: Set Stripe keys in Azure
+        uses: Azure/appservice-settings@v1
+        with:
+          app-name: 'rodney-portfolio'
+          slot-name: 'Production'
+          app-settings-json: >-
+            [
+              {"name":"Stripe__PublishableKey","value":"${{ replace(replace(secrets.STRIPE_PUBLISHABLE_KEY, '\r', ''), '\n', '') }}","slotSetting":false},
+              {"name":"Stripe__SecretKey","value":"${{ replace(replace(secrets.STRIPE_SECRET_KEY, '\r', ''), '\n', '') }}","slotSetting":false}
+            ]
+
+      # Azure SQL connection string for client portal
+      # REQUIRED secret: PORTAL_DB_CONNECTION_STRING
+      - name: Set connection string in Azure
+        uses: Azure/appservice-settings@v1
+        with:
+          app-name: 'rodney-portfolio'
+          slot-name: 'Production'
+          app-settings-json: '[
+            {"name":"ConnectionStrings__DefaultConnection","value":"${{ secrets.PORTAL_DB_CONNECTION_STRING }}","slotSetting":false}
+          ]'
