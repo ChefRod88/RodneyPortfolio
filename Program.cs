@@ -5,6 +5,9 @@
 
 using RodneyPortfolio.Services;
 using RodneyPortfolio.Models;
+using RodneyPortfolio.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +30,7 @@ builder.Services.AddScoped<IContentFilter, ContentFilter>();
 builder.Services.Configure<QuoteEmailOptions>(builder.Configuration.GetSection(QuoteEmailOptions.SectionName));
 builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection("Stripe"));
 builder.Services.AddScoped<IQuoteSubmissionService, QuoteSubmissionService>();
-builder.Services.AddScoped<IInvoiceService, JsonInvoiceService>();
+builder.Services.AddScoped<IInvoiceService, SqlInvoiceService>();
 builder.Services.AddScoped<IPaymentEmailService, PaymentEmailService>();
 
 // ══════════════════════════════════════════════════════════════
@@ -35,7 +38,7 @@ builder.Services.AddScoped<IPaymentEmailService, PaymentEmailService>();
 // ══════════════════════════════════════════════════════════════
 
 // Portal services
-builder.Services.AddScoped<IClientPortalService, ClientPortalService>();
+builder.Services.AddScoped<IClientPortalService, SqlClientPortalService>();
 builder.Services.AddScoped<IPortalEmailService, PortalEmailService>();
 
 // Session (for ASP.NET Core session middleware)
@@ -52,9 +55,46 @@ builder.Services.AddSession(options =>
 // In the middleware pipeline (after app.UseRouting()):
 // app.UseSession();
 // ──────────────────────────────────────────────────
+var sqlConnectionString =
+    builder.Configuration.GetConnectionString("AzureSQL")
+    ?? builder.Configuration.GetConnectionString("DefaultConnection");
 
+if (string.IsNullOrWhiteSpace(sqlConnectionString))
+{
+    throw new InvalidOperationException(
+        "No SQL connection string configured. Set ConnectionStrings:AzureSQL or ConnectionStrings:DefaultConnection.");
+}
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(sqlConnectionString, sql =>
+    {
+        // Helps with transient Azure SQL faults during startup and migrations.
+        sql.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(15), errorNumbersToAdd: null);
+    }));
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var logger = scope.ServiceProvider.GetRequiredService<ILoggerFactory>().CreateLogger("StartupMigrations");
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    try
+    {
+        db.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        // In development, keep the app running even when remote SQL is unreachable.
+        if (app.Environment.IsDevelopment())
+        {
+            logger.LogWarning(ex, "Database migration skipped in Development due to connectivity/availability.");
+        }
+        else
+        {
+            throw;
+        }
+    }
+}
 
 // STEP 6: Canonical domain + HTTPS redirect middleware
 // - Forces https://

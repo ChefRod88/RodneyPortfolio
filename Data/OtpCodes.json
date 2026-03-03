@@ -1,0 +1,34 @@
+[
+  {
+    "Id": "8ef9460c-bc83-4550-b22f-c1aa93786cd8",
+    "Email": "chefrodneyachery@gmail.com",
+    "Code": "582074",
+    "Purpose": "register",
+    "ExpiresAt": "2026-03-02T20:06:21.822171+00:00",
+    "Used": true
+  },
+  {
+    "Id": "115733d9-f19f-41d0-8ac7-7977b0e5ff3d",
+    "Email": "john.doe@testcompany.com",
+    "Code": "123449",
+    "Purpose": "register",
+    "ExpiresAt": "2026-03-02T20:25:11.555535+00:00",
+    "Used": false
+  },
+  {
+    "Id": "7bb195d5-09ed-4cf4-94f1-389e47791f32",
+    "Email": "john.doe@example.com",
+    "Code": "133113",
+    "Purpose": "register",
+    "ExpiresAt": "2026-03-02T20:32:53.886138+00:00",
+    "Used": false
+  },
+  {
+    "Id": "d973670b-9640-4d1b-b3d9-9c400ce5caf2",
+    "Email": "chefrodneyachery@gmail.com",
+    "Code": "737136",
+    "Purpose": "register",
+    "ExpiresAt": "2026-03-02T21:48:00.573385+00:00",
+    "Used": true
+  }
+]
