@@ -21,7 +21,7 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: '8.x'
+          dotnet-version: '10.x'
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
@@ -47,7 +47,6 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: .net-app
-          path: ./.net-app
       
       - name: Login to Azure
         uses: azure/login@v2
@@ -62,7 +61,7 @@ jobs:
         with:
           app-name: 'rodney-portfolio'
           slot-name: 'Production'
-          package: ./.net-app
+          package: .
 
       # REQUIRED: Add OPENAI_API_KEY in GitHub repo Settings → Secrets and variables → Actions
       # webapps-deploy does NOT support app-settings; we use appservice-settings instead.
@@ -71,7 +70,7 @@ jobs:
         with:
           app-name: 'rodney-portfolio'
           slot-name: 'Production'
-          app-settings-json: '[{"name":"OpenAI__ApiKey","value":"${{ secrets.OPENAI_API_KEY }}","slotSetting":false}]'
+          app-settings-json: '[{"name": "OpenAI__ApiKey", "value": "${{ secrets.OPENAI_API_KEY }}", "slotSetting": false}]'
 
       # Optional: Add GA4_MEASUREMENT_ID in GitHub Secrets for visitor tracking. If omitted, GA4 is disabled.
       - name: Set GA4 Measurement ID in Azure
@@ -79,7 +78,7 @@ jobs:
         with:
           app-name: 'rodney-portfolio'
           slot-name: 'Production'
-          app-settings-json: '[{"name":"GoogleAnalytics__MeasurementId","value":"${{ secrets.GA4_MEASUREMENT_ID }}","slotSetting":false}]'
+          app-settings-json: '[{"name": "GoogleAnalytics__MeasurementId", "value": "${{ secrets.GA4_MEASUREMENT_ID }}", "slotSetting": false}]'
 
       # Quote form SMTP config for live submissions
       # REQUIRED secret: QUOTE_SMTP_PASSWORD (Google App Password)
@@ -97,27 +96,4 @@ jobs:
             {"name":"QuoteEmail__ToEmail","value":"chefrodneyachery@gmail.com","slotSetting":false},
             {"name":"QuoteEmail__SmtpPassword","value":"${{ secrets.QUOTE_SMTP_PASSWORD }}","slotSetting":false}
           ]'
-
-      # Stripe payment integration
-      # REQUIRED secrets: STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY
-      - name: Set Stripe keys in Azure
-        uses: Azure/appservice-settings@v1
-        with:
-          app-name: 'rodney-portfolio'
-          slot-name: 'Production'
-          app-settings-json: >-
-            [
-              {"name":"Stripe__PublishableKey","value":"${{ replace(replace(secrets.STRIPE_PUBLISHABLE_KEY, '\r', ''), '\n', '') }}","slotSetting":false},
-              {"name":"Stripe__SecretKey","value":"${{ replace(replace(secrets.STRIPE_SECRET_KEY, '\r', ''), '\n', '') }}","slotSetting":false}
-            ]
-
-      # Azure SQL connection string for client portal
-      # REQUIRED secret: PORTAL_DB_CONNECTION_STRING
-      - name: Set connection string in Azure
-        uses: Azure/appservice-settings@v1
-        with:
-          app-name: 'rodney-portfolio'
-          slot-name: 'Production'
-          app-settings-json: '[
-            {"name":"ConnectionStrings__PortalDb","value":"${{ secrets.PORTAL_DB_CONNECTION_STRING }}","slotSetting":false}
-          ]'
+          
