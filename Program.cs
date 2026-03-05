@@ -150,7 +150,6 @@ app.UseSession();
 app.UseAuthorization();
 
 app.MapStaticAssets();
-app.UseStaticFiles();
 app.MapControllers();
 app.MapRazorPages()
    .WithStaticAssets();

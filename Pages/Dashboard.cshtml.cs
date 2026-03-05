@@ -133,29 +133,55 @@ public class DashboardModel : PageModel
     public async Task<IActionResult> OnPostConfirmPaymentAsync(
         [FromBody] ConfirmPaymentRequest req, CancellationToken ct)
     {
-        var account = await ResolveCurrentAccountAsync(ct);
-        if (account is null)
-            return new JsonResult(new { error = "Unauthorized" }) { StatusCode = 401 };
+        try
+        {
+            var account = await ResolveCurrentAccountAsync(ct);
+            if (account is null)
+                return new JsonResult(new { error = "Unauthorized" }) { StatusCode = 401 };
 
-        var allInvoices = await _invoiceService.GetAllInvoicesAsync(ct);
-        var invoice = allInvoices.FirstOrDefault(i =>
-            i.Id == req.InvoiceId &&
-            string.Equals(i.ClientEmail, account.Email, StringComparison.OrdinalIgnoreCase));
+            var allInvoices = await _invoiceService.GetAllInvoicesAsync(ct);
+            var invoice = allInvoices.FirstOrDefault(i =>
+                i.Id == req.InvoiceId &&
+                string.Equals(i.ClientEmail, account.Email, StringComparison.OrdinalIgnoreCase));
 
-        if (invoice is null)
-            return new JsonResult(new { error = "Invoice not found" }) { StatusCode = 404 };
+            if (invoice is null)
+                return new JsonResult(new { error = "Invoice not found" }) { StatusCode = 404 };
 
-        invoice.Status                = InvoiceStatus.Paid;
-        invoice.PaidAt                = DateTime.UtcNow;
-        invoice.StripePaymentIntentId = req.PaymentIntentId;
-        invoice.PaymentMethod         = "Stripe";
+            StripeConfiguration.ApiKey = _stripeOptions.SecretKey;
+            var paymentIntent = await new PaymentIntentService().GetAsync(req.PaymentIntentId, cancellationToken: ct);
 
-        await _invoiceService.UpdateInvoiceAsync(invoice, ct);
+            if (paymentIntent is null || paymentIntent.Status != "succeeded")
+                return new JsonResult(new { error = "Payment is not yet completed." }) { StatusCode = 400 };
 
-        // Fire-and-forget — don't block the JSON response
-        _ = _portalEmailService.SendReceiptAsync(account, invoice, ct);
+            if (paymentIntent.Currency is not "usd")
+                return new JsonResult(new { error = "Unexpected payment currency." }) { StatusCode = 400 };
 
-        return new JsonResult(new { success = true });
+            if (paymentIntent.AmountReceived < (long)(invoice.Amount * 100))
+                return new JsonResult(new { error = "Payment amount does not cover this invoice." }) { StatusCode = 400 };
+
+            if (paymentIntent.Metadata is null ||
+                !paymentIntent.Metadata.TryGetValue("invoiceId", out var metaInvoiceId) ||
+                !string.Equals(metaInvoiceId, invoice.Id, StringComparison.Ordinal))
+                return new JsonResult(new { error = "Payment invoice verification failed." }) { StatusCode = 400 };
+
+            invoice.Status                = InvoiceStatus.Paid;
+            invoice.PaidAt                = DateTime.UtcNow;
+            invoice.StripePaymentIntentId = req.PaymentIntentId;
+            invoice.PaymentMethod         = "Stripe";
+
+            await _invoiceService.UpdateInvoiceAsync(invoice, ct);
+
+            // Fire-and-forget — don't block the JSON response
+            _ = _portalEmailService.SendReceiptAsync(account, invoice, ct);
+
+            return new JsonResult(new { success = true });
+        }
+        catch (Exception ex)
+        {
+            var logger = HttpContext.RequestServices.GetRequiredService<ILogger<DashboardModel>>();
+            logger.LogError(ex, "Failed to confirm payment for {InvoiceId}", req.InvoiceId);
+            return new JsonResult(new { error = "Payment confirmation failed." }) { StatusCode = 500 };
+        }
     }
 
     // ── CASH APP: MARK PENDING ────────────────────────────────────────────────
@@ -291,7 +317,3 @@ public class DashboardModel : PageModel
     }
 }
 
-// ── Request Models (bottom of file — no extra file needed) ───────────────────
-public record CreatePaymentIntentRequest(string InvoiceId);
-public record ConfirmPaymentRequest(string InvoiceId, string PaymentIntentId);
-public record CashAppPendingRequest(string InvoiceId);

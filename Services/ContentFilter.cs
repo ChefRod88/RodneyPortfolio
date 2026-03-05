@@ -22,6 +22,13 @@ public class ContentFilter : IContentFilter
         "fuck", "shit", "asshole", "bitch", "damn" // example profanity
     };
 
+    private static readonly Regex[] _blockPatterns = BlockedTerms
+        .Select(t => new Regex(
+            $@"\b{Regex.Escape(t)}\b",
+            RegexOptions.Compiled,
+            TimeSpan.FromMilliseconds(100)))
+        .ToArray();
+
     /// <summary>
     /// Returns true if the message should be blocked (contains inappropriate content).
     /// </summary>
@@ -32,12 +39,10 @@ public class ContentFilter : IContentFilter
 
         var lower = message.Trim().ToLowerInvariant();
 
-        foreach (var term in BlockedTerms)
+        foreach (var regex in _blockPatterns)
         {
-            // Word boundary check - avoid false positives (e.g., "class" containing "ass")
-            var pattern = $@"\b{Regex.Escape(term)}\b";
-            if (Regex.IsMatch(lower, pattern))
-                return true;
+            try { if (regex.IsMatch(lower)) return true; }
+            catch (RegexMatchTimeoutException) { return true; } // treat timeout as blocked
         }
 
         return false;

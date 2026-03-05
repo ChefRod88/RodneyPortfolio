@@ -157,5 +157,3 @@ public class PaymentsModel : PageModel
     }
 }
 
-public record CreatePaymentIntentRequest(string InvoiceId);
-public record ConfirmPaymentRequest(string InvoiceId, string PaymentIntentId);
