@@ -66,7 +66,7 @@ public class SqlClientPortalService : IClientPortalService
             .ToListAsync(ct);
         foreach (var c in existing) c.Used = true;
 
-        var code = Random.Shared.Next(100000, 999999).ToString();
+        var code = Random.Shared.Next(100000, 1000000).ToString();
         await _db.OtpCodes.AddAsync(new OtpCode
         {
             Email = email,
