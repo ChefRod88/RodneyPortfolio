@@ -123,6 +123,12 @@ public class PortalEmailService : IPortalEmailService
 
     private async Task SendAsync(string toEmail, string subject, string htmlBody)
     {
+        if (string.IsNullOrWhiteSpace(_options.SmtpHost))
+        {
+            _logger.LogWarning("SMTP is not configured — skipping email to {Email}: {Subject}", toEmail, subject);
+            return;
+        }
+
         var from = string.IsNullOrWhiteSpace(_options.FromEmail) ? _options.SmtpUsername : _options.FromEmail;
         using var msg = new MailMessage { From = new MailAddress(from, "RC Dev"), Subject = subject, Body = htmlBody, IsBodyHtml = true };
         msg.To.Add(toEmail);
