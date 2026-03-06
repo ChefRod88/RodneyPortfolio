@@ -1,0 +1,123 @@
+@page "/Admin/Invoices"
+@model RodneyPortfolio.Pages.Admin.InvoicesModel
+@using RodneyPortfolio.Models
+@{
+    ViewData["Title"] = "Admin — Invoices";
+    Layout = "_Layout";
+}
+
+<div class="portal-form-page rc-fade" style="max-width:1000px;margin:0 auto">
+    <div class="portal-form-hero">
+        <div class="portal-hero-badge">// Admin Panel</div>
+        <h1 class="title">Invoices</h1>
+        <p class="portal-hero-sub">Create and manage client invoices.</p>
+        <div style="display:flex;gap:1rem;margin-top:1rem">
+            <a href="/Admin/Accounts" class="portal-back">&#8249; Client Accounts</a>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.StatusMessage))
+    {
+        <div class="portal-alert portal-alert-success rc-glass">&#10003; @Model.StatusMessage</div>
+    }
+
+    <!-- CREATE INVOICE FORM -->
+    <div class="portal-form-card rc-glass rc-fade" style="margin-bottom:2rem">
+        <div class="portal-form-section-label" style="margin-bottom:1.2rem">// Create New Invoice</div>
+        <form method="post" asp-page-handler="Create" class="portal-form">
+            @Html.AntiForgeryToken()
+            <div class="portal-form-row">
+                <div class="portal-field">
+                    <label class="portal-label">Client Email *</label>
+                    <input asp-for="Input.ClientEmail" class="portal-input" placeholder="client@email.com"
+                           list="client-emails" autocomplete="off" />
+                    <datalist id="client-emails">
+                        @foreach (var c in Model.Clients)
+                        {
+                            <option value="@c.Email">@c.FullName</option>
+                        }
+                    </datalist>
+                    <span asp-validation-for="Input.ClientEmail" class="portal-field-error"></span>
+                </div>
+                <div class="portal-field">
+                    <label class="portal-label">Amount (USD) *</label>
+                    <input asp-for="Input.Amount" type="number" step="0.01" min="1" class="portal-input" placeholder="250.00" />
+                    <span asp-validation-for="Input.Amount" class="portal-field-error"></span>
+                </div>
+            </div>
+            <div class="portal-form-row">
+                <div class="portal-field portal-field-full">
+                    <label class="portal-label">Description *</label>
+                    <input asp-for="Input.Description" class="portal-input" placeholder="e.g. Website build — Phase 1, Monthly retainer March 2026" />
+                    <span asp-validation-for="Input.Description" class="portal-field-error"></span>
+                </div>
+            </div>
+            <div class="portal-form-row">
+                <div class="portal-field">
+                    <label class="portal-label">Due Date *</label>
+                    <input asp-for="Input.DueDate" type="date" class="portal-input" />
+                    <span asp-validation-for="Input.DueDate" class="portal-field-error"></span>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-outline-dark portal-submit-btn">Create Invoice &rarr;</button>
+        </form>
+    </div>
+
+    <!-- INVOICE LIST -->
+    <div class="portal-form-card rc-glass rc-fade">
+        <div class="portal-form-section-label" style="margin-bottom:1.2rem">// All Invoices (@Model.Invoices.Count)</div>
+        <div style="overflow-x:auto">
+            <table class="table table-dark table-striped align-middle" style="margin-bottom:0;font-size:0.82rem">
+                <thead>
+                    <tr>
+                        <th>Invoice #</th>
+                        <th>Client</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                        <th>Due</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                @if (!Model.Invoices.Any())
+                {
+                    <tr><td colspan="7" style="color:#555">No invoices yet.</td></tr>
+                }
+                else
+                {
+                    @foreach (var inv in Model.Invoices)
+                    {
+                        <tr>
+                            <td style="font-family:monospace;color:#00d4ff">@(inv.InvoiceNumber ?? inv.Id[..8].ToUpper())</td>
+                            <td>
+                                <div>@inv.ClientName</div>
+                                <div style="font-size:0.72rem;color:#555">@inv.ClientEmail</div>
+                            </td>
+                            <td>@inv.Description</td>
+                            <td style="font-weight:700">$@inv.Amount.ToString("F2")</td>
+                            <td>@inv.DueAt.ToString("MMM dd, yyyy")</td>
+                            <td>
+                                <span style="color:@(inv.Status == InvoiceStatus.Paid ? "#22c55e" : inv.Status == InvoiceStatus.Overdue ? "#ef4444" : inv.Status == InvoiceStatus.Cancelled ? "#555" : "#facc15")">
+                                    @inv.Status
+                                </span>
+                            </td>
+                            <td class="text-end">
+                                @if (inv.Status != InvoiceStatus.Paid && inv.Status != InvoiceStatus.Cancelled)
+                                {
+                                    <form method="post" asp-page-handler="Delete" style="display:inline">
+                                        @Html.AntiForgeryToken()
+                                        <input type="hidden" name="id" value="@inv.Id" />
+                                        <button type="submit" class="btn btn-outline-danger btn-sm"
+                                                onclick="return confirm('Cancel this invoice?')">Cancel</button>
+                                    </form>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
