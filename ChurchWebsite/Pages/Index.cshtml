@@ -129,7 +129,7 @@ body{background:var(--d);color:var(--tp);font-family:'Segoe UI',system-ui,sans-s
 
 <div class="ix-stats sr" id="stats">
   <div class="ix-stats-inner">
-    <div><div class="ix-stat-num" data-target="1965" data-suffix="">1965</div><div class="ix-stat-label">Established</div></div>
+    <div><div class="ix-stat-num" data-target="1916" data-suffix="">1916 </div><div class="ix-stat-label">Established</div></div>
     <div><div class="ix-stat-num" data-target="500" data-suffix="+">0+</div><div class="ix-stat-label">Members</div></div>
     <div><div class="ix-stat-num" data-target="52" data-suffix="">0</div><div class="ix-stat-label">Services / Year</div></div>
     <div><div class="ix-stat-num" data-target="1" data-suffix="">1</div><div class="ix-stat-label">Community</div></div>
@@ -224,14 +224,70 @@ body{background:var(--d);color:var(--tp);font-family:'Segoe UI',system-ui,sans-s
   </div>
 </section>
 
+<section class="ix-give sr" id="give">
+<style>
+.ix-give{padding:100px 1.5rem;background:linear-gradient(135deg,var(--s2) 0%,var(--d) 50%,var(--s1) 100%);position:relative;overflow:hidden}
+.ix-give::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(201,168,76,.07),transparent)}
+.ix-give-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:4rem;align-items:center;position:relative}
+@@media(max-width:900px){.ix-give-inner{grid-template-columns:1fr;gap:2.5rem}}
+.ix-give-h2{font-size:clamp(1.8rem,5vw,3rem);font-weight:700;color:#fff;margin-bottom:1.25rem}
+.ix-give-sub{font-size:clamp(.88rem,2vw,1rem);color:var(--tm);line-height:1.8;margin-bottom:1.5rem}
+.ix-give-verse{font-size:.88rem;font-style:italic;color:rgba(240,237,230,.6);border-left:2px solid var(--g);padding-left:1rem;line-height:1.7;margin:0}
+.ix-give-verse cite{display:block;font-size:.72rem;color:var(--g);margin-top:.4rem;font-style:normal;letter-spacing:.07em}
+.ix-give-card{background:var(--s1);border:1px solid rgba(201,168,76,.25);border-radius:24px;padding:2rem;position:relative;overflow:hidden}
+.ix-give-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--g),transparent)}
+.ix-give-amounts{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:.6rem}
+.ix-give-amt{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);color:var(--gl);border-radius:100px;padding:8px 18px;font-size:.84rem;font-weight:600;cursor:pointer;transition:all .25s;font-family:inherit;letter-spacing:.02em}
+.ix-give-amt:hover,.ix-give-amt.active{background:rgba(201,168,76,.2);border-color:var(--g);color:#fff;box-shadow:0 0 16px rgba(201,168,76,.22)}
+.ix-give-hint{font-size:.7rem;color:var(--tm);margin-bottom:1.5rem;letter-spacing:.03em}
+.ix-give-cashapp{display:flex;align-items:center;gap:1rem;background:rgba(0,214,50,.07);border:1px solid rgba(0,214,50,.22);border-radius:14px;padding:1rem 1.25rem;margin-bottom:1.25rem}
+.ix-give-cashapp-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#00D632,#009922);display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:900;color:#fff;flex-shrink:0;box-shadow:0 4px 16px rgba(0,214,50,.4)}
+.ix-give-cashapp-label{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--tm);margin-bottom:.2rem}
+.ix-give-cashapp-tag{font-size:1.3rem;font-weight:700;color:var(--gl);letter-spacing:.04em}
+.ix-give-open-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#00D632,#009922);color:#fff;text-decoration:none;border-radius:14px;padding:1rem 1.5rem;font-weight:700;font-size:.95rem;letter-spacing:.04em;margin-bottom:.75rem;transition:all .3s;box-shadow:0 8px 24px rgba(0,214,50,.35);font-family:inherit}
+.ix-give-open-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(0,214,50,.5);color:#fff}
+.ix-give-secure{text-align:center;font-size:.72rem;color:var(--tm);letter-spacing:.05em}
+</style>
+  <div class="ix-give-inner">
+    <div>
+      <span class="ix-section-eye">Support The Ministry</span>
+      <h2 class="ix-give-h2">Give &amp; Make An Impact</h2>
+      <div class="ix-divider"></div>
+      <p class="ix-give-sub">Your generosity powers the mission — feeding the hungry, reaching the streets of Winter Haven, and sharing the Gospel of Jesus Christ. Every gift makes an eternal difference.</p>
+      <blockquote class="ix-give-verse">&ldquo;Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.&rdquo;<cite>— 2 Corinthians 9:7</cite></blockquote>
+    </div>
+    <div class="ix-give-card">
+      <div class="ix-give-amounts">
+        <button class="ix-give-amt" onclick="toggleGiveAmt(this)">$10</button>
+        <button class="ix-give-amt active" onclick="toggleGiveAmt(this)">$25</button>
+        <button class="ix-give-amt" onclick="toggleGiveAmt(this)">$50</button>
+        <button class="ix-give-amt" onclick="toggleGiveAmt(this)">$100</button>
+      </div>
+      <p class="ix-give-hint">Select an amount or give any amount in Cash App</p>
+      <div class="ix-give-cashapp">
+        <div class="ix-give-cashapp-icon">&#36;</div>
+        <div>
+          <div class="ix-give-cashapp-label">Pastor&rsquo;s Cash App</div>
+          <div class="ix-give-cashapp-tag">$blueboy78</div>
+        </div>
+      </div>
+      <a href="https://cash.app/$blueboy78" target="_blank" rel="noopener noreferrer" class="ix-give-open-btn">
+        <span>Open Cash App</span> <span>&rarr;</span>
+      </a>
+      <p class="ix-give-secure">&#128274; Secure payment via Cash App</p>
+    </div>
+  </div>
+</section>
+
 @section Scripts {
 <script>
 (function(){
   var canvas=document.getElementById('heroCanvas'),ctx=canvas.getContext('2d'),W,H;
   function resize(){W=canvas.width=window.innerWidth;H=canvas.height=window.innerHeight}
   resize();window.addEventListener('resize',resize);
-  var pts=Array.from({length:90},function(){return{x:Math.random()*2000,y:Math.random()*1000,vx:(Math.random()-.5)*.22,vy:(Math.random()-.5)*.22,r:Math.random()*1.4+.3,a:Math.random()*.55+.1}});
-  (function loop(){ctx.clearRect(0,0,W,H);pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(201,168,76,'+p.a+')';ctx.fill()});requestAnimationFrame(loop)})();
+  var pts=Array.from({length:70},function(){return{x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,r:Math.random()*1.4+.3,a:Math.random()*.5+.1}});
+  var maxDist=140;
+  (function loop(){ctx.clearRect(0,0,W,H);for(var i=0;i<pts.length;i++){for(var j=i+1;j<pts.length;j++){var dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<maxDist){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle='rgba(201,168,76,'+(0.18*(1-d/maxDist))+')';ctx.lineWidth=.6;ctx.stroke()}}}pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(201,168,76,'+p.a+')';ctx.fill()});requestAnimationFrame(loop)})();
   var srObs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:.1});
   document.querySelectorAll('.sr').forEach(function(el){srObs.observe(el)});
   function animCount(el){var target=+el.dataset.target,suffix=el.dataset.suffix||'',dur=1800,start=Date.now();(function tick(){var p=Math.min((Date.now()-start)/dur,1),ease=1-Math.pow(1-p,3),val=Math.round(ease*target);el.textContent=val+suffix;if(p<1)requestAnimationFrame(tick)})()}
@@ -240,5 +296,6 @@ body{background:var(--d);color:var(--tp);font-family:'Segoe UI',system-ui,sans-s
   var cardObs=new IntersectionObserver(function(e){e.forEach(function(x,i){if(x.isIntersecting)setTimeout(function(){x.target.classList.add('visible')},i*80)})},{threshold:.08});
   document.querySelectorAll('.ix-min-card,.ix-sermon-card').forEach(function(el){cardObs.observe(el)});
 })();
+function toggleGiveAmt(btn){document.querySelectorAll('.ix-give-amt').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');}
 </script>
 }

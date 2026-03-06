@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.NBMBC" parent="android:Theme.Material.NoTitleBar">
+        <item name="android:statusBarColor">#070710</item>
+        <item name="android:navigationBarColor">#0E0E1C</item>
+        <item name="android:windowBackground">#070710</item>
+    </style>
+</resources>
