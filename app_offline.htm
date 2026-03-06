@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RC Dev — Initializing</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --c:   #00d4ff;
+    --bg:  #020c14;
+    --glass-bg: rgba(4,16,24,0.72);
+    --glass-border: rgba(0,212,255,0.18);
+    --font-mono: 'Courier New', Courier, monospace;
+    --font-display: 'Arial', sans-serif;
+  }
+
+  html, body {
+    height: 100%;
+    background: var(--bg);
+    color: #e8f4f8;
+    font-family: var(--font-display);
+    overflow: hidden;
+  }
+
+  /* ── Matrix canvas ── */
+  #matrix-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    opacity: 0.18;
+  }
+
+  /* ── Center wrapper ── */
+  .center {
+    position: relative;
+    z-index: 10;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+  }
+
+  /* ── Glass card ── */
+  .card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 3rem 2.5rem;
+    max-width: 520px;
+    width: 100%;
+    text-align: center;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 0 60px rgba(0,212,255,0.06), 0 20px 60px rgba(0,0,0,0.5);
+    animation: fadeUp 0.6s ease both;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: none; }
+  }
+
+  /* ── Favicon logo ── */
+  .logo-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.8rem;
+  }
+
+  .logo-ring {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    border: 1px solid rgba(0,212,255,0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,212,255,0.04);
+    box-shadow: 0 0 30px rgba(0,212,255,0.1);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(0,212,255,0.08); }
+    50%       { box-shadow: 0 0 40px rgba(0,212,255,0.22); }
+  }
+
+  .logo-ring svg {
+    width: 52px;
+    height: 52px;
+  }
+
+  /* ── Badge ── */
+  .badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(0,212,255,0.5);
+    margin-bottom: 0.8rem;
+  }
+
+  /* ── Heading ── */
+  h1 {
+    font-size: clamp(1.4rem, 4vw, 1.9rem);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #fff;
+    margin-bottom: 0.6rem;
+  }
+
+  h1 span { color: var(--c); }
+
+  /* ── Sub ── */
+  .sub {
+    font-size: 0.82rem;
+    color: rgba(142,207,223,0.55);
+    line-height: 1.7;
+    margin-bottom: 2.2rem;
+  }
+
+  /* ── Init bar ── */
+  .init-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: rgba(0,212,255,0.45);
+    text-transform: uppercase;
+    text-align: left;
+    margin-bottom: 0.45rem;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .bar-track {
+    height: 4px;
+    background: rgba(0,212,255,0.08);
+    border-radius: 99px;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    border: 1px solid rgba(0,212,255,0.1);
+  }
+
+  .bar-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #00d4ff, #0099cc);
+    border-radius: 99px;
+    box-shadow: 0 0 10px rgba(0,212,255,0.4);
+    transition: width 0.3s ease;
+  }
+
+  /* ── Status line ── */
+  .status-line {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    color: rgba(0,212,255,0.4);
+    letter-spacing: 0.08em;
+    min-height: 1.2em;
+    margin-bottom: 2rem;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(0,212,255,0.08);
+    margin-bottom: 1.4rem;
+  }
+
+  /* ── Footer note ── */
+  .foot {
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    color: rgba(142,207,223,0.25);
+    letter-spacing: 0.1em;
+  }
+
+  .foot a {
+    color: rgba(0,212,255,0.4);
+    text-decoration: none;
+  }
+
+  /* ── Scan line overlay ── */
+  .card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,212,255,0.012) 2px,
+      rgba(0,212,255,0.012) 4px
+    );
+    pointer-events: none;
+  }
+
+  .card { position: relative; }
+</style>
+</head>
+<body>
+
+<canvas id="matrix-canvas"></canvas>
+
+<div class="center">
+  <div class="card">
+
+    <div class="logo-wrap">
+      <div class="logo-ring">
+        <!-- Inline favicon SVG — no external dependency -->
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+          <rect width="32" height="32" rx="4" fill="#020c14"/>
+          <rect x="4" y="5" width="24" height="22" rx="3" fill="none" stroke="#00d4ff" stroke-width="0.8" opacity="0.35"/>
+          <rect x="5" y="6" width="22" height="20" rx="2.5" fill="#041018" stroke="#00d4ff" stroke-width="1"/>
+          <rect x="15" y="2" width="2" height="4" rx="0.5" fill="#00d4ff" opacity="0.9"/>
+          <circle cx="16" cy="1.5" r="1.2" fill="#00d4ff"/>
+          <circle cx="16" cy="1.5" r="0.6" fill="#ffffff" opacity="0.8"/>
+          <rect x="8" y="8" width="16" height="1.5" rx="0.5" fill="#00d4ff" opacity="0.25"/>
+          <rect x="7" y="11" width="7" height="5" rx="1" fill="#001a28" stroke="#00d4ff" stroke-width="0.9"/>
+          <rect x="8" y="12" width="5" height="3" rx="0.5" fill="#00d4ff" opacity="0.18"/>
+          <rect x="9" y="13" width="3" height="1" rx="0.3" fill="#00d4ff" opacity="0.9"/>
+          <circle cx="10.5" cy="13.5" r="0.9" fill="#00d4ff"/>
+          <circle cx="10.5" cy="13.5" r="0.4" fill="#ffffff" opacity="0.9"/>
+          <rect x="18" y="11" width="7" height="5" rx="1" fill="#001a28" stroke="#00d4ff" stroke-width="0.9"/>
+          <rect x="19" y="12" width="5" height="3" rx="0.5" fill="#00d4ff" opacity="0.18"/>
+          <rect x="20" y="13" width="3" height="1" rx="0.3" fill="#00d4ff" opacity="0.9"/>
+          <circle cx="21.5" cy="13.5" r="0.9" fill="#00d4ff"/>
+          <circle cx="21.5" cy="13.5" r="0.4" fill="#ffffff" opacity="0.9"/>
+          <rect x="15" y="17" width="2" height="1" rx="0.3" fill="#00d4ff" opacity="0.5"/>
+          <rect x="8" y="19" width="16" height="4" rx="1" fill="#001a28" stroke="#00d4ff" stroke-width="0.7" opacity="0.9"/>
+          <line x1="11" y1="19" x2="11" y2="23" stroke="#00d4ff" stroke-width="0.5" opacity="0.4"/>
+          <line x1="14" y1="19" x2="14" y2="23" stroke="#00d4ff" stroke-width="0.5" opacity="0.4"/>
+          <line x1="17" y1="19" x2="17" y2="23" stroke="#00d4ff" stroke-width="0.5" opacity="0.4"/>
+          <line x1="20" y1="19" x2="20" y2="23" stroke="#00d4ff" stroke-width="0.5" opacity="0.4"/>
+          <line x1="8" y1="21" x2="24" y2="21" stroke="#00d4ff" stroke-width="0.5" opacity="0.4"/>
+          <rect x="9" y="20" width="1.5" height="1.5" rx="0.2" fill="#00d4ff" opacity="0.7"/>
+          <rect x="15" y="19.5" width="1.5" height="1.5" rx="0.2" fill="#00d4ff" opacity="0.5"/>
+          <rect x="21" y="20" width="1.5" height="1.5" rx="0.2" fill="#00d4ff" opacity="0.7"/>
+          <rect x="2" y="12" width="3" height="6" rx="1" fill="#041018" stroke="#00d4ff" stroke-width="0.7"/>
+          <rect x="2.8" y="13.5" width="1.4" height="3" rx="0.3" fill="#00d4ff" opacity="0.3"/>
+          <rect x="27" y="12" width="3" height="6" rx="1" fill="#041018" stroke="#00d4ff" stroke-width="0.7"/>
+          <rect x="27.8" y="13.5" width="1.4" height="3" rx="0.3" fill="#00d4ff" opacity="0.3"/>
+        </svg>
+      </div>
+    </div>
+
+    <div class="badge">// RC Dev Systems</div>
+    <h1>System <span>Initializing</span></h1>
+    <p class="sub">
+      We're deploying an update or performing maintenance.<br/>
+      The site will be back online shortly.
+    </p>
+
+    <div class="init-label">
+      <span id="init-stage">BOOT_SEQUENCE</span>
+      <span id="init-pct">0%</span>
+    </div>
+    <div class="bar-track">
+      <div class="bar-fill" id="bar"></div>
+    </div>
+
+    <div class="status-line" id="status-line">[ connecting to runtime... ]</div>
+
+    <hr class="divider" />
+    <p class="foot">
+      RC Dev &nbsp;·&nbsp; <a href="mailto:rodney@globalrcdev.com">rodney@globalrcdev.com</a>
+      &nbsp;·&nbsp; rodneyachery.com
+    </p>
+  </div>
+</div>
+
+<script>
+// ── Matrix rain ─────────────────────────────────────────────────────────────
+(function(){
+  const canvas = document.getElementById('matrix-canvas');
+  const ctx = canvas.getContext('2d');
+  const chars = 'RCDEV01アイウエオカキクケコサシスセソタチツテトナニヌネノ<>{}[]|$#@!';
+  let cols, drops;
+
+  function resize(){
+    canvas.width  = window.innerWidth;
+    canvas.height = window.innerHeight;
+    cols  = Math.floor(canvas.width / 16);
+    drops = Array(cols).fill(1);
+  }
+
+  function draw(){
+    ctx.fillStyle = 'rgba(2,12,20,0.06)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#00d4ff';
+    ctx.font = '13px monospace';
+    for(let i = 0; i < drops.length; i++){
+      ctx.globalAlpha = Math.random() * 0.5 + 0.1;
+      ctx.fillText(chars[Math.floor(Math.random() * chars.length)], i * 16, drops[i] * 16);
+      if(drops[i] * 16 > canvas.height && Math.random() > 0.975) drops[i] = 0;
+      drops[i]++;
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+  setInterval(draw, 50);
+})();
+
+// ── Init bar animation ───────────────────────────────────────────────────────
+(function(){
+  const bar       = document.getElementById('bar');
+  const pctEl     = document.getElementById('init-pct');
+  const stageEl   = document.getElementById('init-stage');
+  const statusEl  = document.getElementById('status-line');
+
+  const stages = [
+    { pct: 8,  stage: 'BOOT_SEQUENCE',      status: '[ loading core modules... ]' },
+    { pct: 22, stage: 'ENV_CHECK',           status: '[ validating environment... ]' },
+    { pct: 38, stage: 'DB_CONNECT',          status: '[ establishing database connection... ]' },
+    { pct: 54, stage: 'SERVICE_INIT',        status: '[ initializing application services... ]' },
+    { pct: 68, stage: 'PIPELINE_BUILD',      status: '[ building request pipeline... ]' },
+    { pct: 80, stage: 'ASSET_CACHE',         status: '[ warming static asset cache... ]' },
+    { pct: 91, stage: 'HEALTH_CHECK',        status: '[ running health checks... ]' },
+    { pct: 97, stage: 'ALMOST_READY',        status: '[ finalizing deployment... ]' },
+    { pct: 99, stage: 'STANDBY',             status: '[ system standby — back soon ]' },
+  ];
+
+  let idx = 0;
+
+  function step(){
+    if(idx >= stages.length) {
+      // loop back at 99 to signal ongoing
+      idx = stages.length - 1;
+    }
+    const s = stages[idx];
+    bar.style.width      = s.pct + '%';
+    pctEl.textContent    = s.pct + '%';
+    stageEl.textContent  = s.stage;
+    statusEl.textContent = s.status;
+    idx++;
+
+    // slow down toward the end to feel realistic
+    const delay = idx < 4 ? 900 : idx < 7 ? 1400 : 2800;
+    setTimeout(step, delay);
+  }
+
+  setTimeout(step, 600);
+})();
+</script>
+</body>
+</html>
