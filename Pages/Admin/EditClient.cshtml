@@ -1,0 +1,113 @@
+@page "/Admin/EditClient"
+@model RodneyPortfolio.Pages.Admin.EditClientModel
+@{
+    ViewData["Title"] = "Edit Client";
+    Layout = "_Layout";
+}
+
+<div class="portal-form-page rc-fade" style="max-width:700px;margin:0 auto">
+    <div class="portal-form-hero">
+        <a href="/Admin/Accounts" class="portal-back">&#8249; Back to Accounts</a>
+        <div class="portal-hero-badge">// Admin Panel</div>
+        <h1 class="title">Edit Client</h1>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.StatusMessage))
+    {
+        <div class="portal-alert portal-alert-success rc-glass">&#10003; @Model.StatusMessage</div>
+    }
+
+    <div class="portal-form-card rc-glass rc-fade">
+        <form method="post" asp-page-handler="Save" class="portal-form">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Input.Id" />
+            <input type="hidden" asp-for="Input.Email" />
+
+            <div class="portal-form-section">
+                <div class="portal-form-section-label">// Contact Information</div>
+                <div class="portal-form-row">
+                    <div class="portal-field">
+                        <label class="portal-label">First Name *</label>
+                        <input asp-for="Input.FirstName" class="portal-input" />
+                        <span asp-validation-for="Input.FirstName" class="portal-field-error"></span>
+                    </div>
+                    <div class="portal-field">
+                        <label class="portal-label">Last Name *</label>
+                        <input asp-for="Input.LastName" class="portal-input" />
+                        <span asp-validation-for="Input.LastName" class="portal-field-error"></span>
+                    </div>
+                </div>
+                <div class="portal-form-row">
+                    <div class="portal-field">
+                        <label class="portal-label">Email</label>
+                        <input value="@Model.Input.Email" class="portal-input" disabled style="opacity:0.4" />
+                        <span class="portal-form-note" style="font-size:0.65rem">Email cannot be changed</span>
+                    </div>
+                    <div class="portal-field">
+                        <label class="portal-label">Phone *</label>
+                        <input asp-for="Input.Phone" class="portal-input" />
+                        <span asp-validation-for="Input.Phone" class="portal-field-error"></span>
+                    </div>
+                </div>
+                <div class="portal-form-row">
+                    <div class="portal-field portal-field-full">
+                        <label class="portal-label">Company / Organization</label>
+                        <input asp-for="Input.CompanyName" class="portal-input" placeholder="Optional" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="portal-form-section">
+                <div class="portal-form-section-label">// Billing Address</div>
+                <div class="portal-form-row">
+                    <div class="portal-field portal-field-full">
+                        <label class="portal-label">Street Address *</label>
+                        <input asp-for="Input.BillingAddress" class="portal-input" />
+                        <span asp-validation-for="Input.BillingAddress" class="portal-field-error"></span>
+                    </div>
+                </div>
+                <div class="portal-form-row portal-form-row-3">
+                    <div class="portal-field portal-field-grow">
+                        <label class="portal-label">City *</label>
+                        <input asp-for="Input.City" class="portal-input" />
+                        <span asp-validation-for="Input.City" class="portal-field-error"></span>
+                    </div>
+                    <div class="portal-field">
+                        <label class="portal-label">State *</label>
+                        <input asp-for="Input.State" class="portal-input" maxlength="2" />
+                        <span asp-validation-for="Input.State" class="portal-field-error"></span>
+                    </div>
+                    <div class="portal-field">
+                        <label class="portal-label">ZIP *</label>
+                        <input asp-for="Input.ZipCode" class="portal-input" />
+                        <span asp-validation-for="Input.ZipCode" class="portal-field-error"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="portal-form-section">
+                <div class="portal-form-section-label">// Account Settings</div>
+                <div class="portal-form-row">
+                    <div class="portal-field">
+                        <label class="portal-label">Service Tier *</label>
+                        <select asp-for="Input.TierInterest" class="portal-input">
+                            <option value="Starter">Starter — $80/mo</option>
+                            <option value="Growth">Growth — $160/mo</option>
+                            <option value="Custom">Custom — Scoped</option>
+                        </select>
+                    </div>
+                    <div class="portal-field">
+                        <label class="portal-label">Status *</label>
+                        <select asp-for="Input.Status" class="portal-input">
+                            <option value="Pending">Pending</option>
+                            <option value="Active">Active</option>
+                            <option value="Inactive">Inactive</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-outline-dark portal-submit-btn">Save Changes &rarr;</button>
+        </form>
+    </div>
+</div>

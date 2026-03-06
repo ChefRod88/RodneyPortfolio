@@ -64,6 +64,9 @@ public class ClientPortalService : IClientPortalService
         return accounts.OrderByDescending(a => a.RegisteredAt).ToList();
     }
 
+    public async Task UpdateAccountAsync(ClientAccount account, CancellationToken ct = default)
+        => await SaveAccountAsync(account, ct);
+
     public async Task<bool> DeleteAccountAsync(string id, CancellationToken ct = default)
     {
         var accounts = await LoadAsync<ClientAccount>(AccountsPath);

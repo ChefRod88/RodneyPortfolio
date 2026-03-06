@@ -1,0 +1,4 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/dotnet:1-9.0",
+  "postCreateCommand": "echo 'if [ -n \"$WORKFLOWAPI\" ]; then export GH_TOKEN=$WORKFLOWAPI; fi' >> ~/.bashrc && gh auth setup-git"
+}

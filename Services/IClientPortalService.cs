@@ -17,6 +17,7 @@ public interface IClientPortalService
     // Accounts — new admin methods
     Task<List<ClientAccount>> GetAllAccountsAsync(CancellationToken ct = default);
     Task<bool> DeleteAccountAsync(string id, CancellationToken ct = default);
+    Task UpdateAccountAsync(ClientAccount account, CancellationToken ct = default);
 
     // OTP — existing
     Task<string> GenerateOtpAsync(string email, string purpose, CancellationToken ct = default);
