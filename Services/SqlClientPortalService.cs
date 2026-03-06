@@ -41,6 +41,12 @@ public class SqlClientPortalService : IClientPortalService
             .OrderByDescending(a => a.RegisteredAt)
             .ToListAsync(ct);
 
+    public async Task UpdateAccountAsync(ClientAccount account, CancellationToken ct = default)
+    {
+        _db.ClientAccounts.Update(account);
+        await _db.SaveChangesAsync(ct);
+    }
+
     public async Task<bool> DeleteAccountAsync(string id, CancellationToken ct = default)
     {
         var account = await _db.ClientAccounts.FindAsync(new object[] { id }, ct);
