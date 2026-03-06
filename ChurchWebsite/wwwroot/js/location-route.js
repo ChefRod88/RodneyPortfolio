@@ -1,79 +1,122 @@
 /**
- * Location route experience for /Location page.
- * Uses Leaflet for rendering and GraphHopper for route instructions.
+ * Location route — Google Maps quality dark experience.
+ * CartoDB Dark Matter tiles · GraphHopper routing · Uber-style live tracking
  */
 (function locationRouteFeature() {
-  const card = document.getElementById('location-status-card');
-  const mapEl = document.getElementById('location-map');
+  const card    = document.getElementById('location-status-card');
+  const mapEl   = document.getElementById('location-map');
   if (!card || !mapEl || typeof L === 'undefined') return;
 
-  const panelMeta = document.getElementById('location-directions-meta');
+  const panelMeta  = document.getElementById('location-directions-meta');
   const panelSteps = document.getElementById('location-directions-steps');
-  const directionsPanel = document.getElementById('location-directions-panel');
-  const helpers = (typeof window !== 'undefined' && window.LocationRouteHelpers) ? window.LocationRouteHelpers : null;
+  const dirPanel   = document.getElementById('location-directions-panel');
+  const statusText = document.getElementById('location-status-text');
+  const statusDot  = document.getElementById('location-status-dot');
+  const helpers    = window.LocationRouteHelpers || null;
 
-  const parseOptionalNumber = (value) => {
-    if (typeof value !== 'string' || value.trim() === '') return null;
-    const parsed = Number(value);
-    return Number.isFinite(parsed) ? parsed : null;
+  /* ── Constants ───────────────────────────────────────────── */
+  const DEST = {
+    name:    card.dataset.destinationName    || 'New Bethel Missionary Baptist Church',
+    address: card.dataset.destinationAddress || '123 Ave Y NE, Winter Haven, FL 33881',
+    lat:     28.0497068,
+    lon:    -81.7260765
   };
+  const GH_KEY = card.dataset.graphhopperKey || '';
 
-  const destination = {
-    name: 'New Bethel Missionary Baptist Church',
-    address: '123 Ave Y NE, Winter Haven, FL 33881',
-    lat: 28.0497068,
-    lon: -81.7260765
-  };
+  /* ── Parse server-provided coords ───────────────────────── */
+  const parseNum = v => { const n = Number(v); return Number.isFinite(n) && v ? n : null; };
+  let serverLat = parseNum(card.dataset.locationLat);
+  let serverLon = parseNum(card.dataset.locationLon);
 
-  const graphHopperKey = card.dataset.graphhopperKey || '';
-  const serverLat = parseOptionalNumber(card.dataset.locationLat);
-  const serverLon = parseOptionalNumber(card.dataset.locationLon);
-
-  const defaultCenter = destination.lat !== null && destination.lon !== null
-    ? [destination.lat, destination.lon]
-    : [28.03, -81.73];
-
+  /* ═══════════════════════════════════════════════════════════
+     MAP INIT — CartoDB Dark Matter (Google Maps dark quality)
+     ═══════════════════════════════════════════════════════════ */
   const map = L.map(mapEl, {
-    zoomControl: true,
-    attributionControl: true
-  }).setView(defaultCenter, 12);
+    zoomControl: false,
+    attributionControl: true,
+    zoomSnap: 0.5,
+    zoomDelta: 0.5
+  }).setView([DEST.lat, DEST.lon], 13);
 
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    maxZoom: 19,
-    attribution: '&copy; OpenStreetMap contributors'
+  /* CartoDB Dark Matter — professional dark basemap, free, no key */
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 20
   }).addTo(map);
 
-  if (destination.lat !== null && destination.lon !== null) {
-    const churchMarker = L.marker([destination.lat, destination.lon], {
-      title: destination.name
-    }).addTo(map);
-    churchMarker.bindPopup(`<strong>${destination.name}</strong><br>${destination.address || ''}`);
-  }
+  /* Zoom controls — bottom right */
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
 
-  let routeLayer = null;
-  let travelMarker = null;
-  let currentLocationMarker = null;
-  let inflight = false;
-  let queued = false;
-  let queuedCoords = null;
-  let lastRequestedAt = 0;
-  let activeRenderSeq = 0;
+  /* Recenter button */
+  const RecenterControl = L.Control.extend({
+    options: { position: 'bottomright' },
+    onAdd() {
+      const btn = L.DomUtil.create('button', 'loc-recenter-btn');
+      btn.innerHTML = '&#8982;';
+      btn.title = 'Re-center map';
+      btn.setAttribute('aria-label', 'Re-center map on route');
+      L.DomEvent.on(btn, 'click', L.DomEvent.stopPropagation);
+      L.DomEvent.on(btn, 'click', () => {
+        if (lastRouteCoords && lastRouteCoords.length) {
+          map.fitBounds(L.latLngBounds(lastRouteCoords), getFitPadding());
+        } else {
+          map.setView([DEST.lat, DEST.lon], 14);
+        }
+      });
+      return btn;
+    }
+  });
+  new RecenterControl().addTo(map);
+
+  /* ── Church destination marker (gold pulsing pin) ─────── */
+  const churchIcon = L.divIcon({
+    className: '',
+    html: `<div class="loc-church-pin" aria-hidden="true">
+             <div class="loc-church-pin-inner">&#9679;</div>
+             <div class="loc-church-pin-ring loc-church-pin-ring-1"></div>
+             <div class="loc-church-pin-ring loc-church-pin-ring-2"></div>
+           </div>`,
+    iconSize:   [28, 28],
+    iconAnchor: [14, 14],
+    popupAnchor:[0, -16]
+  });
+  const churchMarker = L.marker([DEST.lat, DEST.lon], { icon: churchIcon, zIndexOffset: 1000 })
+    .addTo(map)
+    .bindPopup(`
+      <div style="text-align:center;padding:.2rem 0">
+        <strong style="font-size:.95rem;color:#F0D080">${DEST.name}</strong>
+        <br><span style="font-size:.78rem;color:rgba(240,237,230,.6)">${DEST.address}</span>
+      </div>`);
+
+  /* ── State ─────────────────────────────────────────────── */
+  let routeLayer         = null;
+  let routeGlowLayer     = null;
+  let travelMarker       = null;
+  let userMarker         = null;
+  let lastRouteCoords    = null;
   let lastRenderedOrigin = null;
-  let inflightOrigin = null;
-  let serverRenderTimeoutId = null;
-  let hasCompletedInitialRouteRender = false;
+  let inflight           = false;
+  let queued             = false;
+  let queuedCoords       = null;
+  let lastRequestedAt    = 0;
+  let activeSeq          = 0;
+  let watchId            = null;
+  let initDone           = false;
 
-  function isSameOrigin(a, b) {
-    if (!a || !b) return false;
-    return Math.abs(a.lat - b.lat) < 0.00001 && Math.abs(a.lon - b.lon) < 0.00001;
-  }
+  /* ── Helpers ─────────────────────────────────────────── */
+  const isSame = (a, b) => a && b &&
+    Math.abs(a.lat - b.lat) < 0.00008 &&
+    Math.abs(a.lon - b.lon) < 0.00008;
 
-  function updateMeta(message) {
-    if (panelMeta) panelMeta.textContent = message;
-  }
+  const updateMeta  = msg => { if (panelMeta)  panelMeta.textContent  = msg; };
+  const clearSteps  = ()  => { if (panelSteps) panelSteps.innerHTML   = ''; };
 
-  function clearSteps() {
-    if (panelSteps) panelSteps.innerHTML = '';
+  function setStatus(online, text) {
+    if (statusDot) {
+      statusDot.className = `location-status-dot ${online ? 'dot-online' : 'dot-offline'}`;
+    }
+    if (statusText) statusText.textContent = text;
   }
 
   function setSteps(steps) {
@@ -81,357 +124,293 @@
     panelSteps.innerHTML = '';
     if (!steps.length) {
       const li = document.createElement('li');
-      li.textContent = 'No step-by-step directions were returned.';
+      li.textContent = 'No turn-by-turn directions returned.';
       panelSteps.appendChild(li);
       return;
     }
-    steps.forEach((step) => {
+    steps.forEach(s => {
       const li = document.createElement('li');
-      li.textContent = step;
+      li.textContent = s;
       panelSteps.appendChild(li);
     });
   }
 
-  function decodePolyline(encoded, is3d) {
-    const points = [];
-    let index = 0;
-    let lat = 0;
-    let lng = 0;
-    let ele = 0;
-    const factor = 1e5;
-
-    while (index < encoded.length) {
-      let shift = 0;
-      let result = 0;
-      let byte;
-      do {
-        byte = encoded.charCodeAt(index++) - 63;
-        result |= (byte & 0x1f) << shift;
-        shift += 5;
-      } while (byte >= 0x20);
-      const latitudeChange = (result & 1) ? ~(result >> 1) : (result >> 1);
-      lat += latitudeChange;
-
-      shift = 0;
-      result = 0;
-      do {
-        byte = encoded.charCodeAt(index++) - 63;
-        result |= (byte & 0x1f) << shift;
-        shift += 5;
-      } while (byte >= 0x20);
-      const longitudeChange = (result & 1) ? ~(result >> 1) : (result >> 1);
-      lng += longitudeChange;
-
-      if (is3d) {
-        shift = 0;
-        result = 0;
-        do {
-          byte = encoded.charCodeAt(index++) - 63;
-          result |= (byte & 0x1f) << shift;
-          shift += 5;
-        } while (byte >= 0x20);
-        const elevationChange = (result & 1) ? ~(result >> 1) : (result >> 1);
-        ele += elevationChange;
-      }
-
-      points.push([lat / factor, lng / factor]);
+  /* ── Polyline decode (GraphHopper encoded) ───────────── */
+  function decodePolyline(encoded) {
+    const pts = []; let idx = 0, lat = 0, lng = 0;
+    while (idx < encoded.length) {
+      let s = 0, r = 0, b;
+      do { b = encoded.charCodeAt(idx++) - 63; r |= (b & 0x1f) << s; s += 5; } while (b >= 0x20);
+      lat += (r & 1) ? ~(r >> 1) : (r >> 1);
+      s = 0; r = 0;
+      do { b = encoded.charCodeAt(idx++) - 63; r |= (b & 0x1f) << s; s += 5; } while (b >= 0x20);
+      lng += (r & 1) ? ~(r >> 1) : (r >> 1);
+      pts.push([lat / 1e5, lng / 1e5]);
     }
-    return points;
+    return pts;
   }
 
-  function formatMeters(meters) {
-    if (!Number.isFinite(meters)) return '';
-    const feet = meters * 3.28084;
-    return `${Math.round(feet).toLocaleString()} ft`;
+  /* ── Formatters ─────────────────────────────────────── */
+  const fmtDist = m => {
+    if (!Number.isFinite(m)) return '';
+    const mi = m / 1609.34;
+    return mi >= 0.1 ? `${mi.toFixed(1)} mi` : `${Math.round(m * 3.28084)} ft`;
+  };
+  const fmtTime = s => {
+    if (!Number.isFinite(s)) return '';
+    const m = Math.round(s / 60);
+    if (m < 60) return `${m} min`;
+    const h = Math.floor(m / 60), r = m % 60;
+    return r ? `${h} hr ${r} min` : `${h} hr`;
+  };
+
+  /* ── Fit bounds padding (account for side panel) ────── */
+  function getFitPadding() {
+    const pad = 40;
+    const pr = dirPanel ? dirPanel.getBoundingClientRect() : null;
+    if (pr && pr.width > 0 && window.innerWidth > 900) {
+      return { paddingTopLeft: [pad, pad], paddingBottomRight: [pr.width + 32, pad] };
+    }
+    return { paddingTopLeft: [pad, pad], paddingBottomRight: [pad, pad] };
   }
 
-  function formatSeconds(seconds) {
-    if (!Number.isFinite(seconds)) return '';
-    const mins = Math.round(seconds / 60);
-    if (mins < 60) return `${mins} min`;
-    const hours = Math.floor(mins / 60);
-    const rem = mins % 60;
-    return rem > 0 ? `${hours} hr ${rem} min` : `${hours} hr`;
+  /* ── User location marker (pulsing green dot) ─────── */
+  function upsertUserMarker(lat, lon) {
+    const icon = L.divIcon({
+      className: '',
+      html: '<span class="route-origin-ping-core" aria-hidden="true"></span>',
+      iconSize: [18, 18], iconAnchor: [9, 9]
+    });
+    if (!userMarker) {
+      userMarker = L.marker([lat, lon], { icon, zIndexOffset: 800 }).addTo(map);
+    } else {
+      userMarker.setLatLng([lat, lon]);
+    }
   }
 
-  function animateRoutePath() {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced || !routeLayer) return;
+  /* ── Animated travel dot along route ────────────────── */
+  function animateTravelDot(coords) {
+    if (!coords || coords.length < 2) return;
+    if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+    if (travelMarker) { map.removeLayer(travelMarker); travelMarker = null; }
 
+    const icon = L.divIcon({
+      className: '',
+      html: '<div class="route-travel-car" aria-hidden="true">🚗</div>',
+      iconSize: [22, 22], iconAnchor: [11, 11]
+    });
+    travelMarker = L.marker(coords[0], { icon }).addTo(map);
+    const dur = 4000, start = performance.now();
+    (function tick(now) {
+      const p   = Math.min((now - start) / dur, 1);
+      const idx = Math.min(Math.floor(p * (coords.length - 1)), coords.length - 2);
+      if (travelMarker) travelMarker.setLatLng(coords[idx]);
+      if (p < 1) requestAnimationFrame(tick);
+    })(performance.now());
+  }
+
+  /* ── Route line draw-on animation ──────────────────── */
+  function animateRouteLine() {
+    if (!routeLayer || window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
     const path = routeLayer._path;
     if (!path || typeof path.getTotalLength !== 'function') return;
-
-    const totalLength = path.getTotalLength();
-    const animationState = helpers && typeof helpers.buildRouteLineAnimationState === 'function'
-      ? helpers.buildRouteLineAnimationState(totalLength, 1800)
-      : {
-          strokeDasharray: String(totalLength),
-          strokeDashoffsetStart: String(totalLength),
-          strokeDashoffsetEnd: '0',
-          transition: 'stroke-dashoffset 1800ms ease-out'
-        };
-    if (!animationState) return;
-
-    path.classList.add('route-line-animated');
-    path.style.strokeDasharray = animationState.strokeDasharray;
-    path.style.strokeDashoffset = animationState.strokeDashoffsetStart;
-    path.style.transition = animationState.transition;
-    const cleanupStrokeAnimation = () => {
-      if (helpers && typeof helpers.resetRouteLineAnimationStyle === 'function') {
-        helpers.resetRouteLineAnimationStyle(path.style);
-      } else {
-        path.style.strokeDasharray = '';
-        path.style.strokeDashoffset = '';
-        path.style.transition = '';
-      }
-      path.removeEventListener('transitionend', cleanupStrokeAnimation);
-    };
-    path.addEventListener('transitionend', cleanupStrokeAnimation);
+    const len = path.getTotalLength();
+    path.style.strokeDasharray  = len;
+    path.style.strokeDashoffset = len;
+    path.style.transition       = 'none';
     requestAnimationFrame(() => {
-      path.style.strokeDashoffset = animationState.strokeDashoffsetEnd;
+      path.style.transition       = 'stroke-dashoffset 1.6s cubic-bezier(.4,0,.2,1)';
+      path.style.strokeDashoffset = '0';
     });
-    // Fallback cleanup in case transitionend does not fire.
-    setTimeout(cleanupStrokeAnimation, 2200);
-  }
-
-  function getFitBoundsPadding() {
-    const basePad = 30;
-    const panelRect = directionsPanel ? directionsPanel.getBoundingClientRect() : null;
-    if (helpers && typeof helpers.calculateFitBoundsPadding === 'function') {
-      return helpers.calculateFitBoundsPadding(panelRect, window.innerWidth, basePad);
-    }
-    if (!panelRect || panelRect.width <= 0 || panelRect.height <= 0) {
-      return {
-        paddingTopLeft: [basePad, basePad],
-        paddingBottomRight: [basePad, basePad]
-      };
-    }
-    return {
-      paddingTopLeft: [basePad, basePad],
-      paddingBottomRight: [Math.ceil(panelRect.width + 24), Math.ceil((panelRect.height * 0.55) + 24)]
+    const cleanup = () => {
+      path.style.strokeDasharray = '';
+      path.style.strokeDashoffset = '';
+      path.style.transition = '';
+      path.removeEventListener('transitionend', cleanup);
     };
+    path.addEventListener('transitionend', cleanup);
+    setTimeout(cleanup, 2200);
   }
 
-  function animateTravelMarker(coords) {
-    if (!coords || coords.length < 2) return;
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced) return;
-
-    if (travelMarker) {
-      map.removeLayer(travelMarker);
-      travelMarker = null;
-    }
-
-    const icon = L.divIcon({
-      className: 'route-travel-car-icon',
-      html: '<div class="route-travel-car" aria-hidden="true">🚗</div>',
-      iconSize: [22, 22],
-      iconAnchor: [11, 11]
-    });
-
-    travelMarker = L.marker(coords[0], { icon }).addTo(map);
-
-    const durationMs = 3500;
-    const start = performance.now();
-
-    function tick(now) {
-      const progress = Math.min((now - start) / durationMs, 1);
-      const idx = Math.min(Math.floor(progress * (coords.length - 1)), coords.length - 1);
-      travelMarker.setLatLng(coords[idx]);
-      if (progress < 1) {
-        requestAnimationFrame(tick);
-      }
-    }
-    requestAnimationFrame(tick);
-  }
-
-  function upsertCurrentLocationMarker(lat, lon) {
-    const icon = L.divIcon({
-      className: 'route-origin-ping-icon',
-      html: '<span class="route-origin-ping-core" aria-hidden="true"></span>',
-      iconSize: [18, 18],
-      iconAnchor: [9, 9]
-    });
-
-    if (!currentLocationMarker) {
-      currentLocationMarker = L.marker([lat, lon], { icon, zIndexOffset: 800 }).addTo(map);
-      return;
-    }
-
-    currentLocationMarker.setLatLng([lat, lon]);
-  }
-
-  async function fetchRoute(originLat, originLon) {
-    if (!graphHopperKey) {
-      updateMeta('Routing unavailable: GraphHopper API key is missing.');
-      clearSteps();
-      return null;
-    }
-
+  /* ── Fetch route from GraphHopper ─────────────────── */
+  async function fetchRoute(oLat, oLon) {
+    if (!GH_KEY) return null;
     const qp = new URLSearchParams({
-      key: graphHopperKey,
-      vehicle: 'car',
-      locale: 'en',
-      points_encoded: 'true',
-      instructions: 'true',
-      calc_points: 'true'
+      key: GH_KEY, vehicle: 'car', locale: 'en',
+      points_encoded: 'true', instructions: 'true', calc_points: 'true'
     });
-    if (destination.lat === null || destination.lon === null) {
-      throw new Error('Destination coordinates are not configured');
-    }
-
-    qp.append('point', `${originLat},${originLon}`);
-    qp.append('point', `${destination.lat},${destination.lon}`);
-
-    const url = `https://graphhopper.com/api/1/route?${qp.toString()}`;
-    const response = await fetch(url, { method: 'GET' });
-    if (!response.ok) {
-      throw new Error(`Routing HTTP ${response.status}`);
-    }
-    const payload = await response.json();
-    if (!payload.paths || !payload.paths.length) {
-      throw new Error('No route found');
-    }
-    return payload.paths[0];
+    qp.append('point', `${oLat},${oLon}`);
+    qp.append('point', `${DEST.lat},${DEST.lon}`);
+    const res = await fetch(`https://graphhopper.com/api/1/route?${qp}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json();
+    if (!data.paths?.length) throw new Error('No route found');
+    return data.paths[0];
   }
 
-  function parseStepText(instruction) {
-    const text = (instruction.text || '').trim();
-    const distance = formatMeters(instruction.distance);
-    if (!text) return distance;
-    if (!distance) return text;
-    return `${text} (${distance})`;
-  }
-
-  async function renderRoute(originLat, originLon) {
-    const requestedOrigin = { lat: originLat, lon: originLon };
-    if (routeLayer && lastRenderedOrigin && isSameOrigin(lastRenderedOrigin, requestedOrigin)) {
-      return;
-    }
+  /* ── Main render ─────────────────────────────────── */
+  async function renderRoute(oLat, oLon) {
+    const origin = { lat: oLat, lon: oLon };
+    if (routeLayer && isSame(lastRenderedOrigin, origin)) return;
 
     const now = Date.now();
-    if (inflight || (now - lastRequestedAt < 900)) {
-      if (inflight && inflightOrigin && isSameOrigin(inflightOrigin, requestedOrigin)) {
-        return;
-      }
+    if (inflight || now - lastRequestedAt < 800) {
+      if (inflight && isSame(inflight === origin, origin)) return;
       queued = true;
-      queuedCoords = { lat: originLat, lon: originLon };
+      queuedCoords = origin;
       return;
     }
 
     inflight = true;
-    inflightOrigin = requestedOrigin;
     lastRequestedAt = now;
-    activeRenderSeq += 1;
-    const renderSeq = activeRenderSeq;
+    activeSeq++;
+    const seq = activeSeq;
+
     try {
-      updateMeta('Calculating fastest route...');
-      upsertCurrentLocationMarker(originLat, originLon);
-      const path = await fetchRoute(originLat, originLon);
-      if (!path || renderSeq !== activeRenderSeq) return;
-      const coords = decodePolyline(path.points, false);
-      if (!coords.length || renderSeq !== activeRenderSeq) return;
+      updateMeta('Calculating fastest route…');
+      upsertUserMarker(oLat, oLon);
 
-      const nextRouteLayer = L.polyline(coords, {
-        color: '#2563eb',
-        weight: 5,
-        opacity: 0.9
-      }).addTo(map);
-      nextRouteLayer.bringToFront();
-      const previousRouteLayer = routeLayer;
-      routeLayer = nextRouteLayer;
-      if (previousRouteLayer) map.removeLayer(previousRouteLayer);
+      /* Try GraphHopper; fall back to straight line if key missing */
+      let coords;
+      if (GH_KEY) {
+        const path = await fetchRoute(oLat, oLon);
+        if (!path || seq !== activeSeq) return;
+        coords = decodePolyline(path.points);
+        if (!coords.length || seq !== activeSeq) return;
 
-      const shouldAnimateRouteLine = hasCompletedInitialRouteRender;
-      let animationStarted = false;
-      const runAnimations = () => {
-        if (animationStarted || renderSeq !== activeRenderSeq) return;
-        animationStarted = true;
-        if (shouldAnimateRouteLine) {
-          animateRoutePath();
-        }
-        animateTravelMarker(coords);
-      };
+        /* Glow layer (thick blurred copy behind the main line) */
+        if (routeGlowLayer) map.removeLayer(routeGlowLayer);
+        routeGlowLayer = L.polyline(coords, {
+          color: 'rgba(37,99,235,0.25)', weight: 14, opacity: 1, lineCap: 'round'
+        }).addTo(map);
 
+        /* Main route line */
+        if (routeLayer) map.removeLayer(routeLayer);
+        routeLayer = L.polyline(coords, {
+          color: '#3b82f6', weight: 5, opacity: 0.95, lineCap: 'round', lineJoin: 'round'
+        }).addTo(map);
+        routeLayer.bringToFront();
+
+        /* ETA + steps */
+        const eta  = fmtTime(path.time / 1000);
+        const dist = fmtDist(path.distance);
+        updateMeta(eta && dist ? `${eta} • ${dist}` : 'Route calculated');
+        const steps = (path.instructions || [])
+          .map(i => { const t = (i.text||'').trim(); const d = fmtDist(i.distance); return t && d ? `${t}  (${d})` : t || d; })
+          .filter(Boolean).slice(0, 14);
+        setSteps(steps);
+      } else {
+        /* No API key — draw straight fallback line */
+        coords = [[oLat, oLon], [DEST.lat, DEST.lon]];
+        if (routeLayer) map.removeLayer(routeLayer);
+        routeLayer = L.polyline(coords, {
+          color: '#3b82f6', weight: 4, opacity: 0.7, dashArray: '8 6'
+        }).addTo(map);
+        updateMeta('Straight-line preview (routing key not configured)');
+        clearSteps();
+      }
+
+      lastRouteCoords    = coords;
+      lastRenderedOrigin = origin;
+
+      /* Fit map to show full route */
       const bounds = L.latLngBounds(coords);
-      map.once('moveend', runAnimations);
-      const fitPadding = getFitBoundsPadding();
-      map.fitBounds(bounds, fitPadding);
-      // Fallback if map movement is minimal and moveend does not fire.
-      setTimeout(runAnimations, 250);
+      map.once('moveend', () => { animateRouteLine(); animateTravelDot(coords); });
+      map.fitBounds(bounds, getFitPadding());
+      setTimeout(() => { animateRouteLine(); animateTravelDot(coords); }, 300);
 
-      const eta = formatSeconds(path.time / 1000);
-      const distance = formatMeters(path.distance);
-      updateMeta(`Estimated ${eta} • ${distance}`);
+      initDone = true;
 
-      const steps = (path.instructions || []).map(parseStepText).filter(Boolean).slice(0, 12);
-      setSteps(steps);
-      lastRenderedOrigin = { lat: originLat, lon: originLon };
-      hasCompletedInitialRouteRender = true;
-    } catch (_error) {
-      updateMeta('Could not calculate route right now. Please try again.');
+    } catch {
+      updateMeta('Could not calculate route. Please try again.');
       clearSteps();
     } finally {
       inflight = false;
-      inflightOrigin = null;
       if (queued) {
         queued = false;
         const next = queuedCoords ? { ...queuedCoords } : null;
         queuedCoords = null;
-        setTimeout(() => {
-          if (next) {
-            renderRoute(next.lat, next.lon);
-          } else {
-            renderRoute(originLat, originLon);
-          }
-        }, 200);
+        setTimeout(() => next && renderRoute(next.lat, next.lon), 300);
       }
     }
   }
 
-  function tryRouteFromServerCoordinates() {
+  /* ═══════════════════════════════════════════════════
+     LIVE GPS — auto-start on page load like Uber
+     ═══════════════════════════════════════════════════ */
+  function startGPS() {
+    if (!navigator.geolocation) {
+      tryServerCoords();
+      return;
+    }
+
+    const refreshBtn = document.getElementById('location-refresh-btn');
+    if (refreshBtn) { refreshBtn.disabled = true; refreshBtn.textContent = '📡 Locating…'; }
+
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const { latitude: lat, longitude: lon, accuracy } = pos.coords;
+        setStatus(true, `GPS lock (±${Math.round(accuracy)}m)`);
+        if (refreshBtn) { refreshBtn.disabled = false; refreshBtn.textContent = '🔄 Recalculate'; }
+        renderRoute(lat, lon);
+
+        /* Live watch — re-route if user moves >30 m (Uber-style) */
+        if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+        watchId = navigator.geolocation.watchPosition(
+          wp => {
+            const wLat = wp.coords.latitude, wLon = wp.coords.longitude;
+            const d = Math.hypot(wLat - lat, wLon - lon) * 111320;
+            if (d > 30) {
+              renderRoute(wLat, wLon);
+              setStatus(true, `Live tracking (±${Math.round(wp.coords.accuracy)}m)`);
+            }
+          },
+          null,
+          { enableHighAccuracy: true, maximumAge: 10000, timeout: 30000 }
+        );
+      },
+      err => {
+        if (refreshBtn) { refreshBtn.disabled = false; refreshBtn.textContent = '📍 Use Device GPS'; }
+        const msg = err.code === 1 ? 'GPS permission denied' :
+                    err.code === 2 ? 'GPS unavailable' : 'GPS timeout';
+        setStatus(false, msg);
+        tryServerCoords();
+      },
+      { enableHighAccuracy: true, timeout: 12000, maximumAge: 30000 }
+    );
+  }
+
+  function tryServerCoords() {
     if (Number.isFinite(serverLat) && Number.isFinite(serverLon)) {
+      setStatus(true, 'Location from server IP');
       renderRoute(serverLat, serverLon);
     } else {
-      updateMeta('Waiting for your device location...');
+      updateMeta('Could not determine your location. Open in Google Maps for directions.');
+      map.setView([DEST.lat, DEST.lon], 15);
+      churchMarker.openPopup();
     }
   }
 
+  /* Manual refresh button */
   const refreshBtn = document.getElementById('location-refresh-btn');
-  let latestCoords = serverLat !== null && serverLon !== null
-    ? { lat: serverLat, lon: serverLon }
-    : null;
-
   if (refreshBtn) {
     refreshBtn.addEventListener('click', () => {
-      if (latestCoords) {
-        renderRoute(latestCoords.lat, latestCoords.lon);
-      } else {
-        tryRouteFromServerCoordinates();
-      }
+      if (watchId !== null) { navigator.geolocation.clearWatch(watchId); watchId = null; }
+      startGPS();
     });
   }
 
-  document.addEventListener('church:location-resolved', (event) => {
-    if (serverRenderTimeoutId !== null) {
-      clearTimeout(serverRenderTimeoutId);
-      serverRenderTimeoutId = null;
+  /* External location-resolved event (server push) */
+  document.addEventListener('church:location-resolved', e => {
+    const { latitude: lat, longitude: lon } = e?.detail || {};
+    if (typeof lat === 'number' && typeof lon === 'number') {
+      serverLat = lat; serverLon = lon;
+      if (!initDone) renderRoute(lat, lon);
     }
-
-    const detail = event && event.detail ? event.detail : {};
-    const lat = typeof detail.latitude === 'number' && Number.isFinite(detail.latitude) ? detail.latitude : null;
-    const lon = typeof detail.longitude === 'number' && Number.isFinite(detail.longitude) ? detail.longitude : null;
-    if (lat === null || lon === null) return;
-    if (latestCoords && isSameOrigin(latestCoords, { lat, lon })) {
-      return;
-    }
-    latestCoords = { lat, lon };
-    renderRoute(lat, lon);
   });
 
-  // Slight delay helps avoid double-render flicker when browser location resolves immediately.
-  serverRenderTimeoutId = setTimeout(() => {
-    serverRenderTimeoutId = null;
-    tryRouteFromServerCoordinates();
-  }, 450);
+  /* ── Boot ─────────────────────────────────────────── */
+  /* Auto-start GPS immediately on page load */
+  startGPS();
+
 })();
