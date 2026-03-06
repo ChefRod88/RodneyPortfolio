@@ -540,6 +540,7 @@ body.home-page .navbar.navbar-transparent .nav-link.dropdown-toggle:hover {
   display: flex; align-items: flex-end;
   transition: transform 0.4s ease, box-shadow 0.4s ease;
   cursor: pointer;
+  will-change: transform;
 }
 .ministry-card:hover {
   transform: translateY(-6px);
@@ -712,6 +713,7 @@ body.home-page .navbar.navbar-transparent .nav-link.dropdown-toggle:hover {
   border-radius: var(--radius-lg);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   overflow: hidden;
+  will-change: transform;
 }
 .card:hover {
   transform: translateY(-4px);
@@ -1306,4 +1308,45 @@ body.home-page .navbar.navbar-transparent .nav-link.dropdown-toggle:hover {
 .give-modal-verse {
   font-size: 0.8rem; font-style: italic;
   color: rgba(240,237,230,0.45); line-height: 1.72; padding: 0 0.5rem;
+}
+
+/* ============================================
+   FOCUS-VISIBLE — Keyboard navigation rings
+   ============================================ */
+.give-modal-close:focus-visible,
+.give-modal-amt:focus-visible,
+.give-modal-open-btn:focus-visible,
+.nav-give-btn:focus-visible,
+.give-fab:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ============================================
+   FOOTER LINK CONTRAST — WCAG AA improvement
+   ============================================ */
+.global-footer {
+  color: rgba(255,255,255,0.6) !important;
+}
+
+/* ============================================
+   PREFERS-REDUCED-MOTION
+   Respect user's motion preference site-wide
+   ============================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .ministry-card,
+  .card,
+  .sermon-thumb,
+  .give-fab,
+  .nav-give-btn {
+    will-change: auto;
+  }
 }
