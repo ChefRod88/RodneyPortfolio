@@ -154,8 +154,9 @@ body{background:var(--d);color:var(--tp);font-family:'Segoe UI',system-ui,sans-s
 
 <div class="lv-past sr">
   <h3>Missed a Service?</h3>
-  <p>Browse our full sermon library and never miss a message from God's Word.</p>
-  <a asp-page="/Sermons/Index" class="btn-gold">Browse Past Sermons →</a>
+  <p>Browse our full sermon library and never miss a message from God&rsquo;s Word.</p>
+  <a asp-page="/Sermons/Index" class="btn-gold" style="margin-right:.75rem">Browse Past Sermons &rarr;</a>
+  <button onclick="openGiveModal()" class="btn-gold" style="background:linear-gradient(135deg,#00D632,#009922);box-shadow:0 8px 24px rgba(0,214,50,.35);margin-top:.75rem">&#9829; Give Online &rarr;</button>
 </div>
 
 @section Scripts {

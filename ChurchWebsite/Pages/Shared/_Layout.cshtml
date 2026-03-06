@@ -3,7 +3,6 @@
    USE CASE: Nav, footer, scripts shared site-wide
    LOCATION: Every page (via _ViewStart.cshtml)
    ============================================ *@
-@* Inject church config and current request path for nav active state *@
 @using ChurchWebsite.Models
 @using Microsoft.Extensions.Options
 @inject IOptions<ChurchSettings> ChurchOptions
@@ -11,7 +10,6 @@
 @{
     var church = ChurchOptions.Value;
     var path = HttpContextAccessor.HttpContext?.Request.Path.Value ?? "";
-    /* IsActive: returns true if current path matches nav item (e.g. /About matches About dropdown) */
     bool IsActive(string page) => (page == "/" && (path == "/" || path == "")) || (page != "/" && path.StartsWith(page, StringComparison.OrdinalIgnoreCase));
     bool ShowMultilineBrand() => !IsActive("/About");
 }
@@ -30,16 +28,15 @@
     <link rel="stylesheet" href="~/ChurchWebsite.styles.css" asp-append-version="true" />
     @await RenderSectionAsync("Head", required: false)
 </head>
-@* home-page class: enables transparent nav + hero styling; only on Index *@
 <body class="@((path == "/" || path == "") ? "home-page" : "")">
-    @* SKIP LINK - USE CASE: Accessibility; keyboard users jump to main content *@
     <a href="#main-content" class="visually-hidden-focusable btn btn-primary btn-sm position-fixed top-0 start-0 m-2" style="z-index: 9999;">Skip to main content</a>
-    @* HEADER / NAV - USE CASE: Change nav links, dropdowns; LOCATION: Top of every page *@
+
+    <!-- GLOBAL CONSTELLATION CANVAS -->
+    <canvas id="globalConstellation" style="position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.55" aria-hidden="true"></canvas>
+
     <header>
-        @* Nav: bg-white on non-home pages; on home, site.js toggles navbar-transparent *@
         <nav class="navbar navbar-expand-lg navbar-light border-bottom box-shadow @((path != "/" && path != "") ? "bg-white" : "")" id="mainNav">
             <div class="container-fluid px-0">
-                @* Church name links to home; hidden only on About/Who We Are *@
                 @if (ShowMultilineBrand())
                 {
                     <a class="navbar-brand fw-bold archivo-black navbar-brand-multiline" asp-page="/Index" aria-label="@church.NameText">
@@ -56,17 +53,14 @@
                         }
                     </a>
                 }
-                @* Mobile hamburger - collapses nav on small screens *@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarMain">
-                    <ul class="navbar-nav ms-auto">
-                        @* NAV: Home - USE CASE: Change label or route *@
+                    <ul class="navbar-nav ms-auto align-items-lg-center">
                         <li class="nav-item">
                             <a class="nav-link @(IsActive("/") && path == "/" ? "active" : "")" asp-page="/Index">Home</a>
                         </li>
-                        @* NAV: About dropdown - Who We Are, Location, Contact *@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle @(IsActive("/About") || IsActive("/Location") ? "active" : "")" href="#" id="navAbout" data-bs-toggle="dropdown" aria-expanded="false">About</a>
                             <ul class="dropdown-menu" aria-labelledby="navAbout">
@@ -83,7 +77,6 @@
                                 <li><a class="dropdown-item" asp-page="/About">Contact Us</a></li>
                             </ul>
                         </li>
-                        @* NAV: Next Steps dropdown - Events, Groups, Request Prayer *@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle @(IsActive("/Groups") || IsActive("/Events") ? "active" : "")" href="#" id="navNextSteps" data-bs-toggle="dropdown" aria-expanded="false">Next Steps</a>
                             <ul class="dropdown-menu" aria-labelledby="navNextSteps">
@@ -92,7 +85,6 @@
                                 <li><a class="dropdown-item" asp-page="/Prayer">Request Prayer</a></li>
                             </ul>
                         </li>
-                        @* NAV: Media dropdown - Sermons, Watch Live *@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle @(IsActive("/Sermons") || IsActive("/Live") ? "active" : "")" href="#" id="navMedia" data-bs-toggle="dropdown" aria-expanded="false">Media</a>
                             <ul class="dropdown-menu" aria-labelledby="navMedia">
@@ -100,9 +92,13 @@
                                 <li><a class="dropdown-item" asp-page="/Live">Watch Live</a></li>
                             </ul>
                         </li>
-                        @* NAV: Request Prayer - standalone link *@
                         <li class="nav-item">
                             <a class="nav-link @(IsActive("/Prayer") ? "active" : "")" asp-page="/Prayer">Request Prayer</a>
+                        </li>
+                        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+                            <button class="nav-give-btn" onclick="openGiveModal()" aria-label="Give to New Bethel via Cash App">
+                                &#9829; Give
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -110,23 +106,136 @@
         </nav>
     </header>
 
-    @* MAIN - Page content injected here via @RenderBody() *@
     <main id="main-content" role="main">
         @RenderBody()
     </main>
 
     <footer class="global-footer" role="contentinfo">
         <div class="global-footer-inner">
-            Copyright © 2025 New Bethel Missionary Baptist Church of Winter Haven. All Rights Reserved.
+            <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:1.5rem;margin-bottom:.4rem">
+                <a asp-page="/Index" style="color:rgba(255,255,255,.45);text-decoration:none;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.45)'">Home</a>
+                <a asp-page="/About" style="color:rgba(255,255,255,.45);text-decoration:none;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.45)'">About</a>
+                <a asp-page="/Events/Index" style="color:rgba(255,255,255,.45);text-decoration:none;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.45)'">Events</a>
+                <a asp-page="/Sermons/Index" style="color:rgba(255,255,255,.45);text-decoration:none;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.45)'">Sermons</a>
+                <a asp-page="/Location" style="color:rgba(255,255,255,.45);text-decoration:none;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.45)'">Location</a>
+                <a asp-page="/Prayer" style="color:rgba(255,255,255,.45);text-decoration:none;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.45)'">Prayer</a>
+                <button onclick="openGiveModal()" style="background:none;border:none;color:rgba(201,168,76,.7);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;padding:0;font-family:inherit;transition:color .2s" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(201,168,76,.7)'">&#9829; Give</button>
+            </div>
+            Copyright &copy; 2025 New Bethel Missionary Baptist Church of Winter Haven. All Rights Reserved.
         </div>
     </footer>
 
+    <!-- FLOATING GIVE BUTTON -->
+    <button class="give-fab" onclick="openGiveModal()" aria-label="Give to New Bethel via Cash App">
+        <span class="give-fab-icon">&#36;</span>
+        <span class="give-fab-label">Give</span>
+    </button>
 
-    @* SCRIPTS - jQuery, Bootstrap, site.js; pages can add more via @section Scripts *@
+    <!-- GIVE MODAL -->
+    <div id="giveModal" class="give-modal" role="dialog" aria-modal="true" aria-labelledby="giveModalTitle" hidden>
+        <div class="give-modal-overlay" onclick="closeGiveModal()"></div>
+        <div class="give-modal-card">
+            <div class="give-modal-top-bar"></div>
+            <button class="give-modal-close" onclick="closeGiveModal()" aria-label="Close give modal">&#215;</button>
+            <div class="give-modal-inner">
+                <div class="give-modal-icon">&#128155;</div>
+                <h2 id="giveModalTitle" class="give-modal-title">Support The Ministry</h2>
+                <p class="give-modal-sub">Your generosity fuels the Gospel mission at New Bethel — feeding the hungry, reaching the streets, and sharing the love of Christ.</p>
+
+                <div class="give-modal-amounts">
+                    <button class="give-modal-amt" onclick="selectGiveAmt(this)">$10</button>
+                    <button class="give-modal-amt gm-active" onclick="selectGiveAmt(this)">$25</button>
+                    <button class="give-modal-amt" onclick="selectGiveAmt(this)">$50</button>
+                    <button class="give-modal-amt" onclick="selectGiveAmt(this)">$100</button>
+                </div>
+                <p class="give-modal-hint">Select an amount or give any amount in Cash App</p>
+
+                <div class="give-modal-cashtag">
+                    <div class="give-cashapp-circle">&#36;</div>
+                    <div>
+                        <div class="give-modal-cashtag-label">Pastor&rsquo;s Cash App</div>
+                        <div class="give-modal-cashtag-val">$blueboy78</div>
+                    </div>
+                </div>
+
+                <a href="https://cash.app/$blueboy78" target="_blank" rel="noopener noreferrer" class="give-modal-open-btn" onclick="closeGiveModal()">
+                    Open Cash App &rarr;
+                </a>
+                <p class="give-modal-note">&#128274; Secure payment via Cash App &bull; $blueboy78</p>
+
+                <div class="give-modal-divider"></div>
+                <p class="give-modal-verse">&ldquo;Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.&rdquo; &mdash; 2 Corinthians 9:7</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    (function(){
+      var c=document.getElementById('globalConstellation');
+      if(!c)return;
+      var ctx=c.getContext('2d'),W,H,pts,maxDist=130,raf;
+      function resize(){
+        W=c.width=window.innerWidth;
+        H=c.height=window.innerHeight;
+      }
+      function initPts(){
+        pts=Array.from({length:60},function(){
+          return{x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.18,vy:(Math.random()-.5)*.18,r:Math.random()*1.2+.25,a:Math.random()*.4+.08};
+        });
+      }
+      function draw(){
+        ctx.clearRect(0,0,W,H);
+        for(var i=0;i<pts.length;i++){
+          for(var j=i+1;j<pts.length;j++){
+            var dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+            if(d<maxDist){
+              ctx.beginPath();
+              ctx.moveTo(pts[i].x,pts[i].y);
+              ctx.lineTo(pts[j].x,pts[j].y);
+              ctx.strokeStyle='rgba(201,168,76,'+(0.15*(1-d/maxDist))+')';
+              ctx.lineWidth=.5;
+              ctx.stroke();
+            }
+          }
+        }
+        pts.forEach(function(p){
+          p.x+=p.vx;p.y+=p.vy;
+          if(p.x<0)p.x=W;if(p.x>W)p.x=0;
+          if(p.y<0)p.y=H;if(p.y>H)p.y=0;
+          ctx.beginPath();
+          ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+          ctx.fillStyle='rgba(201,168,76,'+p.a+')';
+          ctx.fill();
+        });
+        raf=requestAnimationFrame(draw);
+      }
+      resize();initPts();draw();
+      window.addEventListener('resize',function(){resize();initPts()});
+      /* Pause when tab hidden to save CPU */
+      document.addEventListener('visibilitychange',function(){
+        if(document.hidden){cancelAnimationFrame(raf)}else{draw()}
+      });
+    })();
+    </script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/location-fallback.js" asp-append-version="true"></script>
+    <script>
+        function openGiveModal() {
+            var m = document.getElementById('giveModal');
+            if (m) { m.hidden = false; document.body.style.overflow = 'hidden'; }
+        }
+        function closeGiveModal() {
+            var m = document.getElementById('giveModal');
+            if (m) { m.hidden = true; document.body.style.overflow = ''; }
+        }
+        function selectGiveAmt(btn) {
+            document.querySelectorAll('.give-modal-amt').forEach(function(b) { b.classList.remove('gm-active'); });
+            btn.classList.add('gm-active');
+        }
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeGiveModal(); });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
