@@ -90,7 +90,7 @@ public class ClientPortalService : IClientPortalService
         var codes = await LoadAsync<OtpCode>(OtpPath);
         foreach (var c in codes.Where(c => c.Email == email && c.Purpose == purpose && !c.Used))
             c.Used = true;
-        var code = Random.Shared.Next(100000, 999999).ToString();
+        var code = Random.Shared.Next(100000, 1000000).ToString();
         codes.Add(new OtpCode { Email = email, Code = code, Purpose = purpose, ExpiresAt = DateTimeOffset.UtcNow.AddMinutes(10) });
         await SaveAsync(OtpPath, codes);
         return code;

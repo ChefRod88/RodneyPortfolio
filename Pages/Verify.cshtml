@@ -20,8 +20,6 @@
     <div class="portal-form-card rc-glass rc-fade" style="max-width:420px;margin:0 auto;text-align:center">
         <form method="post" asp-page-handler="Verify" class="portal-form">
             @Html.AntiForgeryToken()
-            <input type="hidden" name="email" value="@Model.Email" />
-            <input type="hidden" name="purpose" value="@Model.Purpose" />
 
             <div class="portal-form-section">
                 <div class="portal-form-section-label">// Enter 6-digit code</div>
@@ -38,8 +36,6 @@
 
         <form method="post" asp-page-handler="Resend" style="margin-top:1.2rem">
             @Html.AntiForgeryToken()
-            <input type="hidden" name="email" value="@Model.Email" />
-            <input type="hidden" name="purpose" value="@Model.Purpose" />
             <button type="submit" class="portal-resend-btn">Resend code</button>
         </form>
     </div>

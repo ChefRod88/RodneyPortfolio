@@ -19,7 +19,7 @@ public class PaymentEmailService : IPaymentEmailService
 
     public async Task SendInvoiceEmailAsync(Invoice invoice, CancellationToken ct = default)
     {
-        ValidateSmtpConfiguration();
+        if (!IsSmtpConfigured()) { _logger.LogWarning("SMTP not configured — skipping invoice email for {InvoiceId}", invoice.Id); return; }
 
         var safeName = HtmlEncoder.Default.Encode(invoice.ClientName);
         var safeDescription = HtmlEncoder.Default.Encode(invoice.Description);
@@ -42,7 +42,7 @@ public class PaymentEmailService : IPaymentEmailService
 
     public async Task SendPaymentConfirmationAsync(Invoice invoice, CancellationToken ct = default)
     {
-        ValidateSmtpConfiguration();
+        if (!IsSmtpConfigured()) { _logger.LogWarning("SMTP not configured — skipping confirmation email for {InvoiceId}", invoice.Id); return; }
 
         var safeName = HtmlEncoder.Default.Encode(invoice.ClientName);
         var safeDescription = HtmlEncoder.Default.Encode(invoice.Description);
@@ -64,23 +64,25 @@ public class PaymentEmailService : IPaymentEmailService
 
     private async Task SendAsync(string toEmail, string subject, string htmlBody)
     {
-        var from = string.IsNullOrWhiteSpace(_options.FromEmail) ? _options.SmtpUsername : _options.FromEmail;
-        _logger.LogInformation("Sending payment email to {ToEmail} with subject {Subject}", toEmail, subject);
-        using var msg = new MailMessage { From = new MailAddress(from, "RC Dev"), Subject = subject, Body = htmlBody, IsBodyHtml = true };
-        msg.To.Add(toEmail);
-        using var smtp = new SmtpClient(_options.SmtpHost, _options.SmtpPort) { EnableSsl = _options.EnableSsl, Credentials = new NetworkCredential(_options.SmtpUsername, _options.SmtpPassword) };
-        await smtp.SendMailAsync(msg);
-    }
-
-    private void ValidateSmtpConfiguration()
-    {
-        if (string.IsNullOrWhiteSpace(_options.SmtpHost) ||
-            string.IsNullOrWhiteSpace(_options.SmtpUsername) ||
-            string.IsNullOrWhiteSpace(_options.SmtpPassword))
+        try
         {
-            throw new InvalidOperationException("SMTP configuration is missing. Please configure QuoteEmail SMTP settings.");
+            var from = string.IsNullOrWhiteSpace(_options.FromEmail) ? _options.SmtpUsername : _options.FromEmail;
+            _logger.LogInformation("Sending payment email to {ToEmail}: {Subject}", toEmail, subject);
+            using var msg = new MailMessage { From = new MailAddress(from, "RC Dev"), Subject = subject, Body = htmlBody, IsBodyHtml = true };
+            msg.To.Add(toEmail);
+            using var smtp = new SmtpClient(_options.SmtpHost, _options.SmtpPort) { EnableSsl = _options.EnableSsl, Credentials = new NetworkCredential(_options.SmtpUsername, _options.SmtpPassword) };
+            await smtp.SendMailAsync(msg);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to send payment email to {ToEmail}: {Subject}", toEmail, subject);
         }
     }
+
+    private bool IsSmtpConfigured() =>
+        !string.IsNullOrWhiteSpace(_options.SmtpHost) &&
+        !string.IsNullOrWhiteSpace(_options.SmtpUsername) &&
+        !string.IsNullOrWhiteSpace(_options.SmtpPassword);
 
     private static string ToShortInvoiceId(string invoiceId)
     {

@@ -105,11 +105,14 @@ public class DashboardModel : PageModel
         if (invoice is null)
             return new JsonResult(new { error = "Invoice not found" }) { StatusCode = 404 };
 
+        if (invoice.Status == InvoiceStatus.Paid)
+            return new JsonResult(new { error = "Invoice is already paid." }) { StatusCode = 400 };
+
         StripeConfiguration.ApiKey = _stripeOptions.SecretKey;
 
         var options = new PaymentIntentCreateOptions
         {
-            Amount   = (long)(invoice.Amount * 100), // convert dollars → cents
+            Amount   = (long)Math.Round(invoice.Amount * 100, 0, MidpointRounding.AwayFromZero),
             Currency = "usd",
             AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions
             {
@@ -156,7 +159,7 @@ public class DashboardModel : PageModel
             if (paymentIntent.Currency is not "usd")
                 return new JsonResult(new { error = "Unexpected payment currency." }) { StatusCode = 400 };
 
-            if (paymentIntent.AmountReceived < (long)(invoice.Amount * 100))
+            if (paymentIntent.AmountReceived < (long)Math.Round(invoice.Amount * 100, 0, MidpointRounding.AwayFromZero))
                 return new JsonResult(new { error = "Payment amount does not cover this invoice." }) { StatusCode = 400 };
 
             if (paymentIntent.Metadata is null ||
@@ -165,14 +168,18 @@ public class DashboardModel : PageModel
                 return new JsonResult(new { error = "Payment invoice verification failed." }) { StatusCode = 400 };
 
             invoice.Status                = InvoiceStatus.Paid;
-            invoice.PaidAt                = DateTime.UtcNow;
+            invoice.PaidAt                = DateTimeOffset.UtcNow;
             invoice.StripePaymentIntentId = req.PaymentIntentId;
             invoice.PaymentMethod         = "Stripe";
 
             await _invoiceService.UpdateInvoiceAsync(invoice, ct);
 
-            // Fire-and-forget — don't block the JSON response
-            _ = _portalEmailService.SendReceiptAsync(account, invoice, ct);
+            // Fire-and-forget — log any failure so it's visible in Azure logs
+            _ = _portalEmailService.SendReceiptAsync(account, invoice, ct)
+                .ContinueWith(t => HttpContext.RequestServices
+                    .GetRequiredService<ILogger<DashboardModel>>()
+                    .LogError(t.Exception, "Receipt email failed for invoice {InvoiceId}", invoice.Id),
+                    TaskContinuationOptions.OnlyOnFaulted);
 
             return new JsonResult(new { success = true });
         }
@@ -205,8 +212,12 @@ public class DashboardModel : PageModel
 
         await _invoiceService.UpdateInvoiceAsync(invoice, ct);
 
-        // Fire-and-forget admin notification
-        _ = _portalEmailService.SendCashAppPendingAsync(account, invoice, ct);
+        // Fire-and-forget admin notification — log any failure
+        _ = _portalEmailService.SendCashAppPendingAsync(account, invoice, ct)
+            .ContinueWith(t => HttpContext.RequestServices
+                .GetRequiredService<ILogger<DashboardModel>>()
+                .LogError(t.Exception, "CashApp pending email failed for invoice {InvoiceId}", invoice.Id),
+                TaskContinuationOptions.OnlyOnFaulted);
 
         return new JsonResult(new { success = true });
     }

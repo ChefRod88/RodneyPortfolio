@@ -52,7 +52,7 @@ public class InvoicesModel : PageModel
             return Page();
         }
 
-        var invoiceNumber = $"INV-{DateTime.UtcNow:yyyyMMdd}-{Guid.NewGuid().ToString()[..4].ToUpper()}";
+        var invoiceNumber = $"INV-{DateTime.UtcNow:yyyyMMdd}-{Guid.NewGuid().ToString("N")[..8].ToUpper()}";
 
         var invoice = new Invoice
         {
