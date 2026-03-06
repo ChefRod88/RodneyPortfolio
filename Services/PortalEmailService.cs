@@ -1,6 +1,7 @@
-using System.Net;
-using System.Net.Mail;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.Extensions.Options;
+using MimeKit;
 using RodneyPortfolio.Models;
 
 namespace RodneyPortfolio.Services;
@@ -131,15 +132,20 @@ public class PortalEmailService : IPortalEmailService
 
         try
         {
-            var from = string.IsNullOrWhiteSpace(_options.FromEmail) ? _options.SmtpUsername : _options.FromEmail;
-            using var msg = new MailMessage { From = new MailAddress(from, "RC Dev"), Subject = subject, Body = htmlBody, IsBodyHtml = true };
-            msg.To.Add(toEmail);
-            using var smtp = new SmtpClient(_options.SmtpHost, _options.SmtpPort)
-            {
-                EnableSsl = _options.EnableSsl,
-                Credentials = new NetworkCredential(_options.SmtpUsername, _options.SmtpPassword)
-            };
-            await smtp.SendMailAsync(msg);
+            var fromAddress = string.IsNullOrWhiteSpace(_options.FromEmail) ? _options.SmtpUsername : _options.FromEmail;
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("RC Dev", fromAddress));
+            message.To.Add(MailboxAddress.Parse(toEmail));
+            message.Subject = subject;
+            message.Body = new TextPart("html") { Text = htmlBody };
+
+            using var smtp = new SmtpClient();
+            await smtp.ConnectAsync(_options.SmtpHost, _options.SmtpPort, SecureSocketOptions.StartTls);
+            await smtp.AuthenticateAsync(_options.SmtpUsername, _options.SmtpPassword);
+            await smtp.SendAsync(message);
+            await smtp.DisconnectAsync(true);
+
             _logger.LogInformation("Portal email sent to {Email}: {Subject}", toEmail, subject);
         }
         catch (Exception ex)
