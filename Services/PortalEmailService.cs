@@ -129,15 +129,22 @@ public class PortalEmailService : IPortalEmailService
             return;
         }
 
-        var from = string.IsNullOrWhiteSpace(_options.FromEmail) ? _options.SmtpUsername : _options.FromEmail;
-        using var msg = new MailMessage { From = new MailAddress(from, "RC Dev"), Subject = subject, Body = htmlBody, IsBodyHtml = true };
-        msg.To.Add(toEmail);
-        using var smtp = new SmtpClient(_options.SmtpHost, _options.SmtpPort)
+        try
         {
-            EnableSsl = _options.EnableSsl,
-            Credentials = new NetworkCredential(_options.SmtpUsername, _options.SmtpPassword)
-        };
-        await smtp.SendMailAsync(msg);
-        _logger.LogInformation("Portal email sent to {Email}: {Subject}", toEmail, subject);
+            var from = string.IsNullOrWhiteSpace(_options.FromEmail) ? _options.SmtpUsername : _options.FromEmail;
+            using var msg = new MailMessage { From = new MailAddress(from, "RC Dev"), Subject = subject, Body = htmlBody, IsBodyHtml = true };
+            msg.To.Add(toEmail);
+            using var smtp = new SmtpClient(_options.SmtpHost, _options.SmtpPort)
+            {
+                EnableSsl = _options.EnableSsl,
+                Credentials = new NetworkCredential(_options.SmtpUsername, _options.SmtpPassword)
+            };
+            await smtp.SendMailAsync(msg);
+            _logger.LogInformation("Portal email sent to {Email}: {Subject}", toEmail, subject);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to send email to {Email}: {Subject}", toEmail, subject);
+        }
     }
 }
