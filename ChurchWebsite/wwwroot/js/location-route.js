@@ -189,9 +189,15 @@
   }
 
   /* ── Animated travel dot along route ────────────────── */
+  let travelAnimSeq = 0;
+
   function animateTravelDot(coords) {
     if (!coords || coords.length < 2) return;
     if (window.matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+
+    /* Cancel any previous animation loop */
+    const seq = ++travelAnimSeq;
+
     if (travelMarker) { map.removeLayer(travelMarker); travelMarker = null; }
 
     const icon = L.divIcon({
@@ -199,13 +205,20 @@
       html: '<div class="route-travel-car" aria-hidden="true">🚗</div>',
       iconSize: [22, 22], iconAnchor: [11, 11]
     });
-    travelMarker = L.marker(coords[0], { icon }).addTo(map);
-    const dur = 4000, start = performance.now();
+    travelMarker = L.marker(coords[0], { icon, zIndexOffset: 900 }).addTo(map);
+
+    /* Scale duration with route length so speed feels consistent */
+    const dur = Math.max(10000, coords.length * 50);
+    const start = performance.now();
+
     (function tick(now) {
-      const p   = Math.min((now - start) / dur, 1);
-      const idx = Math.min(Math.floor(p * (coords.length - 1)), coords.length - 2);
+      if (seq !== travelAnimSeq) return; /* cancelled — bail silently */
+      const elapsed = now - start;
+      /* Loop continuously: frac goes 0→1 then wraps back to 0 */
+      const frac = (elapsed % dur) / dur;
+      const idx  = Math.min(Math.floor(frac * coords.length), coords.length - 1);
       if (travelMarker) travelMarker.setLatLng(coords[idx]);
-      if (p < 1) requestAnimationFrame(tick);
+      requestAnimationFrame(tick);
     })(performance.now());
   }
 
@@ -313,11 +326,19 @@
       lastRouteCoords    = coords;
       lastRenderedOrigin = origin;
 
-      /* Fit map to show full route */
+      /* Fit map to show full route — fire animations exactly once */
       const bounds = L.latLngBounds(coords);
-      map.once('moveend', () => { animateRouteLine(); animateTravelDot(coords); });
+      let animFired = false;
+      const fireAnim = () => {
+        if (animFired) return;
+        animFired = true;
+        animateRouteLine();
+        animateTravelDot(coords);
+      };
+      map.once('moveend', fireAnim);
       map.fitBounds(bounds, getFitPadding());
-      setTimeout(() => { animateRouteLine(); animateTravelDot(coords); }, 300);
+      /* Safety net: if fitBounds produces no moveend (already in view), fire after 500ms */
+      setTimeout(fireAnim, 500);
 
       initDone = true;
 
