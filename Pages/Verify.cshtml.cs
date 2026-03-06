@@ -19,17 +19,32 @@ public class VerifyModel : PageModel
     public string Purpose { get; private set; } = "login";
     public string? ErrorMessage { get; private set; }
 
+    private const string SessionEmailKey   = "otp_email";
+    private const string SessionPurposeKey = "otp_purpose";
+
     public void OnGet(string email, string purpose = "login")
     {
-        Email = email;
+        Email   = email;
         Purpose = purpose;
+        // Store in session so hidden inputs can't be tampered with
+        HttpContext.Session.SetString(SessionEmailKey,   email);
+        HttpContext.Session.SetString(SessionPurposeKey, purpose);
     }
 
     public async Task<IActionResult> OnPostVerifyAsync(
-        string email, string code, string purpose, CancellationToken ct)
+        string code, CancellationToken ct)
     {
-        Email = email;
+        // Read from session — not from form — to prevent hidden-input tampering
+        var email   = HttpContext.Session.GetString(SessionEmailKey)   ?? string.Empty;
+        var purpose = HttpContext.Session.GetString(SessionPurposeKey) ?? "login";
+        Email   = email;
         Purpose = purpose;
+
+        if (string.IsNullOrWhiteSpace(email))
+        {
+            ErrorMessage = "Session expired. Please start again.";
+            return Page();
+        }
 
         var valid = await _portal.ValidateOtpAsync(email, code, purpose, ct);
         if (!valid)
@@ -70,17 +85,22 @@ public class VerifyModel : PageModel
         return RedirectToPage("/Dashboard");
     }
 
-    public async Task<IActionResult> OnPostResendAsync(
-        string email, string purpose, CancellationToken ct)
+    public async Task<IActionResult> OnPostResendAsync(CancellationToken ct)
     {
-        var account = await _portal.GetByEmailAsync(email, ct);
-        if (account is not null)
-        {
-            var code = await _portal.GenerateOtpAsync(email, purpose, ct);
-            await _email.SendOtpAsync(email, account.FirstName, code, purpose, ct);
-        }
-        Email = email;
+        var email   = HttpContext.Session.GetString(SessionEmailKey)   ?? string.Empty;
+        var purpose = HttpContext.Session.GetString(SessionPurposeKey) ?? "login";
+        Email   = email;
         Purpose = purpose;
+
+        if (!string.IsNullOrWhiteSpace(email))
+        {
+            var account = await _portal.GetByEmailAsync(email, ct);
+            if (account is not null)
+            {
+                var code = await _portal.GenerateOtpAsync(email, purpose, ct);
+                await _email.SendOtpAsync(email, account.FirstName, code, purpose, ct);
+            }
+        }
         return Page();
     }
 }
