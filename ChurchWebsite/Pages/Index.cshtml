@@ -10,7 +10,7 @@
 
 @section Head {
 <style>
-:root{--g:#C9A84C;--gl:#F0D080;--gg:rgba(201,168,76,.35);--d:#070710;--s1:#0E0E1C;--s2:#14142A;--s3:#1C1C38;--tp:#F0EDE6;--tm:#9A9485;--glass:rgba(255,255,255,.04);--gb:rgba(201,168,76,.18)}
+:root{--g:#C9A84C;--gl:#F0D080;--gg:rgba(201,168,76,.35);--d:#070710;--s1:#0E0E1C;--s2:#14142A;--tp:#F0EDE6;--tm:#9A9485;--glass:rgba(255,255,255,.04);--gb:rgba(201,168,76,.18)}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--d);color:var(--tp);font-family:'Segoe UI',system-ui,sans-serif;overflow-x:hidden}
@@ -31,82 +31,6 @@ body{background:var(--d);color:var(--tp);font-family:'Segoe UI',system-ui,sans-s
 .btn-gold:hover{transform:translateY(-2px);box-shadow:0 16px 44px var(--gg);color:#070710}
 .btn-ghost{display:inline-flex;align-items:center;gap:8px;background:transparent;color:var(--gl);border:1px solid rgba(201,168,76,.45);padding:13px 32px;border-radius:100px;font-size:.86rem;font-weight:600;letter-spacing:.07em;text-transform:uppercase;text-decoration:none;transition:all .3s}
 .btn-ghost:hover{background:rgba(201,168,76,.1);border-color:var(--g);color:var(--gl);transform:translateY(-2px)}
-.ix-scroll-hint{position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);z-index:3;display:flex;flex-direction:column;align-items:center;gap:8px;color:var(--tm);font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;text-decoration:none;animation:float 2.8s ease-in-out infinite}
-.ix-scroll-line{width:1px;height:44px;background:linear-gradient(to bottom,var(--g),transparent)}
-@@keyframes float{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(10px)}}
-.ix-stats{background:var(--s1);border-top:1px solid var(--gb);border-bottom:1px solid var(--gb);padding:2.75rem 1.5rem}
-.ix-stats-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;text-align:center}
-@@media(max-width:600px){.ix-stats-inner{grid-template-columns:repeat(2,1fr)}}
-.ix-stat-num{font-size:clamp(1.8rem,5vw,3rem);font-weight:800;line-height:1;background:linear-gradient(135deg,var(--gl),var(--g));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
-.ix-stat-label{font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;color:var(--tm);margin-top:.4rem}
-.ix-3cards{display:grid;grid-template-columns:repeat(3,1fr)}
-@@media(max-width:768px){.ix-3cards{grid-template-columns:1fr}}
-.ix-card{position:relative;height:440px;overflow:hidden;text-decoration:none;display:block}
-@@media(max-width:768px){.ix-card{height:260px}}
-.ix-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .85s cubic-bezier(.23,1,.32,1)}
-.ix-card:hover .ix-card-bg{transform:scale(1.08)}
-.ix-card-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,16,.92) 0%,rgba(7,7,16,.28) 55%,transparent 100%);transition:opacity .4s}
-.ix-card:hover .ix-card-overlay{opacity:.88}
-.ix-card-body{position:absolute;bottom:0;left:0;right:0;padding:2.25rem;transform:translateY(6px);transition:transform .42s cubic-bezier(.23,1,.32,1)}
-.ix-card:hover .ix-card-body{transform:translateY(0)}
-.ix-card-eye{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--g);margin-bottom:.4rem;display:block}
-.ix-card-title{font-size:clamp(1.3rem,3vw,1.85rem);font-weight:700;color:#fff;margin-bottom:.65rem;line-height:1.15}
-.ix-card-cta{display:inline-flex;align-items:center;gap:6px;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gl);transition:gap .3s}
-.ix-card:hover .ix-card-cta{gap:12px}
-.ix-card-line{position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--g),transparent);transform:scaleX(0);transition:transform .42s}
-.ix-card:hover .ix-card-line{transform:scaleX(1)}
-.ix-marquee{overflow:hidden;background:var(--s2);padding:.9rem 0;border-top:1px solid var(--gb);border-bottom:1px solid var(--gb)}
-.ix-marquee-track{display:flex;width:max-content;animation:marquee 24s linear infinite}
-.ix-marquee-track:hover{animation-play-state:paused}
-.ix-marquee-item{white-space:nowrap;font-size:clamp(.8rem,1.8vw,1rem);font-weight:700;letter-spacing:.24em;text-transform:uppercase;color:var(--g);padding:0 2.5rem;display:flex;align-items:center;gap:2rem}
-.ix-marquee-item::after{content:'✦';font-size:.65rem;color:rgba(201,168,76,.35)}
-@@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-.ix-mission{padding:110px 1.5rem;background:linear-gradient(135deg,var(--d) 0%,var(--s2) 50%,var(--d) 100%);position:relative;overflow:hidden;text-align:center}
-.ix-mission::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 65% 55% at 50% 50%,rgba(201,168,76,.07),transparent)}
-.ix-mission-inner{max-width:720px;margin:0 auto;position:relative}
-.ix-mission-quote{font-size:7rem;line-height:.8;color:rgba(201,168,76,.1);font-family:Georgia,serif;display:block;margin-bottom:-.6rem}
-.ix-section-eye{font-size:.66rem;letter-spacing:.28em;text-transform:uppercase;color:var(--g);margin-bottom:.85rem;display:block}
-.ix-mission-h2{font-size:clamp(1.7rem,5vw,3rem);font-weight:700;line-height:1.18;margin-bottom:1.25rem;color:#fff}
-.ix-mission-sub{font-size:clamp(.88rem,2vw,1.05rem);color:var(--tm);line-height:1.78;margin-bottom:2.5rem;max-width:580px;margin-left:auto;margin-right:auto}
-.ix-divider{width:56px;height:2px;background:linear-gradient(90deg,transparent,var(--g),transparent);margin:0 auto 2.5rem}
-.ix-ministry{padding:90px 1.5rem;background:var(--s1)}
-.ix-ministry-inner{max-width:1200px;margin:0 auto}
-.ix-section-title{font-size:clamp(1.7rem,4vw,2.8rem);font-weight:700;color:#fff;margin-bottom:3rem}
-.ix-min-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
-@@media(max-width:768px){.ix-min-grid{grid-template-columns:1fr}}
-.ix-min-card{position:relative;height:370px;border-radius:20px;overflow:hidden;cursor:pointer}
-.ix-min-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .7s cubic-bezier(.23,1,.32,1)}
-.ix-min-card:hover .ix-min-bg{transform:scale(1.09)}
-.ix-min-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(7,7,16,.96) 0%,rgba(7,7,16,.35) 55%,transparent 100%)}
-.ix-min-glow{position:absolute;inset:0;border:1px solid transparent;border-radius:20px;transition:border-color .4s}
-.ix-min-card:hover .ix-min-glow{border-color:rgba(201,168,76,.45)}
-.ix-min-body{position:absolute;bottom:0;left:0;right:0;padding:2rem;transform:translateY(14px);transition:transform .45s cubic-bezier(.23,1,.32,1)}
-.ix-min-card:hover .ix-min-body{transform:translateY(0)}
-.ix-min-tag{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:.35rem}
-.ix-min-title{font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:.5rem}
-.ix-min-desc{font-size:.82rem;color:rgba(255,255,255,.58);line-height:1.6;max-height:0;overflow:hidden;transition:max-height .4s}
-.ix-min-card:hover .ix-min-desc{max-height:80px}
-.ix-min-cta{display:inline-flex;align-items:center;gap:6px;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-top:.75rem;opacity:0;transform:translateY(8px);transition:all .35s .1s}
-.ix-min-card:hover .ix-min-cta{opacity:1;transform:translateY(0)}
-.ix-sermons{padding:90px 1.5rem;background:var(--d)}
-.ix-sermons-inner{max-width:1200px;margin:0 auto}
-.ix-sermons-layout{display:grid;grid-template-columns:300px 1fr;gap:4rem;align-items:start}
-@@media(max-width:900px){.ix-sermons-layout{grid-template-columns:1fr;gap:2.5rem}}
-.ix-sermons-aside h2{font-size:clamp(1.5rem,4vw,2.2rem);font-weight:700;color:#fff;line-height:1.2;margin-bottom:1rem}
-.ix-sermons-aside p{font-size:.88rem;color:var(--tm);line-height:1.72;margin-bottom:2rem}
-.ix-sermon-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem}
-@@media(max-width:640px){.ix-sermon-grid{grid-template-columns:1fr}}
-.ix-sermon-card{text-decoration:none;display:block;border-radius:14px;overflow:hidden;background:var(--s1);border:1px solid var(--gb);transition:all .35s cubic-bezier(.23,1,.32,1)}
-.ix-sermon-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 30px var(--gg);border-color:var(--g)}
-.ix-sermon-thumb{height:150px;background-size:cover;background-position:center;position:relative}
-.ix-sermon-thumb::after{content:'▶';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:rgba(255,255,255,.8);background:rgba(0,0,0,.28);opacity:0;transition:opacity .3s}
-.ix-sermon-card:hover .ix-sermon-thumb::after{opacity:1}
-.ix-sermon-body{padding:1rem}
-.ix-sermon-series{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--g);margin-bottom:.3rem}
-.ix-sermon-title{font-size:.88rem;font-weight:600;color:#fff;line-height:1.4}
-.sr{opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.23,1,.32,1),transform .7s cubic-bezier(.23,1,.32,1)}
-.sr.visible{opacity:1;transform:translateY(0)}
-.sr-d1{transition-delay:.1s}.sr-d2{transition-delay:.2s}.sr-d3{transition-delay:.3s}
 @@media(max-width:480px){.ix-ctas{flex-direction:column;align-items:center}.btn-gold,.btn-ghost{width:100%;max-width:280px;justify-content:center}}
 </style>
 }
@@ -124,159 +48,6 @@ body{background:var(--d);color:var(--tp);font-family:'Segoe UI',system-ui,sans-s
       <a asp-page="/Live" class="btn-ghost">Watch Online <span>▶</span></a>
     </div>
   </div>
-  <a href="#stats" class="ix-scroll-hint"><span>Scroll</span><div class="ix-scroll-line"></div></a>
-</section>
-
-<div class="ix-stats sr" id="stats">
-  <div class="ix-stats-inner">
-    <div><div class="ix-stat-num" data-target="1916" data-suffix="">1916 </div><div class="ix-stat-label">Established</div></div>
-    <div><div class="ix-stat-num" data-target="500" data-suffix="+">0+</div><div class="ix-stat-label">Members</div></div>
-    <div><div class="ix-stat-num" data-target="52" data-suffix="">0</div><div class="ix-stat-label">Services / Year</div></div>
-    <div><div class="ix-stat-num" data-target="1" data-suffix="">1</div><div class="ix-stat-label">Community</div></div>
-  </div>
-</div>
-
-<div class="ix-3cards" id="three-cards-section">
-  <a asp-page="/About" class="ix-card sr">
-    <div class="ix-card-bg" style="background-image:url('/images/IMG_7631.jpg')"></div>
-    <div class="ix-card-overlay"></div>
-    <div class="ix-card-body"><span class="ix-card-eye">Who We Are</span><div class="ix-card-title">Get To Know Us</div><span class="ix-card-cta">Learn More →</span></div>
-    <div class="ix-card-line"></div>
-  </a>
-  <a asp-page="/Events/Index" class="ix-card sr sr-d1">
-    <div class="ix-card-bg" style="background-image:url('/images/IMG_7728.jpg')"></div>
-    <div class="ix-card-overlay"></div>
-    <div class="ix-card-body"><span class="ix-card-eye">What's Happening</span><div class="ix-card-title">Events</div><span class="ix-card-cta">See Schedule →</span></div>
-    <div class="ix-card-line"></div>
-  </a>
-  <a asp-page="/Groups/Index" class="ix-card sr sr-d2">
-    <div class="ix-card-bg" style="background-image:url('/images/IMG_7729.JPG')"></div>
-    <div class="ix-card-overlay"></div>
-    <div class="ix-card-body"><span class="ix-card-eye">Your Journey</span><div class="ix-card-title">Next Steps</div><span class="ix-card-cta">Get Connected →</span></div>
-    <div class="ix-card-line"></div>
-  </a>
-</div>
-
-<div class="ix-marquee" aria-hidden="true">
-  <div class="ix-marquee-track">
-    @for(int i=0;i<10;i++){<span class="ix-marquee-item">WELCOME TO NEW BETHEL</span>}
-  </div>
-</div>
-
-<section class="ix-mission sr">
-  <div class="ix-mission-inner">
-    <span class="ix-mission-quote">"</span>
-    <span class="ix-section-eye">Our Purpose</span>
-    <h2 class="ix-mission-h2">@(string.IsNullOrWhiteSpace(church.MissionStatement)?church.Tagline:church.MissionStatement)</h2>
-    <div class="ix-divider"></div>
-    @if(!string.IsNullOrWhiteSpace(church.MissionSubtext)){<p class="ix-mission-sub">@church.MissionSubtext</p>}
-    <a asp-page="/About" asp-fragment="beliefs" class="btn-gold">What We Believe →</a>
-  </div>
-</section>
-
-<section class="ix-ministry">
-  <div class="ix-ministry-inner">
-    <div class="sr"><span class="ix-section-eye">Get Involved</span><h2 class="ix-section-title">Get Connected</h2></div>
-    <div class="ix-min-grid">
-      <div class="ix-min-card sr">
-        <div class="ix-min-bg" style="background-image:url('/images/IMG_7732.jpg')"></div>
-        <div class="ix-min-overlay"></div><div class="ix-min-glow"></div>
-        <div class="ix-min-body"><div class="ix-min-tag">Ministry</div><div class="ix-min-title">Kids</div><p class="ix-min-desc">A vibrant, safe place where children discover Jesus and grow in faith.</p><a asp-page="/Groups/Index" class="ix-min-cta">Learn More →</a></div>
-      </div>
-      <div class="ix-min-card sr sr-d1">
-        <div class="ix-min-bg" style="background-image:url('/images/NBMBC_MEN.png')"></div>
-        <div class="ix-min-overlay"></div><div class="ix-min-glow"></div>
-        <div class="ix-min-body"><div class="ix-min-tag">Ministry</div><div class="ix-min-title">Men's Ministry</div><p class="ix-min-desc">Men growing in faith, brotherhood, and servant leadership together.</p><a asp-page="/Groups/Index" class="ix-min-cta">Learn More →</a></div>
-      </div>
-      <div class="ix-min-card sr sr-d2">
-        <div class="ix-min-bg" style="background-image:url('/images/CityWideMission.png')"></div>
-        <div class="ix-min-overlay"></div><div class="ix-min-glow"></div>
-        <div class="ix-min-body"><div class="ix-min-tag">Outreach</div><div class="ix-min-title">City Wide Mission</div><p class="ix-min-desc">Reaching the streets of Winter Haven with love and the Gospel.</p><a asp-page="/Groups/Index" class="ix-min-cta">Learn More →</a></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="ix-sermons sr">
-  <div class="ix-sermons-inner">
-    <div class="ix-sermons-layout">
-      <div class="ix-sermons-aside">
-        <span class="ix-section-eye">Word of God</span>
-        <h2>Watch & Listen To Our Latest Sermons</h2>
-        <p>Catch up on our latest teachings. Stream live or browse our library.</p>
-        <a asp-page="/Sermons/Index" class="btn-gold">View All Sermons →</a>
-      </div>
-      <div class="ix-sermon-grid">
-        @foreach(var sermon in Model.LatestSermons.Take(3)){
-          <a asp-page="/Sermons/Details" asp-route-id="@sermon.Id" class="ix-sermon-card">
-            <div class="ix-sermon-thumb" style="background-image:url('https://picsum.photos/seed/sermon@(sermon.Id)/400/300')"></div>
-            <div class="ix-sermon-body">
-              @if(!string.IsNullOrWhiteSpace(sermon.Series)){<div class="ix-sermon-series">@sermon.Series</div>}
-              <div class="ix-sermon-title">@sermon.Title</div>
-            </div>
-          </a>
-        }
-        @if(Model.LatestSermons.Count==0){
-          <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--tm)"><p style="margin-bottom:1rem">No sermons yet — check back soon!</p><a asp-page="/Sermons/Index" class="btn-gold" style="font-size:.8rem;padding:10px 22px">View Sermons</a></div>
-        }
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="ix-give sr" id="give">
-<style>
-.ix-give{padding:100px 1.5rem;background:linear-gradient(135deg,var(--s2) 0%,var(--d) 50%,var(--s1) 100%);position:relative;overflow:hidden}
-.ix-give::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 60% at 50% 50%,rgba(201,168,76,.07),transparent)}
-.ix-give-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 420px;gap:4rem;align-items:center;position:relative}
-@@media(max-width:900px){.ix-give-inner{grid-template-columns:1fr;gap:2.5rem}}
-.ix-give-h2{font-size:clamp(1.8rem,5vw,3rem);font-weight:700;color:#fff;margin-bottom:1.25rem}
-.ix-give-sub{font-size:clamp(.88rem,2vw,1rem);color:var(--tm);line-height:1.8;margin-bottom:1.5rem}
-.ix-give-verse{font-size:.88rem;font-style:italic;color:rgba(240,237,230,.6);border-left:2px solid var(--g);padding-left:1rem;line-height:1.7;margin:0}
-.ix-give-verse cite{display:block;font-size:.72rem;color:var(--g);margin-top:.4rem;font-style:normal;letter-spacing:.07em}
-.ix-give-card{background:var(--s1);border:1px solid rgba(201,168,76,.25);border-radius:24px;padding:2rem;position:relative;overflow:hidden}
-.ix-give-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--g),transparent)}
-.ix-give-amounts{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:.6rem}
-.ix-give-amt{background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2);color:var(--gl);border-radius:100px;padding:8px 18px;font-size:.84rem;font-weight:600;cursor:pointer;transition:all .25s;font-family:inherit;letter-spacing:.02em}
-.ix-give-amt:hover,.ix-give-amt.active{background:rgba(201,168,76,.2);border-color:var(--g);color:#fff;box-shadow:0 0 16px rgba(201,168,76,.22)}
-.ix-give-hint{font-size:.7rem;color:var(--tm);margin-bottom:1.5rem;letter-spacing:.03em}
-.ix-give-cashapp{display:flex;align-items:center;gap:1rem;background:rgba(0,214,50,.07);border:1px solid rgba(0,214,50,.22);border-radius:14px;padding:1rem 1.25rem;margin-bottom:1.25rem}
-.ix-give-cashapp-icon{width:48px;height:48px;border-radius:12px;background:linear-gradient(135deg,#00D632,#009922);display:flex;align-items:center;justify-content:center;font-size:1.4rem;font-weight:900;color:#fff;flex-shrink:0;box-shadow:0 4px 16px rgba(0,214,50,.4)}
-.ix-give-cashapp-label{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:var(--tm);margin-bottom:.2rem}
-.ix-give-cashapp-tag{font-size:1.3rem;font-weight:700;color:var(--gl);letter-spacing:.04em}
-.ix-give-open-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:linear-gradient(135deg,#00D632,#009922);color:#fff;text-decoration:none;border-radius:14px;padding:1rem 1.5rem;font-weight:700;font-size:.95rem;letter-spacing:.04em;margin-bottom:.75rem;transition:all .3s;box-shadow:0 8px 24px rgba(0,214,50,.35);font-family:inherit}
-.ix-give-open-btn:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(0,214,50,.5);color:#fff}
-.ix-give-secure{text-align:center;font-size:.72rem;color:var(--tm);letter-spacing:.05em}
-</style>
-  <div class="ix-give-inner">
-    <div>
-      <span class="ix-section-eye">Support The Ministry</span>
-      <h2 class="ix-give-h2">Give &amp; Make An Impact</h2>
-      <div class="ix-divider"></div>
-      <p class="ix-give-sub">Your generosity powers the mission — feeding the hungry, reaching the streets of Winter Haven, and sharing the Gospel of Jesus Christ. Every gift makes an eternal difference.</p>
-      <blockquote class="ix-give-verse">&ldquo;Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.&rdquo;<cite>— 2 Corinthians 9:7</cite></blockquote>
-    </div>
-    <div class="ix-give-card">
-      <div class="ix-give-amounts">
-        <button class="ix-give-amt" onclick="toggleGiveAmt(this)">$10</button>
-        <button class="ix-give-amt active" onclick="toggleGiveAmt(this)">$25</button>
-        <button class="ix-give-amt" onclick="toggleGiveAmt(this)">$50</button>
-        <button class="ix-give-amt" onclick="toggleGiveAmt(this)">$100</button>
-      </div>
-      <p class="ix-give-hint">Select an amount or give any amount in Cash App</p>
-      <div class="ix-give-cashapp">
-        <div class="ix-give-cashapp-icon">&#36;</div>
-        <div>
-          <div class="ix-give-cashapp-label">Pastor&rsquo;s Cash App</div>
-          <div class="ix-give-cashapp-tag">$blueboy78</div>
-        </div>
-      </div>
-      <a href="https://cash.app/$blueboy78" target="_blank" rel="noopener noreferrer" class="ix-give-open-btn">
-        <span>Open Cash App</span> <span>&rarr;</span>
-      </a>
-      <p class="ix-give-secure">&#128274; Secure payment via Cash App</p>
-    </div>
-  </div>
 </section>
 
 @section Scripts {
@@ -288,14 +59,6 @@ body{background:var(--d);color:var(--tp);font-family:'Segoe UI',system-ui,sans-s
   var pts=Array.from({length:70},function(){return{x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,r:Math.random()*1.4+.3,a:Math.random()*.5+.1}});
   var maxDist=140;
   (function loop(){ctx.clearRect(0,0,W,H);for(var i=0;i<pts.length;i++){for(var j=i+1;j<pts.length;j++){var dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<maxDist){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle='rgba(201,168,76,'+(0.18*(1-d/maxDist))+')';ctx.lineWidth=.6;ctx.stroke()}}}pts.forEach(function(p){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle='rgba(201,168,76,'+p.a+')';ctx.fill()});requestAnimationFrame(loop)})();
-  var srObs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:.1});
-  document.querySelectorAll('.sr').forEach(function(el){srObs.observe(el)});
-  function animCount(el){var target=+el.dataset.target,suffix=el.dataset.suffix||'',dur=1800,start=Date.now();(function tick(){var p=Math.min((Date.now()-start)/dur,1),ease=1-Math.pow(1-p,3),val=Math.round(ease*target);el.textContent=val+suffix;if(p<1)requestAnimationFrame(tick)})()}
-  var statsEl=document.querySelector('.ix-stats');
-  if(statsEl){new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting){x.target.querySelectorAll('[data-target]').forEach(function(el){animCount(el);el.removeAttribute('data-target')})}})},{threshold:.4}).observe(statsEl)}
-  var cardObs=new IntersectionObserver(function(e){e.forEach(function(x,i){if(x.isIntersecting)setTimeout(function(){x.target.classList.add('visible')},i*80)})},{threshold:.08});
-  document.querySelectorAll('.ix-min-card,.ix-sermon-card').forEach(function(el){cardObs.observe(el)});
 })();
-function toggleGiveAmt(btn){document.querySelectorAll('.ix-give-amt').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');}
 </script>
 }
