@@ -82,6 +82,11 @@ body{background:var(--d);color:var(--tp)}
       }
 
       <div class="sd-actions">
+        @if (!string.IsNullOrWhiteSpace(Model.Sermon.VideoEmbedUrl))
+        {
+          var watchUrl = Model.Sermon.VideoEmbedUrl.Replace("https://www.youtube.com/embed/", "https://www.youtube.com/watch?v=");
+          <a href="@watchUrl" target="_blank" rel="noopener noreferrer" class="sd-action-btn">&#9654; Watch on YouTube</a>
+        }
         @if (!string.IsNullOrWhiteSpace(Model.Sermon.AudioUrl))
         {
           <a href="@Model.Sermon.AudioUrl" class="sd-action-btn" target="_blank" rel="noopener noreferrer">&#127911; Listen (Audio)</a>
