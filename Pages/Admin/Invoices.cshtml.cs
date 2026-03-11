@@ -9,12 +9,12 @@ namespace RodneyPortfolio.Pages.Admin;
 public class InvoicesModel : PageModel
 {
     private readonly IInvoiceService _invoiceService;
-    private readonly IClientPortalService _portalService;
+    private readonly IAccountService _accountService;
 
-    public InvoicesModel(IInvoiceService invoiceService, IClientPortalService portalService)
+    public InvoicesModel(IInvoiceService invoiceService, IAccountService accountService)
     {
         _invoiceService = invoiceService;
-        _portalService = portalService;
+        _accountService = accountService;
     }
 
     public List<Invoice> Invoices { get; private set; } = new();
@@ -44,7 +44,7 @@ public class InvoicesModel : PageModel
             return Page();
         }
 
-        var client = await _portalService.GetByEmailAsync(Input.ClientEmail.Trim().ToLowerInvariant(), ct);
+        var client = await _accountService.GetByEmailAsync(Input.ClientEmail.Trim(), ct);
         if (client is null)
         {
             ModelState.AddModelError("Input.ClientEmail", "No registered client found with that email.");
@@ -95,7 +95,7 @@ public class InvoicesModel : PageModel
         Invoices = (await _invoiceService.GetAllInvoicesAsync(ct))
             .OrderByDescending(i => i.IssuedAt)
             .ToList();
-        Clients = await _portalService.GetAllAccountsAsync(ct);
+        Clients = await _accountService.GetAllAccountsAsync(ct);
     }
 }
 

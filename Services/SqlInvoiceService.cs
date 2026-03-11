@@ -92,9 +92,10 @@ public class SqlInvoiceService : IInvoiceService
         var invoice = await _db.Invoices.FindAsync(new object[] { invoiceId }, ct);
         if (invoice is not null)
         {
-            invoice.Status = InvoiceStatus.Paid;
-            invoice.PaidAt = DateTimeOffset.UtcNow;
+            invoice.Status                = InvoiceStatus.Paid;
+            invoice.PaidAt                = DateTimeOffset.UtcNow;
             invoice.StripePaymentIntentId = stripePaymentIntentId;
+            invoice.PaymentMethod         = "Stripe";
             await _db.SaveChangesAsync(ct);
         }
     }

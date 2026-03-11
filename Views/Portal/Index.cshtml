@@ -1,0 +1,54 @@
+@{
+    ViewData["Title"] = "Client Portal";
+}
+
+<div class="portal-landing rc-fade">
+
+    <!-- HERO -->
+    <div class="portal-hero">
+        <div class="portal-hero-badge">// Secure Client Access</div>
+        <h1 class="title">RC Dev Portal</h1>
+        <p class="portal-hero-sub">Manage your invoices, track payments, and connect with support — all in one place.</p>
+    </div>
+
+    <!-- TWO BUTTONS -->
+    <div class="portal-entry-grid rc-fade">
+
+        <div class="portal-entry-card rc-glass portal-card-register">
+            <div class="portal-entry-icon">⬡</div>
+            <div class="portal-entry-label">// New Client</div>
+            <h2 class="portal-entry-title">Register</h2>
+            <p class="portal-entry-desc">Create your secure RC Dev client account. Provide your business details and choose your service tier to get started.</p>
+            <ul class="portal-entry-features">
+                <li>Secure email verification</li>
+                <li>Invoice &amp; payment access</li>
+                <li>Direct support channel</li>
+            </ul>
+            <a href="/Portal/Register" class="btn btn-outline-dark portal-btn-primary">Create Account →</a>
+        </div>
+
+        <div class="portal-entry-card rc-glass portal-card-login">
+            <div class="portal-entry-icon">◈</div>
+            <div class="portal-entry-label">// Existing Client</div>
+            <h2 class="portal-entry-title">Sign In</h2>
+            <p class="portal-entry-desc">Access your dashboard to view open invoices, payment history, your service tier, and submit support requests.</p>
+            <ul class="portal-entry-features">
+                <li>One-time email code</li>
+                <li>No password needed</li>
+                <li>Session expires in 24 hrs</li>
+            </ul>
+            <a href="/Portal/Login" class="btn btn-outline-dark portal-btn-ghost">Sign In →</a>
+        </div>
+
+    </div>
+
+    <!-- SECURITY CALLOUT -->
+    <div class="portal-security rc-glass rc-fade">
+        <span class="portal-security-icon">🔒</span>
+        <div>
+            <div class="portal-security-title">// Enterprise-Grade Security</div>
+            <p class="portal-security-text">All portal access is protected by email-based multi-factor authentication. No passwords stored. Sessions expire automatically. Your data never leaves the RC Dev secure environment.</p>
+        </div>
+    </div>
+
+</div>

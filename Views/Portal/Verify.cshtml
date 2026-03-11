@@ -1,8 +1,6 @@
-@page "/Portal/Verify"
-@model RodneyPortfolio.Pages.Portal.VerifyModel
+@model RodneyPortfolio.ViewModels.PortalVerifyViewModel
 @{
     ViewData["Title"] = "Verify -- RC Dev Portal";
-    Layout = "_Layout";
 }
 
 <div class="portal-form-page rc-fade">
@@ -18,7 +16,7 @@
     }
 
     <div class="portal-form-card rc-glass rc-fade" style="max-width:420px;margin:0 auto;text-align:center">
-        <form method="post" asp-page-handler="Verify" class="portal-form">
+        <form method="post" asp-action="VerifyCode" asp-controller="Portal" class="portal-form">
             @Html.AntiForgeryToken()
 
             <div class="portal-form-section">
@@ -34,19 +32,9 @@
             <button type="submit" class="btn btn-outline-dark portal-submit-btn">Verify Identity &rarr;</button>
         </form>
 
-        <form method="post" asp-page-handler="Resend" style="margin-top:1.2rem">
+        <form method="post" asp-action="ResendCode" asp-controller="Portal" style="margin-top:1.2rem">
             @Html.AntiForgeryToken()
             <button type="submit" class="portal-resend-btn">Resend code</button>
         </form>
     </div>
 </div>
-
-<style>
-.portal-otp-group { margin: 1rem 0; }
-.portal-otp-input { background: rgba(0,10,18,0.6); border: 2px solid rgba(0,212,255,0.3); color: var(--c); font-family: var(--font-display); font-size: 2.2rem; font-weight: 900; letter-spacing: 0.5em; text-align: center; padding: 1rem 1.5rem; width: 100%; outline: none; transition: border-color 0.2s; }
-.portal-otp-input:focus { border-color: var(--c); box-shadow: 0 0 20px rgba(0,212,255,0.15); }
-.portal-otp-input::placeholder { color: rgba(0,212,255,0.15); letter-spacing: 0.3em; }
-.portal-otp-note { font-family: var(--font-mono); font-size: 0.58rem; color: rgba(142,207,223,0.3); letter-spacing: 0.12em; margin: 0; }
-.portal-resend-btn { background: none; border: none; color: rgba(0,212,255,0.4); font-family: var(--font-mono); font-size: 0.62rem; letter-spacing: 0.1em; cursor: pointer; transition: color 0.2s; text-decoration: underline; }
-.portal-resend-btn:hover { color: var(--c); }
-</style>

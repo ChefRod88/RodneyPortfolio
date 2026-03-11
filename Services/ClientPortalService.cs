@@ -1,13 +1,13 @@
-// ══════════════════════════════════════════════════════════════
-// REPLACE your existing ClientPortalService.cs with this.
-// Adds: GetAllAccountsAsync, DeleteAccountAsync
-// ══════════════════════════════════════════════════════════════
 using System.Text.Json;
 using RodneyPortfolio.Models;
 
 namespace RodneyPortfolio.Services;
 
-public class ClientPortalService : IClientPortalService
+/// <summary>
+/// JSON-file-backed implementation of IAccountService, IOtpService, and ISessionService.
+/// Used in environments without a SQL connection (local dev fallback).
+/// </summary>
+public class ClientPortalService : IAccountService, IOtpService, ISessionService
 {
     private readonly string _dataDir;
     private readonly ILogger<ClientPortalService> _logger;
@@ -20,9 +20,9 @@ public class ClientPortalService : IClientPortalService
         _logger = logger;
     }
 
-    private string AccountsPath  => Path.Combine(_dataDir, "ClientAccounts.json");
-    private string OtpPath       => Path.Combine(_dataDir, "OtpCodes.json");
-    private string SessionsPath  => Path.Combine(_dataDir, "ClientSessions.json");
+    private string AccountsPath => Path.Combine(_dataDir, "ClientAccounts.json");
+    private string OtpPath      => Path.Combine(_dataDir, "OtpCodes.json");
+    private string SessionsPath => Path.Combine(_dataDir, "ClientSessions.json");
 
     private async Task<List<T>> LoadAsync<T>(string path)
     {
@@ -34,7 +34,7 @@ public class ClientPortalService : IClientPortalService
     private async Task SaveAsync<T>(string path, List<T> items)
         => await File.WriteAllTextAsync(path, JsonSerializer.Serialize(items, _json));
 
-    // ── Accounts ──────────────────────────────────────────────
+    // ── IAccountService ───────────────────────────────────────
     public async Task<ClientAccount?> GetByEmailAsync(string email, CancellationToken ct = default)
     {
         var accounts = await LoadAsync<ClientAccount>(AccountsPath);
@@ -74,7 +74,6 @@ public class ClientPortalService : IClientPortalService
         if (removed > 0)
         {
             await SaveAsync(AccountsPath, accounts);
-            // Also clean up their sessions
             var sessions = await LoadAsync<ClientSession>(SessionsPath);
             sessions.RemoveAll(s => s.ClientId == id);
             await SaveAsync(SessionsPath, sessions);
@@ -84,14 +83,20 @@ public class ClientPortalService : IClientPortalService
         return false;
     }
 
-    // ── OTP ───────────────────────────────────────────────────
+    // ── IOtpService ───────────────────────────────────────────
     public async Task<string> GenerateOtpAsync(string email, string purpose, CancellationToken ct = default)
     {
         var codes = await LoadAsync<OtpCode>(OtpPath);
         foreach (var c in codes.Where(c => c.Email == email && c.Purpose == purpose && !c.Used))
             c.Used = true;
         var code = Random.Shared.Next(100000, 1000000).ToString();
-        codes.Add(new OtpCode { Email = email, Code = code, Purpose = purpose, ExpiresAt = DateTimeOffset.UtcNow.AddMinutes(10) });
+        codes.Add(new OtpCode
+        {
+            Email     = email,
+            Code      = code,
+            Purpose   = purpose,
+            ExpiresAt = DateTimeOffset.UtcNow.AddMinutes(10)
+        });
         await SaveAsync(OtpPath, codes);
         return code;
     }
@@ -109,7 +114,7 @@ public class ClientPortalService : IClientPortalService
         return true;
     }
 
-    // ── Sessions ──────────────────────────────────────────────
+    // ── ISessionService ───────────────────────────────────────
     public async Task<ClientSession> CreateSessionAsync(string clientId, string email, CancellationToken ct = default)
     {
         var sessions = await LoadAsync<ClientSession>(SessionsPath);

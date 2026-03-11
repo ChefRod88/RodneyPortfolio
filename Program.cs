@@ -8,6 +8,8 @@ using RodneyPortfolio.Models;
 using RodneyPortfolio.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.RateLimiting;
+using System.Threading.RateLimiting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,7 +21,7 @@ if (builder.Environment.IsDevelopment())
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddControllers();
+builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IResumeContextLoader, ResumeContextLoader>();
 builder.Services.AddScoped<IAIChatService, OpenAIChatService>();
@@ -29,13 +31,51 @@ builder.Services.AddScoped<IInputValidator, InputValidator>();
 builder.Services.AddScoped<IContentFilter, ContentFilter>();
 builder.Services.Configure<QuoteEmailOptions>(builder.Configuration.GetSection(QuoteEmailOptions.SectionName));
 builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection("Stripe"));
+// Quote submission — three single-responsibility services wired together
+builder.Services.AddScoped<IQuoteLogService, QuoteLogService>();
+builder.Services.AddScoped<IQuoteEmailService, QuoteEmailService>();
 builder.Services.AddScoped<IQuoteSubmissionService, QuoteSubmissionService>();
+
 builder.Services.AddScoped<IInvoiceService, SqlInvoiceService>();
 builder.Services.AddScoped<IPaymentEmailService, PaymentEmailService>();
 
-// Portal services
-builder.Services.AddScoped<IClientPortalService, SqlClientPortalService>();
+// Portal services — one concrete class, three focused interfaces (ISP)
+// Registered once so DI returns the same scoped instance for all three interfaces.
+builder.Services.AddScoped<SqlClientPortalService>();
+builder.Services.AddScoped<IAccountService>(sp => sp.GetRequiredService<SqlClientPortalService>());
+builder.Services.AddScoped<IOtpService>(sp => sp.GetRequiredService<SqlClientPortalService>());
+builder.Services.AddScoped<ISessionService>(sp => sp.GetRequiredService<SqlClientPortalService>());
 builder.Services.AddScoped<IPortalEmailService, PortalEmailService>();
+
+// Rate limiting — protect quote form and chat API from abuse
+builder.Services.AddRateLimiter(options =>
+{
+    // Quote form: max 5 submissions per IP per 10 minutes
+    options.AddPolicy("QuotePolicy", context =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 5,
+                Window = TimeSpan.FromMinutes(10),
+                QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                QueueLimit = 0
+            }));
+
+    // Chat API: max 30 requests per IP per minute
+    options.AddPolicy("ChatPolicy", context =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 30,
+                Window = TimeSpan.FromMinutes(1),
+                QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                QueueLimit = 0
+            }));
+
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+});
 
 // Session (for ASP.NET Core session middleware)
 builder.Services.AddDistributedMemoryCache();
@@ -144,12 +184,25 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+// Security headers on every response
+app.Use(async (context, next) =>
+{
+    context.Response.Headers["X-Content-Type-Options"] = "nosniff";
+    context.Response.Headers["X-Frame-Options"] = "DENY";
+    context.Response.Headers["Referrer-Policy"] = "strict-origin-when-cross-origin";
+    context.Response.Headers["X-XSS-Protection"] = "1; mode=block";
+    context.Response.Headers["Permissions-Policy"] = "geolocation=(), microphone=(), camera=()";
+    await next();
+});
+
+app.UseRateLimiter();
 app.UseRouting();
 app.UseSession();
 
 app.UseAuthorization();
 
 app.MapStaticAssets();
+app.MapControllerRoute(name: "default", pattern: "{controller}/{action}/{id?}");
 app.MapControllers();
 app.MapRazorPages()
    .WithStaticAssets();

@@ -1,10 +1,15 @@
-@page "/Portal/Dashboard"
-@model RodneyPortfolio.Pages.Portal.DashboardModel
+@model RodneyPortfolio.ViewModels.PortalDashboardViewModel
 @using RodneyPortfolio.Models
 @{
     ViewData["Title"] = "Dashboard -- RC Dev Portal";
-    Layout = "_Layout";
 }
+
+<style>
+.pm-overlay { position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.88); display:flex; align-items:flex-start; justify-content:center; backdrop-filter:blur(4px); animation:pm-fade 0.2s ease; overflow-y:auto; padding:2rem 0.5rem; }
+@@keyframes pm-fade { from{opacity:0} to{opacity:1} }
+.pm-container { background:#0d1117; border:1px solid rgba(0,212,255,0.2); border-radius:16px; width:min(480px,95vw); overflow:visible; box-shadow:0 0 60px rgba(0,212,255,0.08),0 20px 60px rgba(0,0,0,0.6); animation:pm-up 0.25s ease; flex-shrink:0; margin:auto; }
+@@keyframes pm-up { from{transform:translateY(20px);opacity:0} to{transform:none;opacity:1} }
+</style>
 
 <div class="portal-dash rc-fade">
 
@@ -20,7 +25,7 @@
         </div>
         <div class="portal-dash-meta">
             <span class="portal-dash-tier pay-client-tier pay-tier-@Model.Account.TierInterest.ToLower()">@Model.Account.TierInterest</span>
-            <form method="post" asp-page-handler="Logout" style="display:inline">
+            <form method="post" asp-action="Logout" asp-controller="Portal" style="display:inline">
                 @Html.AntiForgeryToken()
                 <button type="submit" class="pay-logout">Sign Out</button>
             </form>
@@ -156,7 +161,7 @@
     <!-- TAB: SUPPORT -->
     <div id="tab-support" class="portal-tab-content" style="display:none">
         <div class="portal-form-card rc-glass" style="max-width:580px">
-            <form method="post" asp-page-handler="Support" class="portal-form">
+            <form method="post" asp-action="Support" asp-controller="Portal" class="portal-form">
                 @Html.AntiForgeryToken()
                 <div class="portal-form-section">
                     <div class="portal-form-section-label">// Submit a Support Request</div>
@@ -264,83 +269,6 @@
     </div>
 </div>
 
-<style>
-.portal-dash { max-width: 900px; margin: 0 auto; padding: 3rem 3rem 6rem; }
-.portal-dash-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
-.portal-dash-greeting { display: flex; flex-direction: column; gap: 0.2rem; }
-.portal-dash-label { font-family: var(--font-mono); font-size: 0.58rem; color: rgba(0,212,255,0.4); letter-spacing: 0.2em; text-transform: uppercase; }
-.portal-dash-name { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; color: var(--white); letter-spacing: 0.04em; }
-.portal-dash-company { font-family: var(--font-mono); font-size: 0.62rem; color: rgba(142,207,223,0.4); letter-spacing: 0.08em; }
-.portal-dash-meta { display: flex; align-items: center; gap: 1.2rem; }
-.portal-tabs { display: flex; gap: 0; border-bottom: 1px solid rgba(0,212,255,0.12); margin-bottom: 2rem; overflow-x: auto; }
-.portal-tab { background: none; border: none; border-bottom: 2px solid transparent; color: rgba(142,207,223,0.4); font-family: var(--font-display); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.9rem 1.4rem; cursor: pointer; transition: color 0.2s, border-color 0.2s; white-space: nowrap; margin-bottom: -1px; }
-.portal-tab:hover { color: rgba(142,207,223,0.7); }
-.portal-tab-active { color: var(--c) !important; border-color: var(--c) !important; }
-.portal-tab-content { animation: fadeIn 0.3s ease; }
-@@keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
-.portal-account-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
-.portal-account-card { padding: 1.5rem; }
-.portal-account-row { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 0.5rem 0; border-bottom: 1px solid rgba(0,212,255,0.06); font-size: 0.85rem; }
-.portal-account-row span:first-child { font-family: var(--font-mono); font-size: 0.6rem; color: rgba(142,207,223,0.35); letter-spacing: 0.1em; text-transform: uppercase; flex-shrink: 0; }
-.portal-account-row span:last-child { color: var(--white); font-family: var(--font-body); text-align: right; }
-.portal-alert { padding: 1rem 1.5rem; margin-bottom: 1.5rem; font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.08em; }
-.portal-alert-error { border-color: rgba(239,68,68,0.3) !important; color: #ef4444; }
-.portal-alert-success { border-color: rgba(34,197,94,0.3) !important; color: #22c55e; }
-.portal-textarea { resize: vertical; min-height: 120px; }
-.pay-now-btn { background: linear-gradient(135deg,#00d4ff,#0099cc); color:#000; border:none; border-radius:6px; padding:0.5rem 1rem; font-weight:700; font-size:0.75rem; cursor:pointer; font-family:var(--font-mono); letter-spacing:0.05em; transition:all 0.2s; margin-top:0.5rem; }
-.pay-now-btn:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(0,212,255,0.3); }
-.pay-method-badge { display:inline-block; background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); border-radius:4px; font-size:0.6rem; padding:2px 6px; margin-left:6px; color:rgba(0,212,255,0.6); font-family:var(--font-mono); letter-spacing:0.05em; text-transform:uppercase; }
-
-/* Payment Modal */
-.pm-overlay { position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.88); display:flex; align-items:flex-start; justify-content:center; backdrop-filter:blur(4px); animation:pm-fade 0.2s ease; overflow-y:auto; padding:2rem 0.5rem; }
-@@keyframes pm-fade { from{opacity:0} to{opacity:1} }
-.pm-container { background:#0d1117; border:1px solid rgba(0,212,255,0.2); border-radius:16px; width:min(480px,95vw); overflow:visible; box-shadow:0 0 60px rgba(0,212,255,0.08),0 20px 60px rgba(0,0,0,0.6); animation:pm-up 0.25s ease; flex-shrink:0; margin:auto; }
-@@keyframes pm-up { from{transform:translateY(20px);opacity:0} to{transform:none;opacity:1} }
-.pm-header { background:linear-gradient(135deg,rgba(0,212,255,0.06),rgba(0,212,255,0.02)); border-bottom:1px solid rgba(0,212,255,0.12); padding:20px 24px; display:flex; align-items:center; justify-content:space-between; }
-.pm-header-left { display:flex; align-items:center; gap:14px; }
-.pm-icon { font-size:1.5rem; }
-.pm-title { color:#00d4ff; font-weight:700; font-size:0.95rem; font-family:var(--font-mono,monospace); }
-.pm-subtitle { color:#666; font-size:0.78rem; margin-top:2px; }
-.pm-amount-badge { background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); border-radius:10px; padding:8px 14px; text-align:right; }
-.pm-amount-label { display:block; font-size:0.6rem; color:rgba(0,212,255,0.6); letter-spacing:0.12em; font-family:var(--font-mono,monospace); }
-.pm-amount-value { display:block; font-size:1.3rem; font-weight:700; color:#00d4ff; font-family:var(--font-mono,monospace); }
-.pm-tabs { display:grid; grid-template-columns:1fr 1fr; border-bottom:1px solid rgba(0,212,255,0.08); }
-.pm-tab { background:none; border:none; border-bottom:2px solid transparent; cursor:pointer; padding:14px; color:#555; display:flex; align-items:center; justify-content:center; gap:8px; font-size:0.82rem; font-family:var(--font-display,sans-serif); font-weight:600; letter-spacing:0.05em; transition:all 0.2s; margin-bottom:-1px; }
-.pm-tab:hover { color:#aaa; background:rgba(255,255,255,0.03); }
-.pm-tab-active { color:#00d4ff !important; border-bottom-color:#00d4ff !important; background:rgba(0,212,255,0.05) !important; }
-.pm-panel { padding:24px; }
-.pm-secure-badge { display:flex; align-items:center; gap:8px; color:#4a9; font-size:0.72rem; margin-bottom:16px; background:rgba(0,212,255,0.05); border-radius:6px; padding:8px 12px; }
-.pm-error { color:#ef4444; font-size:0.78rem; min-height:18px; margin:8px 0; }
-.pm-processing { display:flex; align-items:center; gap:10px; color:#aaa; font-size:0.82rem; padding:10px 0; }
-.pm-spinner { display:inline-block; width:16px; height:16px; border:2px solid rgba(0,212,255,0.2); border-top-color:#00d4ff; border-radius:50%; animation:spin 0.7s linear infinite; }
-@@keyframes spin { to{transform:rotate(360deg)} }
-.pm-success-msg { color:#22c55e; font-size:0.85rem; padding:10px 0; }
-.pm-pay-btn { width:100%; padding:14px; background:linear-gradient(135deg,#00d4ff,#0099cc); color:#000; font-weight:700; font-size:0.9rem; border:none; border-radius:8px; cursor:pointer; font-family:var(--font-mono,monospace); letter-spacing:0.05em; transition:all 0.2s; margin-top:8px; }
-.pm-pay-btn:hover { transform:translateY(-1px); box-shadow:0 4px 20px rgba(0,212,255,0.3); }
-.pm-pay-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
-.pay-secure-note { font-size:0.68rem; color:#444; text-align:center; margin-top:10px; }
-.pm-cashapp-inner { display:flex; flex-direction:column; gap:16px; }
-.pm-cashapp-header { display:flex; align-items:center; gap:14px; }
-.pm-cashapp-logo { width:44px; height:44px; border-radius:12px; background:linear-gradient(135deg,#00d632,#00a825); display:flex; align-items:center; justify-content:center; font-size:1.4rem; font-weight:900; color:#fff; }
-.pm-cashapp-handle { color:#00d632; font-weight:700; font-size:1.05rem; }
-.pm-cashapp-note { color:#666; font-size:0.78rem; }
-.pm-qr-wrapper { background:#fff; border-radius:12px; padding:12px; display:flex; justify-content:center; align-items:center; min-height:160px; }
-.pm-qr-img { width:140px; height:140px; display:block; }
-.pm-cashapp-btn { display:block; text-align:center; padding:12px; background:linear-gradient(135deg,#00d632,#00a825); color:#fff; font-weight:700; border-radius:8px; text-decoration:none; font-size:0.88rem; transition:all 0.2s; }
-.pm-cashapp-btn:hover { transform:translateY(-1px); box-shadow:0 4px 16px rgba(0,214,50,0.3); }
-.pm-cashapp-steps { display:flex; flex-direction:column; gap:10px; }
-.pm-step { display:flex; align-items:flex-start; gap:10px; color:#aaa; font-size:0.8rem; line-height:1.5; }
-.pm-step-num { min-width:22px; height:22px; border-radius:50%; background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); color:#00d4ff; font-size:0.68rem; font-weight:700; display:flex; align-items:center; justify-content:center; margin-top:1px; flex-shrink:0; }
-.pm-confirm-btn { width:100%; padding:13px; background:transparent; border:1px solid rgba(0,214,50,0.4); color:#00d632; font-weight:700; font-size:0.88rem; border-radius:8px; cursor:pointer; transition:all 0.2s; }
-.pm-confirm-btn:hover { background:rgba(0,214,50,0.08); border-color:#00d632; }
-.pm-close { width:100%; padding:12px; background:none; border:none; border-top:1px solid rgba(0,212,255,0.08); color:#444; cursor:pointer; font-size:0.78rem; transition:color 0.2s; }
-.pm-close:hover { color:#888; }
-
-@@media (max-width: 640px) {
-    .portal-dash { padding: 2rem 1.5rem 5rem; }
-    .pay-stats { grid-template-columns: 1fr 1fr; }
-}
-</style>
 
 @section Scripts {
 <script>
@@ -391,7 +319,7 @@ function switchPayTab(tab) {
 async function initStripeElements(invoiceId) {
     try {
         const csrf = document.querySelector("input[name='__RequestVerificationToken']")?.value ?? "";
-        const resp = await fetch("/Portal/Dashboard?handler=CreatePaymentIntent", {
+        const resp = await fetch("/Portal/Dashboard/CreatePaymentIntent", {
             method: "POST",
             headers: { "Content-Type": "application/json", "RequestVerificationToken": csrf },
             body: JSON.stringify({ invoiceId })
@@ -428,7 +356,7 @@ async function submitStripePayment() {
     }
 
     const csrf = document.querySelector("input[name='__RequestVerificationToken']")?.value ?? "";
-    await fetch("/Portal/Dashboard?handler=ConfirmPayment", {
+    await fetch("/Portal/Dashboard/ConfirmPayment", {
         method: "POST",
         headers: { "Content-Type": "application/json", "RequestVerificationToken": csrf },
         body: JSON.stringify({ invoiceId: currentInvoiceId, paymentIntentId: paymentIntent.id })
@@ -443,7 +371,7 @@ async function submitStripePayment() {
 // ── Cash App ──────────────────────────────────────────────────
 async function submitCashApp() {
     const csrf = document.querySelector("input[name='__RequestVerificationToken']")?.value ?? "";
-    await fetch("/Portal/Dashboard?handler=CashAppPending", {
+    await fetch("/Portal/Dashboard/CashAppPending", {
         method: "POST",
         headers: { "Content-Type": "application/json", "RequestVerificationToken": csrf },
         body: JSON.stringify({ invoiceId: currentInvoiceId })
@@ -478,4 +406,3 @@ function showToast(msg) {
 }
 </script>
 }
-

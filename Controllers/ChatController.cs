@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using RodneyPortfolio.Models;
 using RodneyPortfolio.Services;
 
@@ -40,6 +41,7 @@ public class ChatController : ControllerBase
     /// Validates input and applies content filtering before calling the AI service.
     /// </summary>
     [HttpPost]
+    [EnableRateLimiting("ChatPolicy")]
     public async Task<IActionResult> Post([FromBody] ChatRequest request, CancellationToken cancellationToken)
     {
         if (request?.Message == null)
@@ -78,6 +80,7 @@ public class ChatController : ControllerBase
     /// Analyzes a job description against Rodney's resume. Returns match score, skills alignment, gaps, and talking points.
     /// </summary>
     [HttpPost("job-match")]
+    [EnableRateLimiting("ChatPolicy")]
     public async Task<IActionResult> JobMatch([FromBody] JobMatchRequest request, CancellationToken cancellationToken)
     {
         if (request?.JobDescription == null)
