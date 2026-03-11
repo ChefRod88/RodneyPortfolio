@@ -2,12 +2,6 @@ using System.Text.RegularExpressions;
 
 namespace RodneyPortfolio.Services;
 
-public interface IInputValidator
-{
-    bool IsValid(string? message);
-    string? GetValidationError(string? message);
-}
-
 /// <summary>
 /// Validates user input before sending to the AI. Implements AI safety guardrails:
 /// max length, prompt injection pattern blocking, and basic sanitization.

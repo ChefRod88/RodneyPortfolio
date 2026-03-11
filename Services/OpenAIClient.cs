@@ -2,11 +2,6 @@ using System.Net.Http.Json;
 
 namespace RodneyPortfolio.Services;
 
-public interface IOpenAIClient
-{
-    Task<HttpResponseMessage> PostChatCompletionsAsync(object requestBody, CancellationToken cancellationToken = default);
-}
-
 public class OpenAIClient : IOpenAIClient
 {
     private readonly IConfiguration _config;
