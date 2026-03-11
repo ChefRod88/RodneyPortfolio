@@ -2,11 +2,6 @@ using System.Text.RegularExpressions;
 
 namespace RodneyPortfolio.Services;
 
-public interface IContentFilter
-{
-    bool IsBlocked(string? message);
-}
-
 /// <summary>
 /// Content filter for AI safety. Blocks inappropriate content before it reaches the AI.
 /// Configurable block list for profanity and other unwanted content.
