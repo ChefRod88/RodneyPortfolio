@@ -7,11 +7,11 @@ namespace RodneyPortfolio.Pages.Admin;
 
 public class AccountsModel : PageModel
 {
-    private readonly IClientPortalService _portalService;
+    private readonly IAccountService _accountService;
 
-    public AccountsModel(IClientPortalService portalService)
+    public AccountsModel(IAccountService accountService)
     {
-        _portalService = portalService;
+        _accountService = accountService;
     }
 
     public List<ClientAccount> Accounts { get; private set; } = new();
@@ -19,25 +19,19 @@ public class AccountsModel : PageModel
     public async Task<IActionResult> OnGetAsync(CancellationToken ct)
     {
         if (!AdminGuard.IsAdminAuthenticated(HttpContext))
-        {
             return RedirectToPage("/Admin/AdminLogin");
-        }
 
-        Accounts = await _portalService.GetAllAccountsAsync(ct);
+        Accounts = await _accountService.GetAllAccountsAsync(ct);
         return Page();
     }
 
     public async Task<IActionResult> OnPostDeleteAsync(string id, CancellationToken ct)
     {
         if (!AdminGuard.IsAdminAuthenticated(HttpContext))
-        {
             return RedirectToPage("/Admin/AdminLogin");
-        }
 
         if (!string.IsNullOrWhiteSpace(id))
-        {
-            await _portalService.DeleteAccountAsync(id, ct);
-        }
+            await _accountService.DeleteAccountAsync(id, ct);
 
         return RedirectToPage("/Admin/Accounts");
     }

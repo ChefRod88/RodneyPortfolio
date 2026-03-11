@@ -4,7 +4,10 @@ using RodneyPortfolio.Models;
 
 namespace RodneyPortfolio.Services;
 
-public class SqlClientPortalService : IClientPortalService
+/// <summary>
+/// SQL Server-backed implementation of IAccountService, IOtpService, and ISessionService.
+/// </summary>
+public class SqlClientPortalService : IAccountService, IOtpService, ISessionService
 {
     private readonly AppDbContext _db;
     private readonly ILogger<SqlClientPortalService> _logger;
@@ -15,16 +18,22 @@ public class SqlClientPortalService : IClientPortalService
         _logger = logger;
     }
 
-    // ── Accounts ──────────────────────────────────────────────
+    // ── IAccountService ───────────────────────────────────────
     public async Task<ClientAccount?> GetByEmailAsync(string email, CancellationToken ct = default)
-        => await _db.ClientAccounts
-            .FirstOrDefaultAsync(a => a.Email.ToLower() == email.ToLower(), ct);
+    {
+        var normalized = email.Trim().ToLowerInvariant();
+        return await _db.ClientAccounts
+            .FirstOrDefaultAsync(a => a.Email.ToLower() == normalized, ct);
+    }
 
     public async Task<ClientAccount?> GetByIdAsync(string id, CancellationToken ct = default)
         => await _db.ClientAccounts.FindAsync(new object[] { id }, ct);
 
     public async Task<bool> EmailExistsAsync(string email, CancellationToken ct = default)
-        => await _db.ClientAccounts.AnyAsync(a => a.Email.ToLower() == email.ToLower(), ct);
+    {
+        var normalized = email.Trim().ToLowerInvariant();
+        return await _db.ClientAccounts.AnyAsync(a => a.Email.ToLower() == normalized, ct);
+    }
 
     public async Task SaveAccountAsync(ClientAccount account, CancellationToken ct = default)
     {
@@ -52,7 +61,6 @@ public class SqlClientPortalService : IClientPortalService
         var account = await _db.ClientAccounts.FindAsync(new object[] { id }, ct);
         if (account is null) return false;
 
-        // Remove their sessions too
         var sessions = await _db.ClientSessions
             .Where(s => s.ClientId == id).ToListAsync(ct);
         _db.ClientSessions.RemoveRange(sessions);
@@ -63,10 +71,9 @@ public class SqlClientPortalService : IClientPortalService
         return true;
     }
 
-    // ── OTP ───────────────────────────────────────────────────
+    // ── IOtpService ───────────────────────────────────────────
     public async Task<string> GenerateOtpAsync(string email, string purpose, CancellationToken ct = default)
     {
-        // Invalidate existing unused codes
         var existing = await _db.OtpCodes
             .Where(c => c.Email == email && c.Purpose == purpose && !c.Used)
             .ToListAsync(ct);
@@ -75,9 +82,9 @@ public class SqlClientPortalService : IClientPortalService
         var code = Random.Shared.Next(100000, 1000000).ToString();
         await _db.OtpCodes.AddAsync(new OtpCode
         {
-            Email = email,
-            Code = code,
-            Purpose = purpose,
+            Email     = email,
+            Code      = code,
+            Purpose   = purpose,
             ExpiresAt = DateTimeOffset.UtcNow.AddMinutes(10)
         }, ct);
 
@@ -88,8 +95,9 @@ public class SqlClientPortalService : IClientPortalService
 
     public async Task<bool> ValidateOtpAsync(string email, string code, string purpose, CancellationToken ct = default)
     {
+        var normalized = email.Trim().ToLowerInvariant();
         var otp = await _db.OtpCodes.FirstOrDefaultAsync(c =>
-            c.Email.ToLower() == email.ToLower() &&
+            c.Email.ToLower() == normalized &&
             c.Code == code &&
             c.Purpose == purpose &&
             !c.Used &&
@@ -102,10 +110,9 @@ public class SqlClientPortalService : IClientPortalService
         return true;
     }
 
-    // ── Sessions ──────────────────────────────────────────────
+    // ── ISessionService ───────────────────────────────────────
     public async Task<ClientSession> CreateSessionAsync(string clientId, string email, CancellationToken ct = default)
     {
-        // Clean up expired sessions
         var expired = await _db.ClientSessions
             .Where(s => s.ExpiresAt < DateTimeOffset.UtcNow)
             .ToListAsync(ct);

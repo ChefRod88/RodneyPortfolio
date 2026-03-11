@@ -8,11 +8,11 @@ namespace RodneyPortfolio.Pages.Admin;
 
 public class EditClientModel : PageModel
 {
-    private readonly IClientPortalService _portal;
+    private readonly IAccountService _accountService;
 
-    public EditClientModel(IClientPortalService portal)
+    public EditClientModel(IAccountService accountService)
     {
-        _portal = portal;
+        _accountService = accountService;
     }
 
     [BindProperty] public EditClientInput Input { get; set; } = new();
@@ -23,23 +23,23 @@ public class EditClientModel : PageModel
         if (!AdminGuard.IsAdminAuthenticated(HttpContext))
             return RedirectToPage("/Admin/AdminLogin");
 
-        var account = await _portal.GetByIdAsync(id, ct);
+        var account = await _accountService.GetByIdAsync(id, ct);
         if (account is null) return RedirectToPage("/Admin/Accounts");
 
         Input = new EditClientInput
         {
-            Id            = account.Id,
-            FirstName     = account.FirstName,
-            LastName      = account.LastName,
-            Email         = account.Email,
-            Phone         = account.Phone,
-            CompanyName   = account.CompanyName,
+            Id             = account.Id,
+            FirstName      = account.FirstName,
+            LastName       = account.LastName,
+            Email          = account.Email,
+            Phone          = account.Phone,
+            CompanyName    = account.CompanyName,
             BillingAddress = account.BillingAddress,
-            City          = account.City,
-            State         = account.State,
-            ZipCode       = account.ZipCode,
-            TierInterest  = account.TierInterest,
-            Status        = account.Status
+            City           = account.City,
+            State          = account.State,
+            ZipCode        = account.ZipCode,
+            TierInterest   = account.TierInterest,
+            Status         = account.Status
         };
 
         return Page();
@@ -52,7 +52,7 @@ public class EditClientModel : PageModel
 
         if (!ModelState.IsValid) return Page();
 
-        var account = await _portal.GetByIdAsync(Input.Id, ct);
+        var account = await _accountService.GetByIdAsync(Input.Id, ct);
         if (account is null) return RedirectToPage("/Admin/Accounts");
 
         account.FirstName      = Input.FirstName.Trim();
@@ -66,7 +66,7 @@ public class EditClientModel : PageModel
         account.TierInterest   = Input.TierInterest;
         account.Status         = Input.Status;
 
-        await _portal.UpdateAccountAsync(account, ct);
+        await _accountService.UpdateAccountAsync(account, ct);
         StatusMessage = "Client updated successfully.";
         return Page();
     }

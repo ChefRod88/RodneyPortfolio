@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.RateLimiting;
 using RodneyPortfolio.Models;
 using RodneyPortfolio.Services;
 
@@ -21,6 +22,7 @@ public class IndexModel : PageModel
 
     }
 
+    [EnableRateLimiting("QuotePolicy")]
     public async Task<IActionResult> OnPostQuoteAsync([FromForm] QuoteRequestInput request, CancellationToken cancellationToken)
     {
         if (!ModelState.IsValid)

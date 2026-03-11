@@ -10,8 +10,8 @@ namespace RodneyPortfolio.Tests;
 public class PaymentModalScrollTests
 {
     // ── helpers ─────────────────────────────────────────────────────────────
-    private static string DashboardView => ReadRepoFile("Pages/Dashboard.cshtml");
-    private static string DashboardCode => ReadRepoFile("Pages/Dashboard.cshtml.cs");
+    private static string DashboardView => ReadRepoFile("Views/Portal/Dashboard.cshtml");
+    private static string DashboardCode => ReadRepoFile("Controllers/PortalController.cs");
 
     // ════════════════════════════════════════════════════════════════════════
     // GROUP 1 — Overlay scroll fix
@@ -134,13 +134,13 @@ public class PaymentModalScrollTests
     [Fact]
     public void Backend_CreatePaymentIntentHandler_IsPresent()
     {
-        Assert.Contains("OnPostCreatePaymentIntentAsync", DashboardCode, StringComparison.Ordinal);
+        Assert.Contains("CreatePaymentIntent", DashboardCode, StringComparison.Ordinal);
     }
 
     [Fact]
     public void Backend_ConfirmPaymentHandler_IsPresent()
     {
-        Assert.Contains("OnPostConfirmPaymentAsync", DashboardCode, StringComparison.Ordinal);
+        Assert.Contains("ConfirmPayment", DashboardCode, StringComparison.Ordinal);
     }
 
     [Fact]

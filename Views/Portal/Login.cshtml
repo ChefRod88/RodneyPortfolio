@@ -1,8 +1,6 @@
-@page "/Portal/Login"
-@model RodneyPortfolio.Pages.Portal.LoginModel
+@model RodneyPortfolio.ViewModels.PortalLoginViewModel
 @{
     ViewData["Title"] = "Sign In -- RC Dev Portal";
-    Layout = "_Layout";
 }
 
 <div class="portal-form-page rc-fade">
@@ -18,8 +16,10 @@
         <div class="portal-alert portal-alert-error rc-glass">&#9888; @Model.ErrorMessage</div>
     }
 
+    <div asp-validation-summary="All" class="portal-alert portal-alert-error rc-glass" style="display:@(ViewData.ModelState.IsValid ? "none" : "block")"></div>
+
     <div class="portal-form-card rc-glass rc-fade" style="max-width:460px;margin:0 auto">
-        <form method="post" asp-page-handler="Login" class="portal-form">
+        <form method="post" asp-action="Login" asp-controller="Portal" class="portal-form">
             @Html.AntiForgeryToken()
             <div class="portal-form-section">
                 <div class="portal-form-section-label">// Enter your account email</div>

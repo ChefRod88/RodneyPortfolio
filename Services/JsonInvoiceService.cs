@@ -76,9 +76,10 @@ public class JsonInvoiceService : IInvoiceService
         var invoices = await LoadInvoicesAsync();
         var inv = invoices.FirstOrDefault(i => i.Id == invoiceId);
         if (inv is null) return;
-        inv.Status = InvoiceStatus.Paid;
-        inv.PaidAt = DateTimeOffset.UtcNow;
+        inv.Status                = InvoiceStatus.Paid;
+        inv.PaidAt                = DateTimeOffset.UtcNow;
         inv.StripePaymentIntentId = stripePaymentIntentId;
+        inv.PaymentMethod         = "Stripe";
         await SaveInvoicesAsync(invoices);
     }
 }
