@@ -4,6 +4,7 @@
 // Church Website - Application entry point
 
 // USE CASE: Configure DI, services, routing; add new pages/services here
+using ChurchWebsite.Hubs;
 using ChurchWebsite.Models;
 using ChurchWebsite.Services;
 
@@ -11,6 +12,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // SERVICES
 builder.Services.AddRazorPages();                                    // Enables Razor Pages (Index, About, etc.)
+builder.Services.AddSignalR();                                       // Real-time WebSocket hub for location streaming
 builder.Services.AddHttpContextAccessor();                           // Needed for _Layout to read current path
 builder.Services.Configure<ChurchSettings>(builder.Configuration.GetSection(ChurchSettings.SectionName));  // Binds appsettings Church section
 builder.Services.AddScoped<ISermonService, SermonService>();         // In-memory sermons; inject in Index, Sermons pages
@@ -32,8 +34,9 @@ app.UseRouting();            // Enable endpoint routing
 app.UseAuthorization();      // Auth middleware (no auth configured yet)
 
 // ROUTING
-app.MapStaticAssets();       // Serves wwwroot (css, js, images)
-app.MapRazorPages()          // Maps /Index, /About, /Events/Index, etc.
+app.MapStaticAssets();                           // Serves wwwroot (css, js, images)
+app.MapHub<LocationHub>("/hubs/location");       // SignalR WebSocket endpoint for real-time GPS streaming
+app.MapRazorPages()                              // Maps /Index, /About, /Events/Index, etc.
    .WithStaticAssets();
 
 app.Run();

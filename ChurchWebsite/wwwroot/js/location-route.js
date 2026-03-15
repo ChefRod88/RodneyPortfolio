@@ -69,6 +69,9 @@
   });
   new RecenterControl().addTo(map);
 
+  /* Notify H3 overlay that the map is ready */
+  document.dispatchEvent(new CustomEvent('church:map-ready', { detail: { map } }));
+
   /* ── Church destination marker (gold pulsing pin) ─────── */
   const churchIcon = L.divIcon({
     className: '',
@@ -282,6 +285,7 @@
     try {
       updateMeta('Calculating fastest route…');
       upsertUserMarker(oLat, oLon);
+      if (window.LocationH3) window.LocationH3.updateUser(oLat, oLon);
 
       /* Try GraphHopper; fall back to straight line if key missing */
       let coords;
@@ -374,6 +378,7 @@
         setStatus(true, `GPS lock (±${Math.round(accuracy)}m)`);
         if (refreshBtn) { refreshBtn.disabled = false; refreshBtn.textContent = '🔄 Recalculate'; }
         renderRoute(lat, lon);
+        sendLocationOverWs(lat, lon, accuracy);
 
         /* Live watch — re-route if user moves >30 m (Uber-style) */
         if (watchId !== null) navigator.geolocation.clearWatch(watchId);
@@ -384,6 +389,7 @@
             if (d > 30) {
               renderRoute(wLat, wLon);
               setStatus(true, `Live tracking (±${Math.round(wp.coords.accuracy)}m)`);
+              sendLocationOverWs(wLat, wLon, wp.coords.accuracy);
             }
           },
           null,
@@ -429,6 +435,59 @@
       if (!initDone) renderRoute(lat, lon);
     }
   });
+
+  /* ═══════════════════════════════════════════════════
+     SIGNALR — Uber-style two-way WebSocket channel.
+     Streams GPS position to server; server echoes back
+     a timestamp so we can display round-trip latency.
+     ═══════════════════════════════════════════════════ */
+  let wsConn = null;
+
+  function updateWsIndicator(connected, serverTs) {
+    const dot   = document.getElementById('h3-ws-dot');
+    const label = document.getElementById('h3-ws-label');
+    if (dot) {
+      dot.classList.toggle('dot-online',  connected);
+      dot.classList.toggle('dot-offline', !connected);
+    }
+    if (label) {
+      if (connected && serverTs) {
+        const latency = Math.max(0, Date.now() - serverTs);
+        label.textContent = `WS \u00b7 ${latency}ms`;
+      } else {
+        label.textContent = connected ? 'WS \u00b7 connected' : 'WS \u00b7 offline';
+      }
+    }
+  }
+
+  function sendLocationOverWs(lat, lon, accuracy) {
+    if (wsConn && wsConn.state === signalR.HubConnectionState.Connected) {
+      wsConn.invoke('SendLocation', lat, lon, accuracy || 0).catch(console.warn);
+    }
+  }
+
+  function setupSignalR() {
+    if (typeof signalR === 'undefined') return;
+
+    wsConn = new signalR.HubConnectionBuilder()
+      .withUrl('/hubs/location')
+      .withAutomaticReconnect()
+      .configureLogging(signalR.LogLevel.Warning)
+      .build();
+
+    wsConn.on('LocationConfirmed', data => {
+      updateWsIndicator(true, data.serverTimestamp);
+    });
+    wsConn.onreconnecting(() => updateWsIndicator(false, null));
+    wsConn.onreconnected(()  => updateWsIndicator(true, null));
+    wsConn.onclose(()        => updateWsIndicator(false, null));
+
+    wsConn.start()
+      .then(() => updateWsIndicator(true, null))
+      .catch(err => console.warn('[LocationHub] SignalR connect failed:', err));
+  }
+
+  setupSignalR();
 
   /* ── Boot ─────────────────────────────────────────── */
   /* Auto-start GPS immediately on page load */
