@@ -327,6 +327,34 @@ body { background:var(--d); color:var(--tp); overflow-x:hidden; }
   100% { opacity:0;  transform:scale(1.6); }
 }
 
+/* ── H3 Spatial Index section ── */
+.loc-h3 {
+  padding:.85rem 1.5rem; border-bottom:1px solid rgba(201,168,76,.07); flex-shrink:0;
+}
+.loc-h3-head {
+  display:flex; align-items:center; justify-content:space-between; margin-bottom:.6rem;
+}
+.loc-h3-label {
+  font-size:.48rem; letter-spacing:.18em; text-transform:uppercase; color:var(--tm);
+}
+.loc-h3-ws {
+  display:flex; align-items:center; gap:.35rem;
+  font-size:.5rem; letter-spacing:.08em; text-transform:uppercase; color:rgba(154,148,133,.5);
+}
+.loc-h3-ws .location-status-dot { width:6px; height:6px; animation:none; }
+.loc-h3-ws .dot-online  { animation:livePulse 1.8s infinite; }
+.loc-h3-cells {
+  display:flex; gap:0;
+}
+.loc-h3-cell {
+  flex:1; padding:.28rem .4rem; border-right:1px solid rgba(201,168,76,.08); text-align:center;
+}
+.loc-h3-cell:last-child { border-right:none; }
+.loc-h3-mono { font-family:monospace; font-size:.6rem !important; letter-spacing:.01em; word-break:break-all; }
+
+/* H3 hex cell polygons — drawn by Leaflet on the map */
+.h3-hex-cell { transition:opacity .45s ease; }
+
 /* ── Recenter button ── */
 .loc-recenter-btn {
   display:flex; align-items:center; justify-content:center;
@@ -425,6 +453,31 @@ body { background:var(--d); color:var(--tp); overflow-x:hidden; }
         <div class="loc-coord">
           <div class="loc-coord-lbl">Timezone</div>
           <div class="loc-coord-val">EST / UTC&#8209;5</div>
+        </div>
+      </div>
+
+      <!-- H3 Spatial Index + WebSocket status -->
+      <div class="loc-h3">
+        <div class="loc-h3-head">
+          <span class="loc-h3-label">H3 Spatial Index &bull; res&nbsp;8</span>
+          <div class="loc-h3-ws">
+            <span class="location-status-dot dot-offline" id="h3-ws-dot" aria-hidden="true"></span>
+            <span id="h3-ws-label">WS &middot; connecting</span>
+          </div>
+        </div>
+        <div class="loc-h3-cells">
+          <div class="loc-h3-cell">
+            <div class="loc-coord-lbl">Your Cell</div>
+            <div class="loc-coord-val loc-h3-mono" id="h3-user-cell">&mdash;</div>
+          </div>
+          <div class="loc-h3-cell">
+            <div class="loc-coord-lbl">Church Cell</div>
+            <div class="loc-coord-val loc-h3-mono" id="h3-church-cell">&mdash;</div>
+          </div>
+          <div class="loc-h3-cell">
+            <div class="loc-coord-lbl">Distance</div>
+            <div class="loc-coord-val" id="h3-ring-dist">&mdash;</div>
+          </div>
         </div>
       </div>
 
@@ -533,6 +586,12 @@ body { background:var(--d); color:var(--tp); overflow-x:hidden; }
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
+<!-- H3 geospatial index — Uber open-source hex grid library -->
+<script src="https://unpkg.com/h3-js@4.1.0/dist/browser/h3-js.umd.js" crossorigin=""></script>
+<!-- SignalR — two-way WebSocket channel -->
+<script src="https://cdn.jsdelivr.net/npm/@@microsoft/signalr@@8.0.7/dist/browser/signalr.min.js" crossorigin=""></script>
 <script src="~/js/location-route-helpers.js" asp-append-version="true"></script>
+<!-- H3 overlay must load before location-route.js so it registers church:map-ready before the event fires -->
+<script src="~/js/location-h3.js" asp-append-version="true"></script>
 <script src="~/js/location-route.js" asp-append-version="true"></script>
 }
