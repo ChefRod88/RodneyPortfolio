@@ -95,20 +95,7 @@ body{background:var(--d);color:var(--tp);font-family:'Segoe UI',system-ui,sans-s
     <div class="lv-player sr">
       <div class="lv-ratio">
         @if(hasStreamUrl){
-          <div id="lv-placeholder" class="lv-placeholder">
-            <div class="lv-ph-bg" style="background-image:url('@placeholderImg')"></div>
-            <div class="lv-ph-content">
-              <div class="lv-play-ring" id="lv-play-ring"><div class="lv-play-icon"></div></div>
-              <h3>We'll be live during service times</h3>
-              <p class="lv-times-text">@serviceTimes</p>
-              <button type="button" class="lv-watch-btn" id="lv-watch-btn"><span style="font-size:.7rem">●</span> Watch Live Now</button><br>
-              <a href="@youtubeUrl" target="_blank" rel="noopener noreferrer" class="lv-yt-link">▶ Watch on YouTube instead</a>
-            </div>
-          </div>
-          <div id="lv-embed" class="lv-embed">
-            <div class="lv-back-bar"><button class="lv-back-btn" id="lv-back">← Back</button></div>
-            <iframe id="lv-iframe" data-src="@Model.Church.LiveStreamUrl" title="Live Stream" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"></iframe>
-          </div>
+          <iframe src="@Model.Church.LiveStreamUrl" title="Live Stream" allowfullscreen allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture" style="position:absolute;inset:0;width:100%;height:100%;border:none"></iframe>
         } else {
           <div style="background:var(--s2);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:3rem;color:var(--tm)">
             <div style="font-size:3rem;margin-bottom:1rem">📺</div>
@@ -162,12 +149,6 @@ body{background:var(--d);color:var(--tp);font-family:'Segoe UI',system-ui,sans-s
 @section Scripts {
 <script>
 (function(){
-  var ph=document.getElementById('lv-placeholder'),embed=document.getElementById('lv-embed'),iframe=document.getElementById('lv-iframe');
-  function goLive(){if(!iframe)return;if(!iframe.src)iframe.src=iframe.dataset.src;ph&&(ph.style.display='none');embed&&(embed.style.display='block')}
-  function goBack(){ph&&(ph.style.display='');embed&&(embed.style.display='none')}
-  document.getElementById('lv-play-ring')&&document.getElementById('lv-play-ring').addEventListener('click',goLive);
-  document.getElementById('lv-watch-btn')&&document.getElementById('lv-watch-btn').addEventListener('click',goLive);
-  document.getElementById('lv-back')&&document.getElementById('lv-back').addEventListener('click',goBack);
   document.querySelectorAll('.sr').forEach(function(el){new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:.08}).observe(el)});
 })();
 </script>
