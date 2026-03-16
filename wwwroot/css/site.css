@@ -332,12 +332,21 @@ h1.title::after {
   text-align: left;
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  color: var(--c);
-  letter-spacing: 0.3em;
-  opacity: 0.85;
-  margin-bottom: 0.2rem;
+  color: rgba(255, 255, 255, 0.95);
+  letter-spacing: 0.25em;
+  opacity: 1;
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  padding: 0.25rem 0.75rem;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 0 16px rgba(255, 255, 255, 0.12), 0 0 40px rgba(255, 255, 255, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.3);
 }
-#profile .section__text__p1::before { content: '// '; opacity: 0.5; }
+#profile .section__text__p1::before { content: '// '; opacity: 0.45; }
 #profile .section__text__p1::after  { content: ''; }
 
 #profile .title {
