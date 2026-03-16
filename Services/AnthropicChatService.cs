@@ -3,36 +3,36 @@ using System.Net.Http.Json;
 namespace RodneyPortfolio.Services;
 
 /// <summary>
-/// AI chat service that uses OpenAI's Chat Completions API to answer questions about Rodney.
-/// Requires an API key configured via User Secrets (local) or GitHub Secrets (production).
+/// AI chat service backed by Anthropic's Claude API.
+/// Mirrors OpenAIChatService behavior; used standalone or via DualAIChatService.
 /// </summary>
-public class OpenAIChatService : IAIChatService
+public class AnthropicChatService : IAIChatService
 {
     private readonly IResumeContextLoader _resumeLoader;
     private readonly IConfiguration _config;
-    private readonly IOpenAIClient _openAiClient;
-    private readonly ILogger<OpenAIChatService> _logger;
+    private readonly IAnthropicClient _anthropicClient;
+    private readonly ILogger<AnthropicChatService> _logger;
 
     private const int MaxResponseTokens = 512;
 
-    public OpenAIChatService(
+    public AnthropicChatService(
         IResumeContextLoader resumeLoader,
         IConfiguration config,
-        IOpenAIClient openAiClient,
-        ILogger<OpenAIChatService> logger)
+        IAnthropicClient anthropicClient,
+        ILogger<AnthropicChatService> logger)
     {
         _resumeLoader = resumeLoader;
         _config = config;
-        _openAiClient = openAiClient;
+        _anthropicClient = anthropicClient;
         _logger = logger;
     }
 
     public async Task<string> GetReplyAsync(string userMessage, string? mode = null, CancellationToken cancellationToken = default)
     {
-        var apiKey = _config["OpenAI:ApiKey"];
+        var apiKey = _config["Anthropic:ApiKey"];
         if (string.IsNullOrWhiteSpace(apiKey))
         {
-            _logger.LogWarning("OpenAI API key not configured");
+            _logger.LogWarning("Anthropic API key not configured");
             return "The chatbot is not configured. Please contact the site owner.";
         }
 
@@ -42,7 +42,7 @@ public class OpenAIChatService : IAIChatService
     }
 
     /// <summary>
-    /// Calls OpenAI and returns the reply, or null on any API failure.
+    /// Calls Anthropic and returns the reply, or null on any API failure.
     /// Used by DualAIChatService to run both providers in parallel.
     /// </summary>
     public async Task<string?> TryGetReplyAsync(string userMessage, string? mode, string resumeContext, CancellationToken cancellationToken)
@@ -51,43 +51,37 @@ public class OpenAIChatService : IAIChatService
 
         var requestBody = new
         {
-            model = _config["OpenAI:Model"] ?? "gpt-4o-mini",
-            messages = new[]
-            {
-                new { role = "system", content = systemPrompt },
-                new { role = "user", content = userMessage }
-            },
-            max_tokens = MaxResponseTokens
+            model = _config["Anthropic:Model"] ?? "claude-sonnet-4-6",
+            max_tokens = MaxResponseTokens,
+            system = systemPrompt,
+            messages = new[] { new { role = "user", content = userMessage } }
         };
 
         try
         {
-            var response = await _openAiClient.PostChatCompletionsAsync(requestBody, cancellationToken);
+            var response = await _anthropicClient.PostMessagesAsync(requestBody, cancellationToken);
 
             if (!response.IsSuccessStatusCode)
             {
                 var errorBody = await response.Content.ReadAsStringAsync(cancellationToken);
                 _logger.LogWarning(
-                    "OpenAI API failed. StatusCode: {StatusCode}, Response: {Response}. Falling back to demo response.",
+                    "Anthropic API failed. StatusCode: {StatusCode}, Response: {Response}.",
                     (int)response.StatusCode,
                     errorBody);
                 return null;
             }
 
-            var json = await response.Content.ReadFromJsonAsync<OpenAIResponse>(cancellationToken);
-            var reply = json?.Choices?.FirstOrDefault()?.Message?.Content?.Trim();
+            var json = await response.Content.ReadFromJsonAsync<AnthropicResponse>(cancellationToken);
+            var reply = json?.Content?.FirstOrDefault(b => b.Type == "text")?.Text?.Trim();
             return string.IsNullOrEmpty(reply) ? null : reply;
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error calling OpenAI API.");
+            _logger.LogError(ex, "Error calling Anthropic API.");
             return null;
         }
     }
 
-    /// <summary>
-    /// Returns mode-specific prompt instructions for tone, depth, and emphasis.
-    /// </summary>
     private static string GetModeInstructions(string? mode)
     {
         var m = (mode ?? "recruiter").Trim().ToLowerInvariant();
@@ -99,11 +93,6 @@ public class OpenAIChatService : IAIChatService
         };
     }
 
-    /// <summary>
-    /// Builds the system prompt with resume context. Prompt engineering: grounds the model
-    /// in the provided content while allowing inference, expansion, and natural conversation.
-    /// Mode-specific instructions adjust tone, depth, and emphasis.
-    /// </summary>
     private static string BuildSystemPrompt(string resumeContext, string? mode)
     {
         var today = DateTime.UtcNow.ToString("MMMM yyyy");
@@ -129,13 +118,8 @@ CRITICAL: Answer the SPECIFIC question asked. Different questions deserve differ
 - For project questions (chatbot, portfolio, architecture, tech stack): Provide architecture overview, tech stack, key decisions, tradeoffs, and deployment strategy from the PROJECT DEEP-DIVES section. Code snippets when relevant.
 
 Behave like generative AI with a loaded document: infer, calculate, extract, and tailor each response to the exact question. Vary your response style—short for simple questions, more depth when asked. Sound human and conversational, not robotic. Never give the same generic block of text for different questions. Speak in third person about Rodney. Stay grounded in the context; don't invent employers, dates, or credentials not mentioned.";
-
     }
 
-    /// <summary>
-    /// Returns a demo response based on resume context when the OpenAI API fails (e.g., 429 quota, 401, network error).
-    /// Uses keyword matching to provide relevant answers from the context. API errors are logged but not shown to the user.
-    /// </summary>
     private static Task<string> GetDemoResponseAsync(string userMessage, string resumeContext, CancellationToken cancellationToken)
     {
         var q = userMessage.Trim().ToLowerInvariant();
@@ -164,20 +148,15 @@ Behave like generative AI with a loaded document: infer, calculate, extract, and
     }
 
     // ReSharper disable once ClassNeverInstantiated.Local
-    private sealed class OpenAIResponse
+    private sealed class AnthropicResponse
     {
-        public List<Choice>? Choices { get; set; }
+        public List<ContentBlock>? Content { get; set; }
     }
 
     // ReSharper disable once ClassNeverInstantiated.Local
-    private sealed class Choice
+    private sealed class ContentBlock
     {
-        public Message? Message { get; set; }
-    }
-
-    // ReSharper disable once ClassNeverInstantiated.Local
-    private sealed class Message
-    {
-        public string? Content { get; set; }
+        public string? Type { get; set; }
+        public string? Text { get; set; }
     }
 }
