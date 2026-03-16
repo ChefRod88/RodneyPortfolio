@@ -1,0 +1,1 @@
+(function(){var obs=new IntersectionObserver(function(e){e.forEach(function(x){if(x.isIntersecting)x.target.classList.add('visible')})},{threshold:.1});document.querySelectorAll('.sr').forEach(function(el){obs.observe(el)})})();
