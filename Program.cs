@@ -24,9 +24,18 @@ builder.Services.AddRazorPages();
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 builder.Services.AddScoped<IResumeContextLoader, ResumeContextLoader>();
-builder.Services.AddScoped<IAIChatService, OpenAIChatService>();
-builder.Services.AddScoped<IJobMatchService, JobMatchService>();
 builder.Services.AddScoped<IOpenAIClient, OpenAIClient>();
+builder.Services.AddScoped<IAnthropicClient, AnthropicClient>();
+
+// Concrete registrations so DualAIChatService / DualJobMatchService can inject them directly
+builder.Services.AddScoped<OpenAIChatService>();
+builder.Services.AddScoped<AnthropicChatService>();
+builder.Services.AddScoped<JobMatchService>();
+builder.Services.AddScoped<AnthropicJobMatchService>();
+
+// Public interfaces → Dual orchestrators (fire both AIs in parallel per request)
+builder.Services.AddScoped<IAIChatService, DualAIChatService>();
+builder.Services.AddScoped<IJobMatchService, DualJobMatchService>();
 builder.Services.AddScoped<IInputValidator, InputValidator>();
 builder.Services.AddScoped<IContentFilter, ContentFilter>();
 builder.Services.Configure<QuoteEmailOptions>(builder.Configuration.GetSection(QuoteEmailOptions.SectionName));

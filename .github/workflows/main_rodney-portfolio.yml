@@ -72,6 +72,22 @@ jobs:
           slot-name: 'Production'
           app-settings-json: '[{"name": "OpenAI__ApiKey", "value": "${{ secrets.OPENAI_API_KEY }}", "slotSetting": false}]'
 
+      # REQUIRED: Add ANTHROPIC_API_KEY in GitHub repo Settings → Secrets and variables → Actions
+      - name: Set Anthropic API Key in Azure
+        uses: Azure/appservice-settings@v1
+        with:
+          app-name: 'rodney-portfolio'
+          slot-name: 'Production'
+          app-settings-json: '[{"name": "Anthropic__ApiKey", "value": "${{ secrets.ANTHROPIC_API_KEY }}", "slotSetting": false}]'
+
+      # Optional: ADMIN_API_TOKEN protects the POST /api/admin/expand-resume endpoint
+      - name: Set Admin API Token in Azure
+        uses: Azure/appservice-settings@v1
+        with:
+          app-name: 'rodney-portfolio'
+          slot-name: 'Production'
+          app-settings-json: '[{"name": "Admin__ApiToken", "value": "${{ secrets.ADMIN_API_TOKEN }}", "slotSetting": false}]'
+
       # Optional: Add GA4_MEASUREMENT_ID in GitHub Secrets for visitor tracking. If omitted, GA4 is disabled.
       - name: Set GA4 Measurement ID in Azure
         uses: Azure/appservice-settings@v1

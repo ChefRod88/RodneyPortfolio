@@ -6,4 +6,5 @@ namespace RodneyPortfolio.Services;
 public interface IResumeContextLoader
 {
     Task<string> LoadAsync(CancellationToken cancellationToken = default);
+    void InvalidateCache();
 }

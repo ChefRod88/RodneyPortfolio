@@ -1,38 +1,37 @@
 using System.Net.Http.Json;
 using System.Text.Json;
-using Microsoft.Extensions.Configuration;
 using RodneyPortfolio.Models;
 
 namespace RodneyPortfolio.Services;
 
 /// <summary>
-/// Analyzes job descriptions against Rodney's resume using OpenAI to produce match score, skills alignment, gaps, and talking points.
+/// Analyzes job descriptions against Rodney's resume using Anthropic's Claude API.
 /// </summary>
-public class JobMatchService : IJobMatchService
+public class AnthropicJobMatchService : IJobMatchService
 {
     private readonly IResumeContextLoader _resumeLoader;
     private readonly IConfiguration _config;
-    private readonly IOpenAIClient _openAiClient;
-    private readonly ILogger<JobMatchService> _logger;
+    private readonly IAnthropicClient _anthropicClient;
+    private readonly ILogger<AnthropicJobMatchService> _logger;
 
-    public JobMatchService(
+    public AnthropicJobMatchService(
         IResumeContextLoader resumeLoader,
         IConfiguration config,
-        IOpenAIClient openAiClient,
-        ILogger<JobMatchService> logger)
+        IAnthropicClient anthropicClient,
+        ILogger<AnthropicJobMatchService> logger)
     {
         _resumeLoader = resumeLoader;
         _config = config;
-        _openAiClient = openAiClient;
+        _anthropicClient = anthropicClient;
         _logger = logger;
     }
 
     public async Task<JobMatchResponse> AnalyzeAsync(string jobDescription, CancellationToken cancellationToken = default)
     {
-        var apiKey = _config["OpenAI:ApiKey"];
+        var apiKey = _config["Anthropic:ApiKey"];
         if (string.IsNullOrWhiteSpace(apiKey))
         {
-            _logger.LogWarning("OpenAI API key not configured");
+            _logger.LogWarning("Anthropic API key not configured");
             return new JobMatchResponse
             {
                 MatchScore = 0,
@@ -47,7 +46,7 @@ public class JobMatchService : IJobMatchService
     }
 
     /// <summary>
-    /// Calls OpenAI for job match analysis and returns the result, or null on any API failure.
+    /// Calls Anthropic for job match analysis and returns the result, or null on any API failure.
     /// Used by DualJobMatchService to run both providers in parallel.
     /// </summary>
     public async Task<JobMatchResponse?> TryAnalyzeAsync(string jobDescription, string resumeContext, CancellationToken cancellationToken)
@@ -68,31 +67,27 @@ Resume context:
 {resumeContext}
 ---
 
-Return ONLY valid JSON, no other text.";
+Return ONLY valid JSON. No markdown fences, no code blocks, no explanation. Just the JSON object.";
 
         var requestBody = new
         {
-            model = _config["OpenAI:Model"] ?? "gpt-4o-mini",
-            messages = new[]
-            {
-                new { role = "user", content = prompt }
-            },
+            model = _config["Anthropic:Model"] ?? "claude-sonnet-4-6",
             max_tokens = 1024,
-            response_format = new { type = "json_object" }
+            messages = new[] { new { role = "user", content = prompt } }
         };
 
         try
         {
-            var response = await _openAiClient.PostChatCompletionsAsync(requestBody, cancellationToken);
+            var response = await _anthropicClient.PostMessagesAsync(requestBody, cancellationToken);
 
             if (!response.IsSuccessStatusCode)
             {
-                _logger.LogWarning("OpenAI API failed for job match. StatusCode: {StatusCode}", (int)response.StatusCode);
+                _logger.LogWarning("Anthropic API failed for job match. StatusCode: {StatusCode}", (int)response.StatusCode);
                 return null;
             }
 
-            var json = await response.Content.ReadFromJsonAsync<OpenAIJobMatchResponse>(cancellationToken);
-            var content = json?.Choices?.FirstOrDefault()?.Message?.Content?.Trim();
+            var json = await response.Content.ReadFromJsonAsync<AnthropicResponse>(cancellationToken);
+            var content = json?.Content?.FirstOrDefault(b => b.Type == "text")?.Text?.Trim();
             if (string.IsNullOrEmpty(content))
                 return null;
 
@@ -100,37 +95,43 @@ Return ONLY valid JSON, no other text.";
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error in job match analysis");
+            _logger.LogError(ex, "Error in Anthropic job match analysis");
             return null;
         }
     }
 
-    private static JobMatchResponse ParseJobMatchResponse(string jsonContent)
+    private static JobMatchResponse? ParseJobMatchResponse(string jsonContent)
     {
         try
         {
-            using var doc = JsonDocument.Parse(jsonContent);
+            // Strip markdown fences if Claude included them despite instructions
+            var trimmed = jsonContent.Trim();
+            if (trimmed.StartsWith("```"))
+            {
+                var start = trimmed.IndexOf('\n') + 1;
+                var end = trimmed.LastIndexOf("```");
+                if (end > start)
+                    trimmed = trimmed[start..end].Trim();
+            }
+
+            using var doc = JsonDocument.Parse(trimmed);
             var root = doc.RootElement;
 
             var score = 0;
             if (root.TryGetProperty("matchScore", out var scoreEl))
                 score = scoreEl.TryGetInt32(out var s) ? s : 0;
 
-            var skills = GetStringArray(root, "skillsAligned");
-            var gaps = GetStringArray(root, "gaps");
-            var talkingPoints = GetStringArray(root, "talkingPoints");
-
             return new JobMatchResponse
             {
                 MatchScore = Math.Clamp(score, 0, 100),
-                SkillsAligned = skills,
-                Gaps = gaps,
-                TalkingPoints = talkingPoints
+                SkillsAligned = GetStringArray(root, "skillsAligned"),
+                Gaps = GetStringArray(root, "gaps"),
+                TalkingPoints = GetStringArray(root, "talkingPoints")
             };
         }
         catch
         {
-            return FallbackResponse();
+            return null;
         }
     }
 
@@ -156,18 +157,16 @@ Return ONLY valid JSON, no other text.";
         TalkingPoints = new List<string>()
     };
 
-    private sealed class OpenAIJobMatchResponse
+    // ReSharper disable once ClassNeverInstantiated.Local
+    private sealed class AnthropicResponse
     {
-        public List<Choice>? Choices { get; set; }
+        public List<ContentBlock>? Content { get; set; }
     }
 
-    private sealed class Choice
+    // ReSharper disable once ClassNeverInstantiated.Local
+    private sealed class ContentBlock
     {
-        public Message? Message { get; set; }
-    }
-
-    private sealed class Message
-    {
-        public string? Content { get; set; }
+        public string? Type { get; set; }
+        public string? Text { get; set; }
     }
 }

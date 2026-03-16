@@ -13,6 +13,8 @@ public class ResumeContextLoader : IResumeContextLoader
         _env = env;
     }
 
+    public void InvalidateCache() => _cachedContext = null;
+
     public async Task<string> LoadAsync(CancellationToken cancellationToken = default)
     {
         if (_cachedContext != null)
