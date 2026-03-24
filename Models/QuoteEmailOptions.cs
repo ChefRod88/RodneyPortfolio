@@ -11,5 +11,5 @@ public class QuoteEmailOptions
     public bool EnableSsl { get; set; } = true;
 
     public string FromEmail { get; set; } = string.Empty;
-    public string ToEmail { get; set; } = "rodney@globalrcdev.com";
+    public string ToEmail { get; set; } = "chefrodneyachery@gmail.com";
 }

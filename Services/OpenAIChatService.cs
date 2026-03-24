@@ -142,23 +142,23 @@ Behave like generative AI with a loaded document: infer, calculate, extract, and
         string reply;
 
         if (q.Contains("work") || q.Contains("employer") || q.Contains("where does") || q.Contains("company") || q.Contains("job"))
-            reply = "Rodney works at Canon Information Technology Services as a Technical Support Inkjet Tier 1. He started in March 2025 and troubleshoots proprietary software, hardware environments, and enterprise applications.";
+            reply = "Rodney works in three concurrent roles: Technical Support Specialist at Canon Information Technology Services (March 2025–Present), Freelance Enterprise Web Developer (Feb 2023–Present), and Minister of Technology at New Bethel Missionary Baptist Church (October 2025–Present).";
         else if (q.Contains("experience") || q.Contains("background") || q.Contains("career"))
-            reply = "Rodney is a Technical Support Analyst at Canon IT Services with a background in professional kitchens. He brings composure under pressure, disciplined troubleshooting, and strong service mindset to enterprise support. His journey from kitchens to tech reflects adaptability, resilience, and growth.";
+            reply = "Rodney is an Enterprise Application Developer with hands-on experience across the full SDLC. He builds production-style web applications with ASP.NET Core, C#, SQL Server, and Azure while working concurrently as a Technical Support Specialist at Canon IT Services and as a freelance developer for non-profits.";
         else if (q.Contains("skill") || q.Contains("tool") || q.Contains("technolog") || q.Contains("stack"))
-            reply = "Rodney's technical skills include C#, ASP.NET Core, Entity Framework Core, SQL Server, Git/GitHub, HTML, CSS, JavaScript, TypeScript, Angular, Razor Pages, Azure, Docker, and OpenAI API integration. He also has strong soft skills in technical communication, problem-solving under pressure, and customer empathy.";
+            reply = "Rodney's technical skills include C#, ASP.NET Core, .NET MAUI, Entity Framework Core, SQL Server, Git/GitHub, HTML5, CSS3, JavaScript, Razor Pages, Azure, AWS, IIS, Docker, xUnit, Moq, Vitest, Salesforce, Oracle PeopleSoft, PowerShell, Active Directory, and OpenAI/Anthropic API integration.";
         else if (q.Contains("education") || q.Contains("degree") || q.Contains("school") || q.Contains("graduate"))
-            reply = "Rodney is pursuing a B.S. in Software Engineering at Western Governors University, expected December 2026. The program is self-paced and competency-based, with focus on full-stack development, databases, and software architecture.";
+            reply = "Rodney is pursuing a B.S. in Software Engineering at Western Governors University, expected December 2026. He holds AWS Certified Cloud Practitioner, ITIL® 4 Foundation, CompTIA Project+, Google IT Support Professional, and Google Cloud: Introduction to Generative AI certifications.";
         else if (q.Contains("contact") || q.Contains("email") || q.Contains("linkedin") || q.Contains("reach"))
-            reply = "You can reach Rodney at rodney@globalrcdev.com, on LinkedIn at linkedin.com/in/rodneyachery, or via his portfolio at rodneyachery.com.";
+            reply = "You can reach Rodney at chefrodneyachery@gmail.com, on LinkedIn at linkedin.com/in/rodneyachery, or via his portfolio at rodneyachery.com.";
         else if (q.Contains("strength") || q.Contains("differentiate") || q.Contains("what makes"))
-            reply = "Rodney's strengths include composure under pressure, disciplined troubleshooting, strong service mindset, meticulous documentation, and clear communication. His intersection of soft skills and technical execution sets him apart.";
+            reply = "Rodney's strengths include full SDLC ownership, interface-driven architecture, dependency injection, AI-augmented development workflows, root-cause analysis, and clear stakeholder communication. He combines builder mindset with production-minded support discipline.";
         else if (q.Contains("how long") || q.Contains("tenure") || q.Contains("years at"))
-            reply = "Rodney started at Canon Information Technology Services in March 2025.";
+            reply = "Rodney started at Canon Information Technology Services in March 2025. He has been freelancing as a web developer since February 2023 and serving as Minister of Technology at New Bethel since October 2025.";
         else if (q.Contains("project") || q.Contains("portfolio") || q.Contains("built"))
-            reply = "Rodney's projects include his portfolio website (rodneyachery.com) built with ASP.NET Core and Razor Pages, and the Ask Rodney AI Chatbot—a C# backend with OpenAI API integration, prompt engineering, and AI safety practices.";
+            reply = "Rodney's projects include his portfolio website (rodneyachery.com) with AI chatbot and job match features, the Mini-D365-CRM (ASP.NET Core 10, OData v4, Azure), the Student Progress Tracker (WGU capstone, .NET MAUI), and the New Bethel church website with interactive mapping.";
         else
-            reply = "Rodney Chery is a Technical Support Analyst at Canon IT Services with a background in professional kitchens. He brings composure under pressure, disciplined troubleshooting, and strong service mindset to enterprise support. For more details, check his resume or portfolio at rodneyachery.com.";
+            reply = "Rodney Chery is an Enterprise Application Developer with experience across the full SDLC. He builds with ASP.NET Core, C#, SQL Server, and Azure, and works concurrently as a Technical Support Specialist at Canon IT Services and as a Freelance Web Developer. For more details, check his portfolio at rodneyachery.com.";
 
         return Task.FromResult(reply);
     }

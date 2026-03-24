@@ -53,20 +53,20 @@ public class DualAIChatService : IAIChatService
         var q = userMessage.Trim().ToLowerInvariant();
 
         if (q.Contains("work") || q.Contains("employer") || q.Contains("company") || q.Contains("job"))
-            return "Rodney works at Canon Information Technology Services as a Technical Support Inkjet Tier 1. He started in March 2025 and troubleshoots proprietary software, hardware environments, and enterprise applications.";
+            return "Rodney works in three concurrent roles: Technical Support Specialist at Canon IT Services (March 2025–Present), Freelance Enterprise Web Developer (Feb 2023–Present), and Minister of Technology at New Bethel Missionary Baptist Church (October 2025–Present).";
 
         if (q.Contains("skill") || q.Contains("tool") || q.Contains("technolog") || q.Contains("stack"))
-            return "Rodney's technical skills include C#, ASP.NET Core, Entity Framework Core, SQL Server, Git/GitHub, HTML, CSS, JavaScript, Azure, Docker, and OpenAI API integration.";
+            return "Rodney's technical skills include C#, ASP.NET Core, .NET MAUI, Entity Framework Core, SQL Server, Git/GitHub, HTML5, CSS3, JavaScript, Azure, AWS, IIS, Docker, xUnit, Moq, Vitest, Salesforce, Oracle PeopleSoft, PowerShell, Active Directory, and OpenAI/Anthropic API integration.";
 
         if (q.Contains("education") || q.Contains("degree") || q.Contains("school"))
-            return "Rodney is pursuing a B.S. in Software Engineering at Western Governors University, expected December 2026.";
+            return "Rodney is pursuing a B.S. in Software Engineering at Western Governors University, expected December 2026. He holds AWS CCP, ITIL® 4 Foundation, CompTIA Project+, and Google IT Support Professional certifications.";
 
         if (q.Contains("contact") || q.Contains("email") || q.Contains("linkedin"))
-            return "You can reach Rodney at rodney@globalrcdev.com or on LinkedIn at linkedin.com/in/rodneyachery.";
+            return "You can reach Rodney at chefrodneyachery@gmail.com or on LinkedIn at linkedin.com/in/rodneyachery.";
 
         if (q.Contains("project") || q.Contains("portfolio") || q.Contains("built"))
-            return "Rodney's projects include his portfolio website built with ASP.NET Core and Razor Pages, and the Ask Rodney AI Chatbot with OpenAI integration, prompt engineering, and AI safety practices.";
+            return "Rodney's projects include his portfolio website (ASP.NET Core, Razor Pages), the Mini-D365-CRM (ASP.NET Core 10, OData v4, Azure), the Student Progress Tracker (.NET MAUI, WGU capstone), and the Ask Rodney AI Chatbot with dual-AI orchestration.";
 
-        return "Rodney Chery is a Technical Support Analyst at Canon IT Services with a background in professional kitchens. For more details, check his portfolio at rodneyachery.com.";
+        return "Rodney Chery is an Enterprise Application Developer with hands-on experience across the full SDLC. He builds with ASP.NET Core, C#, SQL Server, and Azure. For more details, check his portfolio at rodneyachery.com.";
     }
 }
