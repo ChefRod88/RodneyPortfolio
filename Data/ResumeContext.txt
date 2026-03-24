@@ -17,39 +17,49 @@ Recruiter-ready response style:
 - Avoid long narrative unless user explicitly asks for detail.
 
 Default answer template:
-- "Rodney is a Junior Software Engineer focused on ASP.NET Core Razor Pages, C#, SQL Server, and Azure."
-- "He combines software development with enterprise support strengths in troubleshooting, incident management, and root-cause analysis."
-- "Key projects include the Rodney Portfolio, Ask Rodney AI Chatbot, Job Match feature, and ChurchWebsite routing UX improvements."
-- "He is pursuing a B.S. in Software Engineering at WGU (expected Dec 2026)."
+- "Rodney is an Enterprise Application Developer focused on ASP.NET Core, C#, SQL Server, and Azure."
+- "He works as a Technical Support Specialist at Canon IT Services (March 2025–Present) and as a Freelance Enterprise Web Developer (Feb 2023–Present). He also serves as Minister of Technology at New Bethel Missionary Baptist Church (Oct 2025–Present)."
+- "He combines full-stack software development with enterprise support strengths in troubleshooting, incident management, and root-cause analysis."
+- "Key projects include the Rodney Portfolio, Ask Rodney AI Chatbot, Job Match feature, Mini-D365-CRM, Student Progress Tracker, and ChurchWebsite routing UX improvements."
+- "He is pursuing a B.S. in Software Engineering at WGU (expected Dec 2026) and holds AWS CCP, ITIL® 4, CompTIA Project+, and Google IT Support certifications."
 
 IDENTITY
 --------
 Full Name: Rodney Amos Chery
 Location: Winter Haven, FL
 Phone: 863-296-5890
-Email: rodney@globalrcdev.com
+Email: chefrodneyachery@gmail.com
 LinkedIn: https://www.linkedin.com/in/rodneyachery/
 GitHub: https://github.com/ChefRod88/RodneyPortfolio
 Portfolio: https://www.rodneyachery.com
 
 POSITIONING
 -----------
-Primary Title: Junior Software Engineer
-Primary Focus: ASP.NET Core Razor Pages, C#, SQL Server, Azure
-Secondary Strength: Application Support and IT Operations
+Primary Title: Enterprise Application Developer
+Primary Focus: ASP.NET Core, C#, SQL Server, Azure — full SDLC from requirements through deployment
+Secondary Strength: Technical Support Specialist & Freelance Web Developer for Non-Profits
 Work Philosophy: People before process. Empathy before execution.
 
 TARGET ROLES
 ------------
-- Junior Software Engineer
+- Enterprise Application Developer
 - Application Support Engineer
-- Software-Adjacent Technical Roles
+- Full-Stack .NET Developer
+- Junior Software Engineer
 
 EDUCATION
 ---------
 - B.S. Software Engineering (In Progress)
 - Western Governors University (WGU)
 - Expected Graduation: December 2026
+
+CERTIFICATIONS
+--------------
+- AWS Certified Cloud Practitioner (November 2023)
+- ITIL® 4 Foundation (2025)
+- Google IT Support Professional Certificate (December 2022)
+- CompTIA Project+ (January 2026)
+- Google Cloud: Introduction to Generative AI (June 2025)
 
 CORE TECHNOLOGY STACK
 ---------------------
@@ -63,68 +73,127 @@ Languages:
 Frameworks and Platforms:
 - ASP.NET Core
 - Razor Pages
-- .NET
+- .NET MAUI
 - Entity Framework Core
+- Bootstrap 5
+- Leaflet.js
+- GraphHopper
+- OData v4
 
 Data:
 - SQL Server
 - Azure SQL Database
+- MySQL
 
-Cloud and Developer Tools:
+Cloud and DevOps:
 - Azure App Service
+- AWS
+- IIS
 - Git
 - GitHub
+- GitHub Actions
 - Docker
 - Postman
-- Visual Studio
-- Cursor
+- Visual Studio 2022
 
 Testing:
 - xUnit
 - Moq
 - Vitest
 
+Enterprise Tools:
+- Active Directory
+- PowerShell
+- Salesforce
+- Oracle PeopleSoft
+- Oracle CRM
+- Wireshark
+- SSMS
+
 Core Strengths:
+- Full SDLC
 - REST API integration
 - Dependency injection
 - Interface-based architecture
 - Troubleshooting
-- Incident management
 - Root-cause analysis
+- Risk management
+- Information security
 
 WORK EXPERIENCE SUMMARY
 -----------------------
-Current Domain Experience:
-- Technical Support Inkjet Tier 1 at Canon Information Technology Services.
-- Supports enterprise software and hardware workflows.
-- Performs triage, diagnostics, escalation support, and structured incident resolution.
+1) Freelance Enterprise Web Developer — Self-Employed (February 2023 – Present)
+- Designs, develops, tests, deploys, and maintains full-stack web applications through the complete SDLC.
+- Converts business requirements into technical specifications; builds solutions integrated with existing infrastructure.
+- Architects interface-driven, dependency-injected service layers for maintainability and testability.
+- Uses AI-augmented workflow daily: Cursor IDE, Claude (Anthropic), and OpenAI for architecture planning and code review.
+- Manages multiple concurrent projects independently; delivers against defined timelines.
+- Builds and maintains automated test suites (xUnit, Vitest) covering service behavior, validation, and routing logic.
 
-Professional Background:
-- Began career in professional kitchens before transitioning into technology.
-- Built discipline, communication, urgency management, and composure under pressure.
-- Applies these traits directly to software delivery and support operations.
+2) Technical Support Specialist — Canon Information Technology Services (March 2025 – Present)
+- Diagnoses and resolves software, driver, network-integration, and enterprise application incidents in SLA-driven environments.
+- Leverages AI tools in real time (Copilot, ChatGPT, Claude) to cross-reference error codes, firmware issues, and driver conflicts.
+- Manages full incident lifecycle: triage, troubleshooting, escalation, resolution; partners with Tier-2 and Engineering teams.
+- Troubleshoots TCP/IP, DHCP, DNS, wireless, firewall settings, and print spooler failures.
+- Documents cases in Oracle CRM; uses Salesforce Knowledge Base for research and knowledge contribution.
+- Applies prompt engineering to extract structured, actionable troubleshooting steps from AI models.
+- Maintains high first-contact resolution rates through structured troubleshooting and clear customer communication.
+
+3) Minister of Technology — New Bethel Missionary Baptist Church (October 2025 – Present)
+- Spearheads church digital transformation: designing and developing websites for the church, Christian Academy, and Florida Theological Seminary & Bible College.
+- Migrating legacy sites to modern web stack (ASP.NET Core, Razor Pages, Bootstrap 5, Leaflet.js, GraphHopper) with automated workflows.
+- Manages and grows digital presence across Instagram, Facebook, and YouTube.
+- Works directly with church leadership and school administrators to translate organizational needs into scalable technical solutions.
+
+4) Client Services Professional — InCharge Debt Solutions (October 2022 – February 2025)
+- Managed approximately 600 client interactions per month via inbound and outbound calls in a high-volume financial services environment.
+- Utilized CRM systems to document case activity, track client progress, and validate account data using SQL-based lookups.
+- Conducted government risk and compliance assessments; maintained strict data confidentiality with sensitive financial records.
+- Resolved escalated client concerns with adherence to state and federal compliance standards.
+- Assisted clients with enrollment, documentation, and financial program education in SLA-driven quality-assessed environment.
+
+5) Software Engineering Student — Western Governors University (February 2023 – December 2026, concurrent)
+- Pursuing B.S. Software Engineering, self-paced competency-based program.
+- Focus on full-stack development, databases, and software architecture.
 
 PROJECT CATALOG
 ---------------
 1) Rodney Portfolio Website
-- Stack: ASP.NET Core Razor Pages, C#, JavaScript, CSS, Azure.
+- Stack: ASP.NET Core Razor Pages, C#, JavaScript, CSS, Azure, GitHub Actions CI/CD.
 - Purpose: Professional portfolio + technical showcase + AI chatbot integration.
 - Highlights: Responsive UI, structured experience cards, recruiter-friendly project framing.
+- Deployed on Azure Web App with automated GitHub Actions deployment.
 
 2) Ask Rodney AI Chatbot
-- Stack: ASP.NET Core API, C#, OpenAI API, JavaScript.
-- Highlights: Prompt orchestration, input validation, content filtering, structured replies.
-- Architecture: UI -> ChatController -> services -> OpenAI client abstraction.
+- Stack: ASP.NET Core API, C#, OpenAI API, Anthropic API, JavaScript.
+- Highlights: Dual-AI orchestration (OpenAI + Anthropic), prompt orchestration, input validation, content filtering.
+- Architecture: UI -> ChatController -> DualAIChatService -> individual provider services -> client abstractions.
+- Security: Input validation, content filtering, prompt-injection safeguards, demo-mode fallback.
 
 3) Job Match Feature
-- Stack: ASP.NET Core, C#, OpenAI API, JSON parsing.
+- Stack: ASP.NET Core, C#, OpenAI API, Anthropic API, JSON parsing.
 - Highlights: Match score, aligned skills, gaps, talking points from job descriptions.
-- Output: Interview preparation and role-fit analysis.
+- Output: Interview preparation and role-fit analysis using dual-AI merge strategy.
 
-4) Church Website (Companion Project)
-- Stack: ASP.NET Core Razor Pages, JavaScript, CSS, mapping integrations.
-- Highlights: Route-to-church UX, responsive map panel, mobile behavior tuning, map link actions.
+4) Church Website — New Bethel Missionary Baptist Church
+- Stack: ASP.NET Core Razor Pages, JavaScript, CSS, Leaflet.js, GraphHopper, Bootstrap 5.
+- Highlights: Route-to-church UX, responsive map panel, mobile behavior tuning, interactive location features.
 - Technical Focus: Route rendering reliability, geolocation handling, UI consistency.
+- Role: Part of Minister of Technology responsibilities at New Bethel (Oct 2025–Present).
+
+5) Mini-D365-CRM (March 2026 – Present)
+- Stack: C# · ASP.NET Core 10 · OData v4 · Entity Framework Core · SQL Server · Azure App Service · xUnit · GitHub Actions CI/CD.
+- Purpose: Fully deployed Web API mirroring Microsoft Dynamics 365 architectural patterns.
+- Manages Accounts, Contacts, and Activity Tasks through a live OData v4 API.
+- Features: $filter, $expand, $select, $orderby, $top, $count query support; WorkflowService auto-creates follow-up tasks on Contact creation; SQL Server stored procedures for aggregation; soft delete with IsActive flag; Swagger docs; 4 xUnit unit tests.
+- Live API: https://mini-d365-crm-duaycqf8bvc4ehcr.westus3-01.azurewebsites.net/swagger/index.html
+- GitHub: https://github.com/ChefRod88/mini-d365-crm
+
+6) Student Progress Tracker — WGU Capstone (2026)
+- Stack: .NET MAUI · ASP.NET Core Web API · Azure SQL.
+- Purpose: Cross-platform application with weighted GPA calculation, grade projection, and PDF reporting.
+- Implements RESTful Web API backend with Azure SQL, full CRUD operations, and business logic layer for academic performance workflows.
+- Designed and built end-to-end through the full SDLC as a WGU capstone deliverable.
 
 ARCHITECTURE AND ENGINEERING PATTERNS
 -------------------------------------
@@ -146,15 +215,19 @@ SOFT SKILLS AND TEAM VALUE
 
 INTERVIEW-READY VALUE STATEMENT
 -------------------------------
-Rodney combines software development capability with production-minded support discipline.
-He builds with ASP.NET Core Razor Pages, C#, SQL Server, and Azure App Service while bringing
-strong troubleshooting, incident management, and customer-centered communication from enterprise operations.
+Rodney is an Enterprise Application Developer with hands-on experience across the full SDLC — from requirements analysis and design through development, testing, deployment, and maintenance.
+He builds production-style enterprise web applications using C#, ASP.NET Core, SQL Server, and Azure.
+He works concurrently as a Technical Support Specialist at Canon IT Services (March 2025–Present), Freelance Enterprise Web Developer (Feb 2023–Present), and Minister of Technology at New Bethel Missionary Baptist Church (Oct 2025–Present).
+He is experienced in diagnosing and resolving application issues, collaborating with technical and end-user teams to define requirements, and managing multiple concurrent requests independently.
+Certifications: AWS Certified Cloud Practitioner, ITIL® 4 Foundation, CompTIA Project+, Google IT Support Professional.
+He is pursuing a B.S. in Software Engineering at WGU (expected Dec 2026).
+Eligible to work 100% remote within Florida.
 
 DETAILED PROFILE (50 PARAGRAPHS)
 --------------------------------
-Paragraph 01: Rodney Amos Chery is a software engineering student focused on building practical, production-style applications with ASP.NET Core Razor Pages, C#, SQL Server, and Azure.
+Paragraph 01: Rodney Amos Chery is an Enterprise Application Developer and software engineering student focused on building practical, production-style applications with ASP.NET Core, C#, SQL Server, and Azure.
 
-Paragraph 02: He is actively pursuing Junior Software Engineer and Application Support Engineer opportunities where he can contribute quickly and grow through real delivery work.
+Paragraph 02: He is actively pursuing Enterprise Application Developer, Application Support Engineer, and Full-Stack .NET Developer opportunities where he can contribute quickly and grow through real delivery work. He currently works as a Technical Support Specialist at Canon IT Services (March 2025–Present) and as a Freelance Enterprise Web Developer (Feb 2023–Present).
 
 Paragraph 03: Rodney studies at Western Governors University in the B.S. Software Engineering program and expects to graduate in December 2026.
 
@@ -256,7 +329,7 @@ CONTACT QUICK LOOKUP
 --------------------
 - Winter Haven, FL
 - 863-296-5890
-- rodney@globalrcdev.com
+- chefrodneyachery@gmail.com
 - https://www.linkedin.com/in/rodneyachery/
 - https://github.com/ChefRod88/RodneyPortfolio
 - https://www.rodneyachery.com
@@ -369,7 +442,7 @@ Paragraph 48: Rodney's portfolio is designed to support recruiter conversations,
 
 Paragraph 49: Rodney seeks opportunities where he can contribute quickly with ASP.NET Core, Razor Pages, C#, SQL Server, and Azure while continuing to grow as a software engineer. He is especially aligned with teams that value maintainability, customer impact, and operational excellence. He is open to junior engineering and application support pathways that include real ownership.
 
-Paragraph 50: Contact details for Rodney Amos Chery are: Location Winter Haven, FL; Email rodney@globalrcdev.com; LinkedIn https://www.linkedin.com/in/rodneyachery/; GitHub https://github.com/ChefRod88/RodneyPortfolio; Portfolio https://www.rodneyachery.com; Phone 863-296-5890. Primary positioning statement: Junior Software Engineer with a strong foundation in ASP.NET Core Razor Pages, C#, SQL Server, Azure App Service, testing discipline, and production-minded troubleshooting.
+Paragraph 50: Contact details for Rodney Amos Chery are: Location Winter Haven, FL; Email chefrodneyachery@gmail.com; LinkedIn https://www.linkedin.com/in/rodneyachery/; GitHub https://github.com/ChefRod88/RodneyPortfolio; Portfolio https://www.rodneyachery.com; Phone 863-296-5890. Primary positioning statement: Enterprise Application Developer with a strong foundation in ASP.NET Core, C#, SQL Server, Azure App Service, testing discipline, and production-minded troubleshooting. AWS Certified Cloud Practitioner, ITIL® 4 Foundation, and CompTIA Project+ certified.
 
 # Rodney Portfolio Website — Complete Technical Documentation
 
@@ -1464,7 +1537,7 @@ POST /api/chat
 
 ```json
 {
-  "reply": "Rodney is a Technical Support Inkjet Tier 1 at Canon Information Technology Services. He troubleshoots proprietary software, hardware environments, and enterprise applications by systematically isolating variables and guiding issues through structured resolution."
+  "reply": "Rodney is a Technical Support Specialist at Canon Information Technology Services and a Freelance Enterprise Web Developer. He builds production-style web applications with ASP.NET Core, C#, SQL Server, and Azure across the full SDLC."
 }
 ```
 
@@ -1666,13 +1739,13 @@ var json = await response.Content.ReadFromJsonAsync<OpenAIResponse>();
 
 **Content I included (from my portfolio):**
 
-- Name, title (Technical Support Analyst)
-- Education: B.S. Software Engineering (WGU), expected Dec 2026
-- Experience: Canon IT Services (Technical Support Inkjet Tier 1), kitchen background
-- Skills: C#, ASP.NET, SQL, JavaScript, troubleshooting, etc.
-- About summary: kitchen-to-tech journey, troubleshooting approach, soft skills
+- Name, title (Enterprise Application Developer)
+- Education: B.S. Software Engineering (WGU), expected Dec 2026; AWS CCP, ITIL® 4, CompTIA Project+ certifications
+- Experience: Canon IT Services (Technical Support Specialist, March 2025–Present), Freelance Enterprise Web Developer (Feb 2023–Present), Minister of Technology at New Bethel (Oct 2025–Present)
+- Skills: C#, ASP.NET Core, SQL Server, JavaScript, xUnit, Moq, Vitest, Azure, AWS, troubleshooting, etc.
+- About summary: Enterprise Application Developer with full-SDLC experience, AI-augmented workflow, dual roles in support and development
 
-**Use case:** When someone asks "What does Rodney do?", the LLM has this context and can answer: "Rodney is a Technical Support Analyst at Canon IT Services with a background in professional kitchens. He brings composure under pressure and disciplined troubleshooting to enterprise support."
+**Use case:** When someone asks "What does Rodney do?", the LLM has this context and can answer: "Rodney is an Enterprise Application Developer who builds production-style web applications with ASP.NET Core, C#, SQL Server, and Azure. He works concurrently as a Technical Support Specialist at Canon IT Services and as a Freelance Web Developer."
 
 ---
 
