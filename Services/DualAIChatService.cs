@@ -25,27 +25,35 @@ public class DualAIChatService : IAIChatService
 
     public async Task<string> GetReplyAsync(string userMessage, string? mode = null, CancellationToken cancellationToken = default)
     {
-        var resumeContext = await _resumeLoader.LoadAsync(cancellationToken);
+        try
+        {
+            var resumeContext = await _resumeLoader.LoadAsync(cancellationToken);
 
-        var openAiTask  = _openAi.TryGetReplyAsync(userMessage, mode, resumeContext, cancellationToken);
-        var claudeTask  = _anthropic.TryGetReplyAsync(userMessage, mode, resumeContext, cancellationToken);
+            var openAiTask  = _openAi.TryGetReplyAsync(userMessage, mode, resumeContext, cancellationToken);
+            var claudeTask  = _anthropic.TryGetReplyAsync(userMessage, mode, resumeContext, cancellationToken);
 
-        await Task.WhenAll(openAiTask, claudeTask);
+            await Task.WhenAll(openAiTask, claudeTask);
 
-        var openAiReply = openAiTask.Result;
-        var claudeReply = claudeTask.Result;
+            var openAiReply = openAiTask.Result;
+            var claudeReply = claudeTask.Result;
 
-        if (!string.IsNullOrEmpty(openAiReply) && !string.IsNullOrEmpty(claudeReply))
-            return $"{openAiReply}\n\n---\n\n*Additional perspective:*\n\n{claudeReply}";
+            if (!string.IsNullOrEmpty(openAiReply) && !string.IsNullOrEmpty(claudeReply))
+                return $"{openAiReply}\n\n---\n\n*Additional perspective:*\n\n{claudeReply}";
 
-        if (!string.IsNullOrEmpty(openAiReply))
-            return openAiReply;
+            if (!string.IsNullOrEmpty(openAiReply))
+                return openAiReply;
 
-        if (!string.IsNullOrEmpty(claudeReply))
-            return claudeReply;
+            if (!string.IsNullOrEmpty(claudeReply))
+                return claudeReply;
 
-        _logger.LogWarning("Both OpenAI and Anthropic failed. Returning demo fallback.");
-        return GetDemoFallback(userMessage);
+            _logger.LogWarning("Both OpenAI and Anthropic failed. Returning demo fallback.");
+            return GetDemoFallback(userMessage);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error in DualAIChatService.GetReplyAsync");
+            return GetDemoFallback(userMessage);
+        }
     }
 
     private static string GetDemoFallback(string userMessage)

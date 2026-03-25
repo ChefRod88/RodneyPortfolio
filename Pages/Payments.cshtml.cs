@@ -29,18 +29,36 @@ public class PaymentsModel : PageModel
     public List<InvoiceModel>? Invoices { get; private set; }
     public string SearchEmail { get; private set; } = string.Empty;
     public bool IsClientNotFound { get; private set; }
+    public string? ErrorMessage { get; private set; }
     public decimal TotalDue => Invoices?.Where(i => i.Status is InvoiceStatus.Unpaid or InvoiceStatus.Overdue).Sum(i => i.Amount) ?? 0;
     public decimal TotalPaid => Invoices?.Where(i => i.Status == InvoiceStatus.Paid).Sum(i => i.Amount) ?? 0;
     public int UnpaidCount => Invoices?.Count(i => i.Status is InvoiceStatus.Unpaid or InvoiceStatus.Overdue) ?? 0;
 
     public async Task OnGetAsync(string? email, CancellationToken ct)
     {
-        if (!string.IsNullOrWhiteSpace(email)) await LookupAsync(email, ct);
+        try
+        {
+            if (!string.IsNullOrWhiteSpace(email)) await LookupAsync(email, ct);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error loading payments page for email {Email}", email);
+            ErrorMessage = "An error occurred loading your invoices. Please try again.";
+        }
     }
 
     public async Task<IActionResult> OnPostLookupAsync([FromForm] string email, CancellationToken ct)
     {
-        await LookupAsync(email, ct); return Page();
+        try
+        {
+            await LookupAsync(email, ct);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error looking up client by email {Email}", email);
+            ErrorMessage = "An error occurred searching for your account. Please try again.";
+        }
+        return Page();
     }
 
     private async Task LookupAsync(string email, CancellationToken ct)
@@ -59,35 +77,43 @@ public class PaymentsModel : PageModel
 
     public async Task<IActionResult> OnPostCreatePaymentIntentAsync([FromBody] CreatePaymentIntentRequest req, CancellationToken ct)
     {
-        if (req is null || string.IsNullOrWhiteSpace(req.InvoiceId))
+        try
         {
-            return BadRequest(new { error = "Missing invoice id." });
+            if (req is null || string.IsNullOrWhiteSpace(req.InvoiceId))
+            {
+                return BadRequest(new { error = "Missing invoice id." });
+            }
+
+            if (string.IsNullOrWhiteSpace(_stripe.SecretKey))
+            {
+                _logger.LogError("Stripe secret key is not configured.");
+                return StatusCode(500, new { error = "Payment provider is not configured." });
+            }
+
+            var invoice = await _invoiceService.GetInvoiceByIdAsync(req.InvoiceId, ct);
+            if (invoice is null || invoice.Status == InvoiceStatus.Paid)
+                return BadRequest(new { error = "Invoice not found or already paid." });
+
+            StripeConfiguration.ApiKey = _stripe.SecretKey;
+            var options = new PaymentIntentCreateOptions
+            {
+                Amount = (long)(invoice.Amount * 100),
+                Currency = "usd",
+                Description = $"RC Dev – {invoice.Description}",
+                ReceiptEmail = invoice.ClientEmail,
+                Metadata = new Dictionary<string, string> { ["invoiceId"] = invoice.Id },
+                AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions { Enabled = true }
+            };
+            var intent = await new PaymentIntentService().CreateAsync(options, cancellationToken: ct);
+            invoice.StripePaymentIntentId = intent.Id;
+            await _invoiceService.SaveInvoiceAsync(invoice, ct);
+            return new JsonResult(new { clientSecret = intent.ClientSecret });
         }
-
-        if (string.IsNullOrWhiteSpace(_stripe.SecretKey))
+        catch (Exception ex)
         {
-            _logger.LogError("Stripe secret key is not configured.");
-            return StatusCode(500, new { error = "Payment provider is not configured." });
+            _logger.LogError(ex, "Error creating payment intent for invoice {InvoiceId}", req?.InvoiceId);
+            return StatusCode(500, new { error = "Failed to create payment intent. Please try again." });
         }
-
-        var invoice = await _invoiceService.GetInvoiceByIdAsync(req.InvoiceId, ct);
-        if (invoice is null || invoice.Status == InvoiceStatus.Paid)
-            return BadRequest(new { error = "Invoice not found or already paid." });
-
-        StripeConfiguration.ApiKey = _stripe.SecretKey;
-        var options = new PaymentIntentCreateOptions
-        {
-            Amount = (long)(invoice.Amount * 100),
-            Currency = "usd",
-            Description = $"RC Dev – {invoice.Description}",
-            ReceiptEmail = invoice.ClientEmail,
-            Metadata = new Dictionary<string, string> { ["invoiceId"] = invoice.Id },
-            AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions { Enabled = true }
-        };
-        var intent = await new PaymentIntentService().CreateAsync(options, cancellationToken: ct);
-        invoice.StripePaymentIntentId = intent.Id;
-        await _invoiceService.SaveInvoiceAsync(invoice, ct);
-        return new JsonResult(new { clientSecret = intent.ClientSecret });
     }
 
     public async Task<IActionResult> OnPostConfirmPaymentAsync([FromBody] ConfirmPaymentRequest req, CancellationToken ct)

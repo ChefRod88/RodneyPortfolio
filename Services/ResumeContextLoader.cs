@@ -20,11 +20,19 @@ public class ResumeContextLoader : IResumeContextLoader
         if (_cachedContext != null)
             return _cachedContext;
 
-        var path = Path.Combine(_env.ContentRootPath, "Data", "ResumeContext.txt");
-        if (!File.Exists(path))
-            return "Resume context file not found. Please add Data/ResumeContext.txt with your resume and about content.";
+        try
+        {
+            var path = Path.Combine(_env.ContentRootPath, "Data", "ResumeContext.txt");
+            if (!File.Exists(path))
+                return "Resume context file not found. Please add Data/ResumeContext.txt with your resume and about content.";
 
-        _cachedContext = await File.ReadAllTextAsync(path, cancellationToken);
-        return _cachedContext;
+            _cachedContext = await File.ReadAllTextAsync(path, cancellationToken);
+            return _cachedContext;
+        }
+        catch (Exception)
+        {
+            // Return empty context so AI services can still attempt a response
+            return string.Empty;
+        }
     }
 }

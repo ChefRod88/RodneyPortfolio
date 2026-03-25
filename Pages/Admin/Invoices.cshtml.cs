@@ -10,16 +10,19 @@ public class InvoicesModel : PageModel
 {
     private readonly IInvoiceService _invoiceService;
     private readonly IAccountService _accountService;
+    private readonly ILogger<InvoicesModel> _logger;
 
-    public InvoicesModel(IInvoiceService invoiceService, IAccountService accountService)
+    public InvoicesModel(IInvoiceService invoiceService, IAccountService accountService, ILogger<InvoicesModel> logger)
     {
         _invoiceService = invoiceService;
         _accountService = accountService;
+        _logger = logger;
     }
 
     public List<Invoice> Invoices { get; private set; } = new();
     public List<ClientAccount> Clients { get; private set; } = new();
     public string? StatusMessage { get; private set; }
+    public string? ErrorMessage { get; private set; }
 
     [BindProperty]
     public CreateInvoiceInput Input { get; set; } = new();
@@ -29,7 +32,16 @@ public class InvoicesModel : PageModel
         if (!AdminGuard.IsAdminAuthenticated(HttpContext))
             return RedirectToPage("/Admin/AdminLogin");
 
-        await LoadDataAsync(ct);
+        try
+        {
+            await LoadDataAsync(ct);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error loading invoices page");
+            ErrorMessage = "Failed to load data. Please try again.";
+        }
+
         return Page();
     }
 
@@ -38,39 +50,49 @@ public class InvoicesModel : PageModel
         if (!AdminGuard.IsAdminAuthenticated(HttpContext))
             return RedirectToPage("/Admin/AdminLogin");
 
-        if (!ModelState.IsValid)
+        try
         {
+            if (!ModelState.IsValid)
+            {
+                await LoadDataAsync(ct);
+                return Page();
+            }
+
+            var client = await _accountService.GetByEmailAsync(Input.ClientEmail.Trim(), ct);
+            if (client is null)
+            {
+                ModelState.AddModelError("Input.ClientEmail", "No registered client found with that email.");
+                await LoadDataAsync(ct);
+                return Page();
+            }
+
+            var invoiceNumber = $"INV-{DateTime.UtcNow:yyyyMMdd}-{Guid.NewGuid().ToString("N")[..8].ToUpper()}";
+
+            var invoice = new Invoice
+            {
+                ClientId      = client.Id,
+                ClientName    = client.FullName,
+                ClientEmail   = client.Email,
+                Amount        = Input.Amount,
+                Description   = Input.Description.Trim(),
+                IssuedAt      = DateTimeOffset.UtcNow,
+                DueAt         = new DateTimeOffset(Input.DueDate, TimeOnly.MinValue, TimeSpan.Zero),
+                Status        = InvoiceStatus.Unpaid,
+                InvoiceNumber = invoiceNumber
+            };
+
+            await _invoiceService.SaveInvoiceAsync(invoice, ct);
+            StatusMessage = $"Invoice {invoiceNumber} created for {client.FullName}.";
+
             await LoadDataAsync(ct);
-            return Page();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating invoice for {Email}", Input.ClientEmail);
+            ErrorMessage = "Failed to create invoice. Please try again.";
+            await LoadDataAsync(ct);
         }
 
-        var client = await _accountService.GetByEmailAsync(Input.ClientEmail.Trim(), ct);
-        if (client is null)
-        {
-            ModelState.AddModelError("Input.ClientEmail", "No registered client found with that email.");
-            await LoadDataAsync(ct);
-            return Page();
-        }
-
-        var invoiceNumber = $"INV-{DateTime.UtcNow:yyyyMMdd}-{Guid.NewGuid().ToString("N")[..8].ToUpper()}";
-
-        var invoice = new Invoice
-        {
-            ClientId      = client.Id,
-            ClientName    = client.FullName,
-            ClientEmail   = client.Email,
-            Amount        = Input.Amount,
-            Description   = Input.Description.Trim(),
-            IssuedAt      = DateTimeOffset.UtcNow,
-            DueAt         = new DateTimeOffset(Input.DueDate, TimeOnly.MinValue, TimeSpan.Zero),
-            Status        = InvoiceStatus.Unpaid,
-            InvoiceNumber = invoiceNumber
-        };
-
-        await _invoiceService.SaveInvoiceAsync(invoice, ct);
-        StatusMessage = $"Invoice {invoiceNumber} created for {client.FullName}.";
-
-        await LoadDataAsync(ct);
         return Page();
     }
 
@@ -79,12 +101,20 @@ public class InvoicesModel : PageModel
         if (!AdminGuard.IsAdminAuthenticated(HttpContext))
             return RedirectToPage("/Admin/AdminLogin");
 
-        var invoices = await _invoiceService.GetAllInvoicesAsync(ct);
-        var invoice = invoices.FirstOrDefault(i => i.Id == id);
-        if (invoice is not null)
+        try
         {
-            invoice.Status = InvoiceStatus.Cancelled;
-            await _invoiceService.UpdateInvoiceAsync(invoice, ct);
+            var invoices = await _invoiceService.GetAllInvoicesAsync(ct);
+            var invoice = invoices.FirstOrDefault(i => i.Id == id);
+            if (invoice is not null)
+            {
+                invoice.Status = InvoiceStatus.Cancelled;
+                await _invoiceService.UpdateInvoiceAsync(invoice, ct);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error cancelling invoice {Id}", id);
+            TempData["Error"] = "Failed to cancel invoice. Please try again.";
         }
 
         return RedirectToPage("/Admin/Invoices");

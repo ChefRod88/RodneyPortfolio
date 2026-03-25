@@ -60,13 +60,21 @@ public class QuoteEmailService : IQuoteEmailService
         message.To.Add(_options.ToEmail);
         message.ReplyToList.Add(new MailAddress(safeEmail));
 
-        using var client = new SmtpClient(_options.SmtpHost, _options.SmtpPort)
+        try
         {
-            EnableSsl   = _options.EnableSsl,
-            Credentials = new NetworkCredential(_options.SmtpUsername, _options.SmtpPassword)
-        };
+            using var client = new SmtpClient(_options.SmtpHost, _options.SmtpPort)
+            {
+                EnableSsl   = _options.EnableSsl,
+                Credentials = new NetworkCredential(_options.SmtpUsername, _options.SmtpPassword)
+            };
 
-        await client.SendMailAsync(message);
-        _logger.LogInformation("Quote request email sent for {Email}", request.Email);
+            await client.SendMailAsync(message);
+            _logger.LogInformation("Quote request email sent for {Email}", request.Email);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to send quote request email for {Email}", request.Email);
+            throw;
+        }
     }
 }
