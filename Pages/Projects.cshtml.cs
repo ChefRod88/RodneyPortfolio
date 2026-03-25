@@ -82,6 +82,28 @@ public class ProjectsModel : PageModel
                 LiveUrl:     null,
                 RepoUrl:     null,
                 Year:        "2026"
+            ),
+            new(
+                NodeId:      "PROJ-007",
+                Name:        "DRUMGO PUBLISHING WEBSITE",
+                Description: "Full website refactor for Drumgo Publishing. Modernizing architecture, design, and content delivery for an independent publishing brand.",
+                Status:      "IN_DEVELOPMENT",
+                Stack:       new[] { "C#", "ASP.NET CORE", "RAZOR PAGES", "CSS3", "AZURE" },
+                LiveUrl:     null,
+                RepoUrl:     null,
+                Year:        "2025",
+                StatusLabel: "◌ REFACTOR IN PROGRESS"
+            ),
+            new(
+                NodeId:      "PROJ-008",
+                Name:        "FLORIDA THEOLOGICAL SEMINARY & BIBLE COLLEGE",
+                Description: "Full website refactor for Florida Theological Seminary & Bible College. Rebuilding and modernizing the web presence for an accredited institution serving the Lakeland, FL community.",
+                Status:      "IN_DEVELOPMENT",
+                Stack:       new[] { "C#", "ASP.NET CORE", "RAZOR PAGES", "CSS3", "AZURE" },
+                LiveUrl:     "https://www.ftslakeland.org",
+                RepoUrl:     null,
+                Year:        "2025",
+                StatusLabel: "◌ REFACTOR IN PROGRESS"
             )
         };
     }
