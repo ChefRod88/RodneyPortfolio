@@ -2252,3 +2252,335 @@ h1.title::after {
     .portal-dash { padding: 2rem 1.5rem 5rem; }
 }
 
+
+/* ══════════════════════════════════════════════════════════════════
+   /PROJECTS PAGE — Futuristic Matrix Terminal Style
+   ══════════════════════════════════════════════════════════════════ */
+
+/* ── Page wrapper ─────────────────────────────────────────────── */
+.projects-page {
+    position: relative;
+    z-index: 1;
+    padding-top: 5rem;
+    min-height: 100vh;
+}
+
+/* ── Scan beam (one-shot sweep on load) ───────────────────────── */
+.proj-scan-beam {
+    position: fixed;
+    top: -4px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, rgba(0,212,255,0.9), transparent);
+    box-shadow: 0 0 18px 6px rgba(0,212,255,0.5);
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+}
+.proj-scan-beam--active {
+    animation: proj-scan 1.6s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+}
+@keyframes proj-scan {
+    0%   { top: -4px; opacity: 0; }
+    5%   { opacity: 1; }
+    90%  { opacity: 0.6; }
+    100% { top: 100vh; opacity: 0; }
+}
+
+/* ── Terminal hero ────────────────────────────────────────────── */
+.projects-hero {
+    padding: 4rem 2rem 2.5rem;
+    max-width: 860px;
+    margin: 0 auto 3rem;
+}
+.projects-hero-inner {
+    padding: 2.5rem 2.5rem 2rem;
+}
+.proj-system-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    color: rgba(0,212,255,0.5);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+.proj-main-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 900;
+    color: #e0f4ff;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 1rem;
+    text-shadow: 0 0 30px rgba(0,212,255,0.35);
+}
+
+/* ── Blinking cursor ──────────────────────────────────────────── */
+.terminal-cursor {
+    color: #00d4ff;
+    animation: cursor-blink 1s step-end infinite;
+    margin-left: 2px;
+}
+@keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+}
+
+/* ── Typewriter output area ───────────────────────────────────── */
+.terminal-boot {
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    color: rgba(0,212,255,0.7);
+    line-height: 1.9;
+    min-height: 4.5rem;
+    margin-bottom: 1.25rem;
+}
+.terminal-line { white-space: pre; }
+
+/* ── Stats row ────────────────────────────────────────────────── */
+.proj-stats-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.14em;
+    color: rgba(0,212,255,0.55);
+    text-transform: uppercase;
+}
+.proj-stat-sep { color: rgba(0,212,255,0.25); }
+.proj-stat--blink { color: #00d4ff; animation: cursor-blink 1.4s step-end infinite; }
+
+/* ── Grid ─────────────────────────────────────────────────────── */
+.proj-grid-section {
+    padding: 0 2rem 4rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.proj-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.75rem;
+}
+
+/* ── Project card ─────────────────────────────────────────────── */
+.proj-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 1.75rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+}
+.proj-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 3px,
+        rgba(0,212,255,0.018) 3px,
+        rgba(0,212,255,0.018) 4px
+    );
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.proj-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 40px rgba(0,212,255,0.2), 0 20px 50px rgba(0,0,0,0.5);
+    border-color: rgba(0,212,255,0.45);
+}
+.proj-card:hover::after { opacity: 1; }
+
+/* ── Card header row ──────────────────────────────────────────── */
+.proj-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.proj-node-id {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: rgba(0,212,255,0.4);
+    letter-spacing: 0.14em;
+}
+
+/* ── Status badges ────────────────────────────────────────────── */
+.proj-status {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    padding: 3px 9px;
+    border-radius: 2px;
+    text-transform: uppercase;
+    border: 1px solid currentColor;
+}
+.proj-status--deployed {
+    color: #00ff88;
+    background: rgba(0,255,136,0.07);
+    border-color: rgba(0,255,136,0.3);
+}
+.proj-status--live {
+    color: #00d4ff;
+    background: rgba(0,212,255,0.07);
+    border-color: rgba(0,212,255,0.3);
+    animation: live-pulse 2s ease-in-out infinite;
+}
+.proj-status--dev {
+    color: #ffcc00;
+    background: rgba(255,204,0,0.07);
+    border-color: rgba(255,204,0,0.3);
+}
+@keyframes live-pulse {
+    0%, 100% { box-shadow: 0 0 4px rgba(0,212,255,0.3); }
+    50%       { box-shadow: 0 0 12px rgba(0,212,255,0.7); }
+}
+
+/* ── Project title ────────────────────────────────────────────── */
+.proj-title {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: #e0f4ff;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin: 0 0 0.6rem;
+    text-shadow: 0 0 16px rgba(0,212,255,0.25);
+}
+.proj-divider {
+    height: 1px;
+    background: linear-gradient(90deg, rgba(0,212,255,0.4), transparent);
+    margin-bottom: 0.9rem;
+}
+
+/* ── Description ──────────────────────────────────────────────── */
+.proj-desc {
+    font-family: var(--font-body, 'Rajdhani', sans-serif);
+    font-size: 0.9rem;
+    color: rgba(142,207,223,0.75);
+    line-height: 1.7;
+    margin: 0 0 1rem;
+    flex-grow: 1;
+}
+
+/* ── Year ─────────────────────────────────────────────────────── */
+.proj-meta-row {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+}
+.proj-year-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(0,212,255,0.35);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+.proj-year {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: rgba(0,212,255,0.6);
+}
+
+/* ── Stack tags ───────────────────────────────────────────────── */
+.proj-stack-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(0,212,255,0.35);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+.proj-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    margin-bottom: 1.25rem;
+}
+.proj-tag {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    color: rgba(0,212,255,0.8);
+    background: rgba(0,212,255,0.06);
+    border: 1px solid rgba(0,212,255,0.2);
+    padding: 3px 8px;
+    clip-path: polygon(6px 0%, 100% 0%, calc(100% - 6px) 100%, 0% 100%);
+    transition: background 0.2s, border-color 0.2s;
+}
+.proj-card:hover .proj-tag {
+    background: rgba(0,212,255,0.1);
+    border-color: rgba(0,212,255,0.35);
+}
+
+/* ── Action buttons ───────────────────────────────────────────── */
+.proj-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: auto;
+    padding-top: 0.25rem;
+}
+.proj-btn-live {
+    font-size: 0.75rem;
+    padding: 0.5rem 1.1rem;
+}
+.proj-btn-source {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: rgba(0,212,255,0.5);
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    transition: color 0.2s;
+}
+.proj-btn-source:hover { color: #00d4ff; }
+
+/* ── Footer CTA ───────────────────────────────────────────────── */
+.proj-cta-section {
+    padding: 0 2rem 6rem;
+    max-width: 640px;
+    margin: 0 auto;
+}
+.proj-cta {
+    padding: 2.5rem;
+    text-align: center;
+}
+.proj-cta-label {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.22em;
+    color: rgba(0,212,255,0.4);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+.proj-cta-title {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #e0f4ff;
+    letter-spacing: 0.04em;
+    margin: 0 0 0.5rem;
+}
+.proj-cta-sub {
+    font-size: 0.9rem;
+    color: rgba(142,207,223,0.6);
+    margin-bottom: 1.5rem;
+}
+
+/* ── Responsive ───────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    .projects-hero { padding: 3rem 1.25rem 1.5rem; }
+    .projects-hero-inner { padding: 1.75rem 1.5rem 1.5rem; }
+    .proj-grid-section { padding: 0 1.25rem 3rem; }
+    .proj-grid { grid-template-columns: 1fr; gap: 1.25rem; }
+    .proj-cta-section { padding: 0 1.25rem 4rem; }
+    .proj-main-title { font-size: 1.6rem; }
+}

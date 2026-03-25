@@ -1,0 +1,154 @@
+@page
+@model RodneyPortfolio.Pages.ProjectsModel
+@{
+    ViewData["Title"] = "Projects // RC Dev";
+}
+
+<!-- SCAN BEAM (one-shot on page load) -->
+<div class="proj-scan-beam" id="projScanBeam"></div>
+
+<div class="projects-page">
+
+    <!-- ── TERMINAL HERO ─────────────────────────────── -->
+    <section class="projects-hero">
+        <div class="projects-hero-inner rc-glass">
+            <div class="proj-system-label">RC//DEV &gt; PROJECT_CATALOG.EXE</div>
+            <h1 class="proj-main-title">
+                ACTIVE_PROJECTS<span class="terminal-cursor">█</span>
+            </h1>
+            <div class="terminal-boot" id="terminalBoot" aria-live="polite"></div>
+            <div class="proj-stats-row">
+                <span class="proj-stat">@Model.Projects.Count NODES ACTIVE</span>
+                <span class="proj-stat-sep">//</span>
+                <span class="proj-stat">BUILD: <span style="color:#00ff88">SUCCESS</span></span>
+                <span class="proj-stat-sep">//</span>
+                <span class="proj-stat proj-stat--blink">● SYSTEM ONLINE</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── PROJECT GRID ──────────────────────────────── -->
+    <section class="proj-grid-section">
+        <div class="proj-grid">
+            @foreach (var p in Model.Projects)
+            {
+                var statusClass = p.Status switch
+                {
+                    "DEPLOYED"       => "proj-status--deployed",
+                    "LIVE"           => "proj-status--live",
+                    "IN_DEVELOPMENT" => "proj-status--dev",
+                    _                => "proj-status--dev"
+                };
+                var statusLabel = p.Status switch
+                {
+                    "DEPLOYED"       => "● DEPLOYED",
+                    "LIVE"           => "● LIVE",
+                    "IN_DEVELOPMENT" => "◌ IN DEV",
+                    _                => p.Status
+                };
+                <article class="proj-card rc-glass rc-fade">
+                    <div class="proj-card-header">
+                        <span class="proj-node-id">[ @p.NodeId ]</span>
+                        <span class="proj-status @statusClass">@statusLabel</span>
+                    </div>
+
+                    <h2 class="proj-title">@p.Name</h2>
+                    <div class="proj-divider"></div>
+
+                    <p class="proj-desc">@p.Description</p>
+
+                    <div class="proj-meta-row">
+                        <span class="proj-year-label">YEAR:</span>
+                        <span class="proj-year">@p.Year</span>
+                    </div>
+
+                    <div class="proj-stack-label">STACK:</div>
+                    <div class="proj-stack">
+                        @foreach (var tech in p.Stack)
+                        {
+                            <span class="proj-tag">@tech</span>
+                        }
+                    </div>
+
+                    @if (p.LiveUrl is not null || p.RepoUrl is not null)
+                    {
+                        <div class="proj-actions">
+                            @if (p.LiveUrl is not null)
+                            {
+                                <a href="@p.LiveUrl" target="_blank" rel="noopener" class="btn proj-btn-live">
+                                    VIEW LIVE →
+                                </a>
+                            }
+                            @if (p.RepoUrl is not null)
+                            {
+                                <a href="@p.RepoUrl" target="_blank" rel="noopener" class="proj-btn-source">
+                                    [ SOURCE ]
+                                </a>
+                            }
+                        </div>
+                    }
+                </article>
+            }
+        </div>
+    </section>
+
+    <!-- ── FOOTER CTA ────────────────────────────────── -->
+    <section class="proj-cta-section rc-fade">
+        <div class="proj-cta rc-glass">
+            <div class="proj-cta-label">NEXT_PROJECT.EXE</div>
+            <h2 class="proj-cta-title">Have a project in mind?</h2>
+            <p class="proj-cta-sub">Let's build something that ships.</p>
+            <a href="/#quote" class="btn">REQUEST A QUOTE →</a>
+        </div>
+    </section>
+
+</div>
+
+@section Scripts {
+<script>
+(function () {
+    // ── TERMINAL BOOT TYPEWRITER ──────────────────────────────
+    const lines = [
+        '> Initializing project database...',
+        '> Loading @Model.Projects.Count nodes...',
+        '> All systems nominal. Ready.',
+    ];
+    const el = document.getElementById('terminalBoot');
+    let lineIdx = 0, charIdx = 0;
+    let currentLine = document.createElement('div');
+    currentLine.className = 'terminal-line';
+    el.appendChild(currentLine);
+
+    const timer = setInterval(() => {
+        if (lineIdx >= lines.length) { clearInterval(timer); return; }
+        const line = lines[lineIdx];
+        if (charIdx < line.length) {
+            currentLine.textContent += line[charIdx++];
+        } else {
+            lineIdx++;
+            charIdx = 0;
+            if (lineIdx < lines.length) {
+                currentLine = document.createElement('div');
+                currentLine.className = 'terminal-line';
+                el.appendChild(currentLine);
+            }
+        }
+    }, 28);
+
+    // ── SCAN BEAM (fires once on load) ───────────────────────
+    const beam = document.getElementById('projScanBeam');
+    if (beam) {
+        beam.classList.add('proj-scan-beam--active');
+        beam.addEventListener('animationend', () => beam.remove());
+    }
+
+    // ── STAGGER CARD REVEAL ──────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('.proj-card');
+        cards.forEach((card, i) => {
+            card.style.transitionDelay = (i * 80) + 'ms';
+        });
+    });
+})();
+</script>
+}
