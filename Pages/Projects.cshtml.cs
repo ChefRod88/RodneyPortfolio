@@ -6,11 +6,12 @@ public record ProjectEntry(
     string NodeId,
     string Name,
     string Description,
-    string Status,       // "DEPLOYED" | "LIVE" | "IN_DEVELOPMENT"
+    string Status,        // "DEPLOYED" | "LIVE" | "IN_DEVELOPMENT"
     string[] Stack,
     string? LiveUrl,
     string? RepoUrl,
-    string Year
+    string Year,
+    string? StatusLabel = null  // override badge text; defaults to status-based label
 );
 
 public class ProjectsModel : PageModel
@@ -34,12 +35,13 @@ public class ProjectsModel : PageModel
             new(
                 NodeId:      "PROJ-002",
                 Name:        "NEW BETHEL CHURCH WEBSITE",
-                Description: "Interactive church website for a non-profit ministry featuring real-time location mapping, turn-by-turn routing, live service streaming, sermon archive, event listings, and Cash App donation integration.",
-                Status:      "DEPLOYED",
+                Description: "Interactive church website for a non-profit ministry. Features real-time location mapping, turn-by-turn routing, live service streaming, sermon archive, event listings, and Cash App donation integration. Currently undergoing full refactor.",
+                Status:      "IN_DEVELOPMENT",
                 Stack:       new[] { "C#", "ASP.NET CORE", "RAZOR PAGES", "LEAFLET.JS", "GRAPHHOPPER", "SIGNALR", "AZURE", "BOOTSTRAP 5" },
                 LiveUrl:     null,
                 RepoUrl:     null,
-                Year:        "2024"
+                Year:        "2024",
+                StatusLabel: "◌ REFACTOR IN PROGRESS"
             ),
             new(
                 NodeId:      "PROJ-003",
