@@ -39,7 +39,7 @@
                     "IN_DEVELOPMENT" => "proj-status--dev",
                     _                => "proj-status--dev"
                 };
-                var statusLabel = p.Status switch
+                var statusLabel = p.StatusLabel ?? p.Status switch
                 {
                     "DEPLOYED"       => "● DEPLOYED",
                     "LIVE"           => "● LIVE",
