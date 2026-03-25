@@ -20,26 +20,34 @@ public class QuoteLogService : IQuoteLogService
 
     public async Task LogAsync(QuoteRequestInput request, CancellationToken ct = default)
     {
-        var dataDir = Path.Combine(_environment.ContentRootPath, "Data");
-        Directory.CreateDirectory(dataDir);
+        try
+        {
+            var dataDir = Path.Combine(_environment.ContentRootPath, "Data");
+            Directory.CreateDirectory(dataDir);
 
-        var entry = new StringBuilder()
-            .AppendLine("========================================")
-            .AppendLine($"SubmittedUtc: {DateTimeOffset.UtcNow:O}")
-            .AppendLine($"Name: {QuoteSanitizer.Sanitize(request.Name)}")
-            .AppendLine($"Email: {QuoteSanitizer.Sanitize(request.Email)}")
-            .AppendLine($"Company: {QuoteSanitizer.Sanitize(request.Company)}")
-            .AppendLine($"ServiceNeeded: {QuoteSanitizer.Sanitize(request.ServiceNeeded)}")
-            .AppendLine($"EstimatedBudget: {QuoteSanitizer.Sanitize(request.EstimatedBudget)}")
-            .AppendLine($"ProjectDescription: {QuoteSanitizer.Sanitize(request.ProjectDescription)}")
-            .AppendLine($"Timeline: {QuoteSanitizer.Sanitize(request.Timeline)}")
-            .AppendLine();
+            var entry = new StringBuilder()
+                .AppendLine("========================================")
+                .AppendLine($"SubmittedUtc: {DateTimeOffset.UtcNow:O}")
+                .AppendLine($"Name: {QuoteSanitizer.Sanitize(request.Name)}")
+                .AppendLine($"Email: {QuoteSanitizer.Sanitize(request.Email)}")
+                .AppendLine($"Company: {QuoteSanitizer.Sanitize(request.Company)}")
+                .AppendLine($"ServiceNeeded: {QuoteSanitizer.Sanitize(request.ServiceNeeded)}")
+                .AppendLine($"EstimatedBudget: {QuoteSanitizer.Sanitize(request.EstimatedBudget)}")
+                .AppendLine($"ProjectDescription: {QuoteSanitizer.Sanitize(request.ProjectDescription)}")
+                .AppendLine($"Timeline: {QuoteSanitizer.Sanitize(request.Timeline)}")
+                .AppendLine();
 
-        await File.AppendAllTextAsync(
-            Path.Combine(dataDir, "QuoteRequests.log"),
-            entry.ToString(),
-            ct);
+            await File.AppendAllTextAsync(
+                Path.Combine(dataDir, "QuoteRequests.log"),
+                entry.ToString(),
+                ct);
 
-        _logger.LogInformation("Quote request logged for {Email}", request.Email);
+            _logger.LogInformation("Quote request logged for {Email}", request.Email);
+        }
+        catch (Exception ex)
+        {
+            // Logging failure must not crash the quote submission flow
+            _logger.LogError(ex, "Failed to write quote log for {Email}", request.Email);
+        }
     }
 }

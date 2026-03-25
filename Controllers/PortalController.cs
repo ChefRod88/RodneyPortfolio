@@ -57,38 +57,47 @@ public class PortalController : Controller
     public async Task<IActionResult> Register(
         [Bind(Prefix = "Input")] RegisterInput input, CancellationToken ct)
     {
-        if (!ModelState.IsValid)
-            return View(new PortalRegisterViewModel { Input = input });
-
-        if (await _accounts.EmailExistsAsync(input.Email, ct))
+        try
         {
-            ModelState.AddModelError(string.Empty, "An account with that email already exists. Please sign in instead.");
+            if (!ModelState.IsValid)
+                return View(new PortalRegisterViewModel { Input = input });
+
+            if (await _accounts.EmailExistsAsync(input.Email, ct))
+            {
+                ModelState.AddModelError(string.Empty, "An account with that email already exists. Please sign in instead.");
+                return View(new PortalRegisterViewModel { Input = input });
+            }
+
+            var account = new ClientAccount
+            {
+                FirstName      = input.FirstName,
+                LastName       = input.LastName,
+                Email          = input.Email,
+                Phone          = input.Phone,
+                CompanyName    = input.CompanyName,
+                BillingAddress = input.BillingAddress,
+                City           = input.City,
+                State          = input.State,
+                ZipCode        = input.ZipCode,
+                TierInterest   = input.TierInterest,
+                Status         = "Pending"
+            };
+
+            await _accounts.SaveAccountAsync(account, ct);
+
+            var code = await _otp.GenerateOtpAsync(input.Email, "register", ct);
+            await _email.SendOtpAsync(input.Email, input.FirstName, code, "register", ct);
+
+            _logger.LogInformation("Registration OTP sent to {Email}", input.Email);
+
+            return RedirectToAction("Verify", new { email = input.Email, purpose = "register" });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error during registration for {Email}", input.Email);
+            ModelState.AddModelError(string.Empty, "An unexpected error occurred. Please try again.");
             return View(new PortalRegisterViewModel { Input = input });
         }
-
-        var account = new ClientAccount
-        {
-            FirstName      = input.FirstName,
-            LastName       = input.LastName,
-            Email          = input.Email,
-            Phone          = input.Phone,
-            CompanyName    = input.CompanyName,
-            BillingAddress = input.BillingAddress,
-            City           = input.City,
-            State          = input.State,
-            ZipCode        = input.ZipCode,
-            TierInterest   = input.TierInterest,
-            Status         = "Pending"
-        };
-
-        await _accounts.SaveAccountAsync(account, ct);
-
-        var code = await _otp.GenerateOtpAsync(input.Email, "register", ct);
-        await _email.SendOtpAsync(input.Email, input.FirstName, code, "register", ct);
-
-        _logger.LogInformation("Registration OTP sent to {Email}", input.Email);
-
-        return RedirectToAction("Verify", new { email = input.Email, purpose = "register" });
     }
 
     // ── Login ─────────────────────────────────────────────────────────────────
@@ -100,27 +109,36 @@ public class PortalController : Controller
     public async Task<IActionResult> Login(
         [Bind(Prefix = "Input")] LoginInput input, CancellationToken ct)
     {
-        if (!ModelState.IsValid)
-            return View(new PortalLoginViewModel { Input = input });
-
-        var account = await _accounts.GetByEmailAsync(input.Email, ct);
-
-        if (account is null)
+        try
         {
-            ModelState.AddModelError(string.Empty, "No account found with that email. Please register first.");
+            if (!ModelState.IsValid)
+                return View(new PortalLoginViewModel { Input = input });
+
+            var account = await _accounts.GetByEmailAsync(input.Email, ct);
+
+            if (account is null)
+            {
+                ModelState.AddModelError(string.Empty, "No account found with that email. Please register first.");
+                return View(new PortalLoginViewModel { Input = input });
+            }
+
+            if (!account.IsVerified)
+            {
+                ModelState.AddModelError(string.Empty, "Your account is not yet verified. Please complete registration first.");
+                return View(new PortalLoginViewModel { Input = input });
+            }
+
+            var code = await _otp.GenerateOtpAsync(input.Email, "login", ct);
+            await _email.SendOtpAsync(input.Email, account.FirstName, code, "login", ct);
+
+            return RedirectToAction("Verify", new { email = input.Email, purpose = "login" });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error during login for {Email}", input.Email);
+            ModelState.AddModelError(string.Empty, "An unexpected error occurred. Please try again.");
             return View(new PortalLoginViewModel { Input = input });
         }
-
-        if (!account.IsVerified)
-        {
-            ModelState.AddModelError(string.Empty, "Your account is not yet verified. Please complete registration first.");
-            return View(new PortalLoginViewModel { Input = input });
-        }
-
-        var code = await _otp.GenerateOtpAsync(input.Email, "login", ct);
-        await _email.SendOtpAsync(input.Email, account.FirstName, code, "login", ct);
-
-        return RedirectToAction("Verify", new { email = input.Email, purpose = "login" });
     }
 
     // ── Verify ────────────────────────────────────────────────────────────────
@@ -139,38 +157,46 @@ public class PortalController : Controller
         var email   = HttpContext.Session.GetString(SessionEmailKey)   ?? string.Empty;
         var purpose = HttpContext.Session.GetString(SessionPurposeKey) ?? "login";
 
-        if (string.IsNullOrWhiteSpace(email))
-            return View("Verify", new PortalVerifyViewModel { Email = email, ErrorMessage = "Session expired. Please start again." });
-
-        var valid = await _otp.ValidateOtpAsync(email, code, purpose, ct);
-        if (!valid)
-            return View("Verify", new PortalVerifyViewModel { Email = email, ErrorMessage = "Invalid or expired code. Please try again or request a new one." });
-
-        var account = await _accounts.GetByEmailAsync(email, ct);
-        if (account is null)
-            return View("Verify", new PortalVerifyViewModel { Email = email, ErrorMessage = "Account not found. Please register again." });
-
-        if (purpose == "register")
+        try
         {
-            account.VerifiedAt = DateTimeOffset.UtcNow;
-            account.Status = "Active";
+            if (string.IsNullOrWhiteSpace(email))
+                return View("Verify", new PortalVerifyViewModel { Email = email, ErrorMessage = "Session expired. Please start again." });
+
+            var valid = await _otp.ValidateOtpAsync(email, code, purpose, ct);
+            if (!valid)
+                return View("Verify", new PortalVerifyViewModel { Email = email, ErrorMessage = "Invalid or expired code. Please try again or request a new one." });
+
+            var account = await _accounts.GetByEmailAsync(email, ct);
+            if (account is null)
+                return View("Verify", new PortalVerifyViewModel { Email = email, ErrorMessage = "Account not found. Please register again." });
+
+            if (purpose == "register")
+            {
+                account.VerifiedAt = DateTimeOffset.UtcNow;
+                account.Status = "Active";
+                await _accounts.SaveAccountAsync(account, ct);
+                await _email.SendWelcomeAsync(account, ct);
+            }
+
+            account.LastLoginAt = DateTimeOffset.UtcNow;
             await _accounts.SaveAccountAsync(account, ct);
-            await _email.SendWelcomeAsync(account, ct);
+
+            var session = await _sessions.CreateSessionAsync(account.Id, account.Email, ct);
+            Response.Cookies.Append("rc_portal_session", session.Id, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure   = Request.IsHttps,
+                SameSite = SameSiteMode.Strict,
+                Expires  = session.ExpiresAt
+            });
+
+            return RedirectToAction("Dashboard");
         }
-
-        account.LastLoginAt = DateTimeOffset.UtcNow;
-        await _accounts.SaveAccountAsync(account, ct);
-
-        var session = await _sessions.CreateSessionAsync(account.Id, account.Email, ct);
-        Response.Cookies.Append("rc_portal_session", session.Id, new CookieOptions
+        catch (Exception ex)
         {
-            HttpOnly = true,
-            Secure   = Request.IsHttps,
-            SameSite = SameSiteMode.Strict,
-            Expires  = session.ExpiresAt
-        });
-
-        return RedirectToAction("Dashboard");
+            _logger.LogError(ex, "Error during OTP verification for {Email}", email);
+            return View("Verify", new PortalVerifyViewModel { Email = email, ErrorMessage = "An unexpected error occurred. Please try again." });
+        }
     }
 
     [HttpPost("Verify/Resend")]
@@ -180,38 +206,61 @@ public class PortalController : Controller
         var email   = HttpContext.Session.GetString(SessionEmailKey)   ?? string.Empty;
         var purpose = HttpContext.Session.GetString(SessionPurposeKey) ?? "login";
 
-        if (!string.IsNullOrWhiteSpace(email))
+        try
         {
-            var account = await _accounts.GetByEmailAsync(email, ct);
-            if (account is not null)
+            if (!string.IsNullOrWhiteSpace(email))
             {
-                var code = await _otp.GenerateOtpAsync(email, purpose, ct);
-                await _email.SendOtpAsync(email, account.FirstName, code, purpose, ct);
+                var account = await _accounts.GetByEmailAsync(email, ct);
+                if (account is not null)
+                {
+                    var code = await _otp.GenerateOtpAsync(email, purpose, ct);
+                    await _email.SendOtpAsync(email, account.FirstName, code, purpose, ct);
+                }
             }
-        }
 
-        return View("Verify", new PortalVerifyViewModel { Email = email });
+            return View("Verify", new PortalVerifyViewModel { Email = email });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error resending OTP for {Email}", email);
+            return View("Verify", new PortalVerifyViewModel { Email = email, ErrorMessage = "Failed to resend code. Please try again." });
+        }
     }
 
     // ── Dashboard ─────────────────────────────────────────────────────────────
     [HttpGet("Dashboard")]
     public async Task<IActionResult> Dashboard(CancellationToken ct)
     {
-        var account = await ResolveCurrentAccountAsync(ct);
-        if (account is null)
-            return RedirectToAction("Login");
+        try
+        {
+            var account = await ResolveCurrentAccountAsync(ct);
+            if (account is null)
+                return RedirectToAction("Login");
 
-        return View(await BuildDashboardViewModelAsync(account, ct));
+            return View(await BuildDashboardViewModelAsync(account, ct));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error loading dashboard");
+            return RedirectToAction("Login");
+        }
     }
 
     [HttpPost("Dashboard/Logout")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Logout(CancellationToken ct)
     {
-        if (Request.Cookies.TryGetValue("rc_portal_session", out var sessionId) &&
-            !string.IsNullOrWhiteSpace(sessionId))
+        try
         {
-            await _sessions.InvalidateSessionAsync(sessionId, ct);
+            if (Request.Cookies.TryGetValue("rc_portal_session", out var sessionId) &&
+                !string.IsNullOrWhiteSpace(sessionId))
+            {
+                await _sessions.InvalidateSessionAsync(sessionId, ct);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error invalidating session during logout");
         }
 
         Response.Cookies.Delete("rc_portal_session");
@@ -223,22 +272,30 @@ public class PortalController : Controller
     public async Task<IActionResult> Support(
         [Bind(Prefix = "SupportMsg")] SupportMessageInput supportMsg, CancellationToken ct)
     {
-        var account = await ResolveCurrentAccountAsync(ct);
-        if (account is null)
-            return RedirectToAction("Login");
-
-        if (!ModelState.IsValid)
+        try
         {
-            var errVm = await BuildDashboardViewModelAsync(account, ct);
-            errVm.SupportMsg = supportMsg;
-            return View("Dashboard", errVm);
+            var account = await ResolveCurrentAccountAsync(ct);
+            if (account is null)
+                return RedirectToAction("Login");
+
+            if (!ModelState.IsValid)
+            {
+                var errVm = await BuildDashboardViewModelAsync(account, ct);
+                errVm.SupportMsg = supportMsg;
+                return View("Dashboard", errVm);
+            }
+
+            await _email.SendSupportMessageAsync(account, supportMsg, ct);
+
+            var vm = await BuildDashboardViewModelAsync(account, ct);
+            vm.StatusMessage = "Support message sent successfully.";
+            return View("Dashboard", vm);
         }
-
-        await _email.SendSupportMessageAsync(account, supportMsg, ct);
-
-        var vm = await BuildDashboardViewModelAsync(account, ct);
-        vm.StatusMessage = "Support message sent successfully.";
-        return View("Dashboard", vm);
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error sending support message");
+            return new JsonResult(new { error = "Failed to send support message. Please try again." }) { StatusCode = 500 };
+        }
     }
 
     // ── Stripe: Create Payment Intent ─────────────────────────────────────────
@@ -247,40 +304,48 @@ public class PortalController : Controller
     public async Task<IActionResult> CreatePaymentIntent(
         [FromBody] CreatePaymentIntentRequest req, CancellationToken ct)
     {
-        var account = await ResolveCurrentAccountAsync(ct);
-        if (account is null)
-            return new JsonResult(new { error = "Unauthorized" }) { StatusCode = 401 };
-
-        var allInvoices = await _invoiceService.GetAllInvoicesAsync(ct);
-        var invoice = allInvoices.FirstOrDefault(i =>
-            i.Id == req.InvoiceId &&
-            string.Equals(i.ClientEmail, account.Email, StringComparison.OrdinalIgnoreCase));
-
-        if (invoice is null)
-            return new JsonResult(new { error = "Invoice not found" }) { StatusCode = 404 };
-
-        if (invoice.Status == InvoiceStatus.Paid)
-            return new JsonResult(new { error = "Invoice is already paid." }) { StatusCode = 400 };
-
-        StripeConfiguration.ApiKey = _stripeOptions.SecretKey;
-
-        var options = new PaymentIntentCreateOptions
+        try
         {
-            Amount   = (long)Math.Round(invoice.Amount * 100, 0, MidpointRounding.AwayFromZero),
-            Currency = "usd",
-            AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions { Enabled = true },
-            Metadata = new Dictionary<string, string>
+            var account = await ResolveCurrentAccountAsync(ct);
+            if (account is null)
+                return new JsonResult(new { error = "Unauthorized" }) { StatusCode = 401 };
+
+            var allInvoices = await _invoiceService.GetAllInvoicesAsync(ct);
+            var invoice = allInvoices.FirstOrDefault(i =>
+                i.Id == req.InvoiceId &&
+                string.Equals(i.ClientEmail, account.Email, StringComparison.OrdinalIgnoreCase));
+
+            if (invoice is null)
+                return new JsonResult(new { error = "Invoice not found" }) { StatusCode = 404 };
+
+            if (invoice.Status == InvoiceStatus.Paid)
+                return new JsonResult(new { error = "Invoice is already paid." }) { StatusCode = 400 };
+
+            StripeConfiguration.ApiKey = _stripeOptions.SecretKey;
+
+            var options = new PaymentIntentCreateOptions
             {
-                ["invoiceId"]     = invoice.Id,
-                ["clientEmail"]   = account.Email,
-                ["invoiceNumber"] = invoice.InvoiceNumber ?? invoice.Id[..8].ToUpper()
-            }
-        };
+                Amount   = (long)Math.Round(invoice.Amount * 100, 0, MidpointRounding.AwayFromZero),
+                Currency = "usd",
+                AutomaticPaymentMethods = new PaymentIntentAutomaticPaymentMethodsOptions { Enabled = true },
+                Metadata = new Dictionary<string, string>
+                {
+                    ["invoiceId"]     = invoice.Id,
+                    ["clientEmail"]   = account.Email,
+                    ["invoiceNumber"] = invoice.InvoiceNumber ?? invoice.Id[..8].ToUpper()
+                }
+            };
 
-        var service = new PaymentIntentService();
-        var intent  = await service.CreateAsync(options, cancellationToken: ct);
+            var service = new PaymentIntentService();
+            var intent  = await service.CreateAsync(options, cancellationToken: ct);
 
-        return new JsonResult(new { clientSecret = intent.ClientSecret });
+            return new JsonResult(new { clientSecret = intent.ClientSecret });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating payment intent for invoice {InvoiceId}", req?.InvoiceId);
+            return new JsonResult(new { error = "Failed to create payment intent. Please try again." }) { StatusCode = 500 };
+        }
     }
 
     // ── Stripe: Confirm Payment ───────────────────────────────────────────────
@@ -342,55 +407,71 @@ public class PortalController : Controller
     public async Task<IActionResult> CashAppPending(
         [FromBody] CashAppPendingRequest req, CancellationToken ct)
     {
-        var account = await ResolveCurrentAccountAsync(ct);
-        if (account is null)
-            return new JsonResult(new { error = "Unauthorized" }) { StatusCode = 401 };
+        try
+        {
+            var account = await ResolveCurrentAccountAsync(ct);
+            if (account is null)
+                return new JsonResult(new { error = "Unauthorized" }) { StatusCode = 401 };
 
-        var allInvoices = await _invoiceService.GetAllInvoicesAsync(ct);
-        var invoice = allInvoices.FirstOrDefault(i =>
-            i.Id == req.InvoiceId &&
-            string.Equals(i.ClientEmail, account.Email, StringComparison.OrdinalIgnoreCase));
+            var allInvoices = await _invoiceService.GetAllInvoicesAsync(ct);
+            var invoice = allInvoices.FirstOrDefault(i =>
+                i.Id == req.InvoiceId &&
+                string.Equals(i.ClientEmail, account.Email, StringComparison.OrdinalIgnoreCase));
 
-        if (invoice is null)
-            return new JsonResult(new { error = "Invoice not found" }) { StatusCode = 404 };
+            if (invoice is null)
+                return new JsonResult(new { error = "Invoice not found" }) { StatusCode = 404 };
 
-        invoice.Status        = InvoiceStatus.PendingCashApp;
-        invoice.PaymentMethod = "CashApp";
+            invoice.Status        = InvoiceStatus.PendingCashApp;
+            invoice.PaymentMethod = "CashApp";
 
-        await _invoiceService.UpdateInvoiceAsync(invoice, ct);
+            await _invoiceService.UpdateInvoiceAsync(invoice, ct);
 
-        _ = _email.SendCashAppPendingAsync(account, invoice, ct)
-            .ContinueWith(t => _logger.LogError(t.Exception, "CashApp pending email failed for invoice {InvoiceId}", invoice.Id),
-                TaskContinuationOptions.OnlyOnFaulted);
+            _ = _email.SendCashAppPendingAsync(account, invoice, ct)
+                .ContinueWith(t => _logger.LogError(t.Exception, "CashApp pending email failed for invoice {InvoiceId}", invoice.Id),
+                    TaskContinuationOptions.OnlyOnFaulted);
 
-        return new JsonResult(new { success = true });
+            return new JsonResult(new { success = true });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error processing CashApp pending for invoice {InvoiceId}", req?.InvoiceId);
+            return new JsonResult(new { error = "Failed to process Cash App payment request. Please try again." }) { StatusCode = 500 };
+        }
     }
 
     // ── Private Helpers ───────────────────────────────────────────────────────
     private async Task<ClientAccount?> ResolveCurrentAccountAsync(CancellationToken ct)
     {
-        if (_env.IsDevelopment())
+        try
         {
-            var queryBypass = Request.Query["devBypassEmail"].ToString().Trim();
-            if (!string.IsNullOrWhiteSpace(queryBypass))
+            if (_env.IsDevelopment())
             {
-                HttpContext.Session.SetString(DevBypassSessionKey, queryBypass);
-                return await EnsureDevelopmentBypassAccountAsync(queryBypass, ct);
+                var queryBypass = Request.Query["devBypassEmail"].ToString().Trim();
+                if (!string.IsNullOrWhiteSpace(queryBypass))
+                {
+                    HttpContext.Session.SetString(DevBypassSessionKey, queryBypass);
+                    return await EnsureDevelopmentBypassAccountAsync(queryBypass, ct);
+                }
+
+                var sessionBypass = HttpContext.Session.GetString(DevBypassSessionKey);
+                if (!string.IsNullOrWhiteSpace(sessionBypass))
+                    return await EnsureDevelopmentBypassAccountAsync(sessionBypass, ct);
             }
 
-            var sessionBypass = HttpContext.Session.GetString(DevBypassSessionKey);
-            if (!string.IsNullOrWhiteSpace(sessionBypass))
-                return await EnsureDevelopmentBypassAccountAsync(sessionBypass, ct);
+            if (!Request.Cookies.TryGetValue("rc_portal_session", out var sessionId) ||
+                string.IsNullOrWhiteSpace(sessionId))
+                return null;
+
+            var session = await _sessions.GetSessionAsync(sessionId, ct);
+            if (session is null) return null;
+
+            return await _accounts.GetByIdAsync(session.ClientId, ct);
         }
-
-        if (!Request.Cookies.TryGetValue("rc_portal_session", out var sessionId) ||
-            string.IsNullOrWhiteSpace(sessionId))
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error resolving current account");
             return null;
-
-        var session = await _sessions.GetSessionAsync(sessionId, ct);
-        if (session is null) return null;
-
-        return await _accounts.GetByIdAsync(session.ClientId, ct);
+        }
     }
 
     private async Task<ClientAccount?> EnsureDevelopmentBypassAccountAsync(string email, CancellationToken ct)

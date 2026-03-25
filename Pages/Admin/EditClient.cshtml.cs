@@ -9,38 +9,49 @@ namespace RodneyPortfolio.Pages.Admin;
 public class EditClientModel : PageModel
 {
     private readonly IAccountService _accountService;
+    private readonly ILogger<EditClientModel> _logger;
 
-    public EditClientModel(IAccountService accountService)
+    public EditClientModel(IAccountService accountService, ILogger<EditClientModel> logger)
     {
         _accountService = accountService;
+        _logger = logger;
     }
 
     [BindProperty] public EditClientInput Input { get; set; } = new();
     public string? StatusMessage { get; private set; }
+    public string? ErrorMessage { get; private set; }
 
     public async Task<IActionResult> OnGetAsync(string id, CancellationToken ct)
     {
         if (!AdminGuard.IsAdminAuthenticated(HttpContext))
             return RedirectToPage("/Admin/AdminLogin");
 
-        var account = await _accountService.GetByIdAsync(id, ct);
-        if (account is null) return RedirectToPage("/Admin/Accounts");
-
-        Input = new EditClientInput
+        try
         {
-            Id             = account.Id,
-            FirstName      = account.FirstName,
-            LastName       = account.LastName,
-            Email          = account.Email,
-            Phone          = account.Phone,
-            CompanyName    = account.CompanyName,
-            BillingAddress = account.BillingAddress,
-            City           = account.City,
-            State          = account.State,
-            ZipCode        = account.ZipCode,
-            TierInterest   = account.TierInterest,
-            Status         = account.Status
-        };
+            var account = await _accountService.GetByIdAsync(id, ct);
+            if (account is null) return RedirectToPage("/Admin/Accounts");
+
+            Input = new EditClientInput
+            {
+                Id             = account.Id,
+                FirstName      = account.FirstName,
+                LastName       = account.LastName,
+                Email          = account.Email,
+                Phone          = account.Phone,
+                CompanyName    = account.CompanyName,
+                BillingAddress = account.BillingAddress,
+                City           = account.City,
+                State          = account.State,
+                ZipCode        = account.ZipCode,
+                TierInterest   = account.TierInterest,
+                Status         = account.Status
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error loading client {Id} for editing", id);
+            ErrorMessage = "Failed to load client data. Please try again.";
+        }
 
         return Page();
     }
@@ -52,22 +63,31 @@ public class EditClientModel : PageModel
 
         if (!ModelState.IsValid) return Page();
 
-        var account = await _accountService.GetByIdAsync(Input.Id, ct);
-        if (account is null) return RedirectToPage("/Admin/Accounts");
+        try
+        {
+            var account = await _accountService.GetByIdAsync(Input.Id, ct);
+            if (account is null) return RedirectToPage("/Admin/Accounts");
 
-        account.FirstName      = Input.FirstName.Trim();
-        account.LastName       = Input.LastName.Trim();
-        account.Phone          = Input.Phone.Trim();
-        account.CompanyName    = string.IsNullOrWhiteSpace(Input.CompanyName) ? null : Input.CompanyName.Trim();
-        account.BillingAddress = Input.BillingAddress.Trim();
-        account.City           = Input.City.Trim();
-        account.State          = Input.State.Trim().ToUpper();
-        account.ZipCode        = Input.ZipCode.Trim();
-        account.TierInterest   = Input.TierInterest;
-        account.Status         = Input.Status;
+            account.FirstName      = Input.FirstName.Trim();
+            account.LastName       = Input.LastName.Trim();
+            account.Phone          = Input.Phone.Trim();
+            account.CompanyName    = string.IsNullOrWhiteSpace(Input.CompanyName) ? null : Input.CompanyName.Trim();
+            account.BillingAddress = Input.BillingAddress.Trim();
+            account.City           = Input.City.Trim();
+            account.State          = Input.State.Trim().ToUpper();
+            account.ZipCode        = Input.ZipCode.Trim();
+            account.TierInterest   = Input.TierInterest;
+            account.Status         = Input.Status;
 
-        await _accountService.UpdateAccountAsync(account, ct);
-        StatusMessage = "Client updated successfully.";
+            await _accountService.UpdateAccountAsync(account, ct);
+            StatusMessage = "Client updated successfully.";
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error saving client {Id}", Input.Id);
+            ErrorMessage = "Failed to save changes. Please try again.";
+        }
+
         return Page();
     }
 }

@@ -29,21 +29,29 @@ public class JobMatchService : IJobMatchService
 
     public async Task<JobMatchResponse> AnalyzeAsync(string jobDescription, CancellationToken cancellationToken = default)
     {
-        var apiKey = _config["OpenAI:ApiKey"];
-        if (string.IsNullOrWhiteSpace(apiKey))
+        try
         {
-            _logger.LogWarning("OpenAI API key not configured");
-            return new JobMatchResponse
+            var apiKey = _config["OpenAI:ApiKey"];
+            if (string.IsNullOrWhiteSpace(apiKey))
             {
-                MatchScore = 0,
-                SkillsAligned = new List<string>(),
-                Gaps = new List<string> { "Chatbot is not configured." },
-                TalkingPoints = new List<string>()
-            };
-        }
+                _logger.LogWarning("OpenAI API key not configured");
+                return new JobMatchResponse
+                {
+                    MatchScore = 0,
+                    SkillsAligned = new List<string>(),
+                    Gaps = new List<string> { "Chatbot is not configured." },
+                    TalkingPoints = new List<string>()
+                };
+            }
 
-        var resumeContext = await _resumeLoader.LoadAsync(cancellationToken);
-        return await TryAnalyzeAsync(jobDescription, resumeContext, cancellationToken) ?? FallbackResponse();
+            var resumeContext = await _resumeLoader.LoadAsync(cancellationToken);
+            return await TryAnalyzeAsync(jobDescription, resumeContext, cancellationToken) ?? FallbackResponse();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error in JobMatchService.AnalyzeAsync");
+            return FallbackResponse();
+        }
     }
 
     /// <summary>

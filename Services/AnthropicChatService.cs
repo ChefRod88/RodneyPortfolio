@@ -29,16 +29,24 @@ public class AnthropicChatService : IAIChatService
 
     public async Task<string> GetReplyAsync(string userMessage, string? mode = null, CancellationToken cancellationToken = default)
     {
-        var apiKey = _config["Anthropic:ApiKey"];
-        if (string.IsNullOrWhiteSpace(apiKey))
+        try
         {
-            _logger.LogWarning("Anthropic API key not configured");
-            return "The chatbot is not configured. Please contact the site owner.";
-        }
+            var apiKey = _config["Anthropic:ApiKey"];
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                _logger.LogWarning("Anthropic API key not configured");
+                return "The chatbot is not configured. Please contact the site owner.";
+            }
 
-        var resumeContext = await _resumeLoader.LoadAsync(cancellationToken);
-        var result = await TryGetReplyAsync(userMessage, mode, resumeContext, cancellationToken);
-        return result ?? await GetDemoResponseAsync(userMessage, resumeContext, cancellationToken);
+            var resumeContext = await _resumeLoader.LoadAsync(cancellationToken);
+            var result = await TryGetReplyAsync(userMessage, mode, resumeContext, cancellationToken);
+            return result ?? await GetDemoResponseAsync(userMessage, resumeContext, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error in AnthropicChatService.GetReplyAsync");
+            return await GetDemoResponseAsync(userMessage, string.Empty, cancellationToken);
+        }
     }
 
     /// <summary>

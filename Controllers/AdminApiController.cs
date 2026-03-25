@@ -53,7 +53,16 @@ public class AdminApiController : ControllerBase
         if (!System.IO.File.Exists(resumeMdPath))
             return NotFound(new { error = "Source resume not found at docs/Rodney_Chery_Resume.md." });
 
-        var resumeMarkdown = await System.IO.File.ReadAllTextAsync(resumeMdPath, cancellationToken);
+        string resumeMarkdown;
+        try
+        {
+            resumeMarkdown = await System.IO.File.ReadAllTextAsync(resumeMdPath, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to read resume source file at {Path}", resumeMdPath);
+            return StatusCode(500, new { error = "Failed to read source resume file." });
+        }
 
         var prompt = BuildExpansionPrompt(resumeMarkdown);
         var requestBody = new
@@ -72,6 +81,11 @@ public class AdminApiController : ControllerBase
         {
             return StatusCode(503, new { error = ex.Message });
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Unexpected error calling Anthropic API for expand-resume");
+            return StatusCode(502, new { error = "Unexpected error calling Anthropic API." });
+        }
 
         if (!response.IsSuccessStatusCode)
         {
@@ -85,7 +99,15 @@ public class AdminApiController : ControllerBase
             return StatusCode(502, new { error = "Empty response from Claude." });
 
         var outputPath = Path.Combine(_env.ContentRootPath, "Data", "ResumeContext.txt");
-        await System.IO.File.WriteAllTextAsync(outputPath, expandedContent, cancellationToken);
+        try
+        {
+            await System.IO.File.WriteAllTextAsync(outputPath, expandedContent, cancellationToken);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to write expanded resume context to {Path}", outputPath);
+            return StatusCode(500, new { error = "Failed to write expanded resume context file." });
+        }
 
         _resumeContextLoader.InvalidateCache();
 
