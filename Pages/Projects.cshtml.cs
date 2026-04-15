@@ -45,13 +45,13 @@ public class ProjectsModel : PageModel
             ),
             new(
                 NodeId:      "PROJ-003",
-                Name:        "MINI-D365-CRM",
-                Description: "Enterprise-grade CRM API modeled after Microsoft Dynamics 365. Implements OData v4 query protocol, EF Core repository pattern, full xUnit test suite, and Swagger documentation. Live on Azure.",
-                Status:      "DEPLOYED",
-                Stack:       new[] { "C#", "ASP.NET CORE 10", "ODATA V4", "EF CORE", "SQL SERVER", "XUNIT", "MOQ", "AZURE", "SWAGGER" },
-                LiveUrl:     "https://mini-d365-crm-duaycqf8bvc4ehcr.westus3-01.azurewebsites.net/swagger/index.html",
+                Name:        "PRIME MEDICAL GROUP",
+                Description: "HIPAA-aware patient booking platform for a self-pay outpatient practice accepting attorney lien (personal injury) cases. Features a two-track booking wizard (Self-Pay & Attorney Lien), 9 transactional email types via SendGrid, full EN/ES i18n, animated hero, cancellation portal, and mobile-responsive design. All PHI flows in-memory through typed C# records — never persisted server-side. Deployed on Azure App Service (West US 3) with GitHub Actions CI/CD.",
+                Status:      "LIVE",
+                Stack:       new[] { "C#", "ASP.NET CORE 10", "RAZOR PAGES", "SENDGRID", "TWILIO", "AZURE APP SERVICE", "GITHUB ACTIONS", "CSS3", "VANILLA JS", "HTML5" },
+                LiveUrl:     "https://primemedicaldoctors.com/",
                 RepoUrl:     null,
-                Year:        "2025"
+                Year:        "2026"
             ),
             new(
                 NodeId:      "PROJ-004",
