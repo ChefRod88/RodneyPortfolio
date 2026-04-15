@@ -1,33 +1,41 @@
 /* ============================================
    NEW BETHEL MISSIONARY BAPTIST CHURCH
-   Modern Redesign — site.css
-   Design Direction: Editorial-Dark / Luxury Gospel
-   Palette: Deep Navy + Pure White + Liturgical Gold
+   Framer-Style Redesign — site.css
+   Design Direction: Warm Cream / Burgundy / Gold
    Typography: Playfair Display (headings) + DM Sans (body)
    ============================================ */
 
 /* ─── CSS VARIABLES ─── */
 :root {
-  --church-primary: #1a1a2e;
-  --church-primary-dark: #0f0f1e;
-  --church-secondary: #C9A84C;
+  --church-primary: #7D2B2B;
+  --church-primary-dark: #5C1F1F;
+  --church-secondary: #C9973A;
   --church-secondary-dark: #a8852e;
   --church-warm: #8b7355;
   --church-neutral: #9ca3af;
-  --church-light: #f9f8f6;
-  --church-footer-bg: #0d0d1a;
+  --church-light: #F7F2E9;
+  --church-footer-bg: #140F0A;
+
+  /* Framer palette aliases */
+  --cream: #F7F2E9;
+  --ink: #1C1710;
+  --burgundy: #7D2B2B;
+  --burgundy-dark: #5C1F1F;
+  --muted: #7A7060;
+  --warm-gray: #EDE8DE;
+  --dark-bg: #140F0A;
 
   --white: #ffffff;
-  --off-white: #fafaf8;
-  --surface: #f4f3f0;
-  --text-primary: #0f0f1e;
-  --text-secondary: #4b5563;
+  --off-white: #F7F2E9;
+  --surface: #EDE8DE;
+  --text-primary: #1C1710;
+  --text-secondary: #7A7060;
   --text-muted: #9ca3af;
-  --gold: #C9A84C;
-  --gold-light: #e8cc7a;
-  --gold-pale: rgba(201,168,76,0.10);
-  --border-light: rgba(15,15,30,0.08);
-  --border-gold: rgba(201,168,76,0.3);
+  --gold: #C9973A;
+  --gold-light: #E8C47A;
+  --gold-pale: rgba(201,151,58,0.10);
+  --border-light: rgba(28,23,16,0.08);
+  --border-gold: rgba(201,151,58,0.3);
 
   --section-pad: clamp(60px, 8vw, 110px);
   --radius-sm: 4px;
@@ -36,7 +44,7 @@
   --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
   --shadow: 0 4px 16px rgba(0,0,0,0.08), 0 2px 6px rgba(0,0,0,0.04);
   --shadow-lg: 0 16px 48px rgba(0,0,0,0.14), 0 6px 20px rgba(0,0,0,0.08);
-  --shadow-gold: 0 8px 32px rgba(201,168,76,0.2);
+  --shadow-gold: 0 8px 32px rgba(201,151,58,0.2);
 }
 
 /* ─── BASE ─── */
@@ -53,7 +61,7 @@ html {
 body {
   font-family: 'DM Sans', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
   color: var(--text-primary);
-  background-color: var(--white);
+  background-color: var(--cream);
   margin: 0; padding: 0;
   min-height: 100vh;
   display: flex;
@@ -80,27 +88,116 @@ h1, h2, h3, h4, h5 {
   outline: none;
 }
 
-/* ─── FOOTER BAR ─── */
-.global-footer {
-  background-color: var(--church-footer-bg) !important;
-  color: rgba(255,255,255,0.45) !important;
-  min-height: 54px;
-  display: flex; align-items: center; justify-content: center;
-  padding: 0.75rem 1.5rem;
-  text-align: center;
-  border-top: 1px solid rgba(201,168,76,0.15);
+/* ─── SCROLL REVEAL ─── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
-.global-footer-inner {
-  width: 100%;
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
-  line-height: 1.4;
+.reveal.revealed {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ─── SITE FOOTER ─── */
+.site-footer {
+  background: var(--dark-bg);
+  color: rgba(255,255,255,0.6);
+  padding: clamp(3rem, 6vw, 4.5rem) clamp(1.5rem, 5vw, 3.5rem) 0;
+}
+.site-footer-inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 2.5rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(201,151,58,0.12);
+}
+.footer-brand-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 900;
+  color: var(--cream);
+  letter-spacing: -0.02em;
+  margin-bottom: 8px;
+}
+.footer-brand-name em { color: var(--gold); font-style: italic; }
+.footer-tagline {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.3);
+  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: 4px;
+}
+.footer-social {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+.social-btn {
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,0.4);
+  text-decoration: none;
+  font-size: 14px;
+  transition: background 0.2s, color 0.2s;
+}
+.social-btn:hover { background: var(--burgundy); color: var(--cream); }
+.footer-col h4 {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 18px;
+}
+.footer-col a,
+.footer-give-link {
+  display: block;
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.5);
+  text-decoration: none;
+  margin-bottom: 10px;
+  font-weight: 300;
+  transition: color 0.2s;
+}
+.footer-give-link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+}
+.footer-col a:hover,
+.footer-give-link:hover { color: var(--cream); }
+.footer-bottom {
+  padding: 1.25rem 0;
+  text-align: center;
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.18);
+  font-weight: 300;
+}
+@media (max-width: 860px) {
+  .site-footer-inner { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 480px) {
+  .site-footer-inner { grid-template-columns: 1fr; }
 }
 
 /* ============================================
    NAVIGATION
    ============================================ */
-.navbar {
+/* Override Bootstrap bg-white on nav */
+.navbar, .navbar.bg-white {
+  background-color: rgba(247,242,233,0.95) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   transition: background-color 0.35s ease, box-shadow 0.35s ease, padding 0.3s ease;
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -108,7 +205,7 @@ h1, h2, h3, h4, h5 {
 
 /* Brand */
 .navbar-brand {
-  color: var(--church-primary) !important;
+  color: var(--ink) !important;
   transition: opacity 0.2s;
 }
 .navbar-brand:hover { opacity: 0.75; }
@@ -125,7 +222,7 @@ h1, h2, h3, h4, h5 {
   text-transform: uppercase;
   white-space: normal;
   max-width: 155px;
-  color: var(--church-primary) !important;
+  color: var(--ink) !important;
 }
 .navbar-brand-multiline span { display: block; }
 
@@ -135,7 +232,7 @@ h1, h2, h3, h4, h5 {
   font-size: 0.82rem;
   letter-spacing: 0.07em;
   text-transform: uppercase;
-  color: var(--text-secondary) !important;
+  color: var(--muted) !important;
   padding: 0.5rem 0.875rem !important;
   position: relative;
   transition: color 0.2s;
@@ -150,10 +247,10 @@ h1, h2, h3, h4, h5 {
   transition: transform 0.25s ease;
   transform-origin: left;
 }
-.nav-link:hover { color: var(--text-primary) !important; }
+.nav-link:hover { color: var(--ink) !important; }
 .nav-link:hover::after,
 .nav-link.active::after { transform: scaleX(1); }
-.nav-link.active { color: var(--text-primary) !important; }
+.nav-link.active { color: var(--ink) !important; }
 
 /* Dropdown */
 .dropdown-menu {
@@ -229,16 +326,16 @@ body.home-page .navbar.navbar-transparent .nav-link.dropdown-toggle:hover {
   }
   body.home-page .navbar.navbar-transparent,
   .navbar {
-    background-color: #fff !important;
-    border-color: rgba(0,0,0,0.08) !important;
+    background-color: var(--cream) !important;
+    border-color: var(--border-gold) !important;
     box-shadow: 0 1px 0 var(--border-light), var(--shadow-sm) !important;
   }
   body.home-page .navbar.navbar-transparent .navbar-brand,
   body.home-page .navbar.navbar-transparent .navbar-brand-multiline {
-    color: var(--church-primary) !important;
+    color: var(--ink) !important;
   }
   body.home-page .navbar.navbar-transparent .nav-link {
-    color: var(--text-secondary) !important;
+    color: var(--muted) !important;
   }
   body.home-page .navbar.navbar-transparent .navbar-toggler {
     border-color: rgba(0,0,0,0.15) !important;
@@ -263,7 +360,7 @@ body.home-page .navbar.navbar-transparent .nav-link.dropdown-toggle:hover {
     width: min(300px, calc(100vw - 2rem)) !important;
     margin: 0 !important;
     padding: 0.5rem !important;
-    background: #fff !important;
+    background: var(--cream) !important;
     border-radius: var(--radius-lg) !important;
     box-shadow: var(--shadow-lg) !important;
     border: 1px solid var(--border-light) !important;
@@ -778,7 +875,7 @@ body.home-page .navbar.navbar-transparent .nav-link.dropdown-toggle:hover {
    ABOUT PAGE
    ============================================ */
 .about-page {
-  background: #0a0a18;
+  background: var(--dark-bg);
   color: #fff; min-height: 100%;
 }
 .about-page h1, .about-page h2, .about-page h3,
@@ -1322,12 +1419,6 @@ body.home-page .navbar.navbar-transparent .nav-link.dropdown-toggle:hover {
   outline-offset: 3px;
 }
 
-/* ============================================
-   FOOTER LINK CONTRAST — WCAG AA improvement
-   ============================================ */
-.global-footer {
-  color: rgba(255,255,255,0.6) !important;
-}
 
 /* ============================================
    PREFERS-REDUCED-MOTION

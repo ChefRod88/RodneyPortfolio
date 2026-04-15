@@ -1,7 +1,8 @@
 @* ============================================
-   SHARED LAYOUT - Wraps all pages
-   USE CASE: Nav, footer, scripts shared site-wide
-   LOCATION: Every page (via _ViewStart.cshtml)
+   SHARED LAYOUT — Edify design system
+   Nav: floating pill (fixed, Judson + Outfit)
+   Footer: dark, church data from ChurchSettings
+   All pages use this via _ViewStart.cshtml
    ============================================ *@
 @using ChurchWebsite.Models
 @using Microsoft.Extensions.Options
@@ -11,184 +12,325 @@
     var church = ChurchOptions.Value;
     var path = HttpContextAccessor.HttpContext?.Request.Path.Value ?? "";
     bool IsActive(string page) => (page == "/" && (path == "/" || path == "")) || (page != "/" && path.StartsWith(page, StringComparison.OrdinalIgnoreCase));
-    bool ShowMultilineBrand() => !IsActive("/About");
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - @church.NameText</title>
+    <title>@(ViewData["Title"] != null ? ViewData["Title"] + " — " : "")@church.NameText</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Judson:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site-mobile.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ChurchWebsite.styles.css" asp-append-version="true" />
     @await RenderSectionAsync("Head", required: false)
+    <style>
+    /* ── EDIFY NAV + FOOTER (shared across all pages) ── */
+    :root {
+      --edify-white: #ffffff;
+      --edify-bg: #ededed;
+      --edify-black: #000000;
+      --edify-accent: #2a967d;
+      --edify-gray: #949494;
+      --edify-gray-dark: #474747;
+    }
+
+    /* Pill nav */
+    .nav-host {
+      position: fixed; top: 0; left: 50%; transform: translateX(-50%);
+      width: 100%; max-width: 1440px;
+      padding: 15px 30px;
+      z-index: 1000; pointer-events: none;
+    }
+    .nav-pill {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--edify-white);
+      border-radius: 15px;
+      padding: 0 15px; height: 50px;
+      pointer-events: all;
+      transition: box-shadow 0.3s;
+    }
+    .nav-host.scrolled .nav-pill { box-shadow: 0 4px 20px rgba(0,0,0,0.12); }
+    .nav-logo {
+      font-family: 'Judson', serif; font-style: italic;
+      font-size: 22px; letter-spacing: -0.06em; line-height: 0.8em;
+      text-decoration: none; color: var(--edify-black);
+    }
+    .nav-logo strong { font-style: normal; font-weight: 700; }
+    .nav-links { display: flex; align-items: center; gap: 2px; }
+    .nav-links a {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+      text-transform: uppercase; color: var(--edify-black);
+      text-decoration: none; padding: 5px 8px; border-radius: 10px;
+      transition: background 0.15s;
+    }
+    .nav-links a:hover,
+    .nav-links a.nav-active { background: rgba(0,0,0,0.06); }
+    .nav-hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 8px; }
+    .nav-hamburger span { width: 21px; height: 2px; background: var(--edify-black); border-radius: 2px; display: block; }
+
+    /* Mobile nav overlay */
+    .mobile-nav {
+      position: fixed; inset: 0; z-index: 1100;
+      background: var(--edify-white);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .mobile-nav.open { opacity: 1; pointer-events: all; }
+    .mobile-nav a {
+      font-family: 'Judson', serif; font-style: italic; font-size: 36px;
+      color: var(--edify-black); text-decoration: none; letter-spacing: -0.04em;
+      transition: color 0.2s;
+    }
+    .mobile-nav a:hover { color: var(--edify-accent); }
+    .mobile-nav-close {
+      position: absolute; top: 20px; right: 24px;
+      font-size: 28px; background: none; border: none; cursor: pointer;
+      color: var(--edify-black); line-height: 1;
+    }
+
+    /* Edify footer */
+    .edify-footer {
+      background: var(--edify-black);
+      padding: 50px 100px;
+    }
+    .edify-footer-top {
+      display: flex; align-items: flex-start; justify-content: space-between;
+      gap: 60px; margin-bottom: 100px;
+      width: 100%; max-width: 1440px; margin-left: auto; margin-right: auto;
+    }
+    .edify-footer-contact { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+    .edify-footer-contact a {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px; font-weight: 500; letter-spacing: -0.01em;
+      text-transform: uppercase; color: var(--edify-white);
+      text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px;
+    }
+    .edify-footer-addr {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px; letter-spacing: -0.01em; text-transform: uppercase; color: rgba(255,255,255,0.5);
+    }
+    .edify-footer-logo {
+      font-family: 'Judson', serif; font-style: italic;
+      font-size: 40px; letter-spacing: -0.03em; line-height: 1em;
+      color: var(--edify-gray-dark);
+    }
+    .edify-footer-logo strong { font-style: normal; }
+    .edify-footer-nav { display: flex; flex-direction: column; gap: 10px; align-items: flex-end; }
+    .edify-footer-nav-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px; letter-spacing: -0.01em; text-transform: uppercase; color: var(--edify-gray-dark); margin-bottom: 4px;
+    }
+    .edify-footer-nav a {
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px; font-weight: 400; letter-spacing: -0.01em; text-transform: uppercase;
+      color: var(--edify-white); text-decoration: none; opacity: 0.8; transition: opacity 0.2s;
+    }
+    .edify-footer-nav a:hover { opacity: 1; }
+    .edify-footer-tagline-wrap {
+      width: 100%; max-width: 600px; margin: 0 auto 50px;
+      text-align: center;
+    }
+    .edify-footer-tagline {
+      font-family: 'Judson', serif; font-style: italic;
+      font-size: clamp(22px, 3vw, 40px);
+      letter-spacing: -0.03em; line-height: 1.1em;
+      color: rgba(255,255,255,0.35);
+    }
+    .edify-footer-bottom {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.08);
+      font-family: 'Outfit', sans-serif;
+      font-size: 12px; letter-spacing: -0.01em; text-transform: uppercase;
+      color: rgba(255,255,255,0.4);
+      width: 100%; max-width: 1440px; margin: 0 auto;
+    }
+    .edify-footer-socials { display: flex; gap: 12px; }
+    .edify-footer-socials a { display: flex; align-items: center; opacity: 0.8; transition: opacity 0.2s; }
+    .edify-footer-socials a:hover { opacity: 1; }
+    .edify-footer-socials svg { width: 22px; height: 22px; }
+
+    @@media (max-width: 900px) {
+      .edify-footer { padding: 50px 25px; }
+      .edify-footer-top { flex-direction: column; align-items: center; text-align: center; margin-bottom: 50px; }
+      .edify-footer-contact { align-items: center; }
+      .edify-footer-nav { align-items: center; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-host { padding: 10px 15px; }
+    }
+    </style>
 </head>
-<body class="@((path == "/" || path == "") ? "home-page" : "")">
-    <a href="#main-content" class="visually-hidden-focusable btn btn-primary btn-sm position-fixed top-0 start-0 m-2" style="z-index: 9999;">Skip to main content</a>
+<body>
 
-    <!-- GLOBAL CONSTELLATION CANVAS -->
-    <canvas id="globalConstellation" style="position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.55" aria-hidden="true"></canvas>
+<!-- MOBILE NAV OVERLAY -->
+<div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-close" onclick="closeMobileNav()" aria-label="Close menu">&times;</button>
+    <a href="/Give" onclick="closeMobileNav()">Give</a>
+    <a href="/Jesus" onclick="closeMobileNav()">Jesus</a>
+    <a href="/About" onclick="closeMobileNav()">About</a>
+    <a href="/#events" onclick="closeMobileNav()">Events</a>
+    @if (!string.IsNullOrEmpty(church.SocialMedia.YouTube))
+    {
+        <a href="@church.SocialMedia.YouTube" target="_blank" rel="noopener" onclick="closeMobileNav()">Watch</a>
+    }
+</div>
 
-    <header>
-        <nav class="navbar navbar-expand-lg navbar-light border-bottom box-shadow @((path != "/" && path != "") ? "bg-white" : "")" id="mainNav">
-            <div class="container-fluid px-0">
-                @if (ShowMultilineBrand())
-                {
-                    <a class="navbar-brand fw-bold archivo-black navbar-brand-multiline" asp-page="/Index" aria-label="@church.NameText">
-                        @if (church.Name.Count > 0)
-                        {
-                            @for (var i = 0; i < church.Name.Count; i++)
-                            {
-                                <span>@church.Name[i]</span>
-                            }
-                        }
-                        else
-                        {
-                            <span>N.B.M.B.C.</span>
-                        }
-                    </a>
-                }
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarMain" aria-controls="navbarMain" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarMain">
-                    <ul class="navbar-nav ms-auto align-items-lg-center">
-                        <li class="nav-item">
-                            <a class="nav-link @(IsActive("/") && path == "/" ? "active" : "")" asp-page="/Index">Home</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle @(IsActive("/About") || IsActive("/Location") ? "active" : "")" href="#" id="navAbout" data-bs-toggle="dropdown" aria-expanded="false">About</a>
-                            <ul class="dropdown-menu" aria-labelledby="navAbout">
-                                <li><a class="dropdown-item" asp-page="/About">Who We Are?</a></li>
-                                @if (IsActive("/Location"))
-                                {
-                                    <li><span class="dropdown-item location-current-item" aria-current="page">Location</span></li>
-                                }
-                                else
-                                {
-                                    <li><a class="dropdown-item" asp-page="/Location">Location</a></li>
-                                }
-                                <li><hr class="dropdown-divider" /></li>
-                                <li><a class="dropdown-item" asp-page="/About">Contact Us</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle @(IsActive("/Groups") || IsActive("/Events") ? "active" : "")" href="#" id="navNextSteps" data-bs-toggle="dropdown" aria-expanded="false">Next Steps</a>
-                            <ul class="dropdown-menu" aria-labelledby="navNextSteps">
-                                <li><a class="dropdown-item" asp-page="/Events/Index">Events</a></li>
-                                <li><a class="dropdown-item" asp-page="/Groups/Index">Groups</a></li>
-                                <li><a class="dropdown-item" asp-page="/Prayer">Request Prayer</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle @(IsActive("/Sermons") || IsActive("/Live") ? "active" : "")" href="#" id="navMedia" data-bs-toggle="dropdown" aria-expanded="false">Media</a>
-                            <ul class="dropdown-menu" aria-labelledby="navMedia">
-                                <li><a class="dropdown-item" asp-page="/Sermons/Index">Sermons</a></li>
-                                <li><a class="dropdown-item" asp-page="/Live">Watch Live</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link @(IsActive("/Prayer") ? "active" : "")" asp-page="/Prayer">Request Prayer</a>
-                        </li>
-                        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-                            <button class="nav-give-btn" onclick="openGiveModal()" aria-label="Give to New Bethel via Cash App">
-                                &#9829; Give
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-
-    <main id="main-content" role="main">
-        @RenderBody()
-    </main>
-
-    <footer class="global-footer" role="contentinfo">
-        <div class="global-footer-inner">
-            <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:1.5rem;margin-bottom:.4rem">
-                <a asp-page="/Index" style="color:rgba(255,255,255,.65);text-decoration:none;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.65)'">Home</a>
-                <a asp-page="/About" style="color:rgba(255,255,255,.65);text-decoration:none;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.65)'">About</a>
-                <a asp-page="/Events/Index" style="color:rgba(255,255,255,.65);text-decoration:none;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.65)'">Events</a>
-                <a asp-page="/Sermons/Index" style="color:rgba(255,255,255,.65);text-decoration:none;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.65)'">Sermons</a>
-                <a asp-page="/Location" style="color:rgba(255,255,255,.65);text-decoration:none;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.65)'">Location</a>
-                <a asp-page="/Prayer" style="color:rgba(255,255,255,.65);text-decoration:none;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;transition:color .2s" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(255,255,255,.65)'">Prayer</a>
-                <button onclick="openGiveModal()" style="background:none;border:none;color:rgba(201,168,76,.7);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;padding:0;font-family:inherit;transition:color .2s" onmouseover="this.style.color='#C9A84C'" onmouseout="this.style.color='rgba(201,168,76,.7)'">&#9829; Give</button>
-            </div>
-            Copyright &copy; 2025 New Bethel Missionary Baptist Church of Winter Haven. All Rights Reserved.
+<!-- FLOATING PILL NAV -->
+<div class="nav-host" id="navHost">
+    <div class="nav-pill">
+        <a href="/" class="nav-logo"><strong>New Bethel</strong> Missionary Baptist Church</a>
+        <div class="nav-links">
+            <a href="/Give" class="@(IsActive("/Give") ? "nav-active" : "")">Give</a>
+            <a href="/Jesus" class="@(IsActive("/Jesus") ? "nav-active" : "")">Jesus</a>
+            <a href="/About" class="@(IsActive("/About") ? "nav-active" : "")">About</a>
+            <a href="/#events">Events</a>
+            @if (!string.IsNullOrEmpty(church.SocialMedia.YouTube))
+            {
+                <a href="@church.SocialMedia.YouTube" target="_blank" rel="noopener">Watch</a>
+            }
         </div>
-    </footer>
+        <div class="nav-hamburger" id="hamburger" onclick="toggleMobileNav()">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+</div>
 
-    <!-- FLOATING GIVE BUTTON -->
-    <button class="give-fab" onclick="openGiveModal()" aria-label="Give to New Bethel via Cash App">
-        <span class="give-fab-icon">&#36;</span>
-        <span class="give-fab-label">Give</span>
-    </button>
+<main id="main-content" role="main">
+    @RenderBody()
+</main>
 
-    <!-- GIVE MODAL -->
-    <div id="giveModal" class="give-modal" role="dialog" aria-modal="true" aria-labelledby="giveModalTitle" hidden>
-        <div class="give-modal-overlay" onclick="closeGiveModal()"></div>
-        <div class="give-modal-card">
-            <div class="give-modal-top-bar"></div>
-            <button class="give-modal-close" onclick="closeGiveModal()" aria-label="Close give modal">&#215;</button>
-            <div class="give-modal-inner">
-                <div class="give-modal-icon">&#128155;</div>
-                <h2 id="giveModalTitle" class="give-modal-title">Support The Ministry</h2>
-                <p class="give-modal-sub">Your generosity fuels the Gospel mission at New Bethel — feeding the hungry, reaching the streets, and sharing the love of Christ.</p>
+<!-- EDIFY DARK FOOTER -->
+<footer class="edify-footer">
+    <div class="edify-footer-top">
+        <div class="edify-footer-contact">
+            @if (!string.IsNullOrEmpty(church.Phone))
+            {
+                <a href="tel:@church.Phone.Replace(" ","").Replace("(","").Replace(")","").Replace("-","")">📞 @church.Phone</a>
+            }
+            <span class="edify-footer-addr" style="font-size:11px; opacity:0.55;">Office hours: Mon–Fri, 9AM–4PM</span>
+            @if (!string.IsNullOrEmpty(church.Email))
+            {
+                <a href="mailto:@church.Email">✉️ @church.Email</a>
+            }
+            @if (!string.IsNullOrEmpty(church.FullAddress))
+            {
+                <span class="edify-footer-addr">📍 @church.FullAddress</span>
+            }
+        </div>
 
-                <div class="give-modal-amounts">
-                    <button class="give-modal-amt" onclick="selectGiveAmt(this)">$10</button>
-                    <button class="give-modal-amt gm-active" onclick="selectGiveAmt(this)">$25</button>
-                    <button class="give-modal-amt" onclick="selectGiveAmt(this)">$50</button>
-                    <button class="give-modal-amt" onclick="selectGiveAmt(this)">$100</button>
-                </div>
-                <p class="give-modal-hint">Select an amount or give any amount in Cash App</p>
+        <div class="edify-footer-logo"><strong>New Bethel</strong> Missionary Baptist Church</div>
 
-                <div class="give-modal-cashtag">
-                    <div class="give-cashapp-circle">&#36;</div>
-                    <div>
-                        <div class="give-modal-cashtag-label">Pastor&rsquo;s Cash App</div>
-                        <div class="give-modal-cashtag-val">$blueboy78</div>
-                    </div>
-                </div>
-
-                <a href="https://cash.app/$blueboy78" target="_blank" rel="noopener noreferrer" class="give-modal-open-btn" onclick="closeGiveModal()">
-                    Open Cash App &rarr;
-                </a>
-                <p class="give-modal-note">&#128274; Secure payment via Cash App &bull; $blueboy78</p>
-
-                <div class="give-modal-divider"></div>
-                <p class="give-modal-verse">&ldquo;Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.&rdquo; &mdash; 2 Corinthians 9:7</p>
-            </div>
+        <div class="edify-footer-nav">
+            <span class="edify-footer-nav-label">navigation</span>
+            @if (!string.IsNullOrEmpty(church.SocialMedia.YouTube))
+            {
+                <a href="@church.SocialMedia.YouTube" target="_blank" rel="noopener">watch</a>
+            }
+            <a href="/Give">give</a>
+            <a href="/Jesus">jesus</a>
+            <a href="/#events">events</a>
+            <a href="/About">about us</a>
         </div>
     </div>
 
-    <script src="~/js/pages/layout.js" asp-append-version="true"></script>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/location-fallback.js" asp-append-version="true"></script>
-    <script>
-        function openGiveModal() {
-            var m = document.getElementById('giveModal');
-            if (m) { m.hidden = false; document.body.style.overflow = 'hidden'; }
-        }
-        function closeGiveModal() {
-            var m = document.getElementById('giveModal');
-            if (m) { m.hidden = true; document.body.style.overflow = ''; }
-        }
-        function selectGiveAmt(btn) {
-            document.querySelectorAll('.give-modal-amt').forEach(function(b) { b.classList.remove('gm-active'); });
-            btn.classList.add('gm-active');
-        }
-        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeGiveModal(); });
-    </script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <div class="edify-footer-tagline-wrap">
+        <p class="edify-footer-tagline">@(string.IsNullOrEmpty(church.Tagline) ? "Leading people to become fully devoted followers of Christ." : church.Tagline)</p>
+    </div>
+
+    <div class="edify-footer-bottom">
+        <span>© @DateTime.Now.Year, NEW BETHEL MISSIONARY BAPTIST CHURCH</span>
+        <div class="edify-footer-socials">
+            @if (!string.IsNullOrEmpty(church.SocialMedia.YouTube))
+            {
+                <a href="@church.SocialMedia.YouTube" target="_blank" rel="noopener" aria-label="YouTube">
+                    <svg viewBox="0 0 24 24" fill="white"><path d="M21.593 7.203a2.506 2.506 0 0 0-1.762-1.766C18.265 5.007 12 5 12 5s-6.264-.007-7.831.404a2.56 2.56 0 0 0-1.766 1.778c-.413 1.566-.417 4.814-.417 4.814s-.004 3.264.406 4.814c.23.857.905 1.534 1.763 1.765 1.582.43 7.83.437 7.83.437s6.265.007 7.831-.403a2.515 2.515 0 0 0 1.767-1.763c.414-1.565.417-4.812.417-4.812s.02-3.265-.407-4.831zM9.996 15.005l.005-6 5.207 3.005-5.212 2.995z"/></svg>
+                </a>
+            }
+            @if (!string.IsNullOrEmpty(church.SocialMedia.Instagram))
+            {
+                <a href="@church.SocialMedia.Instagram" target="_blank" rel="noopener" aria-label="Instagram">
+                    <svg viewBox="0 0 24 24" fill="white"><path d="M20.947 8.305a6.53 6.53 0 0 0-.419-2.216 4.61 4.61 0 0 0-2.633-2.633 6.606 6.606 0 0 0-2.186-.42c-.962-.043-1.267-.055-3.709-.055s-2.755 0-3.71.055a6.606 6.606 0 0 0-2.185.42 4.607 4.607 0 0 0-2.633 2.633 6.554 6.554 0 0 0-.419 2.185c-.043.963-.056 1.268-.056 3.71s0 2.754.056 3.71c.015.748.156 1.486.419 2.187a4.61 4.61 0 0 0 2.634 2.632 6.584 6.584 0 0 0 2.185.45c.963.043 1.268.056 3.71.056s2.755 0 3.71-.056a6.59 6.59 0 0 0 2.186-.419 4.615 4.615 0 0 0 2.633-2.633c.263-.7.404-1.438.419-2.187.043-.962.056-1.267.056-3.71-.002-2.442-.002-2.752-.058-3.709zm-8.953 8.297c-2.554 0-4.623-2.069-4.623-4.623s2.069-4.623 4.623-4.623a4.623 4.623 0 0 1 0 9.246zm4.807-8.339a1.077 1.077 0 0 1-1.078-1.078 1.077 1.077 0 1 1 2.155 0c0 .596-.482 1.078-1.077 1.078z"/><circle cx="11.994" cy="11.979" r="3.003"/></svg>
+                </a>
+            }
+            @if (!string.IsNullOrEmpty(church.SocialMedia.Facebook))
+            {
+                <a href="@church.SocialMedia.Facebook" target="_blank" rel="noopener" aria-label="Facebook">
+                    <svg viewBox="0 0 24 24" fill="white"><path d="M20 3H4a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h8.615v-6.96h-2.338v-2.725h2.338v-2c0-2.325 1.42-3.592 3.5-3.592.699-.002 1.399.034 2.095.107v2.42h-1.435c-1.128 0-1.348.538-1.348 1.325v1.735h2.697l-.35 2.725h-2.348V21H20a1 1 0 0 0 1-1V4a1 1 0 0 0-1-1z"/></svg>
+                </a>
+            }
+        </div>
+    </div>
+</footer>
+
+<!-- GIVE MODAL -->
+<div id="giveModal" class="give-modal" role="dialog" aria-modal="true" aria-labelledby="giveModalTitle" hidden>
+    <div class="give-modal-overlay" onclick="closeGiveModal()"></div>
+    <div class="give-modal-card">
+        <div class="give-modal-top-bar"></div>
+        <button class="give-modal-close" onclick="closeGiveModal()" aria-label="Close give modal">&#215;</button>
+        <div class="give-modal-inner">
+            <div class="give-modal-icon">&#128155;</div>
+            <h2 id="giveModalTitle" class="give-modal-title">Support The Ministry</h2>
+            <p class="give-modal-sub">Your generosity fuels the Gospel mission at New Bethel — feeding the hungry, reaching the streets, and sharing the love of Christ.</p>
+            <div class="give-modal-amounts">
+                <button class="give-modal-amt" onclick="selectGiveAmt(this)">$10</button>
+                <button class="give-modal-amt gm-active" onclick="selectGiveAmt(this)">$25</button>
+                <button class="give-modal-amt" onclick="selectGiveAmt(this)">$50</button>
+                <button class="give-modal-amt" onclick="selectGiveAmt(this)">$100</button>
+            </div>
+            <p class="give-modal-hint">Select an amount or give any amount in Cash App</p>
+            <div class="give-modal-cashtag">
+                <div class="give-cashapp-circle">&#36;</div>
+                <div>
+                    <div class="give-modal-cashtag-label">Pastor&rsquo;s Cash App</div>
+                    <div class="give-modal-cashtag-val">$blueboy78</div>
+                </div>
+            </div>
+            <a href="https://cash.app/$blueboy78" target="_blank" rel="noopener noreferrer" class="give-modal-open-btn" onclick="closeGiveModal()">
+                Open Cash App &rarr;
+            </a>
+            <p class="give-modal-note">&#128274; Secure payment via Cash App &bull; $blueboy78</p>
+            <div class="give-modal-divider"></div>
+            <p class="give-modal-verse">&ldquo;Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver.&rdquo; &mdash; 2 Corinthians 9:7</p>
+        </div>
+    </div>
+</div>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/js/location-fallback.js" asp-append-version="true"></script>
+<script>
+    // Nav scroll shadow
+    const navHost = document.getElementById('navHost');
+    if (navHost) {
+        window.addEventListener('scroll', () => navHost.classList.toggle('scrolled', window.scrollY > 20));
+    }
+
+    // Mobile nav
+    function toggleMobileNav() { document.getElementById('mobileNav').classList.toggle('open'); }
+    function closeMobileNav() { document.getElementById('mobileNav').classList.remove('open'); }
+
+    // Give modal
+    function openGiveModal() {
+        var m = document.getElementById('giveModal');
+        if (m) { m.hidden = false; document.body.style.overflow = 'hidden'; }
+    }
+    function closeGiveModal() {
+        var m = document.getElementById('giveModal');
+        if (m) { m.hidden = true; document.body.style.overflow = ''; }
+    }
+    function selectGiveAmt(btn) {
+        document.querySelectorAll('.give-modal-amt').forEach(function(b) { b.classList.remove('gm-active'); });
+        btn.classList.add('gm-active');
+    }
+    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeGiveModal(); });
+</script>
+@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

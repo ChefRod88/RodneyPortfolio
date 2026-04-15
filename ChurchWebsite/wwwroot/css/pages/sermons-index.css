@@ -1,4 +1,4 @@
-:root{--g:#C9A84C;--gl:#F0D080;--gg:rgba(201,168,76,.35);--d:#070710;--s1:#0E0E1C;--s2:#14142A;--tp:#F0EDE6;--tm:#9A9485;--gb:rgba(201,168,76,.18)}
+:root{--g:#C9973A;--gl:#E8C47A;--gg:rgba(201,151,58,.35);--d:#070710;--s1:#0E0E1C;--s2:#14142A;--tp:#F0EDE6;--tm:#9A9485;--gb:rgba(201,151,58,.18)}
 *,*::before,*::after{box-sizing:border-box}
 body{background:var(--d);color:var(--tp)}
 .sm-hero{padding:90px 1.5rem 60px;text-align:center;position:relative;overflow:hidden;background:linear-gradient(180deg,var(--s2) 0%,var(--d) 100%)}

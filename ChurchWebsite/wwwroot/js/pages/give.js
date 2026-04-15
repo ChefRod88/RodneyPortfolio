@@ -1,15 +1,9 @@
-// Hero word blur-in
-window.addEventListener('load', () => {
-  const words = document.querySelectorAll('.word');
-  words.forEach((w, i) => setTimeout(() => w.classList.add('show'), 300 + i * 150));
-});
-
-// Parallax hero bg
+// Parallax hero
 window.addEventListener('scroll', () => {
   const y = window.scrollY;
-  const bg = document.querySelector('.hero-bg-placeholder, .hero-bg-wrap img');
+  const bg = document.querySelector('.give-hero-ph, .give-hero-img');
   if (bg) bg.style.transform = `translateY(${y * 0.3}px)`;
-  const txt = document.querySelector('.hero-text-wrap');
+  const txt = document.querySelector('.give-hero-text');
   if (txt) txt.style.transform = `translateY(${y * 0.15}px)`;
 }, { passive: true });
 
