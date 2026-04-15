@@ -39,12 +39,31 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  // NAV BACKGROUND: Always keep a solid navbar for readability.
+  // NAV BACKGROUND: Remove any leftover transparent/white classes; CSS handles the cream bg.
   const nav = document.getElementById('mainNav');
   if (nav) {
-    // Home and non-home pages: always solid white nav
     nav.classList.remove('navbar-transparent');
-    nav.classList.add('bg-white');
+    nav.classList.remove('bg-white');
+  }
+
+  // MARQUEE: Duplicate content for seamless infinite loop
+  const marqueeTrack = document.querySelector('.marquee-track');
+  if (marqueeTrack) {
+    marqueeTrack.innerHTML += marqueeTrack.innerHTML;
+  }
+
+  // SCROLL REVEAL
+  const revealEls = document.querySelectorAll('.reveal');
+  if (revealEls.length) {
+    const revealObs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          revealObs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+    revealEls.forEach(function (el) { revealObs.observe(el); });
   }
 
 });

@@ -1,234 +1,265 @@
-@* USE CASE: About page - Leadership, History, Beliefs *@
 @page
-@model AboutModel
 @{
-    ViewData["Title"] = "About Us";
+    Layout = "_Layout";
+    ViewData["Title"] = "About";
 }
-
 @section Head {
+<meta name="description" content="Learn about New Bethel Missionary Baptist Church — our story, our leadership, and our mission to the Winter Haven community.">
 <link rel="stylesheet" href="~/css/pages/about.css" asp-append-version="true" />
 }
 
-<!-- NAV DOTS -->
-<nav class="nav-dots" id="navDots">
-    <div class="nav-dot active" data-label="Home"       data-target="hero"       onclick="scrollToSection('hero')"></div>
-    <div class="nav-dot"        data-label="Leadership" data-target="leadership" onclick="scrollToSection('leadership')"></div>
-    <div class="nav-dot"        data-label="Ministers"  data-target="ministers"  onclick="scrollToSection('ministers')"></div>
-    <div class="nav-dot"        data-label="Music"      data-target="music"      onclick="scrollToSection('music')"></div>
-    <div class="nav-dot"        data-label="History"    data-target="history"    onclick="scrollToSection('history')"></div>
-    <div class="nav-dot"        data-label="Beliefs"    data-target="beliefs"    onclick="scrollToSection('beliefs')"></div>
-</nav>
-
-
-<!-- LEADERSHIP -->
-<section id="leadership">
-    <div class="container">
-        <div class="text-center animate-in">
-            <div class="section-label">Our Shepherds</div>
-            <h2 class="section-title">Pastoral Leadership</h2>
-            <div class="section-divider" style="margin:0 auto 3rem;"></div>
-        </div>
-        <div class="pastor-grid">
-            <div class="pastor-card animate-in">
-                <div class="pastor-image-wrap">
-                    <div class="pastor-avatar-glow"></div>
-                    <div class="pastor-spin-ring"></div>
-                    <div class="pastor-avatar-bg"></div>
-                    <div class="pastor-avatar" id="pastor-avatar-1">P</div>
-                    @* Drop photo at wwwroot/images/pastor.jpeg to replace placeholder *@
-                    <img src="/images/pastor.jpeg" alt="Senior Pastor" class="pastor-photo"
-                         onerror="this.style.display='none';document.getElementById('pastor-avatar-1').style.display='flex';"
-                         onload="document.getElementById('pastor-avatar-1').style.display='none';">
-                </div>
-                <div class="pastor-body">
-                    <div class="pastor-role">Pastor &amp; First Lady</div>
-                    <div class="pastor-name">Dr. Frank O'Harroll, Sr. </div>
-                    <p class="pastor-bio">A devoted servant of God, Pastor O'Harroll has led New Bethel Missionary Baptist Church with unwavering faith, wisdom, and compassion for 34 years. Called to ministry at an early age, he has dedicated his life to preaching the Gospel, empowering families, and building a strong community of believers in Winter Haven and beyond.</p>
-                </div>
-            </div>
-        </div>
+<!-- HERO -->
+<div class="hero-section">
+  <div class="hero-bg-wrap" id="heroBgWrap">
+    <!-- REPLACE: <img src="about-hero.jpg" alt="New Bethel congregation"> -->
+    <div class="hero-bg-placeholder">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      Replace with church building or congregation photo
     </div>
-</section>
-
-<!-- MINISTERS -->
-<section id="ministers">
-    <div class="container">
-        <div class="text-center animate-in">
-            <div class="section-label">Called to Serve</div>
-            <h2 class="section-title">Our Ministers</h2>
-            <div class="section-divider" style="margin:0 auto 3rem;"></div>
-        </div>
-        <div class="ministers-grid">
-            <div class="minister-card animate-in">
-                <div class="minister-avatar-wrap">
-                    <div class="minister-avatar-glow"></div>
-                    <div class="minister-avatar-ring"></div>
-                    <div class="minister-avatar-bg"></div>
-                    <div class="minister-avatar" id="minister-avatar-1">M1</div>
-                    @* Drop photo at wwwroot/images/minister-1.jpeg to replace placeholder *@
-                    <img src="/images/minister-1.jpeg" alt="Reverend Dr. Horace Lovett" class="minister-photo" loading="lazy"
-                         onerror="this.style.display='none';document.getElementById('minister-avatar-1').style.display='flex';"
-                         onload="document.getElementById('minister-avatar-1').style.display='none';">
-                </div>
-                <div class="minister-role">Minister</div>
-                <div class="minister-name">Reverend Dr. Horace Lovett</div>
-                <p class="minister-desc">Serving as the Alumni President of Florida Theological Seminary and Bible College in Lakeland,
-                     Florida and in the areas of outreach and evangelism, bringing the Word to the streets of Winter Haven.</p>
-            </div>
-            <div class="minister-card animate-in">
-                <div class="minister-avatar-wrap">
-                    <div class="minister-avatar-glow"></div>
-                    <div class="minister-avatar-ring"></div>
-                    <div class="minister-avatar-bg"></div>
-                    <div class="minister-avatar" id="minister-avatar-2">M2</div>
-                    @* Drop photo at wwwroot/images/minister-2.jpeg to replace placeholder *@
-                    <img src="/images/minister-2.jpeg" alt="Reverend Dr. Roy V. Jones" class="minister-photo" loading="lazy"
-                         onerror="this.style.display='none';document.getElementById('minister-avatar-2').style.display='flex';"
-                         onload="document.getElementById('minister-avatar-2').style.display='none';">
-                </div>
-                <div class="minister-role">Minister</div>
-                <div class="minister-name">Reverend Dr. Roy V. Jones</div>
-                <p class="minister-desc">Meet Dr. Roy V. Jones,CRC,MCAP is a minister, counselor and founder of Total Person Outreach Ministries,
-                    where the mission is simple: look around, look within-and be dangerous and determined.
-                </p>
-            </div>
-            <div class="minister-card animate-in">
-                <div class="minister-avatar-wrap">
-                    <div class="minister-avatar-glow"></div>
-                    <div class="minister-avatar-ring"></div>
-                    <div class="minister-avatar-bg"></div>
-                    <div class="minister-avatar" id="minister-avatar-3">M3</div>
-                    @* Drop photo at wwwroot/images/minister-3.jpeg to replace placeholder *@
-                    <img src="/images/minister-3.jpeg" alt="Bishop Lamont S. Radcliffe" class="minister-photo" loading="lazy"
-                         onerror="this.style.display='none';document.getElementById('minister-avatar-3').style.display='flex';"
-                         onload="document.getElementById('minister-avatar-3').style.display='none';">
-                </div>
-                <div class="minister-role">Minister</div>
-                <div class="minister-name">Bishop Lamont S. Radcliffe</div>
-                <p class="minister-desc">Meet Bishop Radcliffe, a preacher in his own right and musical heartbeat of our church,
-                    whose hands on the keys are just as powerful as the Word he delivers.
-                </p>
-            </div>
-            <div class="minister-card animate-in">
-                <div class="minister-avatar-wrap">
-                    <div class="minister-avatar-glow"></div>
-                    <div class="minister-avatar-ring"></div>
-                    <div class="minister-avatar-bg"></div>
-                    <div class="minister-avatar" id="minister-avatar-4">M4</div>
-                    @* Drop photo at wwwroot/images/minister-4.jpeg to replace placeholder *@
-                    <img src="/images/minister-4.jpeg" alt="Reverend Mack Drumgo II" class="minister-photo" loading="lazy"
-                         onerror="this.style.display='none';document.getElementById('minister-avatar-4').style.display='flex';"
-                         onload="document.getElementById('minister-avatar-4').style.display='none';">
-                </div>
-                <div class="minister-role">Minister</div>
-                <div class="minister-name">Reverend Mack Drumgo II</div>
-                <p class="minister-desc">Leads Sunday School and Bible study, equipping the body with sound doctrine and Biblical truth.</p>
-            </div>
-        </div>
+    <div class="hero-text-wrap">
+      <p class="hero-eyebrow word">Our Story</p>
+      <h1 class="hero-church-name">
+        <span class="word"><strong>About</strong></span><span class="word"> Us</span>
+      </h1>
     </div>
-</section>
+  </div>
 
+  <!-- WHITE CARD LIFT -->
+  <div class="white-lift">
 
-<!-- MUSIC DIRECTOR -->
-<section id="music">
-    <div class="container">
-        <div class="animate-in">
-            <div class="section-label">Praise &amp; Worship</div>
-            <h2 class="section-title">Music Ministry</h2>
-            <div class="section-divider"></div>
-        </div>
-        <div class="music-card animate-in">
-            <div class="music-avatar">
-                <span id="music-initials">MD</span>
-                @* Replace /images/music-director.jpg with the actual photo path *@
-                <img src="/images/IMG_7972.jpeg" alt="Music Director Larentis" class="music-photo" loading="lazy"
-                     onerror="this.style.display='none';document.getElementById('music-initials').style.display='inline';"
-                     onload="document.getElementById('music-initials').style.display='none';">
+    <!-- ══ SECTION 1: WHITE — Our Story + Mission ══ -->
+    <section class="section-white" id="story">
+      <div class="section-inner">
+
+        <!-- Row 1: Image + Our Story -->
+        <div class="row reveal">
+          <div class="row-img" style="aspect-ratio: 0.75;">
+            <!-- REPLACE: <img src="congregation.jpg" alt="Our congregation"> -->
+            <div class="row-img-ph">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+              Add congregation photo
             </div>
-            <div class="music-info">
-                <div class="role">Music Director</div>
-                <h3>Larentis</h3>
-                <p>With an anointed gift for worship, our Music Director leads the congregation into the presence of God each and every Sunday. Classically trained and Spirit-led, Larentis oversees all musical ministries at New Bethel — from the choir to the praise team — ensuring that every note glorifies the Lord.</p>
-                <div class="music-tags">
-                    <span class="music-tag">Choir Director</span>
-                    <span class="music-tag">Praise Team</span>
-                    <span class="music-tag">Instrumentalists</span>
-                    <span class="music-tag">Worship Leader</span>
-                </div>
+          </div>
+          <div class="row-text">
+            <p class="s-label">Since 1924</p>
+            <h2 class="s-h2">A church built on faith, family &amp; purpose.</h2>
+            <p class="s-body">
+              New Bethel Missionary Baptist Church has been a cornerstone of faith and community in Winter Haven, Florida for generations. We are a church family committed to the gospel of Jesus Christ — worshipping boldly, serving humbly, and loving without condition.<br><br>
+              From humble beginnings, God has grown this ministry into a vibrant body of believers reaching souls in our city and beyond.
+            </p>
+            <a href="#leadership" class="ulink">
+              MEET OUR LEADERS
+              <span class="ucircle">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Row 2: Mission text + values phrases -->
+        <div class="values-row reveal">
+          <div class="values-right-text">
+            <p class="s-body"><strong>NEW BETHEL MISSIONARY BAPTIST CHURCH</strong> — A place to belong, believe, and become everything God created you to be.</p>
+          </div>
+          <div class="faith-phrases">
+            <h2 class="s-h2" style="line-height: 1.05;">
+              <span class="accent-text">Love</span> God.<br>
+              <span class="accent-text">Serve</span> Others.<br>
+              <span class="accent-text">Grow</span> Together.
+            </h2>
+          </div>
+        </div>
+
+        <!-- Row 3: Mission reversed -->
+        <div class="row row-reverse reveal">
+          <div class="row-img" style="aspect-ratio: 1.2;">
+            <!-- REPLACE: <img src="worship.jpg" alt="Worship service"> -->
+            <div class="row-img-ph">
+              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+              Add worship or outreach photo
             </div>
+          </div>
+          <div class="row-text">
+            <p class="s-label">Our Mission</p>
+            <h2 class="s-h2">In the room, in the city + in the world.</h2>
+            <p class="s-body">We exist to lead people to become fully devoted followers of Christ. Through worship, fellowship, discipleship, ministry, and evangelism — we go where God sends us.</p>
+            <a href="/Jesus" class="ulink">
+              WHO IS JESUS
+              <span class="ucircle">
+                <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="square"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </a>
+          </div>
         </div>
-    </div>
-</section>
 
-<!-- CHURCH HISTORY -->
-<section id="history">
-    <div class="container">
-        <div class="text-center animate-in">
-            <div class="section-label">Our Story</div>
-            <h2 class="section-title">Church History</h2>
-            <div class="section-divider" style="margin:0 auto 3rem;"></div>
+      </div>
+    </section>
+
+    <!-- ══ SECTION 2: GRAY — Leadership ══ -->
+    <section class="section-gray" id="leadership">
+      <div class="section-inner">
+
+        <div class="reveal">
+          <p class="s-label" style="margin-bottom: 16px;">Our Leadership</p>
+          <h2 class="s-h2">The shepherds of<br>New Bethel.</h2>
         </div>
-        <div style="max-width:720px;margin:0 auto;">
-            <div class="timeline">
-                <div class="timeline-item animate-in">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-year">Founding</div>
-                    <div class="timeline-event">New Bethel Is Born</div>
-                    <div class="timeline-detail">New Bethel Missionary Baptist Church was established in Winter Haven, Florida, by a small but faithful group of believers committed to building a house of worship rooted in Biblical truth and community service.</div>
-                </div>
-                <div class="timeline-item animate-in">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-year">Early Growth</div>
-                    <div class="timeline-event">Building the Foundation</div>
-                    <div class="timeline-detail">The congregation grew steadily as families across Winter Haven joined the fellowship. New ministries were established — Sunday School, the choir, and outreach programs — all grounded in the Great Commission.</div>
-                </div>
-                <div class="timeline-item animate-in">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-year">Expansion</div>
-                    <div class="timeline-event">Community Impact</div>
-                    <div class="timeline-detail">New Bethel expanded its reach, partnering with local organizations to serve the needy, feed the hungry, and provide resources to families in Polk County and surrounding areas.</div>
-                </div>
-                <div class="timeline-item animate-in">
-                    <div class="timeline-dot"></div>
-                    <div class="timeline-year">Today</div>
-                    <div class="timeline-event">A Thriving Church Family</div>
-                    <div class="timeline-detail">Today, New Bethel Missionary Baptist Church stands as a vibrant, growing congregation — a beacon of hope, healing, and purpose in Winter Haven, Florida. We carry our history forward with joy and look toward the future with faith.</div>
-                </div>
+
+        <!-- Pastoral leadership -->
+        <div class="leader-grid reveal">
+
+          <div class="leader-card">
+            <div class="leader-img">
+              <!-- REPLACE: <img src="pastor-dye.jpg" alt="Pastor Dye"> -->
+              <div class="leader-img-ph">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                Add pastor photo
+              </div>
             </div>
-        </div>
-    </div>
-</section>
+            <div>
+              <p class="leader-role">Senior Pastor</p>
+              <h3 class="leader-name">Pastor Dye</h3>
+            </div>
+            <p class="leader-bio">Leading New Bethel with a heart for souls and a vision for community transformation, Pastor Dye has guided this congregation with wisdom, compassion, and unwavering faith.</p>
+          </div>
 
-<!-- BELIEFS -->
-<section id="beliefs">
-    <div class="container">
-        <div class="text-center animate-in">
-            <div class="section-label">What We Stand On</div>
-            <h2 class="section-title">Our Core Beliefs</h2>
-            <div class="section-divider" style="margin:0 auto 3rem;"></div>
-        </div>
-        <div class="beliefs-grid">
-            <div class="belief-card animate-in"><div class="belief-number">01</div><div class="belief-icon">&#10013;&#65039;</div><div class="belief-title">The Holy Bible</div><div class="belief-text">We believe the Bible is the inspired, infallible Word of God — the supreme authority in all matters of faith and practice.</div></div>
-            <div class="belief-card animate-in"><div class="belief-number">02</div><div class="belief-icon">&#128330;</div><div class="belief-title">The Holy Trinity</div><div class="belief-text">We believe in one God eternally existing in three persons: Father, Son (Jesus Christ), and Holy Spirit.</div></div>
-            <div class="belief-card animate-in"><div class="belief-number">03</div><div class="belief-icon">&#128293;</div><div class="belief-title">Salvation by Grace</div><div class="belief-text">We believe salvation is a gift of God's grace through faith in Jesus Christ alone — not by works, but by the blood of the Lamb.</div></div>
-            <div class="belief-card animate-in"><div class="belief-number">04</div><div class="belief-icon">&#128167;</div><div class="belief-title">Baptism &amp; Communion</div><div class="belief-text">We observe believer's baptism by immersion and the Lord's Supper as sacred ordinances that celebrate our faith and covenant.</div></div>
-            <div class="belief-card animate-in"><div class="belief-number">05</div><div class="belief-icon">&#127758;</div><div class="belief-title">The Great Commission</div><div class="belief-text">We are called to make disciples of all nations, baptizing them and teaching them the commands of Christ (Matthew 28:19-20).</div></div>
-            <div class="belief-card animate-in"><div class="belief-number">06</div><div class="belief-icon">&#9889;</div><div class="belief-title">The Resurrection</div><div class="belief-text">We believe in the bodily resurrection of Jesus Christ and the promise of eternal life for all who believe in His name.</div></div>
-        </div>
-    </div>
-</section>
+          <div class="leader-card d1">
+            <div class="leader-img">
+              <!-- REPLACE: <img src="minister-2.jpg" alt="Minister"> -->
+              <div class="leader-img-ph">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                Add minister photo
+              </div>
+            </div>
+            <div>
+              <p class="leader-role">Associate Minister</p>
+              <h3 class="leader-name">Min. James Owens</h3>
+            </div>
+            <p class="leader-bio">Dedicated to teaching and equipping the saints through the Word of God, bringing clarity and conviction to every message.</p>
+          </div>
 
-<!-- CTA -->
-<div class="cta-section">
-    <h2 class="animate-in">Come Worship With Us</h2>
-    <p class="animate-in">New Bethel Missionary Baptist Church &mdash; Winter Haven, Florida</p>
-    <a asp-page="/Location" class="btn-gold animate-in"><span>Plan Your Visit</span><span>&#8594;</span></a>
-    <div class="give-cta-wrap animate-in">
-        <button class="give-cta-btn" onclick="openGiveModal()"><span>&#9829;</span> Give Online via Cash App</button>
-    </div>
-</div>
+          <div class="leader-card d2">
+            <div class="leader-img">
+              <!-- REPLACE: <img src="minister-3.jpg" alt="Minister"> -->
+              <div class="leader-img-ph">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                Add minister photo
+              </div>
+            </div>
+            <div>
+              <p class="leader-role">Youth Minister</p>
+              <h3 class="leader-name">Min. Tanya Brooks</h3>
+            </div>
+            <p class="leader-bio">Passionate about the next generation, equipping young people to live boldly in faith and purpose in every season of life.</p>
+          </div>
+
+        </div>
+
+        <!-- Deacon Board -->
+        <div class="reveal">
+          <p class="s-label" style="margin-bottom: 16px;">Deacon Board</p>
+          <div class="deacon-grid">
+            <div class="deacon-item">
+              <div class="deacon-avatar">D</div>
+              <p class="deacon-name">Deacon Anderson</p>
+              <p class="deacon-role">Chairman</p>
+            </div>
+            <div class="deacon-item">
+              <div class="deacon-avatar">D</div>
+              <p class="deacon-name">Deacon Williams</p>
+              <p class="deacon-role">Vice Chairman</p>
+            </div>
+            <div class="deacon-item">
+              <div class="deacon-avatar">D</div>
+              <p class="deacon-name">Deacon Harris</p>
+              <p class="deacon-role">Treasurer</p>
+            </div>
+            <div class="deacon-item">
+              <div class="deacon-avatar">D</div>
+              <p class="deacon-name">Deacon Johnson</p>
+              <p class="deacon-role">Secretary</p>
+            </div>
+            <div class="deacon-item">
+              <div class="deacon-avatar">D</div>
+              <p class="deacon-name">Deaconess Davis</p>
+              <p class="deacon-role">Deaconess Board</p>
+            </div>
+            <div class="deacon-item">
+              <div class="deacon-avatar">D</div>
+              <p class="deacon-name">Deaconess Thomas</p>
+              <p class="deacon-role">Deaconess Board</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══ SECTION 3: WHITE — Core Beliefs ══ -->
+    <section class="section-white" id="beliefs">
+      <div class="section-inner">
+
+        <div class="reveal">
+          <p class="s-label" style="margin-bottom: 16px;">What We Believe</p>
+          <h2 class="s-h2">Our core convictions.</h2>
+        </div>
+
+        <div class="beliefs-grid reveal">
+
+          <div class="belief-item">
+            <p class="belief-num">01</p>
+            <p class="belief-title">Scripture</p>
+            <p class="belief-text">The Bible is the inspired, infallible, and authoritative Word of God — the final standard for all faith and practice.</p>
+          </div>
+
+          <div class="belief-item">
+            <p class="belief-num">02</p>
+            <p class="belief-title">The Trinity</p>
+            <p class="belief-text">We believe in one God, eternally existing in three persons: Father, Son, and Holy Spirit.</p>
+          </div>
+
+          <div class="belief-item">
+            <p class="belief-num">03</p>
+            <p class="belief-title">Salvation</p>
+            <p class="belief-text">Salvation is by grace alone, through faith alone, in Christ alone. Every person who confesses Jesus as Lord and believes in His resurrection is saved.</p>
+          </div>
+
+          <div class="belief-item">
+            <p class="belief-num">04</p>
+            <p class="belief-title">Baptism</p>
+            <p class="belief-text">Believer's baptism by immersion is an outward declaration of an inward transformation — a public testimony of faith in Christ.</p>
+          </div>
+
+          <div class="belief-item">
+            <p class="belief-num">05</p>
+            <p class="belief-title">The Church</p>
+            <p class="belief-text">The local church is the body of Christ, called to worship, teach, serve, and share the gospel with the world.</p>
+          </div>
+
+          <div class="belief-item">
+            <p class="belief-num">06</p>
+            <p class="belief-title">The Return of Christ</p>
+            <p class="belief-text">We believe in the personal, visible return of Jesus Christ and the resurrection of the dead for eternal life with God.</p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- BIG CTA -->
+      <a href="/" class="big-cta reveal" style="text-decoration: none; margin-top: 150px;">
+        <span class="big-cta-text">Come as you are.</span>
+        <div class="big-cta-circle">
+          <svg width="80" height="80" viewBox="0 0 144 144" fill="none" stroke="black" stroke-width="10" stroke-linecap="square">
+            <path d="M 84 36 L 120 72 L 84 108 M 114 72 L 24 72"/>
+          </svg>
+        </div>
+      </a>
+
+    </section>
+
+  </div><!-- end white-lift -->
+</div><!-- end hero-section -->
 
 @section Scripts {
 <script src="~/js/pages/about.js" asp-append-version="true"></script>
 }
-

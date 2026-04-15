@@ -1,0 +1,202 @@
+/* ── TOKENS ── */
+:root {
+  --white: #ffffff;
+  --bg: #ededed;
+  --black: #000000;
+  --accent: #2a967d;
+  --gray: #949494;
+  --gray-dark: #474747;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--black); overflow-x: hidden; }
+
+/* ── HERO ── */
+.give-hero {
+  width: 100%; height: 75vh; min-height: 500px;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+  background: var(--bg);
+}
+.give-hero-ph {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, #1a1520 0%, #2a1f35 50%, #1a2030 100%);
+  display: flex; align-items: center; justify-content: center;
+  flex-direction: column; gap: 12px;
+  font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+  color: rgba(255,255,255,0.2);
+}
+.give-hero-text {
+  position: relative; z-index: 2;
+  text-align: center;
+}
+.give-hero-title {
+  font-family: 'Judson', serif; font-style: italic;
+  font-size: clamp(80px, 15vw, 240px);
+  letter-spacing: -0.06em; line-height: 0.85em;
+  color: var(--white);
+  text-shadow: 0 0 50px rgba(0,0,0,0.5);
+}
+.give-hero-title strong { font-style: normal; font-weight: 700; }
+
+/* ── WHITE LIFT ── */
+.white-lift {
+  position: relative; z-index: 3;
+  margin-top: -60px;
+  border-radius: 60px 60px 0 0;
+  background: var(--white);
+  box-shadow: 0 0 10px -5px var(--black);
+  overflow: hidden;
+}
+
+/* ── SECTION ── */
+.section-inner {
+  width: 100%; max-width: 1000px;
+  margin: 0 auto; padding: 0 40px;
+}
+
+/* ── GENEROSITY HEADING ── */
+.give-heading-wrap {
+  padding: 120px 0 80px;
+  text-align: center;
+}
+.give-h2 {
+  font-family: 'Judson', serif;
+  font-size: clamp(32px, 5vw, 80px);
+  letter-spacing: -0.04em; line-height: 1em;
+  color: var(--black);
+}
+
+/* ── 3-COL GIVING CARDS ── */
+.give-cards-row {
+  display: flex; align-items: flex-start; gap: 50px;
+  padding: 0 0 100px;
+}
+.give-card { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+.give-card-img {
+  aspect-ratio: 1.333; border-radius: 15px; overflow: hidden;
+  box-shadow: 0 0 10px -5px var(--black); background: #eee;
+}
+.give-card-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.give-card-img-ph {
+  width: 100%; height: 100%; min-height: 180px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(0,0,0,0.2); font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+}
+.give-h3 {
+  font-family: 'Outfit', sans-serif; font-weight: 400;
+  font-size: clamp(22px, 2.5vw, 40px);
+  letter-spacing: -0.03em; line-height: 0.9em;
+}
+.give-body {
+  font-family: 'Outfit', sans-serif; font-weight: 400;
+  font-size: clamp(15px, 1.5vw, 21px);
+  letter-spacing: -0.02em; line-height: 1.4em;
+  color: var(--black);
+}
+.give-addr {
+  font-family: 'Outfit', sans-serif; font-weight: 300;
+  font-size: clamp(18px, 2vw, 28px);
+  letter-spacing: -0.02em; line-height: 1.1em;
+  color: var(--black);
+}
+
+/* ── CASHAPP BUTTON ── */
+.cashapp-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  align-self: flex-start;
+  border-radius: 16px;
+  transition: box-shadow 0.25s ease;
+  position: relative;
+}
+.cashapp-btn::after {
+  content: '';
+  display: block;
+  height: 1.5px;
+  width: 0;
+  background: var(--black);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+.cashapp-btn:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.15);
+}
+.cashapp-btn:hover::after {
+  width: 100%;
+}
+.cashapp-btn img {
+  display: block;
+  height: 52px;
+  width: auto;
+  border-radius: 16px;
+}
+.cashapp-tag {
+  font-family: 'Outfit', sans-serif; font-weight: 400;
+  font-size: 13px; letter-spacing: -0.01em; color: var(--gray);
+}
+
+/* ── UNDERLINE LINK ── */
+.ulink {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 16px; font-weight: 400; letter-spacing: -0.02em;
+  color: var(--black); text-decoration: none;
+  position: relative; padding-bottom: 3px;
+  width: fit-content;
+}
+.ulink::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 100%;
+  height: 1px; background: var(--black); transition: right 0.3s ease;
+}
+.ulink:hover::after { right: 0; }
+.ucircle {
+  width: 20px; height: 20px; border-radius: 50%;
+  border: 2px solid rgba(0,0,0,0.6);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: transform 0.2s;
+}
+.ulink:hover .ucircle { transform: scale(1.2); }
+
+/* ── THANK YOU ROW ── */
+.give-thanks-row {
+  display: flex; align-items: center; gap: 100px;
+  padding: 50px 0 150px;
+  background: var(--bg);
+}
+.give-thanks-text { flex: 1; display: flex; flex-direction: column; gap: 25px; }
+.give-thanks-img {
+  aspect-ratio: 1.625; border-radius: 30px; overflow: hidden;
+  box-shadow: 0 0 10px -5px var(--black); background: #eee;
+  flex: 1.3 0 0; width: 0;
+}
+.give-thanks-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.give-thanks-img-ph {
+  width: 100%; height: 100%; min-height: 300px;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(0,0,0,0.2); font-size: 10px; letter-spacing: 2px; text-transform: uppercase;
+}
+.accent-text { color: var(--accent); }
+
+/* ── SECTION GRAY ── */
+.section-gray { background: var(--bg); padding: 80px 0 0; }
+
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(50px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+.d1 { transition-delay: 0.1s; }
+.d2 { transition-delay: 0.2s; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .section-inner { padding: 0 25px; }
+  .give-cards-row { flex-direction: column; }
+  .give-thanks-row { flex-direction: column; gap: 40px; }
+  .give-thanks-img { width: 100%; flex: none; }
+}
+@media (max-width: 600px) {
+  .white-lift { border-radius: 30px 30px 0 0; }
+  .give-heading-wrap { padding: 80px 0 50px; }
+}

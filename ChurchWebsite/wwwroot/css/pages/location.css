@@ -4,7 +4,7 @@
          CSS Animations · Leaflet.js · Dark Map Theme
    ═══════════════════════════════════════════════════ */
 :root {
-  --g:#C9A84C; --gl:#F0D080; --gg:rgba(201,168,76,.35);
+  --g:#C9973A; --gl:#E8C47A; --gg:rgba(201,151,58,.35);
   --d:#070710; --s1:#0A0A18; --s2:#0E0E1E; --s3:#13132A;
   --tp:#F0EDE6; --tm:#9A9485; --gb:rgba(201,168,76,.18);
   --panel-w:420px; --nav-h:64px;
