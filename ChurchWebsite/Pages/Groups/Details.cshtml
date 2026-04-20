@@ -6,6 +6,13 @@
 }
 
 @section Head {
+@if (Model.Group != null)
+{
+    var desc = !string.IsNullOrWhiteSpace(Model.Group.Description)
+        ? Model.Group.Description
+        : $"Join {Model.Group.Name} at New Bethel Missionary Baptist Church and grow in faith alongside others in Winter Haven, Florida.";
+    <meta name="description" content="@desc">
+}
 <link rel="stylesheet" href="~/css/pages/groups-details.css" asp-append-version="true" />
 }
 

@@ -6,6 +6,7 @@
 }
 
 @section Head {
+<meta name="description" content="Watch sermons and teachings from New Bethel Missionary Baptist Church. Every message is a fresh encounter with God.">
 <link rel="stylesheet" href="~/css/pages/sermons-index.css" asp-append-version="true" />
 }
 
@@ -31,7 +32,7 @@
   @foreach (var sermon in Model.Sermons)
   {
     <a asp-page="/Sermons/Details" asp-route-id="@sermon.Id" class="sm-card">
-      <div class="sm-thumb" style="background-image:url('/images/IMG_7706.jpg')">
+      <div class="sm-thumb" style="background-image:url('/images/IMG_7706.jpg')" role="img" aria-label="@sermon.Title sermon thumbnail">
         <div class="sm-play"><div class="sm-play-circle"><div class="sm-play-icon"></div></div></div>
       </div>
       <div class="sm-card-body">

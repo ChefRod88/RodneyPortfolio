@@ -6,6 +6,13 @@
 }
 
 @section Head {
+@if (Model.Sermon != null)
+{
+    var desc = !string.IsNullOrWhiteSpace(Model.Sermon.Description)
+        ? Model.Sermon.Description
+        : $"Watch \"{Model.Sermon.Title}\" — a message from {Model.Sermon.Speaker} at New Bethel Missionary Baptist Church.";
+    <meta name="description" content="@desc">
+}
 <link rel="stylesheet" href="~/css/pages/sermons-details.css" asp-append-version="true" />
 }
 

@@ -225,11 +225,17 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--bl
 
 <!-- HERO -->
 <div class="jesus-hero">
-  <!-- REPLACE: <img class="jesus-hero-img" src="jesus-hero.jpg" alt="Jesus"> -->
-  <div class="jesus-hero-ph">
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-    Replace with hero photo
-  </div>
+  @if (ChurchPhotos.Get("JesusHero") is { } jh)
+  {
+    <img class="jesus-hero-img" src="@jh.ImageUrl" alt="@jh.AltText" loading="eager" decoding="async" />
+  }
+  else
+  {
+    <div class="jesus-hero-ph">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      Replace with hero photo
+    </div>
+  }
   <div class="jesus-hero-text">
     <h1 class="jesus-hero-title"><strong>Jesus</strong></h1>
   </div>
@@ -360,8 +366,14 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--bl
 
       <a href="/Events" class="jesus-card reveal" style="text-decoration:none; color:inherit;">
         <div class="jesus-card-img">
-          <!-- REPLACE: <img src="events.jpg" alt="Upcoming Events"> -->
-          <div class="jesus-card-img-ph">Add photo</div>
+          @if (ChurchPhotos.Get("JesusCardEvents") is { } je)
+          {
+            <partial name="_ChurchPexelsImg" model="je" />
+          }
+          else
+          {
+            <div class="jesus-card-img-ph">Add photo</div>
+          }
         </div>
         <div class="jesus-card-body">
           <span class="jesus-card-label">In person</span>
@@ -376,8 +388,14 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--bl
 
       <a href="https://www.youtube.com/@@NewBethelMissionaryBaptist" target="_blank" rel="noopener" class="jesus-card reveal d1" style="text-decoration:none; color:inherit;">
         <div class="jesus-card-img">
-          <!-- REPLACE: <img src="watch.jpg" alt="Online Content"> -->
-          <div class="jesus-card-img-ph">Add photo</div>
+          @if (ChurchPhotos.Get("JesusCardWatch") is { } jw)
+          {
+            <partial name="_ChurchPexelsImg" model="jw" />
+          }
+          else
+          {
+            <div class="jesus-card-img-ph">Add photo</div>
+          }
         </div>
         <div class="jesus-card-body">
           <span class="jesus-card-label">Online</span>

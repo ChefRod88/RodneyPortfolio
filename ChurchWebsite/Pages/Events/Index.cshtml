@@ -54,6 +54,10 @@
               {
                 <img src="@evt.ImageUrl" alt="@evt.Title" loading="lazy">
               }
+              else if (ChurchPhotos.Get("EventsCardFallback") is { } fb)
+              {
+                <img src="@fb.ImageUrl" alt="@fb.AltText" loading="lazy" decoding="async" />
+              }
               else
               {
                 <div class="ev-card-img-ph">

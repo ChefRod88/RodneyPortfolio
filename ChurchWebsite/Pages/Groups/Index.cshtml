@@ -6,6 +6,7 @@
 }
 
 @section Head {
+<meta name="description" content="Find your place at New Bethel Missionary Baptist Church. Explore groups and ministries to grow in faith and serve alongside others in Winter Haven, Florida.">
 <link rel="stylesheet" href="~/css/pages/groups-index.css" asp-append-version="true" />
 }
 
@@ -32,7 +33,7 @@
     <div class="gr-card">
       @if (!string.IsNullOrWhiteSpace(group.ImageUrl))
       {
-        <div class="gr-thumb" style="background-image:url('@group.ImageUrl')"><div class="gr-thumb-overlay"></div></div>
+        <div class="gr-thumb" style="background-image:url('@group.ImageUrl')" role="img" aria-label="@group.Name"><div class="gr-thumb-overlay"></div></div>
       }
       else
       {

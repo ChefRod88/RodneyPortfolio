@@ -15,6 +15,15 @@ builder.Services.AddRazorPages();                                    // Enables 
 builder.Services.AddSignalR();                                       // Real-time WebSocket hub for location streaming
 builder.Services.AddHttpContextAccessor();                           // Needed for _Layout to read current path
 builder.Services.Configure<ChurchSettings>(builder.Configuration.GetSection(ChurchSettings.SectionName));  // Binds appsettings Church section
+builder.Services.Configure<PexelsOptions>(builder.Configuration.GetSection(PexelsOptions.SectionName));
+builder.Services.Configure<ChurchImagerySettings>(builder.Configuration.GetSection(ChurchImagerySettings.SectionName));
+builder.Services.AddHttpClient<IPexelsPhotoClient, PexelsPhotoClient>(client =>
+{
+    client.BaseAddress = new Uri("https://api.pexels.com/");
+});
+builder.Services.AddSingleton<ChurchImageryRegistry>();
+builder.Services.AddSingleton<IChurchImageryRegistry>(sp => sp.GetRequiredService<ChurchImageryRegistry>());
+builder.Services.AddHostedService<ChurchImageryWarmupHostedService>();
 builder.Services.AddScoped<ISermonService, SermonService>();         // In-memory sermons; inject in Index, Sermons pages
 builder.Services.AddScoped<IEventService, EventService>();           // In-memory events; inject in Events pages
 builder.Services.AddScoped<IGroupService, GroupService>();           // In-memory groups; inject in Groups pages

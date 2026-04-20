@@ -4,9 +4,16 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace ChurchWebsite.Pages;
 
-/// <summary>Request Prayer form. USE CASE: Submit prayer requests (currently in-memory, no persistence).</summary>
+/// <summary>Request Prayer form. USE CASE: Submit prayer requests; logged for pastoral review.</summary>
 public class PrayerModel : PageModel
 {
+    private readonly ILogger<PrayerModel> _logger;
+
+    public PrayerModel(ILogger<PrayerModel> logger)
+    {
+        _logger = logger;
+    }
+
     [BindProperty]
     [Display(Name = "Name")]
     public string? Name { get; set; }
@@ -27,11 +34,20 @@ public class PrayerModel : PageModel
 
     public bool Submitted { get; set; }  // When true, view shows thank-you message instead of form
 
-    /// <summary>Handles form submit. Validates; if valid, sets Submitted and shows thank-you. No persistence yet.</summary>
+    /// <summary>Handles form submit. Validates; logs request for pastoral review; shows thank-you.</summary>
     public IActionResult OnPost()
     {
         if (!ModelState.IsValid)
             return Page();
+
+        _logger.LogInformation(
+            "PrayerRequest | Time: {Time} | Name: {Name} | Email: {Email} | Anonymous: {Anonymous} | Request: {Request}",
+            DateTime.UtcNow.ToString("o"),
+            string.IsNullOrWhiteSpace(Name) ? "(not provided)" : Name,
+            string.IsNullOrWhiteSpace(Email) ? "(not provided)" : Email,
+            ShareAnonymously,
+            PrayerRequest
+        );
 
         Submitted = true;
         return Page();

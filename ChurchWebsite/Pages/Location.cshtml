@@ -2,8 +2,10 @@
 @model ChurchWebsite.Pages.LocationModel
 @{
     ViewData["Title"] = "Location";
-    var googleMapsUrl = "https://www.google.com/maps?um=1&ie=UTF-8&fb=1&gl=us&sa=X&geocode=KZf_NdbSEt2IMX5147rUXvkm&daddr=123+Ave+Y+NE,+Winter+Haven,+FL+33881";
-    var appleMapsUrl = "https://maps.apple.com/?daddr=123+Ave+Y+NE,+Winter+Haven,+FL+33881&dirflg=d";
+    ViewData["Description"] = $"Get directions to {Model.Destination.Name} in {Model.Church.Address.City}, {Model.Church.Address.State}. Interactive map and turn-by-turn directions.";
+    var encodedAddress = Uri.EscapeDataString(Model.Destination.AddressLabel);
+    var googleMapsUrl = $"https://www.google.com/maps/dir/?api=1&destination={encodedAddress}";
+    var appleMapsUrl = $"https://maps.apple.com/?daddr={encodedAddress}&dirflg=d";
 }
 
 @section Head {
@@ -145,7 +147,7 @@
           <span class="loc-info-icon">&#128205;</span>
           <div>
             <div class="loc-info-lbl">Address</div>
-            <div class="loc-info-val">123 Ave Y NE, Winter Haven, FL 33881</div>
+            <div class="loc-info-val">@Model.Destination.AddressLabel</div>
           </div>
         </div>
         <div class="loc-info-row">
