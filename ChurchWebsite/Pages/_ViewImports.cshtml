@@ -1,4 +1,8 @@
 @* USE CASE: Global usings and tag helpers for all Razor Pages *@
 @using ChurchWebsite
+@using ChurchWebsite.Models
+@using ChurchWebsite.Services
+@using Microsoft.Extensions.Options
+@inject IChurchImageryRegistry ChurchPhotos
 @namespace ChurchWebsite.Pages
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

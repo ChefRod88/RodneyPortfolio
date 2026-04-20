@@ -1,7 +1,10 @@
 @page
+@inject IOptions<ChurchSettings> ChurchOptions
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Give";
+    ViewData["Description"] = "Give to New Bethel Missionary Baptist Church. Your generosity helps us carry out our mission and support our community.";
+    var church = ChurchOptions.Value;
 }
 
 @section Head {
@@ -26,6 +29,11 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--bl
   display: flex; align-items: center; justify-content: center;
   position: relative; overflow: hidden;
   background: var(--bg);
+}
+.give-hero-img {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%; object-fit: cover;
+  will-change: transform;
 }
 .give-hero-ph {
   position: absolute; inset: 0;
@@ -214,11 +222,17 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--bl
 
 <!-- HERO -->
 <div class="give-hero">
-  <!-- REPLACE: <img class="give-hero-img" src="give-hero.jpg" alt="Give"> -->
-  <div class="give-hero-ph">
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-    Replace with give hero photo
-  </div>
+  @if (ChurchPhotos.Get("GiveHero") is { } gHero)
+  {
+    <img class="give-hero-img" src="@gHero.ImageUrl" alt="@gHero.AltText" loading="eager" decoding="async" />
+  }
+  else
+  {
+    <div class="give-hero-ph">
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      Replace with give hero photo
+    </div>
+  }
   <div class="give-hero-text">
     <h1 class="give-hero-title"><strong>Give</strong></h1>
   </div>
@@ -241,13 +255,19 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--bl
       <!-- Card 1: Give Online via Cash App -->
       <div class="give-card reveal">
         <div class="give-card-img">
-          <!-- REPLACE: <img src="give-online.jpg" alt="Give online"> -->
-          <div class="give-card-img-ph">Add photo</div>
+          @if (ChurchPhotos.Get("GiveOnline") is { } go)
+          {
+            <partial name="_ChurchPexelsImg" model="go" />
+          }
+          else
+          {
+            <div class="give-card-img-ph">Add photo</div>
+          }
         </div>
         <h3 class="give-h3">Give online.</h3>
         <p class="give-body">The quickest way to give is through Cash App. Tap below to send a gift directly to the pastor — it takes just a few seconds.</p>
-        <p class="cashapp-tag">Pastor's Cash App: <strong>$blueboy78</strong></p>
-        <a href="https://cash.app/$blueboy78" target="_blank" rel="noopener noreferrer" class="cashapp-btn">
+        <p class="cashapp-tag">Pastor's Cash App: <strong>@church.CashAppTag</strong></p>
+        <a href="https://cash.app/@church.CashAppTag" target="_blank" rel="noopener noreferrer" class="cashapp-btn">
           <img src="~/icons/cash-app1.png" alt="Give via Cash App">
         </a>
       </div>
@@ -255,16 +275,21 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--bl
       <!-- Card 2: Give by Mail -->
       <div class="give-card reveal d1">
         <div class="give-card-img">
-          <!-- REPLACE: <img src="give-mail.jpg" alt="Give by mail"> -->
-          <div class="give-card-img-ph">Add photo</div>
+          @if (ChurchPhotos.Get("GiveMail") is { } gm)
+          {
+            <partial name="_ChurchPexelsImg" model="gm" />
+          }
+          else
+          {
+            <div class="give-card-img-ph">Add photo</div>
+          }
         </div>
         <h3 class="give-h3">Give by mail.</h3>
         <p class="give-body">To give by mail, simply send a check or cash donation to:</p>
-        <!-- REPLACE: Your actual mailing address -->
         <p class="give-addr">
-          New Bethel Missionary Baptist Church<br>
-          123 Ave Y NE<br>
-          Winter Haven, FL 33881
+          @church.NameText<br>
+          @church.Address.Street<br>
+          @church.Address.City, @church.Address.State @church.Address.Zip
         </p>
         <p class="give-body">Make checks payable to <em>'New Bethel Missionary Baptist Church'</em>.</p>
       </div>
@@ -272,8 +297,14 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--bl
       <!-- Card 3: Give in Person -->
       <div class="give-card reveal d2">
         <div class="give-card-img">
-          <!-- REPLACE: <img src="give-person.jpg" alt="Give in person"> -->
-          <div class="give-card-img-ph">Add photo</div>
+          @if (ChurchPhotos.Get("GivePerson") is { } gp)
+          {
+            <partial name="_ChurchPexelsImg" model="gp" />
+          }
+          else
+          {
+            <div class="give-card-img-ph">Add photo</div>
+          }
         </div>
         <h3 class="give-h3">Give in person.</h3>
         <p class="give-body">You're welcome to give in person during our regular gatherings. Cash and check donations can be placed securely at our giving desk.</p>
@@ -291,8 +322,14 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--bl
           <p class="give-body">We thank you for all your generous giving. Your generosity helps us carry out the mission of New Bethel Missionary Baptist Church — to love God, build community, and reach our city with the message of Jesus.</p>
         </div>
         <div class="give-thanks-img">
-          <!-- REPLACE: <img src="generosity.jpg" alt="Thank you"> -->
-          <div class="give-thanks-img-ph">Add photo</div>
+          @if (ChurchPhotos.Get("GiveThanks") is { } gt)
+          {
+            <partial name="_ChurchPexelsImg" model="gt" />
+          }
+          else
+          {
+            <div class="give-thanks-img-ph">Add photo</div>
+          }
         </div>
       </div>
     </div>

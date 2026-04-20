@@ -6,6 +6,13 @@
 }
 
 @section Head {
+@if (Model.Event != null)
+{
+    var desc = !string.IsNullOrWhiteSpace(Model.Event.Description)
+        ? Model.Event.Description
+        : $"{Model.Event.Title} — {Model.Event.Date:MMMM d, yyyy} at New Bethel Missionary Baptist Church, Winter Haven, Florida.";
+    <meta name="description" content="@desc">
+}
 <link rel="stylesheet" href="~/css/pages/events-details.css" asp-append-version="true" />
 }
 

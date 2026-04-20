@@ -232,6 +232,27 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--bl
 .d1 { transition-delay: 0.1s; }
 .d2 { transition-delay: 0.2s; }
 
+/* ── CARD MICRO-INTERACTIONS ── */
+.card-col {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
+  border-radius: 20px;
+}
+.card-col:hover {
+  transform: translateY(-6px);
+}
+.card-img {
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card-col:hover .card-img {
+  transform: scale(1.03);
+}
+@media (prefers-reduced-motion: reduce) {
+  .card-col, .card-img { transition: none; }
+  .card-col:hover { transform: none; }
+  .card-col:hover .card-img { transform: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {
   .section-inner { padding: 0 25px; gap: 80px; }

@@ -15,6 +15,7 @@ public class ChurchSettings
     public AddressSettings Address { get; set; } = new();      // Street, City, State, Zip
     public string Phone { get; set; } = string.Empty;          // Footer, contact
     public string Email { get; set; } = string.Empty;         // Footer, contact
+    public string CashAppTag { get; set; } = string.Empty;   // Cash App cashtag for giving (e.g. $exampletag)
     public string LiveStreamUrl { get; set; } = string.Empty;  // YouTube embed URL for Live page
     public string LiveStreamPlaceholderImageUrl { get; set; } = string.Empty;  // Thumbnail when stream unavailable; fallback to HeroImageUrl
     public SocialMediaSettings SocialMedia { get; set; } = new();  // Facebook, YouTube, Instagram
@@ -43,10 +44,9 @@ public class AddressSettings
     public string Zip { get; set; } = string.Empty;
 }
 
-/// <summary>Social links for footer. USE CASE: Facebook, YouTube, Instagram URLs.</summary>
+/// <summary>Social links for footer. USE CASE: YouTube, Instagram URLs.</summary>
 public class SocialMediaSettings
 {
-    public string Facebook { get; set; } = string.Empty;
     public string YouTube { get; set; } = string.Empty;
     public string Instagram { get; set; } = string.Empty;
 }

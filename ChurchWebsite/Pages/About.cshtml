@@ -11,11 +11,17 @@
 <!-- HERO -->
 <div class="hero-section">
   <div class="hero-bg-wrap" id="heroBgWrap">
-    <!-- REPLACE: <img src="about-hero.jpg" alt="New Bethel congregation"> -->
-    <div class="hero-bg-placeholder">
-      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-      Replace with church building or congregation photo
-    </div>
+    @if (ChurchPhotos.Get("AboutHero") is { } heroPh)
+    {
+      <partial name="_ChurchPexelsImg" model="heroPh" />
+    }
+    else
+    {
+      <div class="hero-bg-placeholder">
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        Replace with church building or congregation photo
+      </div>
+    }
     <div class="hero-text-wrap">
       <p class="hero-eyebrow word">Our Story</p>
       <h1 class="hero-church-name">
@@ -34,11 +40,17 @@
         <!-- Row 1: Image + Our Story -->
         <div class="row reveal">
           <div class="row-img" style="aspect-ratio: 0.75;">
-            <!-- REPLACE: <img src="congregation.jpg" alt="Our congregation"> -->
-            <div class="row-img-ph">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-              Add congregation photo
-            </div>
+            @if (ChurchPhotos.Get("AboutCongregation") is { } ac)
+            {
+              <partial name="_ChurchPexelsImg" model="ac" />
+            }
+            else
+            {
+              <div class="row-img-ph">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                Add congregation photo
+              </div>
+            }
           </div>
           <div class="row-text">
             <p class="s-label">Since 1924</p>
@@ -73,11 +85,17 @@
         <!-- Row 3: Mission reversed -->
         <div class="row row-reverse reveal">
           <div class="row-img" style="aspect-ratio: 1.2;">
-            <!-- REPLACE: <img src="worship.jpg" alt="Worship service"> -->
-            <div class="row-img-ph">
-              <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-              Add worship or outreach photo
-            </div>
+            @if (ChurchPhotos.Get("AboutWorship") is { } aw)
+            {
+              <partial name="_ChurchPexelsImg" model="aw" />
+            }
+            else
+            {
+              <div class="row-img-ph">
+                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                Add worship or outreach photo
+              </div>
+            }
           </div>
           <div class="row-text">
             <p class="s-label">Our Mission</p>
@@ -109,11 +127,17 @@
 
           <div class="leader-card">
             <div class="leader-img">
-              <!-- REPLACE: <img src="pastor-dye.jpg" alt="Pastor Dye"> -->
-              <div class="leader-img-ph">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-                Add pastor photo
-              </div>
+              @if (ChurchPhotos.Get("AboutLeader1") is { } l1)
+              {
+                <partial name="_ChurchPexelsImg" model="l1" />
+              }
+              else
+              {
+                <div class="leader-img-ph">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                  Add pastor photo
+                </div>
+              }
             </div>
             <div>
               <p class="leader-role">Senior Pastor</p>
@@ -124,11 +148,17 @@
 
           <div class="leader-card d1">
             <div class="leader-img">
-              <!-- REPLACE: <img src="minister-2.jpg" alt="Minister"> -->
-              <div class="leader-img-ph">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-                Add minister photo
-              </div>
+              @if (ChurchPhotos.Get("AboutLeader2") is { } l2)
+              {
+                <partial name="_ChurchPexelsImg" model="l2" />
+              }
+              else
+              {
+                <div class="leader-img-ph">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                  Add minister photo
+                </div>
+              }
             </div>
             <div>
               <p class="leader-role">Associate Minister</p>
@@ -139,11 +169,17 @@
 
           <div class="leader-card d2">
             <div class="leader-img">
-              <!-- REPLACE: <img src="minister-3.jpg" alt="Minister"> -->
-              <div class="leader-img-ph">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
-                Add minister photo
-              </div>
+              @if (ChurchPhotos.Get("AboutLeader3") is { } l3)
+              {
+                <partial name="_ChurchPexelsImg" model="l3" />
+              }
+              else
+              {
+                <div class="leader-img-ph">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+                  Add minister photo
+                </div>
+              }
             </div>
             <div>
               <p class="leader-role">Youth Minister</p>
