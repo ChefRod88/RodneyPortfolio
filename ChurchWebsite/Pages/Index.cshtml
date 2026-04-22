@@ -1,28 +1,55 @@
 @page
 @model IndexModel
+@using System.Text.Json
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Home";
-    var heroSrc = string.IsNullOrWhiteSpace(Model.Church.HeroImageUrl)
-        ? ChurchPhotos.Get("HomeHero")?.ImageUrl
-        : Model.Church.HeroImageUrl;
-    var heroAlt = string.IsNullOrWhiteSpace(Model.Church.NameText)
-        ? "New Bethel Missionary Baptist Church"
-        : Model.Church.NameText;
 }
 
 @section Head {
 <meta name="description" content="New Bethel Missionary Baptist Church — Winter Haven, Florida. A cornerstone of faith and community for generations.">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="~/css/pages/index.css" asp-append-version="true" />
 }
 
-<!-- ══════════════════ HERO ══════════════════ -->
-<div class="hero-section">
+<!-- ══════════════════ HERO (matrix collage — home only) ══════════════════ -->
+<div class="hero-section@(Model.HomeHeroSlides.Count > 0 ? " hero-section--matrix" : "")">
 
   <div class="hero-bg-wrap" id="heroBgWrap">
-    @if (!string.IsNullOrEmpty(heroSrc))
+    @if (Model.HomeHeroSlides.Count > 0)
     {
-      <img src="@heroSrc" alt="@heroAlt" />
+      var slideCount = Model.HomeHeroSlides.Count;
+      <div class="hero-matrix" id="heroMatrix" role="region" aria-label="Home hero photo collage">
+        <div class="hero-matrix-grid" aria-hidden="true">
+          @for (var c = 0; c < 6; c++)
+          {
+            var si = c % slideCount;
+            var siNext = (si + 1) % slideCount;
+            var slide = Model.HomeHeroSlides[si];
+            var slideNext = Model.HomeHeroSlides[siNext];
+            <div class="hero-matrix-cell" data-cell="@c" data-slide-index="@si">
+              <div class="hero-matrix-cell-inner">
+                <img class="hero-matrix-img is-front" src="@slide.Url" alt="" loading="@(c < 2 ? "eager" : "lazy")" decoding="async" />
+                <img class="hero-matrix-img" src="@slideNext.Url" alt="" loading="@(c < 2 ? "eager" : "lazy")" decoding="async" />
+              </div>
+              <span class="hero-matrix-hud">@($"SEC_{c:00}") · @($"BLK{(c * 7 + 11):X3}")</span>
+            </div>
+          }
+        </div>
+        <div class="hero-matrix-rain" aria-hidden="true"></div>
+        <div class="hero-matrix-gridlines" aria-hidden="true"></div>
+        <div class="hero-matrix-vignette" aria-hidden="true"></div>
+        @if (slideCount > 1)
+        {
+          <button type="button" class="hero-matrix-pause" id="heroMatrixPause" aria-pressed="false" aria-controls="heroMatrix">
+            <span class="hero-matrix-pause-glyph" aria-hidden="true">▮▮</span>
+            <span class="hero-matrix-pause-label">Pause matrix</span>
+          </button>
+        }
+      </div>
+      <script type="application/json" id="hero-matrix-slides">
+@Html.Raw(JsonSerializer.Serialize(Model.HomeHeroSlides.Select(s => new { url = s.Url, alt = s.Alt })))
+      </script>
     }
     else
     {
@@ -32,7 +59,7 @@
     }
   </div>
 
-  <div class="hero-text-wrap">
+  <div class="hero-text-wrap hero-text-wrap--matrix">
     <h1 class="hero-church-name">
       <span class="word"><strong>New Bethel</strong></span><span class="word"> Missionary</span><br>
       <span class="word">Baptist</span><span class="word"> Church</span>
@@ -52,17 +79,7 @@
         <!-- Row 1: Image + About text -->
         <div class="row reveal">
           <div class="row-img" style="aspect-ratio: 0.75;">
-            @if (ChurchPhotos.Get("HomeCongregation") is { } c1)
-            {
-              <partial name="_ChurchPexelsImg" model="c1" />
-            }
-            else
-            {
-              <div class="row-img-ph">
-                <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
-                Add congregation photo
-              </div>
-            }
+            <img src="~/images/NBMCcongregration.png" alt="@(Model.Church.NameText) congregation" loading="lazy" decoding="async" asp-append-version="true" />
           </div>
           <div class="row-text">
             <h2 class="s-h2">A church where all are welcome.</h2>
