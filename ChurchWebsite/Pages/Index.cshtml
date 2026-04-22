@@ -1,65 +1,29 @@
 @page
 @model IndexModel
-@using System.Text.Json
 @{
     Layout = "_Layout";
     ViewData["Title"] = "Home";
+    var heroSrc = string.IsNullOrWhiteSpace(Model.Church.HeroImageUrl)
+        ? "/images/collage.jpg"
+        : Model.Church.HeroImageUrl.Trim();
+    var heroAlt = string.IsNullOrWhiteSpace(Model.Church.NameText)
+        ? "New Bethel Missionary Baptist Church"
+        : Model.Church.NameText;
 }
 
 @section Head {
 <meta name="description" content="New Bethel Missionary Baptist Church — Winter Haven, Florida. A cornerstone of faith and community for generations.">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="~/css/pages/index.css" asp-append-version="true" />
 }
 
-<!-- ══════════════════ HERO (matrix collage — home only) ══════════════════ -->
-<div class="hero-section@(Model.HomeHeroSlides.Count > 0 ? " hero-section--matrix" : "")">
+<!-- ══════════════════ HERO ══════════════════ -->
+<div class="hero-section">
 
   <div class="hero-bg-wrap" id="heroBgWrap">
-    @if (Model.HomeHeroSlides.Count > 0)
-    {
-      var slideCount = Model.HomeHeroSlides.Count;
-      <div class="hero-matrix" id="heroMatrix" role="region" aria-label="Home hero photo collage">
-        <div class="hero-matrix-grid" aria-hidden="true">
-          @for (var c = 0; c < 6; c++)
-          {
-            var si = c % slideCount;
-            var siNext = (si + 1) % slideCount;
-            var slide = Model.HomeHeroSlides[si];
-            var slideNext = Model.HomeHeroSlides[siNext];
-            <div class="hero-matrix-cell" data-cell="@c" data-slide-index="@si">
-              <div class="hero-matrix-cell-inner">
-                <img class="hero-matrix-img is-front" src="@slide.Url" alt="" loading="@(c < 2 ? "eager" : "lazy")" decoding="async" />
-                <img class="hero-matrix-img" src="@slideNext.Url" alt="" loading="@(c < 2 ? "eager" : "lazy")" decoding="async" />
-              </div>
-              <span class="hero-matrix-hud">@($"SEC_{c:00}") · @($"BLK{(c * 7 + 11):X3}")</span>
-            </div>
-          }
-        </div>
-        <div class="hero-matrix-rain" aria-hidden="true"></div>
-        <div class="hero-matrix-gridlines" aria-hidden="true"></div>
-        <div class="hero-matrix-vignette" aria-hidden="true"></div>
-        @if (slideCount > 1)
-        {
-          <button type="button" class="hero-matrix-pause" id="heroMatrixPause" aria-pressed="false" aria-controls="heroMatrix">
-            <span class="hero-matrix-pause-glyph" aria-hidden="true">▮▮</span>
-            <span class="hero-matrix-pause-label">Pause matrix</span>
-          </button>
-        }
-      </div>
-      <script type="application/json" id="hero-matrix-slides">
-@Html.Raw(JsonSerializer.Serialize(Model.HomeHeroSlides.Select(s => new { url = s.Url, alt = s.Alt })))
-      </script>
-    }
-    else
-    {
-      <div class="hero-bg-placeholder">
-        <span>Hero image</span>
-      </div>
-    }
+    <img src="@heroSrc" alt="@heroAlt" loading="eager" decoding="async" asp-append-version="true" />
   </div>
 
-  <div class="hero-text-wrap hero-text-wrap--matrix">
+  <div class="hero-text-wrap">
     <h1 class="hero-church-name">
       <span class="word"><strong>New Bethel</strong></span><span class="word"> Missionary</span><br>
       <span class="word">Baptist</span><span class="word"> Church</span>
