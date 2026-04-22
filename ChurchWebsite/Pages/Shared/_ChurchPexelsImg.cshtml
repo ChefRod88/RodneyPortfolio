@@ -1,6 +1,0 @@
-@* Renders a Pexels-backed image or optional fallback placeholder class *@
-@model ChurchWebsite.Services.ChurchPexelsPhoto?
-@if (Model != null)
-{
-    <img src="@Model.ImageUrl" alt="@Model.AltText" loading="lazy" decoding="async" />
-}
