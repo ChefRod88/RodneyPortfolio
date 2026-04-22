@@ -44,3 +44,13 @@ git push origin cursor/development-environment-setup-7ed9  # push to GitHub
 - Always push immediately after committing — never leave commits only on local
 - Never force-push (`git push --force`) without explicit instruction — it can overwrite history and break the Azure deployment
 - The active branch is `cursor/development-environment-setup-7ed9` — always push to this branch
+
+## Task completion (after every task)
+
+When you finish a task:
+
+1. **Commit and push** your work on the working branch (`cursor/development-environment-setup-7ed9`) if the task was not already committed.
+2. **Merge into `main`** (via local merge or GitHub pull request, keeping history clean).
+3. **Sync both branches:** `main` and `cursor/development-environment-setup-7ed9` should both contain the same completed work — merge `main` into the feature branch (or rebase as team policy allows) and **push both** to `origin` so local and remote stay aligned.
+
+**Goal:** No completed work left only on one branch; Azure and collaborators see updates on `main`, and the named feature branch is not behind `main`.
