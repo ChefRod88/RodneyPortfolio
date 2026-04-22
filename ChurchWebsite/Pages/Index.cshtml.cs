@@ -13,14 +13,14 @@ public class IndexModel : PageModel
     private readonly IChurchImageryRegistry _churchPhotos;
 
     public IndexModel(
-        IOptions<ChurchSettings> churchOptions,
-        ISermonService sermonService,
-        IChurchImageryRegistry churchPhotos)
-    {
-        _church = churchOptions.Value;
-        _sermonService = sermonService;
-        _churchPhotos = churchPhotos;
-    }
+    IOptions<ChurchSettings> churchOptions,
+    ISermonService sermonService,
+    IChurchImageryRegistry churchPhotos)
+{
+    _church = churchOptions.Value;
+    _sermonService = sermonService;
+    _churchPhotos = churchPhotos;
+}
 
     public ChurchSettings Church => _church;       // Exposed to view for hero, mission, etc.
     public List<Sermon> LatestSermons { get; set; } = [];  // Top 3 sermons for home page
