@@ -8,6 +8,10 @@ public class ChurchSettings
     public List<string> Name { get; set; } = [];               // Church name lines (supports multiline display)
     public string Tagline { get; set; } = string.Empty;         // Short tagline; fallback for hero headline
     public string HeroImageUrl { get; set; } = string.Empty;     // Path to hero bg image (e.g. /images/hero.jpg)
+    /// <summary>Explicit home hero slides (URL + alt). When empty, see HeroSlidePexelsSlots and HeroImageUrl.</summary>
+    public List<HeroSlideSettings> HeroSlides { get; set; } = [];
+    /// <summary>Pexels imagery slot names (from ChurchImagery warmup) appended in order; duplicates skipped.</summary>
+    public List<string> HeroSlidePexelsSlots { get; set; } = [];
     public string HeroHeadline { get; set; } = string.Empty;    // Main headline on home hero
     public string MissionStatement { get; set; } = string.Empty;  // Blue mission section on home
     public string MissionSubtext { get; set; } = string.Empty;  // Subtext under mission
@@ -33,6 +37,13 @@ public class ChurchSettings
     public string GoogleMapsUrl => !string.IsNullOrWhiteSpace(FullAddress)
         ? $"https://www.google.com/maps/search/?api=1&query={Uri.EscapeDataString(FullAddress)}"
         : string.Empty;
+}
+
+/// <summary>One frame in the home hero rotation.</summary>
+public class HeroSlideSettings
+{
+    public string ImageUrl { get; set; } = string.Empty;
+    public string Alt { get; set; } = string.Empty;
 }
 
 /// <summary>Address for footer and maps. USE CASE: Church location.</summary>
