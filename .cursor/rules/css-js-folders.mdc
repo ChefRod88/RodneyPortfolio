@@ -1,0 +1,20 @@
+---
+description: Keep CSS and JavaScript in dedicated css/ and js/ folders, not at web root or alongside pages
+alwaysApply: true
+---
+
+# CSS and JavaScript file organization
+
+**Always follow this for new or moved assets.**
+
+1. **Project CSS** — Put new stylesheets in `wwwroot/css/` (or, in another app in this repo, that app’s `css/` or equivalent `styles/` folder at the app static root). Do not add `.css` files at `wwwroot/` root or next to `.cshtml` unless the stack requires it (rare).
+
+2. **Project JavaScript** — Put new scripts in `wwwroot/js/`. Do not add `.js` files at `wwwroot/` root for app code.
+
+3. **Vendor / libraries** — Keep third-party under `wwwroot/lib/` (or the project’s standard vendor path). Do not duplicate that layout without reason.
+
+4. **Views and pages** — Prefer `<link href="~/css/...">` and `<script src="~/js/...">`. Reserve inline `<style>` / `<script>` for tiny, page-specific bootstrapping (e.g. one-liners, analytics snippets), not for substantial CSS or JS.
+
+5. **Exception** — A service worker (e.g. `sw.js`) at the site root is fine when the web platform or PWA scope requires it.
+
+When adding a new subproject (SPA, static site, etc.), use parallel `css/` and `js/` (or `styles/` + `scripts/`) at that project’s asset root; do not scatter `.css` and `.js` among HTML or page folders.

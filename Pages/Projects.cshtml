@@ -16,7 +16,7 @@
             <h1 class="proj-main-title">
                 ACTIVE_PROJECTS<span class="terminal-cursor">█</span>
             </h1>
-            <div class="terminal-boot" id="terminalBoot" aria-live="polite"></div>
+            <div class="terminal-boot" id="terminalBoot" data-project-count="@Model.Projects.Count" aria-live="polite"></div>
             <div class="proj-stats-row">
                 <span class="proj-stat">@Model.Projects.Count NODES ACTIVE</span>
                 <span class="proj-stat-sep">//</span>
@@ -56,11 +56,6 @@
                     <div class="proj-divider"></div>
 
                     <p class="proj-desc">@p.Description</p>
-
-                    <div class="proj-meta-row">
-                        <span class="proj-year-label">YEAR:</span>
-                        <span class="proj-year">@p.Year</span>
-                    </div>
 
                     <div class="proj-stack-label">STACK:</div>
                     <div class="proj-stack">
@@ -105,50 +100,5 @@
 </div>
 
 @section Scripts {
-<script>
-(function () {
-    // ── TERMINAL BOOT TYPEWRITER ──────────────────────────────
-    const lines = [
-        '> Initializing project database...',
-        '> Loading @Model.Projects.Count nodes...',
-        '> All systems nominal. Ready.',
-    ];
-    const el = document.getElementById('terminalBoot');
-    let lineIdx = 0, charIdx = 0;
-    let currentLine = document.createElement('div');
-    currentLine.className = 'terminal-line';
-    el.appendChild(currentLine);
-
-    const timer = setInterval(() => {
-        if (lineIdx >= lines.length) { clearInterval(timer); return; }
-        const line = lines[lineIdx];
-        if (charIdx < line.length) {
-            currentLine.textContent += line[charIdx++];
-        } else {
-            lineIdx++;
-            charIdx = 0;
-            if (lineIdx < lines.length) {
-                currentLine = document.createElement('div');
-                currentLine.className = 'terminal-line';
-                el.appendChild(currentLine);
-            }
-        }
-    }, 28);
-
-    // ── SCAN BEAM (fires once on load) ───────────────────────
-    const beam = document.getElementById('projScanBeam');
-    if (beam) {
-        beam.classList.add('proj-scan-beam--active');
-        beam.addEventListener('animationend', () => beam.remove());
-    }
-
-    // ── STAGGER CARD REVEAL ──────────────────────────────────
-    document.addEventListener('DOMContentLoaded', () => {
-        const cards = document.querySelectorAll('.proj-card');
-        cards.forEach((card, i) => {
-            card.style.transitionDelay = (i * 80) + 'ms';
-        });
-    });
-})();
-</script>
+    <script src="~/js/projects-page.js" asp-append-version="true"></script>
 }

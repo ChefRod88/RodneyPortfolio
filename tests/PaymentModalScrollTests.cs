@@ -11,6 +11,8 @@ public class PaymentModalScrollTests
 {
     // ── helpers ─────────────────────────────────────────────────────────────
     private static string DashboardView => ReadRepoFile("Views/Portal/Dashboard.cshtml");
+    private static string PortalDashboardCss => ReadRepoFile("wwwroot/css/portal-dashboard.css");
+    private static string PortalDashboardJs => ReadRepoFile("wwwroot/js/portal-dashboard.js");
     private static string DashboardCode => ReadRepoFile("Controllers/PortalController.cs");
 
     // ════════════════════════════════════════════════════════════════════════
@@ -20,19 +22,19 @@ public class PaymentModalScrollTests
     [Fact]
     public void Overlay_HasOverflowYAuto_SoModalContentIsScrollable()
     {
-        Assert.Contains("overflow-y:auto", DashboardView, StringComparison.Ordinal);
+        Assert.Contains("overflow-y: auto", PortalDashboardCss, StringComparison.Ordinal);
     }
 
     [Fact]
     public void Overlay_UsesAlignItemsFlexStart_SoModalDoesNotGetClipped()
     {
-        Assert.Contains("align-items:flex-start", DashboardView, StringComparison.Ordinal);
+        Assert.Contains("align-items: flex-start", PortalDashboardCss, StringComparison.Ordinal);
     }
 
     [Fact]
     public void Overlay_HasPadding_SoModalHasBreathingRoomAtTopAndBottom()
     {
-        Assert.Contains("padding:2rem 0.5rem", DashboardView, StringComparison.Ordinal);
+        Assert.Contains("padding: 2rem 0.5rem", PortalDashboardCss, StringComparison.Ordinal);
     }
 
     // ════════════════════════════════════════════════════════════════════════
@@ -43,26 +45,25 @@ public class PaymentModalScrollTests
     public void Container_DoesNotHaveOverflowHidden_WhichWasClippingStripeForm()
     {
         // overflow:hidden on .pm-container was the root cause — must not exist
-        Assert.DoesNotContain(".pm-container { background:#0d1117; border:1px solid rgba(0,212,255,0.2); border-radius:16px; width:min(480px,95vw); overflow:hidden",
-            DashboardView, StringComparison.Ordinal);
+        Assert.DoesNotContain("overflow: hidden", PortalDashboardCss, StringComparison.Ordinal);
     }
 
     [Fact]
     public void Container_HasOverflowVisible_SoStripeElementsRenderFully()
     {
-        Assert.Contains("overflow:visible", DashboardView, StringComparison.Ordinal);
+        Assert.Contains("overflow: visible", PortalDashboardCss, StringComparison.Ordinal);
     }
 
     [Fact]
     public void Container_HasFlexShrinkZero_SoItDoesNotCollapse()
     {
-        Assert.Contains("flex-shrink:0", DashboardView, StringComparison.Ordinal);
+        Assert.Contains("flex-shrink: 0", PortalDashboardCss, StringComparison.Ordinal);
     }
 
     [Fact]
     public void Container_HasMarginAuto_SoItCentersInsideScrollableOverlay()
     {
-        Assert.Contains("margin:auto", DashboardView, StringComparison.Ordinal);
+        Assert.Contains("margin: auto", PortalDashboardCss, StringComparison.Ordinal);
     }
 
     // ════════════════════════════════════════════════════════════════════════
@@ -72,13 +73,13 @@ public class PaymentModalScrollTests
     [Fact]
     public void OpenPaymentModal_LocksBodyScroll_SoPageDoesNotScrollBehindModal()
     {
-        Assert.Contains("document.body.style.overflow = \"hidden\"", DashboardView, StringComparison.Ordinal);
+        Assert.Contains("document.body.style.overflow = \"hidden\"", PortalDashboardJs, StringComparison.Ordinal);
     }
 
     [Fact]
     public void ClosePaymentModal_UnlocksBodyScroll_SoPageScrollsAgainAfterClose()
     {
-        Assert.Contains("document.body.style.overflow = \"\"", DashboardView, StringComparison.Ordinal);
+        Assert.Contains("document.body.style.overflow = \"\"", PortalDashboardJs, StringComparison.Ordinal);
     }
 
     // ════════════════════════════════════════════════════════════════════════

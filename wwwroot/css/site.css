@@ -2470,26 +2470,6 @@ h1.title::after {
     flex-grow: 1;
 }
 
-/* ── Year ─────────────────────────────────────────────────────── */
-.proj-meta-row {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    margin-bottom: 0.75rem;
-}
-.proj-year-label {
-    font-family: var(--font-mono);
-    font-size: 0.6rem;
-    color: rgba(0,212,255,0.35);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-}
-.proj-year {
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    color: rgba(0,212,255,0.6);
-}
-
 /* ── Stack tags ───────────────────────────────────────────────── */
 .proj-stack-label {
     font-family: var(--font-mono);

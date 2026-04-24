@@ -5,21 +5,19 @@ alwaysApply: true
 
 # Local Port Isolation
 
-When working in this repository, always keep each project on a separate localhost port.
+When working in this repository, the runnable web app is **RodneyPortfolio** only. Keep a dedicated localhost port for it.
 
-- Never reuse the same local HTTP/HTTPS port across different projects.
-- Treat port overlap as a blocking issue and fix launch profiles before further work.
-- Prefer explicit project-targeted run commands:
-  - `dotnet run --project /Users/rodneyamoschery/dev/RodneyPortfolio/RodneyPortfolio.csproj --launch-profile http`
-  - `dotnet run --project /Users/rodneyamoschery/dev/RodneyPortfolio/ChurchWebsite/ChurchWebsite.csproj --launch-profile http`
+- Do not point multiple unrelated apps at the same local HTTP/HTTPS port.
+- Treat port overlap as a blocking issue and fix `Properties/launchSettings.json` before further work.
+- Prefer an explicit run command:
+  - `dotnet run --project /workspaces/RodneyPortfolio/RodneyPortfolio.csproj --launch-profile http`
 - Keep local routes local only; do not redirect localhost traffic to production domains.
 
 ## Required checks before testing
 
-- Confirm each project's `Properties/launchSettings.json` uses non-overlapping `applicationUrl` values.
-- Confirm the expected app identity on each port (e.g., portfolio routes on `5076`, church routes like `/Prayer` on `7075`).
+- Confirm `Properties/launchSettings.json` has the expected `applicationUrl` for the portfolio.
+- Confirm the app identity on the port (e.g. portfolio home on `http://localhost:5076`).
 
-## Current port map
+## Current port
 
 - Rodney portfolio: `http://localhost:5076`
-- ChurchWebsite: `http://localhost:7075`

@@ -73,7 +73,7 @@ public class DualAIChatService : IAIChatService
             return "You can reach Rodney at chefrodneyachery@gmail.com or on LinkedIn at linkedin.com/in/rodneyachery.";
 
         if (q.Contains("project") || q.Contains("portfolio") || q.Contains("built"))
-            return "Rodney's projects include his portfolio website (ASP.NET Core, Razor Pages), the Mini-D365-CRM (ASP.NET Core 10, OData v4, Azure), the Student Progress Tracker (.NET MAUI, WGU capstone), and the Ask Rodney AI Chatbot with dual-AI orchestration.";
+            return "Rodney's projects include his portfolio (ASP.NET Core, Razor Pages) with the Ask Rodney AI Chatbot and job match features, New Bethel Church and Prime Medical Group production sites, the Mini-D365-CRM (ASP.NET Core 10, OData v4, Azure), and refactors in progress for Drumgo Publishing and Florida Theological Seminary.";
 
         return "Rodney Chery is an Enterprise Application Developer with hands-on experience across the full SDLC. He builds with ASP.NET Core, C#, SQL Server, and Azure. For more details, check his portfolio at rodneyachery.com.";
     }

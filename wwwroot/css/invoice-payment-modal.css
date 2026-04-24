@@ -1,0 +1,336 @@
+/* Invoice payment partial (Pages/Portal/PaymentModal) */
+.pm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  animation: pm-fade-in 0.2s ease;
+}
+
+@keyframes pm-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.pm-container {
+  background: #0d1117;
+  border: 1px solid #00ff4130;
+  border-radius: 16px;
+  width: min(480px, 95vw);
+  overflow: hidden;
+  box-shadow: 0 0 60px #00ff4115, 0 20px 60px rgba(0, 0, 0, 0.6);
+  animation: pm-slide-up 0.25s ease;
+}
+
+@keyframes pm-slide-up {
+  from {
+    transform: translateY(24px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.pm-header {
+  background: linear-gradient(135deg, #00ff4108, #00ff4103);
+  border-bottom: 1px solid #00ff4120;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.pm-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.pm-icon {
+  font-size: 1.6rem;
+}
+.pm-title {
+  color: #00ff41;
+  font-weight: 700;
+  font-size: 1rem;
+  font-family: "Courier New", monospace;
+}
+.pm-subtitle {
+  color: #888;
+  font-size: 0.8rem;
+  margin-top: 2px;
+}
+.pm-amount-badge {
+  background: #00ff4115;
+  border: 1px solid #00ff4130;
+  border-radius: 10px;
+  padding: 8px 14px;
+  text-align: right;
+}
+.pm-amount-label {
+  display: block;
+  font-size: 0.65rem;
+  color: #00ff4190;
+  letter-spacing: 0.1em;
+}
+.pm-amount-value {
+  display: block;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #00ff41;
+  font-family: "Courier New", monospace;
+}
+
+/* Tabs */
+.pm-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-bottom: 1px solid #00ff4115;
+}
+.pm-tab {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 14px;
+  color: #666;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+  border-bottom: 2px solid transparent;
+}
+.pm-tab:hover {
+  color: #aaa;
+  background: #ffffff05;
+}
+.pm-tab.active {
+  color: #00ff41;
+  border-bottom-color: #00ff41;
+  background: #00ff4108;
+}
+.pm-tab-icon {
+  display: flex;
+  align-items: center;
+}
+
+/* Panels */
+.pm-panel {
+  padding: 24px;
+}
+
+.pm-secure-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #4a9;
+  font-size: 0.75rem;
+  margin-bottom: 16px;
+  background: #00ff4108;
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+.pm-card-element {
+  background: #161b22;
+  border: 1px solid #00ff4130;
+  border-radius: 8px;
+  padding: 14px;
+  margin-bottom: 12px;
+  transition: border-color 0.2s;
+}
+.pm-card-element:focus-within {
+  border-color: #00ff4160;
+}
+.pm-error {
+  color: #ff4444;
+  font-size: 0.8rem;
+  min-height: 20px;
+  margin-bottom: 8px;
+}
+
+.pm-pay-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, #00ff41, #00cc33);
+  color: #000;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: "Courier New", monospace;
+  letter-spacing: 0.05em;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.pm-pay-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px #00ff4140;
+}
+.pm-pay-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+.pm-spinner {
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Cash App */
+.pm-cashapp-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.pm-cashapp-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.pm-cashapp-logo {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #00d632, #00a825);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #fff;
+}
+.pm-cashapp-handle {
+  color: #00d632;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+.pm-cashapp-note {
+  color: #666;
+  font-size: 0.8rem;
+}
+
+.pm-qr-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 160px;
+}
+.pm-qr-img {
+  width: 140px;
+  height: 140px;
+  display: block;
+}
+.pm-qr-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+.pm-qr-placeholder {
+  text-align: center;
+  color: #888;
+  font-size: 0.85rem;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.pm-cashapp-btn {
+  display: block;
+  text-align: center;
+  padding: 12px;
+  background: linear-gradient(135deg, #00d632, #00a825);
+  color: #fff;
+  font-weight: 700;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+.pm-cashapp-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px #00d63240;
+}
+
+.pm-cashapp-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.pm-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #aaa;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+.pm-step-num {
+  min-width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #00ff4115;
+  border: 1px solid #00ff4130;
+  color: #00ff41;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+
+.pm-confirm-btn {
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  border: 1px solid #00d63260;
+  color: #00d632;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.pm-confirm-btn:hover {
+  background: #00d63210;
+  border-color: #00d632;
+}
+
+.pm-close {
+  width: 100%;
+  padding: 12px;
+  background: none;
+  border: none;
+  border-top: 1px solid #00ff4110;
+  color: #555;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: color 0.2s;
+}
+.pm-close:hover {
+  color: #888;
+}

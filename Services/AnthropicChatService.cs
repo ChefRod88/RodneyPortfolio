@@ -148,7 +148,7 @@ Behave like generative AI with a loaded document: infer, calculate, extract, and
         else if (q.Contains("how long") || q.Contains("tenure") || q.Contains("years at"))
             reply = "Rodney started at Canon Information Technology Services in March 2025. He has been freelancing as a web developer since February 2023 and serving as Minister of Technology at New Bethel since October 2025.";
         else if (q.Contains("project") || q.Contains("portfolio") || q.Contains("built"))
-            reply = "Rodney's projects include his portfolio website (rodneyachery.com) with AI chatbot and job match features, the Mini-D365-CRM (ASP.NET Core 10, OData v4, Azure), the Student Progress Tracker (WGU capstone, .NET MAUI), and the New Bethel church website with interactive mapping.";
+            reply = "Rodney's projects include his portfolio (rodneyachery.com) with AI chatbot and job match features, production sites such as New Bethel Church and Prime Medical Group, the Mini-D365-CRM (ASP.NET Core 10, OData v4, Azure), and ongoing refactors for Drumgo Publishing and Florida Theological Seminary.";
         else
             reply = "Rodney Chery is an Enterprise Application Developer with experience across the full SDLC. He builds with ASP.NET Core, C#, SQL Server, and Azure, and works concurrently as a Technical Support Specialist at Canon IT Services and as a Freelance Web Developer. For more details, check his portfolio at rodneyachery.com.";
 
