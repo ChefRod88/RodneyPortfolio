@@ -1,0 +1,43 @@
+---
+description: Show a plan before implementation when the user uses ? or says plan; require "apv" to proceed with that plan
+alwaysApply: true
+---
+
+# Plan first, then approve ("apv")
+
+## When to show a plan (before any implementation)
+
+**Trigger A — question mark:** The user’s message contains **`?`** and the work is (or is likely) an **implementation task**: code change, new files, refactors, config updates, or multi-step technical work in this repo.
+
+**Trigger B — “plan”:** The user says **plan** (e.g. “show me the plan”, “make a plan”, “plan first”) in connection with a task. Then **always** outline a plan first, even if there is no `?`.
+
+**Do not** force this flow for **purely informational** messages: e.g. explaining existing code, defining a term, or answering “what does X do?” with **no** requested change. For those, answer directly.
+
+**If unsure** whether the user wants a change, prefer a **short plan** and ask whether they want you to implement.
+
+## What to include in the plan
+
+- Goal in one or two sentences.
+- Ordered **steps** (and **files/areas** you expect to touch, if known).
+- Optional: risks, tests to run, or clarifying questions.
+- Do **not** start editing files, running migrations, or applying patches until the approval step (below), unless the user **explicitly** waives the plan in that message (e.g. “no plan, just do it”).
+
+## Approval keyword: `apv`
+
+- **`apv`** (case-insensitive) means **approved**: the user is authorizing you to **execute the plan** you already showed (in this thread or the immediately preceding turn).
+- **Only after** the user sends a message that clearly includes **`apv`** in the context of approving your plan, proceed with **implementation** (edits, commands that change the repo, etc.).
+- If the user refines the plan, treat that as a new plan; wait for **`apv`** again before implementing the updated scope.
+- If you showed a plan and the user implements something else (new topic), re-plan if needed and require **`apv`** for that new work.
+
+## Same message exceptions
+
+- If a single message includes both a request and **`apv`** and clearly means “I approve proceeding as you described” (e.g. after you already presented a plan in a **prior** assistant turn), you may implement in that turn.
+- If the user says “plan” and “apv” in one message, **show the plan first** in the response; in the same response you may only implement if they unambiguously approve a **stated** plan. Otherwise show the plan, then wait for a follow-up **`apv`**.
+
+## Summary
+
+| Signal | Action |
+|--------|--------|
+| `?` or `plan` (implementation work) | **Show plan** first; do **not** implement yet. |
+| `apv` | **Implement** the agreed plan. |
+| Read-only / no change requested | Answer; no plan gating. |

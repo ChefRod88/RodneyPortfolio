@@ -1,0 +1,21 @@
+---
+description: When the user types "acp", run git add, commit, and push in one workflow
+alwaysApply: true
+---
+
+# ACP — Add, Commit, Push
+
+**Trigger:** The user message is **`acp`** (case-insensitive) or they clearly instruct **acp** / **add commit push** as the next step after a change (e.g. “now acp” or “acp with message …”).
+
+**Required behavior (when `acp` is invoked):**
+
+1. **Stage:** Run `git add -A` from the repository root (stage all changes, including new and deleted files) unless the user asked to stage only specific paths.
+2. **Status:** If there is **nothing to commit** (clean working tree after add), say so and **do not** create an empty commit. Skip push in that case.
+3. **Commit:** Run `git commit` with a **short, accurate message** that summarizes the staged diff (e.g. conventional tone: *Fix*, *Add*, *Refactor …*). If the user supplied an exact subject line, use that as the first line of the message.
+4. **Push:** Run `git push` to the **current branch’s upstream** (e.g. `origin` and the active branch, typically `main`). Request **git** and **network** permissions when executing.
+
+**Error handling:** If commit fails (e.g. pre-commit hook) or push fails, report the command output and do not claim success.
+
+**Not `acp`:** Do **not** auto-run this after every file edit. Only when the user sends **`acp`** or an explicit add/commit/push instruction tied to the same request.
+
+**Safety:** Do not force-push or rewrite history unless the user explicitly asks for it.

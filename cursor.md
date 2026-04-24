@@ -18,4 +18,22 @@ The same idea applies to any future front-end subproject: each app’s styles un
 
 ---
 
+## Plan → approve → implement
+
+**Triggers:** You use **`?`** in a message *and* the request involves **implementation** in the repo, **or** you say **plan** (e.g. “show me the plan first”). The agent will **show a plan** before changing code.
+
+**Approval:** You type **`apv`** when you **approve** that plan. The agent only **implements** after seeing `apv` (unless you explicitly skip planning, e.g. “no plan, just do it”).
+
+*Defined in `.cursor/rules/plan-then-approve.mdc`.*
+
+---
+
+## ACP (Add → Commit → Push)
+
+**Trigger:** When you type **`acp`** in chat, the agent will **`git add -A`**, **commit** with a concise message, and **push** the current branch (e.g. to `origin/main`). It does not run on every save—only when you say `acp` or clearly ask to add/commit/push in the same way.
+
+*Defined in `.cursor/rules/acp-git.mdc`.*
+
+---
+
 *Also enforced via `.cursor/rules/css-js-folders.mdc` so the agent applies this in every session.*
