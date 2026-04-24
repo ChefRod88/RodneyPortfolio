@@ -28,6 +28,16 @@ The same idea applies to any future front-end subproject: each app’s styles un
 
 ---
 
+## Commits: single author only
+
+Do **not** add `Co-authored-by:` (or any co-author line) to commit messages. You are the only author. `githooks/commit-msg` uses `scripts/git-msg-strip-coauthor-lines.py` to strip those lines; set `core.hooksPath` to `githooks` if needed.
+
+**Old commits:** To remove co-authors from **past** messages in this repository, run `scripts/strip-coauthors-from-history.sh` (needs `git filter-repo`), then `git push --force-with-lease`. See the rule for risks.
+
+*See `.cursor/rules/single-author-commits.mdc`.*
+
+---
+
 ## ACP (Add → Commit → Push)
 
 **Trigger:** When you type **`acp`** in chat, the agent will **`git add -A`**, **commit** with a concise message, and **push** the current branch (e.g. to `origin/main`). It does not run on every save—only when you say `acp` or clearly ask to add/commit/push in the same way.

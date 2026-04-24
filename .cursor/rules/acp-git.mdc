@@ -11,7 +11,7 @@ alwaysApply: true
 
 1. **Stage:** Run `git add -A` from the repository root (stage all changes, including new and deleted files) unless the user asked to stage only specific paths.
 2. **Status:** If there is **nothing to commit** (clean working tree after add), say so and **do not** create an empty commit. Skip push in that case.
-3. **Commit:** Run `git commit` with a **short, accurate message** that summarizes the staged diff (e.g. conventional tone: *Fix*, *Add*, *Refactor …*). If the user supplied an exact subject line, use that as the first line of the message.
+3. **Commit:** Run `git commit` with a **short, accurate message** that summarizes the staged diff (e.g. conventional tone: *Fix*, *Add*, *Refactor …*). If the user supplied an exact subject line, use that as the first line of the message. **Never** include `Co-authored-by:` or any co-author trailer — **single author only** (see `.cursor/rules/single-author-commits.mdc`).
 4. **Push:** Run `git push` to the **current branch’s upstream** (e.g. `origin` and the active branch, typically `main`). Request **git** and **network** permissions when executing.
 
 **Error handling:** If commit fails (e.g. pre-commit hook) or push fails, report the command output and do not claim success.

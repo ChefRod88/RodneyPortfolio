@@ -1,0 +1,24 @@
+---
+description: No co-authors in commits; you are the sole author — never add Co-authored-by trailers
+alwaysApply: true
+---
+
+# Single author — no co-authors
+
+**Policy:** This repository’s commits are **only from you** (the human author). There must be **no** `Co-authored-by:` lines or any other trailer that attributes authorship to someone else (including AI, bots, or Cursor).
+
+**When writing commit messages (including during `acp` or any `git commit`):**
+
+- **Do not** add `Co-authored-by: Name <email>`.
+- **Do not** add `--trailer "Co-authored-by:..."` or similar.
+- **Do not** use commit templates or merge messages that inject co-authors.
+- The commit author recorded by Git remains **your** configured `user.name` / `user.email` only.
+
+**If a tool or UI suggests a co-authored-by line:** **omit** it. Adjust the subject/body to describe the change; no attribution line for assistants.
+
+**Local enforcement:** The repo can use `core.hooksPath` and a `commit-msg` hook that **strips** any `co-authored-by:` line before the commit is recorded. If you add commits outside Cursor, that hook still applies when enabled.  
+Shared logic: `scripts/git-msg-strip-coauthor-lines.py` (used by the hook and by history rewrite).
+
+**Past commits (rewriting history):** To remove `Co-authored-by` lines that already exist in the repo, run **`scripts/strip-coauthors-from-history.sh`** (requires [git filter-repo](https://github.com/newren/git-filter-repo); pass `-y` to skip the confirmation prompt). That rewrites this clone; then **`git push --force-with-lease`** to update the remote. **Warning:** rewrites all reachable commits; coordinate with any collaborators.
+
+**The agent** must not run the history script or force-push unless you **explicitly** request it; suggest you run it locally after warning about history rewrite.
