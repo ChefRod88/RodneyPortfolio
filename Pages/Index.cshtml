@@ -27,7 +27,7 @@
             <div class="rc-sdot"><span class="rc-sdot-dot" style="animation-delay:.9s"></span>.NET</div>
             <div class="rc-sdot"><span class="rc-sdot-dot" style="animation-delay:1.5s"></span>ASP.NET Core</div>
             <div class="rc-sdot"><span class="rc-sdot-dot" style="animation-delay:2.1s"></span>MS SQL /SSMS</div>
-            <div class="rc-sdot"><span class="rc-sdot-dot" style="animation-delay:.7s"></span>Azure</div>
+            <div class="rc-sdot"><span class="rc-sdot-dot" style="animation-delay:.7s"></span>AWS · GCP · Azure</div>
         </div>
 
 
@@ -110,8 +110,8 @@
         <div class="rc-service-card rc-glass">
             <span class="rc-service-icon">🌐</span>
             <div class="rc-service-title">Web Applications</div>
-            <p class="rc-service-desc">Full-stack web apps built with ASP.NET Core, Razor Pages, or React. Responsive, fast, and deployed to Azure with CI/CD pipelines from day one.</p>
-            <div class="rc-tags"><span class="rc-tag">ASP.NET Core</span><span class="rc-tag">React</span><span class="rc-tag">Azure</span><span class="rc-tag">Docker</span></div>
+            <p class="rc-service-desc">Full-stack web apps built with ASP.NET Core, Razor Pages, or React. Responsive, fast, and deployed to Azure, GCP, or AWS with CI/CD pipelines from day one.</p>
+            <div class="rc-tags"><span class="rc-tag">ASP.NET Core</span><span class="rc-tag">React</span><span class="rc-tag">AWS</span><span class="rc-tag">GCP</span><span class="rc-tag">Azure</span><span class="rc-tag">Docker</span></div>
         </div>
 
         <div class="rc-service-card rc-glass">
@@ -145,8 +145,8 @@
         <div class="rc-service-card rc-glass">
             <span class="rc-service-icon">🚀</span>
             <div class="rc-service-title">Deployment &amp; DevOps</div>
-            <p class="rc-service-desc">From local dev to live production — Azure Web Apps, GitHub Actions CI/CD, Docker containerization, HTTPS enforcement, and environment config done right.</p>
-            <div class="rc-tags"><span class="rc-tag">Azure</span><span class="rc-tag">GitHub Actions</span><span class="rc-tag">Docker</span><span class="rc-tag">HTTPS</span></div>
+            <p class="rc-service-desc">From local dev to live production — Azure, GCP, or AWS hosting, GitHub Actions CI/CD, Docker containerization, HTTPS enforcement, and environment config done right.</p>
+            <div class="rc-tags"><span class="rc-tag">AWS</span><span class="rc-tag">GCP</span><span class="rc-tag">Azure</span><span class="rc-tag">GitHub Actions</span><span class="rc-tag">Docker</span><span class="rc-tag">HTTPS</span></div>
         </div>
 
     </div>
@@ -185,7 +185,7 @@
         </div>
 
         <div class="rc-cap-card rc-glass">
-            <div class="rc-cap-type">Portfolio · PWA · Azure Deploy</div>
+            <div class="rc-cap-type">Portfolio · PWA · Azure (live)</div>
             <div class="rc-cap-title">This Site</div>
             <p class="rc-cap-desc">A production-deployed Progressive Web App with matrix rain canvas, glassmorphism UI, animated scroll reveals, Google Analytics, CI/CD via GitHub Actions, HTTPS enforcement, and canonical redirects. <span style="color:var(--c);">The full stack, live.</span></p>
             <div class="rc-tags"><span class="rc-tag">PWA</span><span class="rc-tag">Canvas API</span><span class="rc-tag">Azure</span><span class="rc-tag">GitHub Actions</span></div>
@@ -240,7 +240,7 @@
                 <li>Single-page or landing site</li>
                 <li>Mobile responsive design</li>
                 <li>Contact form</li>
-                <li>Azure deployment</li>
+                <li>Cloud deployment (Azure, GCP, or AWS)</li>
                 <li>Long-term support</li>
             </ul>
             <button class="btn btn-outline-dark" onclick="location.href='#quote'" style="width:100%;">Get Started</button>
@@ -284,41 +284,6 @@
     <p class="rc-pricing-note">// All pricing is project-based. Exact scope confirmed during discovery call. 50% deposit required to begin.</p>
 </section>
 
-<!-- ═══ TESTIMONIALS ═══ -->
-<section id="testimonials" class="rc-fade">
-    <p class="section__text__p1">Social Proof</p>
-    <h1 class="title">What Clients Say</h1>
-    <div class="rc-t-grid">
-
-        <div class="rc-t-card rc-glass">
-            <div class="rc-t-stars">★★★★★</div>
-            <p class="rc-t-quote">Rodney rebuilt our church website from scratch. No more Canva embeds — it's a real site now, beautiful on every device, with our donation page fully working.</p>
-            <div class="rc-t-name">Dr. Frank O'Harroll Sr.</div>
-            <div class="rc-t-role">Senior Pastor · New Bethel Missionary Baptist Church</div>
-        </div>
-
-        <div class="rc-t-card rc-glass">
-            <div class="rc-t-stars">★★★★★</div>
-            <p class="rc-t-quote">Your testimonial here. Did we work together? Leave a review on Google and I'll feature it on this site.</p>
-            <div class="rc-t-name">Your Name</div>
-            <div class="rc-t-role">Your Title · Your Company</div>
-        </div>
-
-        <div class="rc-t-card rc-glass">
-            <div class="rc-t-stars">★★★★★</div>
-            <p class="rc-t-quote">Your testimonial here. Did we work together? Leave a review on Google and I'll feature it on this site.</p>
-            <div class="rc-t-name">Your Name</div>
-            <div class="rc-t-role">Your Title · Your Company</div>
-        </div>
-
-    </div>
-    <div class="rc-t-cta rc-glass">
-        <p>// worked with me? leave a review and i'll feature it here</p>
-        <a href="https://g.page/r/YOUR_GOOGLE_REVIEW_LINK" target="_blank" rel="noopener noreferrer" class="btn btn-outline-dark">
-            Leave a Google Review ↗
-        </a>
-    </div>
-</section>
 
 <!-- ═══ AI CHATBOT — reframed as live demo ═══ -->
 <section id="ask-rodney" class="chat-section rc-fade">
@@ -356,7 +321,7 @@
                 <dt>Architecture</dt><dd>ASP.NET Core → OpenAI Chat Completions. Static prompt with resume context.</dd>
                 <dt>Data</dt><dd>ResumeContext.txt. No RAG or embeddings.</dd>
                 <dt>Safety</dt><dd>Input validation, content filtering, prompt guardrails.</dd>
-                <dt>Hosting</dt><dd>Azure Web App, GitHub Actions CI/CD.</dd>
+                <dt>Hosting</dt><dd>Azure App Service (this site); client projects on Azure, GCP, or AWS.</dd>
             </dl>
         </div>
     </div>

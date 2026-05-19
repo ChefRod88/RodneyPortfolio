@@ -1345,7 +1345,7 @@ h1.title::after {
 /* ============================================================
    FREELANCE ADDITIONS — appended to site.css
    New sections: Services, Capabilities, Process, Pricing,
-   Testimonials, Quote Form + updated Hero/About
+   Quote Form + updated Hero/About
    ============================================================ */
 
 /* ── HERO UPDATES ── */
@@ -1698,77 +1698,6 @@ h1.title::after {
   margin-top: 0.5rem;
 }
 
-/* ── TESTIMONIALS SECTION ── */
-#testimonials {
-  padding: 5rem 3rem;
-  max-width: 1140px;
-  margin: 0 auto;
-}
-.rc-testimonials-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.4rem;
-  margin-bottom: 2rem;
-}
-.rc-t-card {
-  padding: 2rem;
-}
-.rc-t-stars {
-  color: var(--c);
-  font-size: 0.85rem;
-  text-shadow: var(--glow-sm);
-  margin-bottom: 1rem;
-  letter-spacing: 0.1em;
-}
-.rc-t-quote {
-  font-size: 0.98rem;
-  line-height: 1.82;
-  color: rgba(142,207,223,0.7);
-  font-weight: 300;
-  font-style: italic;
-  margin-bottom: 1.2rem;
-  position: relative;
-  padding-left: 0.5rem;
-}
-.rc-t-quote::before {
-  content: '"';
-  font-family: var(--font-display);
-  font-size: 3.5rem;
-  color: rgba(0,212,255,0.1);
-  position: absolute;
-  top: -1rem;
-  left: -0.8rem;
-  line-height: 1;
-  pointer-events: none;
-}
-.rc-t-name {
-  font-family: var(--font-display);
-  font-size: 0.68rem;
-  font-weight: 600;
-  color: var(--c);
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-.rc-t-role {
-  font-family: var(--font-mono);
-  font-size: 0.58rem;
-  color: rgba(142,207,223,0.38);
-  letter-spacing: 0.1em;
-  margin-top: 0.2rem;
-}
-.rc-t-google {
-  text-align: center;
-  padding: 1.8rem 2rem;
-  margin-top: 0.5rem;
-}
-.rc-t-google-text {
-  font-family: var(--font-mono);
-  font-size: 0.68rem;
-  color: rgba(142,207,223,0.4);
-  letter-spacing: 0.15em;
-  margin-bottom: 1rem;
-}
-
 /* ── QUOTE SECTION ── */
 #quote {
   padding: 5rem 3rem 6rem;
@@ -1917,7 +1846,6 @@ h1.title::after {
   .rc-services-grid { grid-template-columns: 1fr 1fr; }
   .rc-cap-grid { grid-template-columns: 1fr; }
   .rc-pricing-grid { grid-template-columns: 1fr; }
-  .rc-testimonials-grid { grid-template-columns: 1fr; }
   .rc-quote-grid { grid-template-columns: 1fr; }
   .rc-process-steps { grid-template-columns: 1fr 1fr; }
   .rc-step::after { display: none; }
@@ -1926,7 +1854,7 @@ h1.title::after {
   .rc-services-grid { grid-template-columns: 1fr; }
   .rc-form-row { grid-template-columns: 1fr; }
   .rc-stat-row { grid-template-columns: repeat(2, 1fr); }
-  #services, #capabilities, #process, #pricing, #testimonials, #quote { padding: 4rem 1.5rem; }
+  #services, #capabilities, #process, #pricing, #quote { padding: 4rem 1.5rem; }
 }
 
 /* ── NAV GET A QUOTE CTA ── */

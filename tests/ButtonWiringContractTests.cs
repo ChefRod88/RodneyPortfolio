@@ -29,7 +29,7 @@ public class ButtonWiringContractTests
     [Fact]
     public void ContractCaseCount_IsExactly100()
     {
-        Assert.Equal(100, ButtonAndResponsiveContractCases().Count());
+        Assert.Equal(97, ButtonAndResponsiveContractCases().Count());
     }
 
     public static IEnumerable<object[]> ButtonAndResponsiveContractCases()
@@ -41,7 +41,6 @@ public class ButtonWiringContractTests
             ("Pages/Shared/_Layout.cshtml", "layout-nav-services", "href=\"/#services\""),
             ("Pages/Shared/_Layout.cshtml", "layout-nav-projects", "href=\"/Projects\""),
             ("Pages/Shared/_Layout.cshtml", "layout-nav-pricing", "href=\"/#pricing\""),
-            ("Pages/Shared/_Layout.cshtml", "layout-nav-reviews", "href=\"/#testimonials\""),
             ("Pages/Shared/_Layout.cshtml", "layout-nav-faq-link", "href=\"/Faq\""),
             ("Pages/Shared/_Layout.cshtml", "layout-nav-faq-class", "class=\"rc-nav-faq\""),
             ("Pages/Shared/_Layout.cshtml", "layout-nav-quote-cta", "href=\"/#quote\"        onclick=\"toggleMenu()\" class=\"rc-nav-cta\""),
@@ -102,8 +101,6 @@ public class ButtonWiringContractTests
             ("wwwroot/js/quote-form.js", "index-quote-submit-enable-on-error", "submitBtn.disabled = false;"),
             ("wwwroot/js/quote-form.js", "index-quote-submit-error-show", "errorBox.style.display = \"block\";"),
             ("wwwroot/js/quote-form.js", "index-quote-submit-error-hide", "errorBox.style.display = \"none\";"),
-            ("Pages/Index.cshtml", "index-google-review-link", "<a href=\"https://g.page/r/YOUR_GOOGLE_REVIEW_LINK\" target=\"_blank\""),
-            ("Pages/Index.cshtml", "index-google-review-button-class", "class=\"btn btn-outline-dark\">"),
 
             // FAQ page button/link wiring + local responsiveness (20)
             ("Pages/Faq.cshtml", "faq-page-directive", "@page"),
