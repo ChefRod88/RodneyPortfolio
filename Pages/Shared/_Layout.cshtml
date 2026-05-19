@@ -5,6 +5,19 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    @if (!string.IsNullOrWhiteSpace(gaId))
+    {
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=@gaId"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '@gaId');
+    </script>
+    }
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>@ViewData["Title"]</title>
@@ -30,18 +43,6 @@
     <!-- Stripe Elements -->
     <script src="https://js.stripe.com/v3/"></script>
     <input type="hidden" id="stripe-pub-key" value="@Configuration["Stripe:PublishableKey"]" />
-
-    @if (!string.IsNullOrWhiteSpace(gaId))
-    {
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=@gaId"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){ dataLayer.push(arguments); }
-      gtag('js', new Date());
-      gtag('config', '@gaId');
-    </script>
-    }
 
     @await RenderSectionAsync("Head", required: false)
 </head>
