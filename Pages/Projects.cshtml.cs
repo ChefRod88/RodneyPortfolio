@@ -34,7 +34,7 @@ public class ProjectsModel : PageModel
             ),
             new(
                 NodeId:      "PROJ-002",
-                Name:        "NEW BETHEL CHURCH WEBSITE",
+                Name:        "NEWBETHELWINTERHAVEN.ORG",
                 Description: "Interactive church website for a non-profit ministry. Features real-time location mapping, turn-by-turn routing, live service streaming, sermon archive, event listings, and Cash App donation integration. Production site on Azure with ongoing enhancements.",
                 Status:      "DEPLOYED",
                 Stack:       new[] { "C#", "ASP.NET CORE", "RAZOR PAGES", "LEAFLET.JS", "GRAPHHOPPER", "SIGNALR", "AZURE", "BOOTSTRAP 5" },
@@ -44,7 +44,7 @@ public class ProjectsModel : PageModel
             ),
             new(
                 NodeId:      "PROJ-003",
-                Name:        "PRIME MEDICAL GROUP",
+                Name:        "PRIMEMEDICALDOCTORS.COM",
                 Description: "HIPAA-aware patient booking platform for a self-pay outpatient practice accepting attorney lien (personal injury) cases. Features a two-track booking wizard (Self-Pay & Attorney Lien), 9 transactional email types via SendGrid, full EN/ES i18n, animated hero, cancellation portal, and mobile-responsive design. All PHI flows in-memory through typed C# records — never persisted server-side. Deployed on Azure App Service (West US 3) with GitHub Actions CI/CD.",
                 Status:      "DEPLOYED",
                 Stack:       new[] { "C#", "ASP.NET CORE 10", "RAZOR PAGES", "SENDGRID", "TWILIO", "AZURE APP SERVICE", "GITHUB ACTIONS", "CSS3", "VANILLA JS", "HTML5" },
