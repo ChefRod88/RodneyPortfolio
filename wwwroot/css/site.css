@@ -2295,6 +2295,7 @@ h1.title::after {
 
 /* ── Project card ─────────────────────────────────────────────── */
 .proj-card {
+    container-type: inline-size;
     display: flex;
     flex-direction: column;
     gap: 0;
@@ -2374,18 +2375,18 @@ h1.title::after {
 /* ── Project title ────────────────────────────────────────────── */
 .proj-title {
     font-family: var(--font-display);
-    font-size: clamp(0.95rem, 2.8vw, 1.15rem);
+    font-size: clamp(0.72rem, 4.25cqi, 0.88rem);
     font-weight: 900;
     color: #e0f4ff;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
     text-transform: uppercase;
     margin: 0 0 0.6rem;
     text-shadow: 0 0 16px rgba(0,212,255,0.25);
-    line-height: 1.35;
+    line-height: 1.2;
     max-width: 100%;
-    overflow-wrap: anywhere;
-    word-break: break-word;
-    hyphens: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 .proj-divider {
     height: 1px;
