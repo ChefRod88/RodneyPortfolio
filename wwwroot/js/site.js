@@ -265,8 +265,18 @@ function initJobMatch() {
 function registerServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
 
+  const migrateKey = "rodney-portfolio-sw-v2";
+
   navigator.serviceWorker
-    .register("/sw.js")
+    .getRegistrations()
+    .then((registrations) => {
+      if (!localStorage.getItem(migrateKey)) {
+        return Promise.all(registrations.map((r) => r.unregister())).then(() => {
+          localStorage.setItem(migrateKey, "1");
+        });
+      }
+    })
+    .then(() => navigator.serviceWorker.register("/sw.js"))
     .then((reg) => reg.update())
     .catch((err) => console.warn("Service worker registration failed:", err));
 }

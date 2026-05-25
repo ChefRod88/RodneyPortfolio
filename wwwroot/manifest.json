@@ -4,8 +4,8 @@
   "description": "Portfolio of Rodney Chery - Software Developer grounded in real-world experience",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#212529",
+  "background_color": "#020c14",
+  "theme_color": "#020c14",
   "icons": [
     {
       "src": "/assets/images/icon-192.png",
@@ -17,6 +17,12 @@
       "src": "/assets/images/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "any"
     }
   ]

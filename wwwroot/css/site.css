@@ -2289,7 +2289,7 @@ h1.title::after {
 }
 .proj-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
     gap: 1.75rem;
 }
 
@@ -2374,13 +2374,18 @@ h1.title::after {
 /* ── Project title ────────────────────────────────────────────── */
 .proj-title {
     font-family: var(--font-display);
-    font-size: 1.15rem;
+    font-size: clamp(0.95rem, 2.8vw, 1.15rem);
     font-weight: 900;
     color: #e0f4ff;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.04em;
     text-transform: uppercase;
     margin: 0 0 0.6rem;
     text-shadow: 0 0 16px rgba(0,212,255,0.25);
+    line-height: 1.35;
+    max-width: 100%;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    hyphens: auto;
 }
 .proj-divider {
     height: 1px;

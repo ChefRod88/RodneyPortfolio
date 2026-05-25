@@ -1,56 +1,51 @@
 // Service Worker for Rodney Portfolio PWA
-// Caches static assets for faster loads and basic offline support
+// Network-first for CSS/JS (fingerprinted URLs change on deploy).
+// Only caches the offline shell (/) — not unversioned /css/site.css paths.
 
-const CACHE_NAME = 'rodney-portfolio-v1';
+const CACHE_NAME = 'rodney-portfolio-v2';
 
-// Static assets to cache on install
-const STATIC_ASSETS = [
-  '/',
-  '/css/site.css',
-  '/js/site.js',
-  '/lib/bootstrap/dist/css/bootstrap.min.css',
-  '/lib/bootstrap/dist/js/bootstrap.bundle.min.js',
-  '/lib/jquery/dist/jquery.min.js',
-  '/favicon.svg'
-];
+// Fingerprinted static assets (asp-append-version / MapStaticAssets) — do not intercept.
+function isFingerprintedAsset(pathname) {
+  return /\.[a-z0-9]{8,}\.(css|js|svg|png|jpg|webp)$/i.test(pathname);
+}
 
-// Install: cache key static assets
+// Install: cache offline shell only (avoid stale unversioned CSS/JS)
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_ASSETS);
-    }).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then((cache) => cache.add('/')).then(() => self.skipWaiting())
   );
 });
 
-// Activate: remove old caches when we update the service worker
+// Activate: remove old caches (including rodney-portfolio-v1)
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
-      );
-    }).then(() => self.clients.claim())
+    caches.keys().then((cacheNames) =>
+      Promise.all(
+        cacheNames.filter((name) => name !== CACHE_NAME).map((name) => caches.delete(name))
+      )
+    ).then(() => self.clients.claim())
   );
 });
 
-// Fetch: network-first for HTML (always try fresh), cache-first for static assets
+// Fetch: network-first for HTML and static assets; fingerprinted assets pass through
 self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  // Only handle same-origin requests
   if (url.origin !== location.origin) return;
 
-  // HTML pages: network first, fall back to cache (for offline)
+  // Let the browser handle fingerprinted bundles (immutable cache headers from server)
+  if (isFingerprintedAsset(url.pathname)) return;
+
+  // HTML: network first, fall back to cached shell
   if (request.mode === 'navigate' || request.headers.get('accept')?.includes('text/html')) {
     event.respondWith(
       fetch(request)
         .then((response) => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          }
           return response;
         })
         .catch(() => caches.match(request).then((cached) => cached || caches.match('/')))
@@ -58,7 +53,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Static assets (CSS, JS, images, fonts): cache first, then network
+  // CSS, JS, images, fonts (unversioned paths only): network first, then cache
   if (
     request.destination === 'style' ||
     request.destination === 'script' ||
@@ -66,17 +61,15 @@ self.addEventListener('fetch', (event) => {
     request.destination === 'font'
   ) {
     event.respondWith(
-      caches.match(request).then((cached) => {
-        if (cached) return cached;
-        return fetch(request).then((response) => {
-          const clone = response.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+      fetch(request)
+        .then((response) => {
+          if (response.ok) {
+            const clone = response.clone();
+            caches.open(CACHE_NAME).then((cache) => cache.put(request, clone));
+          }
           return response;
-        });
-      })
+        })
+        .catch(() => caches.match(request))
     );
-    return;
   }
-
-  // Everything else: network only (no caching)
 });
