@@ -145,6 +145,11 @@ RodneyPortfolio/
 - **Production:** GitHub Secret `OPENAI_API_KEY` → Azure App Setting `OpenAI__ApiKey`
 - **GA4:** `GoogleAnalytics:MeasurementId` in appsettings or `GA4_MEASUREMENT_ID` GitHub Secret
 - **Stripe:** `Stripe:SecretKey` and `Stripe:PublishableKey` in appsettings/secrets
+- **reCAPTCHA v2 local setup:**
+  - `dotnet user-secrets set "Recaptcha:SiteKey" "<your-site-key>"`
+  - `dotnet user-secrets set "Recaptcha:SecretKey" "<your-secret-key>"`
+  - `dotnet user-secrets set "Recaptcha:ExpectedHostname" "localhost"`
+- **reCAPTCHA v2 production setup:** configure Azure app settings `Recaptcha__SiteKey`, `Recaptcha__SecretKey`, and `Recaptcha__ExpectedHostname` (for this site: `www.rodneyachery.com`)
 
 ---
 

@@ -1,9 +1,16 @@
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace RodneyPortfolio.Models;
 
 public class QuoteRequestInput
 {
+    [FromForm(Name = "g-recaptcha-response")]
+    public string? RecaptchaToken { get; set; }
+
+    [FromForm(Name = "Website")]
+    public string? Website { get; set; }
+
     [Required, StringLength(120)]
     public string Name { get; set; } = string.Empty;
 

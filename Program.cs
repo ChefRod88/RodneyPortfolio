@@ -40,10 +40,12 @@ builder.Services.AddScoped<IInputValidator, InputValidator>();
 builder.Services.AddScoped<IContentFilter, ContentFilter>();
 builder.Services.Configure<QuoteEmailOptions>(builder.Configuration.GetSection(QuoteEmailOptions.SectionName));
 builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection("Stripe"));
+builder.Services.Configure<RecaptchaOptions>(builder.Configuration.GetSection(RecaptchaOptions.SectionName));
 // Quote submission — three single-responsibility services wired together
 builder.Services.AddScoped<IQuoteLogService, QuoteLogService>();
 builder.Services.AddScoped<IQuoteEmailService, QuoteEmailService>();
 builder.Services.AddScoped<IQuoteSubmissionService, QuoteSubmissionService>();
+builder.Services.AddHttpClient<IRecaptchaVerificationService, RecaptchaVerificationService>();
 
 builder.Services.AddScoped<IInvoiceService, SqlInvoiceService>();
 builder.Services.AddScoped<IPaymentEmailService, PaymentEmailService>();

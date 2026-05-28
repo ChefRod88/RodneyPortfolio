@@ -5,9 +5,18 @@ async function handleQuoteSubmit(e) {
   const errorBox = document.getElementById("quoteError");
   const submitBtn = form.querySelector('button[type="submit"]');
   const formFields = form.querySelectorAll("input,select,textarea,button[type=submit]");
+  const recaptchaResponse =
+    typeof grecaptcha !== "undefined" ? grecaptcha.getResponse() : "";
 
   errorBox.style.display = "none";
   errorBox.textContent = "";
+
+  if (!recaptchaResponse) {
+    errorBox.textContent = "Please complete the CAPTCHA before submitting.";
+    errorBox.style.display = "block";
+    return;
+  }
+
   submitBtn.disabled = true;
 
   try {
@@ -18,15 +27,30 @@ async function handleQuoteSubmit(e) {
     });
 
     if (!response.ok) {
-      throw new Error("submit-failed");
+      let message = "Unable to submit right now. Please try again.";
+      try {
+        const payload = await response.json();
+        if (payload?.message) {
+          message = payload.message;
+        }
+      } catch {
+        // Keep generic message if response body is not JSON.
+      }
+
+      throw new Error(message);
     }
 
     formFields.forEach((el) => (el.style.display = "none"));
     document.getElementById("quoteSuccess").style.display = "block";
   } catch (err) {
     errorBox.textContent =
-      "Unable to submit right now. Please email rodney@globalrcdev.com directly.";
+      err instanceof Error && err.message
+        ? err.message
+        : "Unable to submit right now. Please email rodney@globalrcdev.com directly.";
     errorBox.style.display = "block";
     submitBtn.disabled = false;
+    if (typeof grecaptcha !== "undefined") {
+      grecaptcha.reset();
+    }
   }
 }

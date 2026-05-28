@@ -425,6 +425,13 @@
                     <option>Flexible</option>
                 </select>
             </div>
+            <div class="rc-form-group" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" aria-hidden="true">
+                <label class="rc-form-label" for="Website">Leave this field empty</label>
+                <input id="Website" type="text" name="Website" tabindex="-1" autocomplete="off" />
+            </div>
+            <div class="rc-form-group">
+                <div class="g-recaptcha" data-sitekey="@Model.RecaptchaSiteKey"></div>
+            </div>
             <button type="submit" class="btn btn-outline-dark rc-quote-submit">Submit Request →</button>
             <div id="quoteError" style="display:none;text-align:center;padding:1rem;color:#ff9f9f;"></div>
             <div id="quoteSuccess" style="display:none;text-align:center;padding:2rem;">
@@ -452,5 +459,6 @@
 </section>
 
 @section Scripts {
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
     <script src="~/js/quote-form.js" asp-append-version="true"></script>
 }
