@@ -65,7 +65,7 @@ public class ProjectsModel : PageModel
                 Status:      "DEPLOYED",
                 Stack:       new[] { "C#", "BLAZOR", "AZURE", "FHIR", "FIRELY .NET SDK" },
                 LiveUrl:     null,
-                RepoUrl:     "https://github.com/ChefRod88/PMG-MedicalSystem",
+                RepoUrl:     null,
                 Year:        "2026",
                 PreviewImagePath: "~/images/project_thumbnails/Screenshot 2026-06-01 181913.png"
             ),
