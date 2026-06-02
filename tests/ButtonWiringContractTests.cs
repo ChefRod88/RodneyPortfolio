@@ -29,7 +29,7 @@ public class ButtonWiringContractTests
     [Fact]
     public void ContractCaseCount_IsExactly100()
     {
-        Assert.Equal(97, ButtonAndResponsiveContractCases().Count());
+        Assert.Equal(112, ButtonAndResponsiveContractCases().Count());
     }
 
     public static IEnumerable<object[]> ButtonAndResponsiveContractCases()
@@ -49,7 +49,8 @@ public class ButtonWiringContractTests
             ("Pages/Shared/_Layout.cshtml", "layout-nav-portal", "href=\"/Portal\""),
             ("Pages/Shared/_Layout.cshtml", "layout-footer-pricing", "<a href=\"/#pricing\">Pricing</a>"),
             ("Pages/Shared/_Layout.cshtml", "layout-footer-quote", "<a href=\"/#quote\">Quote</a>"),
-            ("Pages/Shared/_Layout.cshtml", "layout-footer-contact", "<a href=\"/#quote\">Contact</a>"),
+            ("Pages/Shared/_Layout.cshtml", "layout-footer-contact-support", "<a href=\"/#support\">Contact Support</a>"),
+            ("wwwroot/js/site.js", "support-hash-redirect", "location.replace(\"/Support\")"),
             ("wwwroot/js/site.js", "layout-togglemenu-function", "function toggleMenu()"),
             ("wwwroot/js/site.js", "layout-togglemenu-links", "menu.classList.toggle(\"open\")"),
             ("wwwroot/js/site.js", "layout-togglemenu-icon", "icon.classList.toggle(\"open\")"),
@@ -112,6 +113,7 @@ public class ButtonWiringContractTests
             ("Pages/Faq.cshtml", "faq-quicknav-general", "<a href=\"#general\">General</a>"),
             ("Pages/Faq.cshtml", "faq-quicknav-sla", "<a href=\"#sla\">SLA</a>"),
             ("Pages/Faq.cshtml", "faq-quicknav-support", "<a href=\"#support\">Support</a>"),
+            ("Pages/Faq.cshtml", "faq-support-report-link", "<a href=\"/#support\" class=\"faq-link\">Report a problem</a>"),
             ("Pages/Faq.cshtml", "faq-quicknav-hosting", "<a href=\"#hosting\">Hosting</a>"),
             ("Pages/Faq.cshtml", "faq-quicknav-newwork", "<a href=\"#newwork\">New Work</a>"),
             ("Pages/Faq.cshtml", "faq-question-button", "class=\"faq-q\" aria-expanded=\"false\""),
@@ -123,6 +125,21 @@ public class ButtonWiringContractTests
             ("wwwroot/css/site.css", "faq-mobile-response-grid", ".faq-response-grid { grid-template-columns: 1fr; }"),
             ("wwwroot/css/site.css", "faq-mobile-tier-desc-hidden", ".faq-tier-row .faq-tier-desc { display: none; }"),
             ("wwwroot/css/site.css", "faq-mobile-quicknav-stack", ".faq-quicknav { flex-direction: column; gap: 0.8rem; }"),
+
+            // Support page wiring (13)
+            ("Pages/Support.cshtml", "support-page-directive", "@page"),
+            ("Pages/Support.cshtml", "support-page-root-id", "id=\"support\" class=\"support-page rc-fade\""),
+            ("Pages/Support.cshtml", "support-form-id", "id=\"supportForm\""),
+            ("Pages/Support.cshtml", "support-form-handler", "onsubmit=\"handleSupportSubmit(event)\""),
+            ("Pages/Support.cshtml", "support-submit-button", "class=\"btn btn-outline-dark support-submit\">Send Support Request"),
+            ("Pages/Support.cshtml", "support-error-box", "id=\"supportError\""),
+            ("Pages/Support.cshtml", "support-success-box", "id=\"supportSuccess\""),
+            ("wwwroot/js/support-form.js", "support-submit-fetch", "fetch(form.action, {"),
+            ("wwwroot/js/support-form.js", "support-submit-method", "method: \"POST\","),
+            ("wwwroot/js/support-form.js", "support-submit-header", "headers: { \"X-Requested-With\": \"XMLHttpRequest\" }"),
+            ("wwwroot/js/support-form.js", "support-submit-disable", "submitBtn.disabled = true;"),
+            ("wwwroot/js/support-form.js", "support-submit-success", "successBox.hidden = false;"),
+            ("wwwroot/css/support.css", "support-page-layout", ".support-page {"),
 
             // Global CSS responsiveness and button styles (15)
             ("wwwroot/css/site.css", "css-mobile-breakpoint-768", "@media (max-width: 768px) {"),

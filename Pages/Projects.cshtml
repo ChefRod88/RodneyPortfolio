@@ -57,6 +57,16 @@
 
                     <p class="proj-desc">@p.Description</p>
 
+                    @if (!string.IsNullOrEmpty(p.PreviewImagePath))
+                    {
+                        <figure class="proj-preview">
+                            <img src="@Url.Content(p.PreviewImagePath)"
+                                 alt="@($"{p.Name} preview")"
+                                 loading="lazy"
+                                 decoding="async" />
+                        </figure>
+                    }
+
                     <div class="proj-stack-label">STACK:</div>
                     <div class="proj-stack">
                         @foreach (var tech in p.Stack)

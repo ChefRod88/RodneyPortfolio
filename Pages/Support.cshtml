@@ -1,0 +1,79 @@
+@page
+@model RodneyPortfolio.Pages.SupportModel
+@{
+    ViewData["Title"] = "Contact Support";
+}
+
+<link rel="stylesheet" href="~/css/support.css" asp-append-version="true" />
+
+<div id="support" class="support-page rc-fade">
+    <div class="support-hero">
+        <p class="section__text__p1">Need Help?</p>
+        <h1 class="title">Report a Problem</h1>
+        <p class="support-hero-sub">
+            If something on your site is not working as delivered, submit the form below and I will respond as soon as possible.
+            Post-launch bugs in the original build may fall under your included
+            <a href="/Faq#support" class="support-link">30-day support window</a>.
+        </p>
+    </div>
+
+    <div class="support-grid">
+        <div class="support-info rc-glass">
+            <h3 class="support-info-title">// What to include</h3>
+            <ul class="support-tips">
+                <li>Which site or project is affected</li>
+                <li>What you expected vs. what happened</li>
+                <li>Steps to reproduce, if you can</li>
+                <li>Browser or device (if relevant)</li>
+            </ul>
+            <p class="support-info-note">
+                For new features or scope changes, use the
+                <a href="/#quote" class="support-link">quote request form</a> instead.
+            </p>
+        </div>
+
+        <form id="supportForm" class="rc-glass support-form" method="post" onsubmit="handleSupportSubmit(event)">
+            @Html.AntiForgeryToken()
+            <div class="rc-form-row">
+                <div class="rc-form-group">
+                    <label class="rc-form-label">Your Name *</label>
+                    <input type="text" name="Name" class="rc-form-input" placeholder="Jane Smith" required />
+                </div>
+                <div class="rc-form-group">
+                    <label class="rc-form-label">Email *</label>
+                    <input type="email" name="Email" class="rc-form-input" placeholder="jane@company.com" required />
+                </div>
+            </div>
+            <div class="rc-form-group">
+                <label class="rc-form-label">Site / Project URL</label>
+                <input type="url" name="SiteOrProject" class="rc-form-input" placeholder="https://yoursite.com (optional)" />
+            </div>
+            <div class="rc-form-group">
+                <label class="rc-form-label">Subject *</label>
+                <input type="text" name="Subject" class="rc-form-input" placeholder="e.g. Contact form not sending" required />
+            </div>
+            <div class="rc-form-group">
+                <label class="rc-form-label">Problem Description *</label>
+                <textarea name="Message" class="rc-form-input rc-form-textarea" placeholder="Describe the issue in detail..." required></textarea>
+            </div>
+            <div class="rc-form-group support-honeypot" aria-hidden="true">
+                <label class="rc-form-label" for="Website">Leave this field empty</label>
+                <input id="Website" type="text" name="Website" tabindex="-1" autocomplete="off" />
+            </div>
+            <div class="rc-form-group">
+                <div class="g-recaptcha" data-sitekey="@Model.RecaptchaSiteKey"></div>
+            </div>
+            <button type="submit" class="btn btn-outline-dark support-submit">Send Support Request →</button>
+            <div id="supportError" class="support-feedback support-feedback-error" hidden></div>
+            <div id="supportSuccess" class="support-feedback support-feedback-success" hidden>
+                <div class="support-success-title">✓ Request Received</div>
+                <div class="support-success-sub">I will follow up as soon as possible.</div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="~/js/support-form.js" asp-append-version="true"></script>
+}

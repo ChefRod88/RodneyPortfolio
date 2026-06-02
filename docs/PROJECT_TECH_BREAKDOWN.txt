@@ -1,0 +1,143 @@
+RodneyPortfolio - Technical Breakdown
+Generated: 2026-05-28
+
+Frontend
+- Stack: ASP.NET Core Razor Pages + MVC Views, HTML/CSS/JavaScript, Bootstrap, jQuery.
+- Main UI areas:
+  - Public portfolio pages in Pages/ (home, FAQ, projects, quote form).
+  - Client portal views in Views/Portal/.
+  - Admin pages in Pages/Admin/.
+- Static assets:
+  - CSS in wwwroot/css/
+  - JS in wwwroot/js/
+  - Vendor libs in wwwroot/lib/
+- PWA features:
+  - Manifest + service worker (wwwroot/sw.js) with network-first caching strategy.
+- Integrations in layout:
+  - Stripe.js v3 loaded in shared layout.
+  - Google Analytics loaded when MeasurementId is configured.
+  - Google reCAPTCHA v2 widget added to quote form.
+
+APIs & Backend Logic
+- Framework: ASP.NET Core (.NET 9), using both Razor Pages handlers and MVC controllers.
+- Key backend endpoints:
+  - Chat API: /api/chat and /api/chat/job-match (ChatController).
+  - Admin API: /api/admin/expand-resume (AdminApiController).
+  - Portal workflows: /Portal/* (PortalController).
+  - Quote form POST handler: OnPostQuoteAsync in Pages/Index.cshtml.cs.
+- Service-oriented backend:
+  - AI services (OpenAI + Anthropic + dual orchestration).
+  - Quote services (sanitize/log/email/submit orchestrator).
+  - Portal services (account, OTP, session, invoice, email).
+  - reCAPTCHA verification service calling Google siteverify API.
+
+Database & Storage
+- Primary relational DB: SQL Server via EF Core (AppDbContext).
+  - Entities: ClientAccount, Invoice, OtpCode, ClientSession.
+- Startup behavior:
+  - Uses connection string from ConnectionStrings:AzureSQL or DefaultConnection.
+  - Applies EF Core migrations at startup when SQL is configured.
+- Fallback mode:
+  - In-memory DB used if SQL connection string is missing.
+- File-based storage:
+  - Data/ResumeContext.txt for AI context.
+  - Data/QuoteRequests.log for quote logging.
+
+Auth & Permissions
+- Client portal auth model:
+  - OTP-based email verification/login flow.
+  - Session persisted in DB and tied to cookie rc_portal_session.
+  - Cookie controls: HttpOnly, SameSite=Strict, Secure when HTTPS.
+- Admin access:
+  - Admin login page with PIN hash validation (AdminLogin page model).
+  - Admin API secured by X-Admin-Token header (Admin:ApiToken).
+- CSRF protection:
+  - ValidateAntiForgeryToken on sensitive portal/admin POST actions.
+
+Hosting & Deployment
+- Hosting target: Azure App Service (app name: rodney-portfolio).
+- Domain posture in production:
+  - Canonical redirect to https://www.rodneyachery.com
+  - HTTPS enforced + HSTS in non-development.
+- App settings managed via Azure app settings from CI workflow.
+
+Cloud & Compute
+- Cloud provider: Microsoft Azure.
+- Compute runtime:
+  - ASP.NET Core app running on Azure Web App.
+  - Stateless app tier with DB/session dependencies handled via services.
+- External cloud APIs:
+  - OpenAI API
+  - Anthropic API
+  - Stripe API
+  - Google reCAPTCHA verify API
+
+CI/CD & Version Control
+- Version control: Git + GitHub, main branch deploy trigger.
+- CI/CD workflow: .github/workflows/main_rodney-portfolio.yml
+  - Trigger: push to main or manual dispatch.
+  - Build and publish with .NET 9.
+  - Deploy artifact to Azure Web App.
+  - Pushes required secrets/settings into Azure App Service.
+- Test project exists under tests/ and is run manually/locally as needed.
+
+Security & RLS
+- Implemented security controls:
+  - HTTPS redirection + HSTS.
+  - Security headers:
+    - X-Content-Type-Options: nosniff
+    - X-Frame-Options: DENY
+    - Referrer-Policy: strict-origin-when-cross-origin
+    - X-XSS-Protection
+    - Permissions-Policy for camera/mic/geolocation
+  - Input validation + content filtering on chat APIs.
+  - Quote form hardening:
+    - Anti-forgery token
+    - reCAPTCHA v2 server-side verification
+    - honeypot field
+    - rate limiting
+  - Secret management via User Secrets (dev) + GitHub Secrets/Azure App Settings (prod).
+- RLS (Row-Level Security):
+  - Database-native SQL RLS is NOT currently implemented.
+  - Row-level access is enforced in application logic (for example, portal invoice queries match authenticated account email/client id).
+
+Rate Limiting
+- ASP.NET Core built-in rate limiter configured in Program.cs.
+- Policies:
+  - QuotePolicy: 5 requests per IP per 10 minutes.
+  - ChatPolicy: 30 requests per IP per minute.
+- Rejections return HTTP 429.
+- Additional admin login brute-force guard exists as in-memory lockout by IP.
+
+Caching & CDN
+- Caching currently present:
+  - Service worker (network-first, local browser cache for shell/assets).
+  - Static asset versioning via asp-append-version and static asset mapping.
+- CDN:
+  - No dedicated CDN layer is currently configured for site assets.
+
+Load Balancing & Scaling
+- Current architecture is suitable for standard App Service scale patterns.
+- No explicit custom load balancer configuration is defined in this repo.
+- Horizontal scaling can be done through Azure App Service scale-out, but no app-level distributed cache/session provider is configured beyond current setup.
+
+Error Tracking & Logs
+- Logging:
+  - Extensive ILogger usage across controllers/services.
+  - Startup migration failures and runtime service failures are logged.
+  - Quote request logs are also written to Data/QuoteRequests.log.
+- Error handling:
+  - UseExceptionHandler("/Error") in non-development.
+  - API endpoints return structured error responses on failure.
+- External observability:
+  - No dedicated APM/error platform (e.g., Application Insights/Sentry) is explicitly wired in code yet.
+
+Availability & Recovery
+- Availability controls currently present:
+  - SQL retry-on-failure enabled in EF Core SQL provider.
+  - App keeps running even if migrations fail at startup (degraded mode warning).
+  - Fallback in-memory DB path allows app startup when SQL is absent (with feature limitations).
+  - PWA service worker provides limited offline resilience for cached shell content.
+- Recovery posture:
+  - Recovery mostly depends on Azure App Service reliability and deployment rollback via Git history/workflow reruns.
+  - No explicit backup/restore automation definitions are included in this codebase (typically managed in Azure platform settings).

@@ -1,0 +1,137 @@
+/* Support page — Pages/Support.cshtml */
+.support-page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 4rem 3rem 6rem;
+}
+
+.support-hero {
+  text-align: center;
+  padding: 2rem 0 2.5rem;
+}
+
+.support-hero-sub {
+  font-size: 1.05rem;
+  line-height: 1.82;
+  color: rgba(142, 207, 223, 0.58);
+  font-weight: 300;
+  max-width: 640px;
+  margin: 0 auto;
+  font-family: var(--font-body);
+}
+
+.support-link {
+  color: var(--c);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+  transition: border-color 0.2s;
+}
+
+.support-link:hover {
+  border-color: var(--c);
+}
+
+.support-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.support-info {
+  padding: 2rem;
+}
+
+.support-info-title {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  color: var(--c);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+}
+
+.support-tips {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.2rem;
+}
+
+.support-tips li {
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  line-height: 1.72;
+  color: rgba(142, 207, 223, 0.62);
+  font-weight: 300;
+  padding: 0.35rem 0 0.35rem 1.2rem;
+  position: relative;
+  border-bottom: 1px solid rgba(0, 212, 255, 0.06);
+}
+
+.support-tips li::before {
+  content: "›";
+  position: absolute;
+  left: 0;
+  color: var(--c);
+  font-family: var(--font-mono);
+}
+
+.support-info-note {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: rgba(142, 207, 223, 0.5);
+  margin: 0;
+}
+
+.support-form {
+  padding: 2rem;
+}
+
+.support-honeypot {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.support-submit {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.support-feedback {
+  text-align: center;
+  padding: 1rem;
+  margin-top: 0.5rem;
+}
+
+.support-feedback-error {
+  color: #ff9f9f;
+}
+
+.support-feedback-success {
+  padding: 2rem;
+}
+
+.support-success-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--c);
+  margin-bottom: 0.5rem;
+}
+
+.support-success-sub {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: rgba(142, 207, 223, 0.5);
+}
+
+@media (max-width: 768px) {
+  .support-page {
+    padding: 3rem 1.5rem 5rem;
+  }
+
+  .support-grid {
+    grid-template-columns: 1fr;
+  }
+}

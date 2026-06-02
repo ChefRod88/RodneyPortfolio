@@ -45,6 +45,9 @@ builder.Services.Configure<RecaptchaOptions>(builder.Configuration.GetSection(Re
 builder.Services.AddScoped<IQuoteLogService, QuoteLogService>();
 builder.Services.AddScoped<IQuoteEmailService, QuoteEmailService>();
 builder.Services.AddScoped<IQuoteSubmissionService, QuoteSubmissionService>();
+builder.Services.AddScoped<ISupportLogService, SupportLogService>();
+builder.Services.AddScoped<ISupportRequestEmailService, SupportRequestEmailService>();
+builder.Services.AddScoped<ISupportRequestSubmissionService, SupportRequestSubmissionService>();
 builder.Services.AddHttpClient<IRecaptchaVerificationService, RecaptchaVerificationService>();
 
 builder.Services.AddScoped<IInvoiceService, SqlInvoiceService>();
@@ -63,6 +66,18 @@ builder.Services.AddRateLimiter(options =>
 {
     // Quote form: max 5 submissions per IP per 10 minutes
     options.AddPolicy("QuotePolicy", context =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 5,
+                Window = TimeSpan.FromMinutes(10),
+                QueueProcessingOrder = QueueProcessingOrder.OldestFirst,
+                QueueLimit = 0
+            }));
+
+    // Support form: max 5 submissions per IP per 10 minutes
+    options.AddPolicy("SupportPolicy", context =>
         RateLimitPartition.GetFixedWindowLimiter(
             partitionKey: context.Connection.RemoteIpAddress?.ToString() ?? "unknown",
             factory: _ => new FixedWindowRateLimiterOptions

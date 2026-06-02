@@ -3,6 +3,11 @@
 
 // Write your JavaScript code.
 
+// Client sites link to https://www.rodneyachery.com/#support — send them to the support page.
+if (location.pathname === "/" && location.hash === "#support") {
+  location.replace("/Support");
+}
+
 function toggleMenu() {
   const menu = document.querySelector(".menu-links");
   const icon = document.querySelector(".hamburger-icon");

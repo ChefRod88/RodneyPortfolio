@@ -1,0 +1,43 @@
+---
+description: When adding a project to the catalog, ask for a preview image and wire PreviewImagePath
+globs: Pages/Projects.cshtml*
+alwaysApply: false
+---
+
+# Project card preview images
+
+When **adding or duplicating** a `ProjectEntry` in [`Pages/Projects.cshtml.cs`](Pages/Projects.cshtml.cs), **ask the user for a preview image** before finishing. Do not leave a new catalog entry without either a `PreviewImagePath` or an explicit user choice to skip.
+
+## Project numbers
+
+`NodeId` (`PROJ-001`, `PROJ-002`, …) is **assigned automatically** from list order in `BuildCatalog()` via `AssignNodeIds()`. Do **not** set `NodeId` manually when adding entries—append to the list and numbers stay sequential.
+
+## Ask the user
+
+- Whether they have a screenshot/preview for the new project
+- Preferred filename (any name under `wwwroot/images/project_thumbnails/`; optional convention `proj-00N.webp` by list position)
+- Or an existing path under `wwwroot/images/project_thumbnails/`
+
+If they provide a file, place it in **`wwwroot/images/project_thumbnails/`** (create the folder if missing).
+
+## Wire-up checklist
+
+1. **`ProjectEntry`** — Set `PreviewImagePath` to a site-root path, e.g. `~/images/project_thumbnails/proj-008.webp` (not an absolute filesystem path).
+2. **Markup** — [`Pages/Projects.cshtml`](Pages/Projects.cshtml) already renders previews when `PreviewImagePath` is set (between `.proj-desc` and `STACK:`). Do not duplicate markup unless the pattern changes.
+3. **Styles** — Use existing `.proj-preview` in [`wwwroot/css/site.css`](wwwroot/css/site.css). Only edit CSS if layout requirements change.
+4. **`alt` text** — Uses `{Name} preview` via the shared figure/img block.
+
+## Example
+
+```csharp
+// Append to BuildCatalog() — becomes PROJ-006 if it is the 6th entry
+new(
+    Name: "EXAMPLE APP",
+    // ...
+    PreviewImagePath: "~/images/project_thumbnails/example-app.webp"
+),
+```
+
+## Skip only when explicit
+
+If the user says no image yet, leave `PreviewImagePath` null and note they can add the file and path later. Do not invent placeholder images without permission.
