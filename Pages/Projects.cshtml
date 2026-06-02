@@ -59,12 +59,19 @@
 
                     @if (!string.IsNullOrEmpty(p.PreviewImagePath))
                     {
-                        <figure class="proj-preview">
-                            <img src="@Url.Content(p.PreviewImagePath)"
-                                 alt="@($"{p.Name} preview")"
-                                 loading="lazy"
-                                 decoding="async" />
-                        </figure>
+                        var previewSrc = Url.Content(p.PreviewImagePath);
+                        <button type="button"
+                                class="proj-preview-trigger"
+                                data-full-src="@previewSrc"
+                                data-caption="@p.Name"
+                                aria-label="View @p.Name preview">
+                            <figure class="proj-preview">
+                                <img src="@previewSrc"
+                                     alt="@($"{p.Name} preview")"
+                                     loading="lazy"
+                                     decoding="async" />
+                            </figure>
+                        </button>
                     }
 
                     <div class="proj-stack-label">STACK:</div>
@@ -96,6 +103,15 @@
             }
         </div>
     </section>
+
+    <div id="projPreviewLightbox" class="proj-lightbox" hidden aria-hidden="true">
+        <div class="proj-lightbox-backdrop" data-proj-lightbox-close></div>
+        <div class="proj-lightbox-panel" role="dialog" aria-modal="true" aria-label="Project preview">
+            <button type="button" class="proj-lightbox-close" aria-label="Close preview">&times;</button>
+            <img id="projPreviewLightboxImg" class="proj-lightbox-img" alt="" />
+            <p id="projPreviewLightboxCaption" class="proj-lightbox-caption"></p>
+        </div>
+    </div>
 
     <!-- ── FOOTER CTA ────────────────────────────────── -->
     <section class="proj-cta-section rc-fade">

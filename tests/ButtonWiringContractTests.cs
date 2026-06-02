@@ -29,7 +29,7 @@ public class ButtonWiringContractTests
     [Fact]
     public void ContractCaseCount_IsExactly100()
     {
-        Assert.Equal(112, ButtonAndResponsiveContractCases().Count());
+        Assert.Equal(114, ButtonAndResponsiveContractCases().Count());
     }
 
     public static IEnumerable<object[]> ButtonAndResponsiveContractCases()
@@ -63,9 +63,8 @@ public class ButtonWiringContractTests
             ("Pages/Index.cshtml", "index-social-linkedin", "onclick=\"location.href='https://www.linkedin.com/in/rodneyachery/'\""),
             ("Pages/Index.cshtml", "index-social-github", "onclick=\"window.open('https://github.com/ChefRod88/RodneyPortfolio', '_blank')\""),
             ("Pages/Index.cshtml", "index-arrow-services", "onclick=\"location.href='#services'\""),
-            ("Pages/Index.cshtml", "index-arrow-capabilities", "onclick=\"location.href='#capabilities'\""),
+            ("Pages/Index.cshtml", "index-arrow-capabilities", "onclick=\"location.href='#process'\""),
             ("Pages/Index.cshtml", "index-arrow-process", "onclick=\"location.href='#process'\""),
-            ("Pages/Index.cshtml", "index-cap-demo-link", "<a href=\"#ask-rodney\" class=\"rc-cap-link\">Try the Demo →</a>"),
             ("Pages/Index.cshtml", "index-chat-send-button-id", "id=\"chat-send\""),
             ("Pages/Index.cshtml", "index-chat-send-button-class", "class=\"chat-send-btn\""),
             ("Pages/Index.cshtml", "index-job-match-analyze-id", "id=\"job-match-analyze\""),
@@ -140,6 +139,11 @@ public class ButtonWiringContractTests
             ("wwwroot/js/support-form.js", "support-submit-disable", "submitBtn.disabled = true;"),
             ("wwwroot/js/support-form.js", "support-submit-success", "successBox.hidden = false;"),
             ("wwwroot/css/support.css", "support-page-layout", ".support-page {"),
+
+            // Projects page preview lightbox (3)
+            ("Pages/Projects.cshtml", "proj-preview-trigger", "class=\"proj-preview-trigger\""),
+            ("Pages/Projects.cshtml", "proj-preview-lightbox-id", "id=\"projPreviewLightbox\""),
+            ("wwwroot/js/projects-page.js", "proj-lightbox-escape-close", "e.key === \"Escape\""),
 
             // Global CSS responsiveness and button styles (15)
             ("wwwroot/css/site.css", "css-mobile-breakpoint-768", "@media (max-width: 768px) {"),

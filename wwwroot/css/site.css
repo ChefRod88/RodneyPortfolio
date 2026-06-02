@@ -2418,6 +2418,102 @@ h1.title::after {
     object-fit: cover;
     display: block;
 }
+.proj-preview-trigger {
+    display: block;
+    width: 100%;
+    margin: 0 0 1rem;
+    padding: 0;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+}
+.proj-preview-trigger .proj-preview {
+    margin: 0;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+.proj-preview-trigger:hover .proj-preview,
+.proj-preview-trigger:focus-visible .proj-preview {
+    border-color: rgba(0,212,255,0.45);
+    box-shadow: 0 0 16px rgba(0,212,255,0.12);
+}
+.proj-preview-trigger:focus-visible {
+    outline: 2px solid rgba(0,212,255,0.5);
+    outline-offset: 2px;
+}
+
+/* ── Project preview lightbox ─────────────────────────────────── */
+.proj-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    box-sizing: border-box;
+}
+.proj-lightbox.proj-lightbox--open {
+    display: flex;
+}
+.proj-lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.88);
+    backdrop-filter: blur(4px);
+}
+.proj-lightbox-panel {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: min(95vw, 1200px);
+    width: 100%;
+}
+.proj-lightbox-close {
+    position: absolute;
+    top: -0.25rem;
+    right: 0;
+    z-index: 2;
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0.5rem;
+    border: 1px solid rgba(0,212,255,0.25);
+    background: rgba(4,20,34,0.9);
+    color: rgba(142,207,223,0.8);
+    font-family: var(--font-mono);
+    font-size: 1.5rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s, background 0.2s;
+}
+.proj-lightbox-close:hover,
+.proj-lightbox-close:focus-visible {
+    color: var(--c);
+    border-color: rgba(0,212,255,0.5);
+    background: rgba(4,20,34,1);
+    outline: none;
+}
+.proj-lightbox-img {
+    display: block;
+    max-width: 95vw;
+    max-height: 85vh;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    border: 1px solid rgba(0,212,255,0.2);
+    background: rgba(0,0,0,0.4);
+}
+.proj-lightbox-caption {
+    margin: 0.75rem 0 0;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(142,207,223,0.55);
+    text-align: center;
+}
 
 /* ── Stack tags ───────────────────────────────────────────────── */
 .proj-stack-label {
