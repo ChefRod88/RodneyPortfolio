@@ -32,10 +32,12 @@ builder.Services.AddScoped<OpenAIChatService>();
 builder.Services.AddScoped<AnthropicChatService>();
 builder.Services.AddScoped<JobMatchService>();
 builder.Services.AddScoped<AnthropicJobMatchService>();
+builder.Services.AddScoped<IcmRunnerService>();
 
 // Public interfaces → Dual orchestrators (fire both AIs in parallel per request)
 builder.Services.AddScoped<IAIChatService, DualAIChatService>();
 builder.Services.AddScoped<IJobMatchService, DualJobMatchService>();
+builder.Services.AddScoped<IIcmRunnerService, IcmRunnerService>();
 builder.Services.AddScoped<IInputValidator, InputValidator>();
 builder.Services.AddScoped<IContentFilter, ContentFilter>();
 builder.Services.Configure<QuoteEmailOptions>(builder.Configuration.GetSection(QuoteEmailOptions.SectionName));

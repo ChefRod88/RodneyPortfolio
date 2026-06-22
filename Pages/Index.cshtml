@@ -267,6 +267,10 @@
            target="_blank" rel="noopener noreferrer" class="chat-docs-btn">View Documentation</a>
         <a href="https://github.com/ChefRod88/RodneyPortfolio/blob/main/docs/OPENAI_API_KEY_SETUP.md"
            target="_blank" rel="noopener noreferrer" class="chat-docs-btn">API Key Docs</a>
+        <a href="https://github.com/ChefRod88/RodneyPortfolio/blob/main/docs/KNOWLEDGE_GRAPH_ARCHITECTURE.md"
+           target="_blank" rel="noopener noreferrer" class="chat-docs-btn">Knowledge Graph Docs</a>
+        <a href="https://github.com/ChefRod88/RodneyPortfolio/blob/main/docs/TOKEN_OPTIMIZATION_ARCHITECTURES.md"
+           target="_blank" rel="noopener noreferrer" class="chat-docs-btn">Token Optimization Docs</a>
     </div>
 
     <div class="chat-transparency-panel">
@@ -280,6 +284,7 @@
                 <dt>Data</dt><dd>ResumeContext.txt. No RAG or embeddings.</dd>
                 <dt>Safety</dt><dd>Input validation, content filtering, prompt guardrails.</dd>
                 <dt>Hosting</dt><dd>Azure App Service (this site); client projects on Azure, GCP, or AWS.</dd>
+                <dt>Token Optimization</dt><dd>Leverages structured context scoping via file mapping (ICM) and structural Knowledge Graphs to minimize token waste and maximize inference speeds compared to standard vector chunking (RTK).</dd>
             </dl>
         </div>
     </div>
@@ -289,7 +294,40 @@
         <p class="chat-job-match-desc">Paste any job description to see AI score and analyze it. This exact capability is available for your business.</p>
         <textarea id="job-match-input" class="chat-job-match-input" placeholder="Paste a job description or any document here..." maxlength="4000" rows="4"></textarea>
         <p class="chat-job-match-char-count"><span id="job-match-char-remaining">4000</span> characters remaining</p>
+        
+        <!-- ICM Pipeline Toggle -->
+        <div class="chat-job-match-mode-selector">
+            <input type="checkbox" id="job-match-icm-toggle" />
+            <label for="job-match-icm-toggle">
+                Run via <strong>Interpretable Context Methodology (ICM)</strong> pipeline <strong>[arXiv:2603.16021]</strong>
+            </label>
+        </div>
+        
         <button type="button" id="job-match-analyze" class="chat-job-match-btn">Analyze</button>
+        
+        <!-- ICM Status/Loader -->
+        <div id="job-match-icm-loading" style="display:none; text-align:center; margin: 1.5rem 0;">
+            <div class="spinner-border text-info" role="status" style="width: 2rem; height: 2rem; margin-bottom: 0.5rem; color: var(--c);"></div>
+            <div id="icm-status-message" class="icm-status-message">Initializing ICM Workspace...</div>
+            <div style="font-size:0.8rem; color:var(--text); opacity:0.7; margin-top:0.2rem;">Executing sequential file-based stages in /IcmWorkspace</div>
+        </div>
+
+        <!-- ICM Stage Outputs Tabs -->
+        <div id="job-match-icm-pipeline" hidden style="margin-top: 1.5rem;">
+            <h4 style="margin-bottom: 1rem; color: var(--c); font-size: 1.1rem; text-align: center; font-family: var(--font-display);">INTERPRETABLE WORKSPACE ARTIFACTS</h4>
+            
+            <div class="icm-tabs">
+                <button type="button" class="icm-tab-btn active" data-tab="icm-stage-1">01_skill_extraction</button>
+                <button type="button" class="icm-tab-btn" data-tab="icm-stage-2">02_resume_comparison</button>
+                <button type="button" class="icm-tab-btn" data-tab="icm-stage-3">03_interview_preparation</button>
+            </div>
+            
+            <div id="icm-stage-1" class="icm-tab-content">No data loaded yet. Run a match using the ICM toggle.</div>
+            <div id="icm-stage-2" class="icm-tab-content" style="display:none;">No data loaded yet. Run a match using the ICM toggle.</div>
+            <div id="icm-stage-3" class="icm-tab-content" style="display:none;">No data loaded yet. Run a match using the ICM toggle.</div>
+        </div>
+
+        <!-- Standard / Final Results -->
         <div id="job-match-result" class="chat-job-match-result" hidden>
             <div class="chat-job-match-score">
                 <span class="chat-job-match-score-label">Match Score</span>

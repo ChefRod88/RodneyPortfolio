@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "medical-app-knowledge-graph": {
+      "command": "node",
+      "args": ["/workspaces/RodneyPortfolio/scripts/mcp_server.js"]
+    }
+  }
+}

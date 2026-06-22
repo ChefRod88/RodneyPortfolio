@@ -202,9 +202,38 @@ function initJobMatch() {
   const skillsEl = document.getElementById("job-match-skills");
   const gapsEl = document.getElementById("job-match-gaps");
   const talkingEl = document.getElementById("job-match-talking");
+  
+  // ICM elements
+  const icmToggleEl = document.getElementById("job-match-icm-toggle");
+  const icmLoaderEl = document.getElementById("job-match-icm-loading");
+  const icmStatusEl = document.getElementById("icm-status-message");
+  const icmPipelineEl = document.getElementById("job-match-icm-pipeline");
+  const stage1El = document.getElementById("icm-stage-1");
+  const stage2El = document.getElementById("icm-stage-2");
+  const stage3El = document.getElementById("icm-stage-3");
+  
   const maxLen = 4000;
 
   if (!inputEl || !analyzeBtn || !resultEl) return;
+
+  // Setup tab events
+  const tabBtns = document.querySelectorAll(".icm-tab-btn");
+  tabBtns.forEach(btn => {
+    btn.addEventListener("click", () => {
+      tabBtns.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      
+      const targetId = btn.getAttribute("data-tab");
+      const contents = document.querySelectorAll(".icm-tab-content");
+      contents.forEach(c => {
+        if (c.id === targetId) {
+          c.style.display = "block";
+        } else {
+          c.style.display = "none";
+        }
+      });
+    });
+  });
 
   function updateCharCount() {
     if (charRemainingEl) {
@@ -234,14 +263,37 @@ function initJobMatch() {
     const trimmed = inputEl.value.trim();
     if (!trimmed) return;
 
+    const useIcm = icmToggleEl ? icmToggleEl.checked : false;
+
     analyzeBtn.disabled = true;
     resultEl.hidden = true;
+    if (icmPipelineEl) icmPipelineEl.hidden = true;
+
+    let statusInterval;
+    if (useIcm && icmLoaderEl && icmStatusEl) {
+      icmLoaderEl.style.display = "block";
+      icmStatusEl.textContent = "Stage 1: Extracting Job Requirements (01_skill_extraction)...";
+      let elapsed = 0;
+      statusInterval = setInterval(() => {
+        elapsed += 1;
+        if (elapsed < 4) {
+          icmStatusEl.textContent = "Stage 1: Extracting Job Requirements (01_skill_extraction)...";
+        } else if (elapsed < 9) {
+          icmStatusEl.textContent = "Stage 2: Evaluating Fit & Identifying Gaps (02_resume_comparison)...";
+        } else {
+          icmStatusEl.textContent = "Stage 3: Generating Prep Guide & Final Scoring (03_interview_preparation)...";
+        }
+      }, 1000);
+    }
 
     try {
       const res = await fetch("/api/chat/job-match", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ jobDescription: trimmed })
+        body: JSON.stringify({ 
+          jobDescription: trimmed,
+          useIcm: useIcm
+        })
       });
       const data = await res.json();
 
@@ -250,14 +302,26 @@ function initJobMatch() {
         return;
       }
 
+      // Render main results
       if (scoreValueEl) scoreValueEl.textContent = data.matchScore ?? 0;
       renderList(skillsEl, data.skillsAligned);
       renderList(gapsEl, data.gaps);
       renderList(talkingEl, data.talkingPoints);
       resultEl.hidden = false;
+
+      // Handle ICM specific rendering
+      if (data.useIcm) {
+        if (stage1El) stage1El.textContent = data.stage1Output || "No output generated.";
+        if (stage2El) stage2El.textContent = data.stage2Output || "No output generated.";
+        if (stage3El) stage3El.textContent = data.stage3Output || "No output generated.";
+        
+        if (icmPipelineEl) icmPipelineEl.hidden = false;
+      }
     } catch (err) {
       alert("Unable to connect. Please check your connection and try again.");
     } finally {
+      if (statusInterval) clearInterval(statusInterval);
+      if (icmLoaderEl) icmLoaderEl.style.display = "none";
       analyzeBtn.disabled = false;
     }
   }

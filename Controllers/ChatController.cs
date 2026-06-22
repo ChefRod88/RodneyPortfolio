@@ -18,6 +18,7 @@ public class ChatController : ControllerBase
 
     private readonly IAIChatService _aiService;
     private readonly IJobMatchService _jobMatchService;
+    private readonly IIcmRunnerService _icmRunnerService;
     private readonly IInputValidator _inputValidator;
     private readonly IContentFilter _contentFilter;
     private readonly ILogger<ChatController> _logger;
@@ -25,12 +26,14 @@ public class ChatController : ControllerBase
     public ChatController(
         IAIChatService aiService,
         IJobMatchService jobMatchService,
+        IIcmRunnerService icmRunnerService,
         IInputValidator inputValidator,
         IContentFilter contentFilter,
         ILogger<ChatController> logger)
     {
         _aiService = aiService;
         _jobMatchService = jobMatchService;
+        _icmRunnerService = icmRunnerService;
         _inputValidator = inputValidator;
         _contentFilter = contentFilter;
         _logger = logger;
@@ -101,6 +104,22 @@ public class ChatController : ControllerBase
 
         try
         {
+            if (request.UseIcm)
+            {
+                var icmResult = await _icmRunnerService.RunPipelineAsync(trimmed, request.TargetStage, cancellationToken);
+                return Ok(new
+                {
+                    matchScore = icmResult.FinalAnalysis.MatchScore,
+                    skillsAligned = icmResult.FinalAnalysis.SkillsAligned,
+                    gaps = icmResult.FinalAnalysis.Gaps,
+                    talkingPoints = icmResult.FinalAnalysis.TalkingPoints,
+                    useIcm = true,
+                    stage1Output = icmResult.Stage1Output,
+                    stage2Output = icmResult.Stage2Output,
+                    stage3Output = icmResult.Stage3Output
+                });
+            }
+
             var result = await _jobMatchService.AnalyzeAsync(trimmed, cancellationToken);
             return Ok(result);
         }
