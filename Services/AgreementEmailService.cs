@@ -40,6 +40,7 @@ public class AgreementEmailService : IAgreementEmailService
             .AppendLine($"Client Email: {QuoteSanitizer.Sanitize(input.ClientEmail)}")
             .AppendLine($"Company Name: {QuoteSanitizer.Sanitize(input.ClientCompany)}")
             .AppendLine($"Date (UTC):   {DateTime.UtcNow:yyyy-MM-dd HH:mm:ss}")
+            .AppendLine($"IP Address:   {QuoteSanitizer.Sanitize(input.ClientIp)}")
             .AppendLine()
             .AppendLine("The fully signed PDF contract is attached to this email.")
             .ToString();

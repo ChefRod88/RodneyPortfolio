@@ -44,7 +44,7 @@
                 <p style="margin-bottom: 1.5rem;">The remaining fifty percent (50%) balance shall be due upon substantial completion of the Project. Final payment must be received before final source code transfer, repository ownership transfer, production deployment, delivery of final project assets, or administrative account transfers. Failure to make final payment may result in delayed delivery until payment obligations are satisfied.</p>
                 
                 <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">6. CLIENT COMMUNICATION</h3>
-                <p style="margin-bottom: 1.5rem;">The Contractor shall provide regular project updates throughout development via Email, Telephone, Video conference, Google Meet, Microsoft Teams, or Written progress reports. A recurring thirty-minute status meeting may be scheduled weekly during active project development. Client agrees to provide timely feedback, approvals, content, and decisions necessary to maintain project timelines.</p>
+                <p style="margin-bottom: 1.5rem;">The Contractor shall provide regular project updates throughout development via Email, Telephone, Video conference, Google Meet, Microsoft Teams, or Written progress reports. Client agrees to provide timely feedback, approvals, content, and decisions necessary to maintain project timelines.</p>
                 
                 <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">7. CLIENT RESPONSIBILITIES</h3>
                 <p style="margin-bottom: 1.5rem;">The Client agrees to provide accurate project requirements, supply requested content and materials, respond to requests for information promptly, review deliverables in a timely manner, and maintain payment obligations under this Agreement.</p>
@@ -53,10 +53,10 @@
                 <p style="margin-bottom: 1.5rem;">A Project shall be considered substantially complete when: The approved scope has been delivered; or the Contractor has completed all agreed deliverables; or the Client approves the completed work; or the Client fails to provide feedback within fourteen (14) calendar days after delivery of the final review version. Upon substantial completion, the final invoice shall become immediately due.</p>
                 
                 <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">9. CHANGE REQUESTS</h3>
-                <p style="margin-bottom: 1.5rem;">Any request outside the approved Project Scope shall constitute a Change Request. Examples include: Additional pages, additional features, additional integrations, design revisions beyond the agreed scope, new workflows, or expanded functionality. Change Requests may require additional fees, revised schedules, or separate written approval. The Contractor is not obligated to perform Change Request work until approved in writing.</p>
+                <p style="margin-bottom: 1.5rem;">Any request outside the approved Project Scope shall constitute a Change Request. Change Requests may require additional fees, revised schedules, or separate written approval. The Contractor is not obligated to perform Change Request work until approved in writing.</p>
                 
                 <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">10. HOSTING AND INFRASTRUCTURE</h3>
-                <p style="margin-bottom: 1.5rem;">Unless otherwise stated in writing, hosting fees are separate from development fees. Applications may be deployed to cloud providers including Microsoft Azure, Amazon Web Services (AWS), or Google Cloud Platform (GCP). The Client is responsible for all hosting costs, cloud usage fees, domain registration fees, SSL certificate fees, third-party software subscriptions, and API costs. These expenses are separate from development labor charges.</p>
+                <p style="margin-bottom: 1.5rem;">Unless otherwise stated in writing, hosting fees are separate from development fees. Applications may be deployed to cloud providers including Microsoft Azure, Amazon Web Services (AWS), or Google Cloud Platform (GCP). The Client is responsible for all hosting costs, cloud usage fees, domain registration fees, SSL certificate fees, third-party software subscriptions, and API costs.</p>
                 
                 <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">11. OWNERSHIP OF WORK</h3>
                 <p style="margin-bottom: 1.5rem;">Upon receipt of full payment: Client shall own the completed source code, project-specific deliverables, and project assets created specifically for the Project. Client shall receive administrative access to repositories and systems under Client ownership. The Client may transfer the Project to another developer, agency, consultant, or internal team at any time after final payment.</p>
@@ -91,6 +91,7 @@
         <div class="rc-glass contract-form-card" style="width: 100%; padding: 2.5rem 2rem; box-sizing: border-box; transition: all 0.3s;">
             <form id="agreementForm" method="post" style="display: flex; flex-direction: column; gap: 1.8rem;">
                 @Html.AntiForgeryToken()
+                <input type="hidden" id="clientIpAddress" value="@Model.ClientIp" />
                 
                 <div class="rc-agreement-grid">
                     <div class="rc-form-group">
@@ -110,7 +111,10 @@
 
                 <!-- HTML5 SIGNATURE CANVAS -->
                 <div class="rc-form-group">
-                    <label class="form-label" style="display: block; font-family: var(--font-mono); font-size: 0.8rem; color: var(--white); margin-bottom: 0.5rem; text-transform: uppercase; transition: color 0.3s;">Draw Client Signature Below</label>
+                    <label class="form-label" style="display: block; font-family: var(--font-mono); font-size: 0.8rem; color: var(--white); margin-bottom: 0.5rem; text-transform: uppercase; transition: color 0.3s;">
+                        Draw Client Signature Below
+                        <span style="color: rgba(142,207,223,0.5); font-family: var(--font-mono); font-size: 0.75rem; text-transform: none; float: right;">Logged IP: @Model.ClientIp</span>
+                    </label>
                     <div id="sigWrapper" style="position: relative; width: 100%; background: rgba(0,0,0,0.6); border: 1px solid var(--border); height: 180px; box-sizing: border-box; transition: all 0.3s;">
                         <canvas id="signatureCanvas" style="position: absolute; top:0; left:0; width:100%; height:100%; cursor: crosshair; touch-action: none;"></canvas>
                         <button type="button" id="clearBtn" style="position: absolute; bottom: 10px; right: 10px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: var(--white); padding: 0.3rem 0.8rem; font-size: 0.7rem; font-family: var(--font-mono); cursor: pointer; transition: all 0.3s; z-index: 10; border-radius: 0;">Clear Signature</button>
@@ -216,6 +220,7 @@
                 </div>
                 <p style="border-top: 1px dashed #777; margin-top: 5px; padding-top: 3px;">By: <span id="pdfClientNameLabel">__________________</span></p>
                 <p style="margin-top: 5px;">Date: <span id="pdfClientDateLabel">__________________</span></p>
+                <p style="margin-top: 5px; font-size: 9pt; color: #555;">IP Address: <span id="pdfClientIpLabel">__________________</span></p>
             </div>
         </div>
     </div>
@@ -354,6 +359,7 @@
                 const clientName = document.getElementById("clientName").value.trim();
                 const clientCompany = document.getElementById("clientCompany").value.trim();
                 const clientEmail = document.getElementById("clientEmail").value.trim();
+                const clientIp = document.getElementById("clientIpAddress").value;
                 const errorAlert = document.getElementById("errorAlert");
                 const successAlert = document.getElementById("successAlert");
 
@@ -385,14 +391,14 @@
                     printCanvas.width = canvas.width;
                     printCanvas.height = canvas.height;
                     const pCtx = printCanvas.getContext("2d");
-                    pCtx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
-                    pCtx.strokeStyle = "#000000"; // Black ink for formal document
-                    pCtx.lineWidth = 3;
-                    pCtx.lineCap = "round";
-                    pCtx.lineJoin = "round";
                     
-                    // Re-draw context onto print canvas from source canvas
-                    pCtx.drawImage(canvas, 0, 0, canvas.width / (window.devicePixelRatio || 1), canvas.height / (window.devicePixelRatio || 1));
+                    // Draw original canvas content to printCanvas (matches ratios)
+                    pCtx.drawImage(canvas, 0, 0);
+                    
+                    // Convert all non-transparent drawing pixels to solid black (#000000) using source-in!
+                    pCtx.globalCompositeOperation = 'source-in';
+                    pCtx.fillStyle = '#000000';
+                    pCtx.fillRect(0, 0, printCanvas.width, printCanvas.height);
                     
                     const signatureDataUrl = printCanvas.toDataURL("image/png");
 
@@ -406,71 +412,82 @@
                     document.getElementById("pdfClientCompanyLabel").innerText = clientCompany;
                     document.getElementById("pdfClientNameLabel").innerText = clientName;
                     document.getElementById("pdfClientDateLabel").innerText = todayStr;
+                    document.getElementById("pdfClientIpLabel").innerText = clientIp;
 
                     const pdfSigImg = document.getElementById("pdfSignatureImg");
-                    pdfSigImg.src = signatureDataUrl;
-                    pdfSigImg.style.display = "block";
-
-                    // 3) Generate PDF base64 using html2pdf via robust promise chains
-                    loadingText.innerText = "Formatting PDF Document...";
-                    const pdfElement = document.getElementById("printableContract");
                     
-                    const pdfOptions = {
-                        margin:       [0.5, 0.5, 0.5, 0.5],
-                        filename:     `Services_Agreement_${clientCompany.replace(/\s+/g, '_')}.pdf`,
-                        image:        { type: 'jpeg', quality: 0.95 },
-                        html2canvas:  { scale: 2, useCORS: true, logging: false },
-                        jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
-                    };
+                    // Generate PDF ONLY after the signature image has fully loaded in the DOM (prevents race condition / missing images)
+                    pdfSigImg.onload = function() {
+                        loadingText.innerText = "Formatting PDF Document...";
+                        const pdfElement = document.getElementById("printableContract");
+                        
+                        const pdfOptions = {
+                            margin:       [0.5, 0.5, 0.5, 0.5],
+                            filename:     `Services_Agreement_${clientCompany.replace(/\s+/g, '_')}.pdf`,
+                            image:        { type: 'jpeg', quality: 0.95 },
+                            html2canvas:  { scale: 2, useCORS: true, logging: false },
+                            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                        };
 
-                    html2pdf().from(pdfElement).set(pdfOptions).outputPdf('datauristring').then(async function (pdfDataUri) {
-                        try {
-                            const pdfBase64 = pdfDataUri.split(',')[1];
+                        html2pdf().from(pdfElement).set(pdfOptions).outputPdf('datauristring').then(async function (pdfDataUri) {
+                            try {
+                                const pdfBase64 = pdfDataUri.split(',')[1];
 
-                            // 4) POST PDF base64 and details to Razor Page
-                            loadingText.innerText = "Transmitting to Server...";
-                            const formData = new FormData();
-                            formData.append("Input.ClientName", clientName);
-                            formData.append("Input.ClientCompany", clientCompany);
-                            formData.append("Input.ClientEmail", clientEmail);
-                            formData.append("Input.PdfBase64", pdfBase64);
+                                // 4) POST PDF base64 and details to Razor Page
+                                loadingText.innerText = "Transmitting to Server...";
+                                const formData = new FormData();
+                                formData.append("Input.ClientName", clientName);
+                                formData.append("Input.ClientCompany", clientCompany);
+                                formData.append("Input.ClientEmail", clientEmail);
+                                formData.append("Input.ClientIp", clientIp);
+                                formData.append("Input.PdfBase64", pdfBase64);
 
-                            const verificationToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+                                const verificationToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
 
-                            const response = await fetch("?handler=Sign", {
-                                method: "POST",
-                                headers: {
-                                    "RequestVerificationToken": verificationToken
-                                },
-                                body: formData
-                            });
+                                const response = await fetch("?handler=Sign", {
+                                    method: "POST",
+                                    headers: {
+                                        "RequestVerificationToken": verificationToken
+                                    },
+                                    body: formData
+                                });
 
-                            const result = await response.json();
-                            loadingOverlay.style.display = "none";
+                                const result = await response.json();
+                                loadingOverlay.style.display = "none";
 
-                            if (result.success) {
-                                successAlert.innerText = result.message;
-                                successAlert.style.display = "block";
-                                document.getElementById("agreementForm").reset();
-                                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                                hasSigned = false;
-                                pdfSigImg.style.display = "none";
-                            } else {
-                                errorAlert.innerText = result.message;
+                                if (result.success) {
+                                    successAlert.innerText = result.message;
+                                    successAlert.style.display = "block";
+                                    document.getElementById("agreementForm").reset();
+                                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                                    hasSigned = false;
+                                    pdfSigImg.style.display = "none";
+                                } else {
+                                    errorAlert.innerText = result.message;
+                                    errorAlert.style.display = "block";
+                                }
+                            } catch (postErr) {
+                                console.error("Transmission error:", postErr);
+                                loadingOverlay.style.display = "none";
+                                errorAlert.innerText = "Connection lost. Failed to send signed contract to server.";
                                 errorAlert.style.display = "block";
                             }
-                        } catch (postErr) {
-                            console.error("Transmission error:", postErr);
+                        }).catch(function (pdfErr) {
+                            console.error("PDF Engine error:", pdfErr);
                             loadingOverlay.style.display = "none";
-                            errorAlert.innerText = "Connection lost. Failed to send signed contract to server.";
+                            errorAlert.innerText = "PDF Generation failed. Please clear your signature, draw again, and retry.";
                             errorAlert.style.display = "block";
-                        }
-                    }).catch(function (pdfErr) {
-                        console.error("PDF Engine error:", pdfErr);
+                        });
+                    };
+
+                    pdfSigImg.onerror = function() {
                         loadingOverlay.style.display = "none";
-                        errorAlert.innerText = "PDF Generation failed. Please clear your signature, draw again, and retry.";
+                        errorAlert.innerText = "Failed to render signature format image. Please retry.";
                         errorAlert.style.display = "block";
-                    });
+                    };
+
+                    pdfSigImg.src = signatureDataUrl;
+                    pdfSigImg.style.display = "block";
                 } catch (err) {
                     console.error("General submission error: ", err);
                     loadingOverlay.style.display = "none";

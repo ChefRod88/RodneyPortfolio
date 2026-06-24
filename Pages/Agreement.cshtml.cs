@@ -19,8 +19,21 @@ public class AgreementModel : PageModel
         _logger = logger;
     }
 
+    public string ClientIp { get; set; } = string.Empty;
+
     public void OnGet()
     {
+        ClientIp = GetClientIp();
+    }
+
+    private string GetClientIp()
+    {
+        var forwardedFor = Request.Headers["X-Forwarded-For"].FirstOrDefault();
+        if (!string.IsNullOrWhiteSpace(forwardedFor))
+        {
+            return forwardedFor.Split(',')[0].Trim();
+        }
+        return HttpContext.Connection.RemoteIpAddress?.ToString() ?? "127.0.0.1";
     }
 
     [BindProperty]
