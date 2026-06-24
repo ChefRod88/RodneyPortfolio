@@ -1,8 +1,8 @@
 # Stage 2 Contract: Resume Comparison
 
 ## Inputs
-- Layer 4 (working): `02_resume_comparison/reference/extracted_requirements.md`
-- Layer 3 (reference): `02_resume_comparison/reference/RodneyResume.md`
+- Layer 4 (working): `02_resume_comparison/output/extracted_requirements.md`
+- Layer 3 (reference): `02_resume_comparison/references/RodneyResume.md`
 
 ## Process
 You are an expert technical evaluator. Compare the extracted job requirements (from `extracted_requirements.md`) with Rodney Chery's resume (from `RodneyResume.md`):
@@ -13,4 +13,4 @@ You are an expert technical evaluator. Compare the extracted job requirements (f
 Format your output as a clean, structured Markdown document. Focus on objectivity. Do not write meta-commentary; write only the Markdown evaluation.
 
 ## Outputs
-- `comparison_results.md` -> `02_resume_comparison/working/comparison_results.md`
+- `comparison_results.md` -> `02_resume_comparison/output/comparison_results.md`

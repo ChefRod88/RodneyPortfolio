@@ -1,7 +1,7 @@
 # Stage 1 Contract: Skill Extraction
 
 ## Inputs
-- Layer 4 (working): `01_skill_extraction/reference/job_description.txt`
+- Layer 4 (working): `01_skill_extraction/output/job_description.txt`
 
 ## Process
 You are an expert technical recruiter. Read the provided job description file and extract its core requirements:
@@ -14,4 +14,4 @@ You are an expert technical recruiter. Read the provided job description file an
 Format your output as a clean, highly readable Markdown document. Do not include any meta-commentary; write only the Markdown content representing the extracted requirements.
 
 ## Outputs
-- `extracted_requirements.md` -> `01_skill_extraction/working/extracted_requirements.md`
+- `extracted_requirements.md` -> `01_skill_extraction/output/extracted_requirements.md`

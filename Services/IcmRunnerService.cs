@@ -57,9 +57,10 @@ public class IcmRunnerService : IIcmRunnerService
             if (runS1)
             {
                 _logger.LogInformation("ICM Pipeline: Running Stage 1 (Skill Extraction)...");
-                var jobDescPath = Path.Combine(workspaceRoot, "01_skill_extraction", "reference", "job_description.txt");
+                var jobDescPath = Path.Combine(workspaceRoot, "01_skill_extraction", "output", "job_description.txt");
                 if (!string.IsNullOrWhiteSpace(jobDescription))
                 {
+                    Directory.CreateDirectory(Path.GetDirectoryName(jobDescPath)!);
                     await File.WriteAllTextAsync(jobDescPath, jobDescription, cancellationToken);
                 }
                 
@@ -88,7 +89,8 @@ Please execute the process described in the Stage Contract. Provide only the Mar
                     throw new InvalidOperationException("Stage 1 execution failed to return an output.");
                 }
 
-                var s1OutputPath = Path.Combine(workspaceRoot, "01_skill_extraction", "working", "extracted_requirements.md");
+                var s1OutputPath = Path.Combine(workspaceRoot, "01_skill_extraction", "output", "extracted_requirements.md");
+                Directory.CreateDirectory(Path.GetDirectoryName(s1OutputPath)!);
                 await File.WriteAllTextAsync(s1OutputPath, s1Output, cancellationToken);
                 result.Stage1Output = s1Output;
                 result.CompletedStage = 1;
@@ -102,19 +104,21 @@ Please execute the process described in the Stage Contract. Provide only the Mar
                 _logger.LogInformation("ICM Pipeline: Running Stage 2 (Resume Comparison)...");
                 
                 // Step 8: State Handoff (Copy outputs from Stage 1 working/ to Stage 2 reference/)
-                var s1SourcePath = Path.Combine(workspaceRoot, "01_skill_extraction", "working", "extracted_requirements.md");
-                var s2DestRequirementsPath = Path.Combine(workspaceRoot, "02_resume_comparison", "reference", "extracted_requirements.md");
+                var s1SourcePath = Path.Combine(workspaceRoot, "01_skill_extraction", "output", "extracted_requirements.md");
+                var s2DestRequirementsPath = Path.Combine(workspaceRoot, "02_resume_comparison", "output", "extracted_requirements.md");
                 
                 if (File.Exists(s1SourcePath))
                 {
+                    Directory.CreateDirectory(Path.GetDirectoryName(s2DestRequirementsPath)!);
                     File.Copy(s1SourcePath, s2DestRequirementsPath, overwrite: true);
                 }
 
                 // Copy RodneyResume reference file to stage reference folder
                 var resumeSourcePath = Path.Combine(workspaceRoot, "_config", "skills", "RodneyResume.md");
-                var resumeDestPath = Path.Combine(workspaceRoot, "02_resume_comparison", "reference", "RodneyResume.md");
+                var resumeDestPath = Path.Combine(workspaceRoot, "02_resume_comparison", "references", "RodneyResume.md");
                 if (File.Exists(resumeSourcePath))
                 {
+                    Directory.CreateDirectory(Path.GetDirectoryName(resumeDestPath)!);
                     File.Copy(resumeSourcePath, resumeDestPath, overwrite: true);
                 }
 
@@ -147,7 +151,8 @@ Please execute the process described in the Stage Contract. Provide only the Mar
                     throw new InvalidOperationException("Stage 2 execution failed to return an output.");
                 }
 
-                var s2OutputPath = Path.Combine(workspaceRoot, "02_resume_comparison", "working", "comparison_results.md");
+                var s2OutputPath = Path.Combine(workspaceRoot, "02_resume_comparison", "output", "comparison_results.md");
+                Directory.CreateDirectory(Path.GetDirectoryName(s2OutputPath)!);
                 await File.WriteAllTextAsync(s2OutputPath, s2Output, cancellationToken);
                 result.Stage2Output = s2Output;
                 result.CompletedStage = 2;
@@ -161,26 +166,29 @@ Please execute the process described in the Stage Contract. Provide only the Mar
                 _logger.LogInformation("ICM Pipeline: Running Stage 3 (Interview Preparation)...");
 
                 // Step 8: State Handoff (Copy outputs from Stage 2 working/ to Stage 3 reference/)
-                var s2SourcePath = Path.Combine(workspaceRoot, "02_resume_comparison", "working", "comparison_results.md");
-                var s3DestComparisonPath = Path.Combine(workspaceRoot, "03_interview_preparation", "reference", "comparison_results.md");
+                var s2SourcePath = Path.Combine(workspaceRoot, "02_resume_comparison", "output", "comparison_results.md");
+                var s3DestComparisonPath = Path.Combine(workspaceRoot, "03_interview_preparation", "output", "comparison_results.md");
                 if (File.Exists(s2SourcePath))
                 {
+                    Directory.CreateDirectory(Path.GetDirectoryName(s3DestComparisonPath)!);
                     File.Copy(s2SourcePath, s3DestComparisonPath, overwrite: true);
                 }
 
                 // Copy Resume reference to Stage 3 reference folder
                 var resumeSourcePath = Path.Combine(workspaceRoot, "_config", "skills", "RodneyResume.md");
-                var resumeDestPath = Path.Combine(workspaceRoot, "03_interview_preparation", "reference", "RodneyResume.md");
+                var resumeDestPath = Path.Combine(workspaceRoot, "03_interview_preparation", "references", "RodneyResume.md");
                 if (File.Exists(resumeSourcePath))
                 {
+                    Directory.CreateDirectory(Path.GetDirectoryName(resumeDestPath)!);
                     File.Copy(resumeSourcePath, resumeDestPath, overwrite: true);
                 }
 
                 // Copy Voice reference to Stage 3 reference folder
                 var voiceSourcePath = Path.Combine(workspaceRoot, "_config", "voice.md");
-                var voiceDestPath = Path.Combine(workspaceRoot, "03_interview_preparation", "reference", "voice.md");
+                var voiceDestPath = Path.Combine(workspaceRoot, "03_interview_preparation", "references", "voice.md");
                 if (File.Exists(voiceSourcePath))
                 {
+                    Directory.CreateDirectory(Path.GetDirectoryName(voiceDestPath)!);
                     File.Copy(voiceSourcePath, voiceDestPath, overwrite: true);
                 }
 
@@ -217,7 +225,8 @@ Please execute the process described in the Stage Contract. Provide the Markdown
                     throw new InvalidOperationException("Stage 3 execution failed to return an output.");
                 }
 
-                var s3OutputPath = Path.Combine(workspaceRoot, "03_interview_preparation", "working", "interview_guide.md");
+                var s3OutputPath = Path.Combine(workspaceRoot, "03_interview_preparation", "output", "interview_guide.md");
+                Directory.CreateDirectory(Path.GetDirectoryName(s3OutputPath)!);
                 await File.WriteAllTextAsync(s3OutputPath, s3Output, cancellationToken);
                 result.Stage3Output = s3Output;
                 result.CompletedStage = 3;

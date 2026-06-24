@@ -1,9 +1,9 @@
 # Stage 3 Contract: Interview Preparation
 
 ## Inputs
-- Layer 4 (working): `03_interview_preparation/reference/comparison_results.md`
-- Layer 3 (reference): `03_interview_preparation/reference/RodneyResume.md`
-- Layer 3 (reference): `03_interview_preparation/reference/voice.md`
+- Layer 4 (working): `03_interview_preparation/output/comparison_results.md`
+- Layer 3 (reference): `03_interview_preparation/references/RodneyResume.md`
+- Layer 3 (reference): `03_interview_preparation/references/voice.md`
 
 ## Process
 You are Rodney Chery's personal career coach. Based on the resume comparison results (`comparison_results.md`), Rodney's resume, and his voice guidelines:
@@ -26,4 +26,4 @@ Format of the JSON block:
 Format the overall document as clean Markdown, with the JSON block placed at the bottom.
 
 ## Outputs
-- `interview_guide.md` -> `03_interview_preparation/working/interview_guide.md`
+- `interview_guide.md` -> `03_interview_preparation/output/interview_guide.md`
