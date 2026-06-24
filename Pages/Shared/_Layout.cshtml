@@ -49,9 +49,12 @@
 <body>
 
     <!-- MATRIX RAIN CANVAS -->
-    <canvas id="rc-matrix"></canvas>
-    <div class="rc-vignette"></div>
-    <div class="rc-scanlines"></div>
+    @if (ViewData["HideMatrix"] as bool? != true)
+    {
+        <canvas id="rc-matrix"></canvas>
+        <div class="rc-vignette"></div>
+        <div class="rc-scanlines"></div>
+    }
 
     <!-- NAV -->
     <nav id="hamburger-nav">
@@ -64,7 +67,7 @@
                 <ul>
                     <li><a href="/#about"        onclick="toggleMenu()">About</a></li>
                     <li><a href="/#services"     onclick="toggleMenu()">Services</a></li>
-                    <li><a href="/#pricing"      onclick="toggleMenu()">Pricing</a></li>
+                    @*<li><a href="/#pricing"      onclick="toggleMenu()">Pricing</a></li>*@
                     <li><a href="/Projects"      onclick="toggleMenu()">Projects</a></li>
                     <li><a href="/Faq"          onclick="toggleMenu()" class="rc-nav-faq">FAQ &amp; Standards</a></li>
                     @* Client Portal nav link intentionally hidden for now.
@@ -87,6 +90,7 @@
                 <a href="/#services">Services</a>
                 <a href="/#pricing">Pricing</a>
                 <a href="/#quote">Quote</a>
+                <a href="/Agreement">Services Agreement</a>
                 <a href="/#support">Contact Support</a>
             </div>
             <small id="copyright">© 2026 RODNEY CHERY &nbsp;·&nbsp; FULL STACK AI DEVELOPER &nbsp;·&nbsp; NODE_ONLINE</small>

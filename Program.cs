@@ -50,6 +50,7 @@ builder.Services.AddScoped<IQuoteSubmissionService, QuoteSubmissionService>();
 builder.Services.AddScoped<ISupportLogService, SupportLogService>();
 builder.Services.AddScoped<ISupportRequestEmailService, SupportRequestEmailService>();
 builder.Services.AddScoped<ISupportRequestSubmissionService, SupportRequestSubmissionService>();
+builder.Services.AddScoped<IAgreementEmailService, AgreementEmailService>();
 builder.Services.AddHttpClient<IRecaptchaVerificationService, RecaptchaVerificationService>();
 
 builder.Services.AddScoped<IInvoiceService, SqlInvoiceService>();
