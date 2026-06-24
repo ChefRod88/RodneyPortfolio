@@ -49,8 +49,13 @@ public class AgreementModel : PageModel
             return new JsonResult(new { success = false, message = "All fields, including signature, are required." });
         }
 
+        // Clean/Trim the client email
+        Input.ClientEmail = Input.ClientEmail.Trim().Trim(';', ',');
+
         // Email syntax validation
-        if (!Input.ClientEmail.Contains("@") || !Input.ClientEmail.Contains("."))
+        if (!Input.ClientEmail.Contains("@") || 
+            !Input.ClientEmail.Contains(".") || 
+            !System.Net.Mail.MailAddress.TryCreate(Input.ClientEmail, out _))
         {
             return new JsonResult(new { success = false, message = "Please enter a valid email address." });
         }

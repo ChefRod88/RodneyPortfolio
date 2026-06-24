@@ -373,6 +373,15 @@
                     return;
                 }
 
+                // Trim separators and validate format
+                const cleanEmail = clientEmail.trim().replace(/^[;,]+|[;,]+$/g, '');
+                const emailRegex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+                if (!emailRegex.test(cleanEmail)) {
+                    errorAlert.innerText = "Please enter a valid email address.";
+                    errorAlert.style.display = "block";
+                    return;
+                }
+
                 if (!hasSigned) {
                     errorAlert.innerText = "Please sign in the signature pad box before submitting.";
                     errorAlert.style.display = "block";
@@ -438,7 +447,7 @@
                                 const formData = new FormData();
                                 formData.append("Input.ClientName", clientName);
                                 formData.append("Input.ClientCompany", clientCompany);
-                                formData.append("Input.ClientEmail", clientEmail);
+                                formData.append("Input.ClientEmail", cleanEmail);
                                 formData.append("Input.ClientIp", clientIp);
                                 formData.append("Input.PdfBase64", pdfBase64);
 

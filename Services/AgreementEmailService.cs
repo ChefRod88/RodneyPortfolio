@@ -45,26 +45,32 @@ public class AgreementEmailService : IAgreementEmailService
             .AppendLine("The fully signed PDF contract is attached to this email.")
             .ToString();
 
-        using var message = new MailMessage
-        {
-            From = new MailAddress(fromEmail),
-            Subject = $"Signed Contract - {QuoteSanitizer.Sanitize(input.ClientCompany)}",
-            Body = body
-        };
-
-        message.To.Add(_options.ToEmail);
-        message.CC.Add(input.ClientEmail);
-
-        // Convert the Base64 string back to bytes and attach
-        byte[] pdfBytes = Convert.FromBase64String(input.PdfBase64);
-        var ms = new MemoryStream(pdfBytes);
-        var cleanFileName = $"Software_Services_Agreement_{QuoteSanitizer.Sanitize(input.ClientCompany).Replace(" ", "_")}.pdf";
-        
-        var attachment = new Attachment(ms, cleanFileName, "application/pdf");
-        message.Attachments.Add(attachment);
+        MemoryStream? ms = null;
+        MailMessage? message = null;
 
         try
         {
+            message = new MailMessage
+            {
+                From = new MailAddress(fromEmail),
+                Subject = $"Signed Contract - {QuoteSanitizer.Sanitize(input.ClientCompany)}",
+                Body = body
+            };
+
+            message.To.Add(_options.ToEmail);
+
+            // Sanitize the client email (trim spaces, semicolons, commas)
+            var cleanClientEmail = input.ClientEmail.Trim().Trim(';', ',');
+            message.CC.Add(cleanClientEmail);
+
+            // Convert the Base64 string back to bytes and attach
+            byte[] pdfBytes = Convert.FromBase64String(input.PdfBase64);
+            ms = new MemoryStream(pdfBytes);
+            var cleanFileName = $"Software_Services_Agreement_{QuoteSanitizer.Sanitize(input.ClientCompany).Replace(" ", "_")}.pdf";
+            
+            var attachment = new Attachment(ms, cleanFileName, "application/pdf");
+            message.Attachments.Add(attachment);
+
             using var client = new SmtpClient(_options.SmtpHost, _options.SmtpPort)
             {
                 EnableSsl = _options.EnableSsl,
@@ -81,8 +87,8 @@ public class AgreementEmailService : IAgreementEmailService
         }
         finally
         {
-            // Close the MemoryStream after MailMessage is sent and disposed
-            ms.Close();
+            message?.Dispose();
+            ms?.Close();
         }
     }
 }
