@@ -1485,22 +1485,27 @@ h1.title::after {
   padding: 2rem;
   cursor: default;
 }
-.rc-svc-icon {
-  font-size: 2rem;
+.rc-service-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
   margin-bottom: 0.9rem;
-  display: block;
+}
+.rc-service-icon {
+  display: inline-block;
+  line-height: 1;
   filter: drop-shadow(0 0 8px rgba(0,212,255,0.35));
 }
-.rc-svc-title {
+.rc-service-title {
   font-family: var(--font-display);
-  font-size: 0.78rem;
-  font-weight: 600;
+  font-size: 0.85rem;
+  font-weight: 700;
   color: var(--white);
-  letter-spacing: 0.12em;
-  margin-bottom: 0.6rem;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
+  margin: 0;
 }
-.rc-svc-desc {
+.rc-service-desc {
   font-size: 0.93rem;
   line-height: 1.72;
   color: rgba(142,207,223,0.6);

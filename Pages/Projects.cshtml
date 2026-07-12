@@ -52,7 +52,16 @@
                         <span class="proj-status @statusClass">@statusLabel</span>
                     </div>
 
-                    <h2 class="proj-title">@p.Name</h2>
+                    @if (p.LiveUrl is not null)
+                    {
+                        <h2 class="proj-title">
+                            <a href="@p.LiveUrl" target="_blank" rel="noopener" style="color: inherit; text-decoration: none;">@p.Name</a>
+                        </h2>
+                    }
+                    else
+                    {
+                        <h2 class="proj-title">@p.Name</h2>
+                    }
                     <div class="proj-divider"></div>
 
                     <p class="proj-desc">@p.Description</p>
