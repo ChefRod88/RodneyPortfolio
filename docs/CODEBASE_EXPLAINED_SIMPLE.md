@@ -87,7 +87,7 @@ A guide to understand your portfolio chatbot so you can explain it to recruiters
 - Requires an OpenAI API key (configured via User Secrets or GitHub Secrets).
 - Blocks inappropriate content and prompt injection.
 - Limits messages to 500 characters.
-- Runs on Azure, deploys via GitHub Actions.
+- Runs on Cloudflare, deploys via GitHub Actions.
 - Keeps the API key secret (User Secrets locally, GitHub Secrets in production).
 
 ---

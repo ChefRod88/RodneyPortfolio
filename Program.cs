@@ -117,8 +117,7 @@ builder.Services.AddSession(options =>
 });
 
 var sqlConnectionString =
-    builder.Configuration.GetConnectionString("AzureSQL")
-    ?? builder.Configuration.GetConnectionString("DefaultConnection");
+    builder.Configuration.GetConnectionString("DefaultConnection");
 
 var hasSqlConnection = !string.IsNullOrWhiteSpace(sqlConnectionString);
 

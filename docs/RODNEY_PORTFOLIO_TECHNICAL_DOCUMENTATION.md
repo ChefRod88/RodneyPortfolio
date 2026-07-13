@@ -38,7 +38,7 @@ I built rodneyachery.com as a single-page portfolio that showcases my background
 - **Job Match** — Paste a job description and get a compatibility analysis
 - **Contact** — Email and LinkedIn
 
-The stack is **ASP.NET Core 10**, **Razor Pages**, **C#**, **JavaScript**, **Bootstrap**, and **OpenAI Chat Completions API**. I host it on **Azure Web App** with **GitHub Actions** CI/CD.
+The stack is **ASP.NET Core 10**, **Razor Pages**, **C#**, **JavaScript**, **Bootstrap**, and **OpenAI Chat Completions API**. It is hosted as a static site on **Cloudflare Pages** using **GitHub Actions** CI/CD.
 
 ---
 
@@ -53,7 +53,7 @@ The stack is **ASP.NET Core 10**, **Razor Pages**, **C#**, **JavaScript**, **Boo
 | UI Framework | Bootstrap | 5.x (via lib) |
 | AI | OpenAI Chat Completions | gpt-4o-mini |
 | Analytics | Google Analytics 4 | gtag.js |
-| Hosting | Azure Web App | Production |
+| Hosting | Cloudflare Pages | Production |
 | CI/CD | GitHub Actions | Push to main triggers deploy |
 | PWA | Service Worker | Offline caching |
 
@@ -151,7 +151,7 @@ flowchart LR
 ```
 RodneyPortfolio/
 ├── .github/workflows/
-│   └── main_rodney-portfolio.yml    # GitHub Actions: build + deploy to Azure
+│   └── main_rodney-portfolio.yml    # GitHub Actions: build + deploy to Cloudflare
 ├── Controllers/
 │   └── ChatController.cs           # REST API: /api/chat, /api/chat/job-match
 ├── Data/
@@ -558,7 +558,7 @@ I update this file whenever my resume changes. The AI uses it as the sole source
 ### Secrets Management
 
 - **Local:** `dotnet user-secrets set "OpenAI:ApiKey" "sk-..."` — never committed.
-- **Production:** GitHub Secret `OPENAI_API_KEY` → Azure App Setting `OpenAI__ApiKey` via `Azure/appservice-settings@v1`.
+- **Production:** GitHub Secret `CLOUDFLARE_API_TOKEN` (Wrangler deployment token).
 - **GA4:** `GA4_MEASUREMENT_ID` in GitHub Secrets for production override; otherwise `appsettings.json` value is used.
 
 ---
@@ -576,11 +576,8 @@ I update this file whenever my resume changes. The AI uses it as the sole source
 - Upload artifact
 
 **Deploy job:**
-- Download artifact
-- Azure login (client-id, tenant-id, subscription-id from secrets)
-- `azure/webapps-deploy@v3` → deploy to `rodney-portfolio`
-- `Azure/appservice-settings@v1` → set `OpenAI__ApiKey`
-- `Azure/appservice-settings@v1` → set `GoogleAnalytics__MeasurementId`
+- Checkout repository
+- `cloudflare/wrangler-action@v3` → deploy static assets from `./wwwroot` to Cloudflare Pages using `CLOUDFLARE_API_TOKEN` secret.
 
 ---
 
@@ -588,7 +585,7 @@ I update this file whenever my resume changes. The AI uses it as the sole source
 
 | Measure | Implementation |
 |---------|-----------------|
-| API key storage | User Secrets (dev), GitHub Secrets → Azure (prod) |
+| API key storage | User Secrets (dev), Cloudflare Secrets (prod) |
 | Input validation | 500 chars, prompt injection patterns blocked |
 | Content filtering | Profanity block list |
 

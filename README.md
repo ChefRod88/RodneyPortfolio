@@ -22,7 +22,7 @@ I built this portfolio to showcase my background, skills, and projects. It inclu
 
 ## 1. Executive Summary
 
-This is a single-page portfolio built with **ASP.NET Core 10**, **Razor Pages**, **C#**, **JavaScript**, and **OpenAI Chat Completions API**. I host it on **Azure Web App** with **GitHub Actions** CI/CD. It includes a **Client Portal** (MVC) for authenticated invoice access and Stripe payments.
+This is a single-page portfolio built with **ASP.NET Core 10**, **Razor Pages**, **C#**, **JavaScript**, and **OpenAI Chat Completions API**. It is hosted as a static site on **Cloudflare Pages** using **GitHub Actions** CI/CD.
 
 **Sections:**
 - **Profile/Hero** — Introduction, status badge, skills row, social links, CV download
@@ -45,7 +45,7 @@ This is a single-page portfolio built with **ASP.NET Core 10**, **Razor Pages**,
 | AI | OpenAI Chat Completions (gpt-4o-mini) |
 | Payments | Stripe |
 | Analytics | Google Analytics 4 |
-| Hosting | Azure Web App |
+| Hosting | Cloudflare Pages |
 | CI/CD | GitHub Actions |
 
 ---
@@ -106,7 +106,7 @@ RodneyPortfolio/
 ├── Pages/Admin/                   # Admin pages (Accounts, Invoices, EditClient)
 ├── wwwroot/                       # CSS, JS, assets, PWA
 ├── docs/                          # Technical documentation
-└── .github/workflows/             # CI/CD to Azure
+└── .github/workflows/             # CI/CD to Cloudflare
 ```
 
 ---
@@ -142,14 +142,14 @@ RodneyPortfolio/
 ## 7. Configuration
 
 - **Local:** `dotnet user-secrets set "OpenAI:ApiKey" "sk-..."`
-- **Production:** GitHub Secret `OPENAI_API_KEY` → Azure App Setting `OpenAI__ApiKey`
+- **Production:** GitHub Secret `CLOUDFLARE_API_TOKEN` (Wrangler deployment token)
 - **GA4:** `GoogleAnalytics:MeasurementId` in appsettings or `GA4_MEASUREMENT_ID` GitHub Secret
 - **Stripe:** `Stripe:SecretKey` and `Stripe:PublishableKey` in appsettings/secrets
 - **reCAPTCHA v2 local setup:**
   - `dotnet user-secrets set "Recaptcha:SiteKey" "<your-site-key>"`
   - `dotnet user-secrets set "Recaptcha:SecretKey" "<your-secret-key>"`
   - `dotnet user-secrets set "Recaptcha:ExpectedHostname" "localhost"`
-- **reCAPTCHA v2 production setup:** configure Azure app settings `Recaptcha__SiteKey`, `Recaptcha__SecretKey`, and `Recaptcha__ExpectedHostname` (for this site: `www.rodneyachery.com`)
+- **reCAPTCHA v2 production setup:** Configure values for `Recaptcha:SiteKey`, `Recaptcha:SecretKey`, and `Recaptcha:ExpectedHostname` (for this site: `www.rodneyachery.com`).
 
 ---
 
