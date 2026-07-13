@@ -14,7 +14,9 @@
     "vitest": "^3.2.4"
   },
   "dependencies": {
-    "fsevents": "^2.3.2",
     "undici-types": "^7.16.0"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.3"
   }
 }
