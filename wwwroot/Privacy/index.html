@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GFRJYMRHKM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-GFRJYMRHKM');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Privacy Policy</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#020c14" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Rodney Chery" />
+    <link rel="apple-touch-icon" href="/assets/images/icon-192.png" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Stripe Elements -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <input type="hidden" id="stripe-pub-key" value="" />
+
+    
+</head>
+
+<body>
+
+    <!-- MATRIX RAIN CANVAS -->
+        <canvas id="rc-matrix"></canvas>
+        <div class="rc-vignette"></div>
+        <div class="rc-scanlines"></div>
+
+    <!-- NAV -->
+    <nav id="hamburger-nav">
+        <a href="/" class="logo" style="text-decoration:none;">RC<span>//</span>DEV</a>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="menu-links">
+                <ul>
+                    <li><a href="/#about"        onclick="toggleMenu()">About</a></li>
+                    <li><a href="/#services"     onclick="toggleMenu()">Services</a></li>
+                    <li><a href="/Projects"      onclick="toggleMenu()">Projects</a></li>
+                    <li><a href="/Faq"          onclick="toggleMenu()" class="rc-nav-faq">FAQ &amp; Standards</a></li>
+                    <li><a href="/#quote"        onclick="toggleMenu()" class="rc-nav-cta">Get a Quote</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main" class="rc-main">
+        <h1>Privacy Policy</h1>
+
+<p>Use this page to detail your site's privacy policy.</p>
+
+    </main>
+
+    <footer class="rc-footer">
+        <div class="rc-footer-inner">
+            <div class="rc-footer-links">
+                <a href="/#about">About</a>
+                <a href="/#services">Services</a>
+                <a href="/#pricing">Pricing</a>
+                <a href="/#quote">Quote</a>
+                <a href="/#support">Contact Support</a>
+            </div>
+            <small id="copyright">© 2026 RODNEY CHERY &nbsp;·&nbsp; FULL STACK AI DEVELOPER &nbsp;·&nbsp; NODE_ONLINE</small>
+        </div>
+    </footer>
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/site.js"></script>
+    <script src="/js/layout.js"></script>
+
+    
+
+    <!-- Admin access button — bottom left corner, always visible -->
+<a href="/Admin/Login" class="rc-admin-btn" title="Administrator Only">
+    <span class="rc-admin-icon">⬡</span>
+    <span class="rc-admin-label">Admin</span>
+</a>
+
+</body>
+</html>

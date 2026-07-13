@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GFRJYMRHKM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-GFRJYMRHKM');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Software Services Agreement</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#020c14" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Rodney Chery" />
+    <link rel="apple-touch-icon" href="/assets/images/icon-192.png" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Stripe Elements -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <input type="hidden" id="stripe-pub-key" value="" />
+
+    
+</head>
+
+<body>
+
+    <!-- MATRIX RAIN CANVAS -->
+
+    <!-- NAV -->
+    <nav id="hamburger-nav">
+        <a href="/" class="logo" style="text-decoration:none;">RC<span>//</span>DEV</a>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="menu-links">
+                <ul>
+                    <li><a href="/#about"        onclick="toggleMenu()">About</a></li>
+                    <li><a href="/#services"     onclick="toggleMenu()">Services</a></li>
+                    <li><a href="/Projects"      onclick="toggleMenu()">Projects</a></li>
+                    <li><a href="/Faq"          onclick="toggleMenu()" class="rc-nav-faq">FAQ &amp; Standards</a></li>
+                    <li><a href="/#quote"        onclick="toggleMenu()" class="rc-nav-cta">Get a Quote</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main" class="rc-main">
+        
+<div class="faq-page rc-fade agreement-page-wrapper">
+    <div class="faq-hero" style="padding-top: 3rem; padding-bottom: 1.5rem;">
+        <p class="section__text__p1">Contract &amp; Compliance</p>
+        <h1 class="title">Services Agreement</h1>
+        <p class="faq-hero-sub">Please review the agreement terms below, fill in your signing information, and draw your signature. Upon completion, a formal PDF copy will be generated and sent to you and RC DEV LLC.</p>
+    </div>
+
+    <!-- THEME TOGGLE BUTTON -->
+    <div style="max-width: 900px; width: 100%; margin: 0 auto; padding: 0 1rem; text-align: right; box-sizing: border-box;">
+        <button type="button" id="themeToggleBtn" style="background: rgba(255,255,255,0.08); border: 1px solid var(--border); color: var(--white); padding: 0.6rem 1.2rem; font-family: var(--font-mono); font-size: 0.8rem; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; border-radius: 0;">
+            <span id="themeToggleIcon">☀️</span> <span id="themeToggleText">Light Mode</span>
+        </button>
+    </div>
+
+    <div class="section-container" style="display: flex; flex-direction: column; align-items: center; gap: 2.5rem; max-width: 900px; margin: 0 auto; padding: 1.5rem 1rem 4rem 1rem;">
+        
+        <!-- INTEGRATED FULL CONTRACT TEXT -->
+        <div class="rc-glass contract-text-card" style="width: 100%; padding: 3.5rem 3rem; box-sizing: border-box; border: 1px solid var(--border); background: rgba(2, 12, 20, 0.9); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.65); transition: all 0.3s;">
+            <div class="contract-doc-body" style="font-family: var(--font-body); font-size: 0.95rem; line-height: 1.8; color: rgba(142, 207, 223, 0.85); font-weight: 300; letter-spacing: 0.02em; transition: color 0.3s;">
+                <h2 class="contract-doc-header" style="color: var(--white); font-family: var(--font-display); font-size: 1.4rem; text-align: center; margin-bottom: 2rem; border-bottom: 1px solid rgba(0, 212, 255, 0.25); padding-bottom: 1rem; transition: all 0.3s;">SOFTWARE DEVELOPMENT SERVICES AGREEMENT</h2>
+                
+                <p style="margin-bottom: 1.5rem;">This Software Development Services Agreement ("Agreement") is entered into and made effective as of the date of signing, between Contractor: <strong>RC DEV LLC</strong> ("Contractor") and the undersigned <strong>Client</strong> ("Client").</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">1. SERVICES</h3>
+                <p style="margin-bottom: 1.5rem;">The Contractor agrees to provide software development, web development, consulting, design, deployment, and related technical services as described in the approved project proposal, statement of work, quotation, or written scope document ("Project Scope"). Only work specifically described in the approved Project Scope is included in this Agreement. Any work requested outside the approved Project Scope shall be considered a Change Request and may require additional fees, revised timelines, and written approval before work begins.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">2. FREE DISCOVERY CONSULTATION</h3>
+                <p style="margin-bottom: 1.5rem;">The Contractor may provide one complimentary discovery consultation of up to thirty (30) minutes. The discovery consultation is intended solely for discussing project goals, requirements, budget, timeline, and general feasibility. The discovery consultation does not include: Custom software development, Custom coding, Database design, System architecture design, UI/UX design work, Wireframes, Prototypes, Technical specifications, or Project implementation. Any custom planning, architecture, design, or development services beyond the complimentary consultation may require a separate paid engagement.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">3. PROJECT PRICING</h3>
+                <p style="margin-bottom: 1.5rem;">All project pricing shall be stated in writing and approved by both parties before work begins. Project pricing may be provided as: Fixed-price project fees, Hourly consulting fees, or Separate change request quotations. No work shall begin until this Agreement is signed and the required deposit has been received.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">4. DEPOSIT REQUIREMENT</h3>
+                <p style="margin-bottom: 1.5rem;">A non-refundable deposit equal to fifty percent (50%) of the total project price is required before any work begins. The Contractor shall not reserve project scheduling, begin design work, begin development, planning, implementation, or deployment work until the deposit has been paid in full. The deposit compensates the Contractor for project scheduling, opportunity costs, administrative efforts, planning activities, and initial project execution.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">5. FINAL PAYMENT</h3>
+                <p style="margin-bottom: 1.5rem;">The remaining fifty percent (50%) balance shall be due upon substantial completion of the Project. Final payment must be received before final source code transfer, repository ownership transfer, production deployment, delivery of final project assets, or administrative account transfers. Failure to make final payment may result in delayed delivery until payment obligations are satisfied.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">6. CLIENT COMMUNICATION</h3>
+                <p style="margin-bottom: 1.5rem;">The Contractor shall provide regular project updates throughout development via Email, Telephone, Video conference, Google Meet, Microsoft Teams, or Written progress reports. Client agrees to provide timely feedback, approvals, content, and decisions necessary to maintain project timelines.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">7. CLIENT RESPONSIBILITIES</h3>
+                <p style="margin-bottom: 1.5rem;">The Client agrees to provide accurate project requirements, supply requested content and materials, respond to requests for information promptly, review deliverables in a timely manner, and maintain payment obligations under this Agreement.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">8. PROJECT COMPLETION</h3>
+                <p style="margin-bottom: 1.5rem;">A Project shall be considered substantially complete when: The approved scope has been delivered; or the Contractor has completed all agreed deliverables; or the Client approves the completed work; or the Client fails to provide feedback within fourteen (14) calendar days after delivery of the final review version. Upon substantial completion, the final invoice shall become immediately due.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">9. CHANGE REQUESTS</h3>
+                <p style="margin-bottom: 1.5rem;">Any request outside the approved Project Scope shall constitute a Change Request. Change Requests may require additional fees, revised schedules, or separate written approval. The Contractor is not obligated to perform Change Request work until approved in writing.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">10. HOSTING AND INFRASTRUCTURE</h3>
+                <p style="margin-bottom: 1.5rem;">Unless otherwise stated in writing, hosting fees are separate from development fees. Applications may be deployed to cloud providers including Microsoft Azure, Amazon Web Services (AWS), or Google Cloud Platform (GCP). The Client is responsible for all hosting costs, cloud usage fees, domain registration fees, SSL certificate fees, third-party software subscriptions, and API costs.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">11. OWNERSHIP OF WORK</h3>
+                <p style="margin-bottom: 1.5rem;">Upon receipt of full payment: Client shall own the completed source code, project-specific deliverables, and project assets created specifically for the Project. Client shall receive administrative access to repositories and systems under Client ownership. The Client may transfer the Project to another developer, agency, consultant, or internal team at any time after final payment.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">12. CONTRACTOR RIGHTS PRIOR TO FINAL PAYMENT</h3>
+                <p style="margin-bottom: 1.5rem;">Until all invoices are paid in full: All source code, development work, and repositories remain Contractor property. Delivery of project assets may be withheld, and ownership transfers only after all payment obligations are fully satisfied.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">13. ONE-YEAR SUPPORT PERIOD</h3>
+                <p style="margin-bottom: 1.5rem;">Beginning on the official launch date, the Contractor shall provide one (1) year of support. Included support consists of: Bug fixes, security updates, dependency updates, assistance with infrastructure issues, and minor content updates to existing pages. Support is limited to maintaining the Project as originally delivered.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">14. EXCLUDED SUPPORT SERVICES</h3>
+                <p style="margin-bottom: 1.5rem;">The following are not included within support: New pages, new features, new modules, redesign work, branding updates, marketing services, copywriting services, new third-party integrations, or major architectural changes. Such requests shall be treated as new work and quoted separately.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">15. ANNUAL RENEWAL SERVICES</h3>
+                <p style="margin-bottom: 1.5rem;">At the end of the initial one-year support period, support services automatically terminate unless renewed. The Client may purchase annual renewal services, which may include ongoing support, security updates, infrastructure management, domain renewal assistance, hosting administration, or technical maintenance. Renewal pricing shall be quoted separately. Failure to renew maintenance services shall not affect the Client's ownership rights.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">16. LIMITATION OF LIABILITY</h3>
+                <p style="margin-bottom: 1.5rem;">The Contractor shall not be liable for: Lost profits, lost business opportunities, indirect damages, consequential damages, third-party outages, cloud provider outages, domain registrar outages, or Client misuse of delivered software. Contractor liability shall not exceed the total amount paid by Client under this Agreement.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">17. TERMINATION</h3>
+                <p style="margin-bottom: 1.5rem;">Either party may terminate this Agreement in writing. Amounts already paid are non-refundable. Client shall remain responsible for payment for all completed work performed prior to termination.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">18. GOVERNING LAW</h3>
+                <p style="margin-bottom: 1.5rem;">This Agreement shall be governed by and construed in accordance with the laws of the State of Florida.</p>
+                
+                <h3 class="contract-doc-subheader" style="color: var(--c); font-family: var(--font-display); font-size: 1rem; margin-top: 2rem; margin-bottom: 0.5rem; font-weight: 600; transition: color 0.3s;">19. ENTIRE AGREEMENT</h3>
+                <p style="margin-bottom: 0.5rem;">This Agreement, together with any approved proposal, statement of work, quotation, or change order, constitutes the entire agreement between the parties. No verbal statements shall modify this Agreement. All modifications must be made in writing and signed by both parties.</p>
+            </div>
+        </div>
+
+        <!-- SIGNATURE FORM AND FIELDS -->
+        <div class="rc-glass contract-form-card" style="width: 100%; padding: 2.5rem 2rem; box-sizing: border-box; transition: all 0.3s;">
+            <form id="agreementForm" method="post" style="display: flex; flex-direction: column; gap: 1.8rem;">
+                
+                <input type="hidden" id="clientIpAddress" value="127.0.0.1" />
+                
+                <div class="rc-agreement-grid">
+                    <div class="rc-form-group">
+                        <label for="clientName" class="form-label" style="display: block; font-family: var(--font-mono); font-size: 0.8rem; color: var(--white); margin-bottom: 0.5rem; text-transform: uppercase; transition: color 0.3s;">Client Name (Signer)</label>
+                        <input type="text" id="clientName" name="Input.ClientName" required style="width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border); padding: 0.8rem; color: var(--white); font-family: var(--font-body); border-radius: 0; outline: none; transition: all 0.3s; -webkit-appearance: none;" />
+                    </div>
+                    <div class="rc-form-group">
+                        <label for="clientCompany" class="form-label" style="display: block; font-family: var(--font-mono); font-size: 0.8rem; color: var(--white); margin-bottom: 0.5rem; text-transform: uppercase; transition: color 0.3s;">Company Name</label>
+                        <input type="text" id="clientCompany" name="Input.ClientCompany" required style="width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border); padding: 0.8rem; color: var(--white); font-family: var(--font-body); border-radius: 0; outline: none; transition: all 0.3s; -webkit-appearance: none;" />
+                    </div>
+                </div>
+
+                <div class="rc-form-group">
+                    <label for="clientEmail" class="form-label" style="display: block; font-family: var(--font-mono); font-size: 0.8rem; color: var(--white); margin-bottom: 0.5rem; text-transform: uppercase; transition: color 0.3s;">Email Address (For PDF copy)</label>
+                    <input type="email" id="clientEmail" name="Input.ClientEmail" required style="width: 100%; background: rgba(0,0,0,0.4); border: 1px solid var(--border); padding: 0.8rem; color: var(--white); font-family: var(--font-body); border-radius: 0; outline: none; transition: all 0.3s; -webkit-appearance: none;" />
+                </div>
+
+                <!-- HTML5 SIGNATURE CANVAS -->
+                <div class="rc-form-group">
+                    <label class="form-label" style="display: block; font-family: var(--font-mono); font-size: 0.8rem; color: var(--white); margin-bottom: 0.5rem; text-transform: uppercase; transition: color 0.3s;">
+                        Draw Client Signature Below
+                        <span style="color: rgba(142,207,223,0.5); font-family: var(--font-mono); font-size: 0.75rem; text-transform: none; float: right;">Logged IP: 127.0.0.1</span>
+                    </label>
+                    <div id="sigWrapper" style="position: relative; width: 100%; background: rgba(0,0,0,0.6); border: 1px solid var(--border); height: 180px; box-sizing: border-box; transition: all 0.3s;">
+                        <canvas id="signatureCanvas" style="position: absolute; top:0; left:0; width:100%; height:100%; cursor: crosshair; touch-action: none;"></canvas>
+                        <button type="button" id="clearBtn" style="position: absolute; bottom: 10px; right: 10px; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: var(--white); padding: 0.3rem 0.8rem; font-size: 0.7rem; font-family: var(--font-mono); cursor: pointer; transition: all 0.3s; z-index: 10; border-radius: 0;">Clear Signature</button>
+                    </div>
+                </div>
+
+                <div id="errorAlert" style="display: none; padding: 1rem; border: 1px solid rgba(255,0,0,0.3); background: rgba(255,0,0,0.05); color: #ff5555; font-family: var(--font-mono); font-size: 0.85rem;"></div>
+                <div id="successAlert" style="display: none; padding: 1rem; border: 1px solid rgba(0,255,0,0.3); background: rgba(0,255,0,0.05); color: #00ffaa; font-family: var(--font-mono); font-size: 0.85rem;"></div>
+
+                <button type="button" id="submitBtn" class="btn btn-outline-dark submit-button" style="width: 100%; padding: 1.2rem; font-family: var(--font-display); text-transform: uppercase; font-weight: 600; letter-spacing: 0.15em; background: transparent; transition: all 0.3s; font-size: 0.9rem; border-radius: 0;">Sign &amp; Submit Agreement</button>
+            <input name="__RequestVerificationToken" type="hidden" value="CfDJ8LLlgdkQ4qdLuByCBplQNDHXMyqkx-6tMCX7JwZip8UAFWHuoJ9ZfzGsWJRx41J1vTPlbcU2KABwatWAPSnmiW6DrlzU4YBPD0wZaTK1lPJmfVnNPxt2uxYgChDTEKodKVATzGnbZ14uY8L_s6Ju0Jo" /></form>
+        </div>
+    </div>
+</div>
+
+<!-- SPINNER LOADER -->
+<div id="loadingOverlay" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(2, 12, 20, 0.95); z-index: 9999; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;">
+    <div style="width: 50px; height: 50px; border: 3px solid rgba(0, 212, 255, 0.2); border-top-color: var(--c); border-radius: 50%; animation: spin 1s linear infinite;"></div>
+    <div id="loadingText" style="color: var(--white); font-family: var(--font-mono); font-size: 0.9rem; letter-spacing: 0.05em; text-transform: uppercase;">Generating Contract PDF...</div>
+</div>
+
+<!-- PRINTABLE CONTRACT HTML (Contained within viewport flow but fully hidden to visual users for printing) -->
+<div id="printableContract" style="position: absolute; left: -9999px; top: 0; width: 680px; pointer-events: none; font-family: 'Times New Roman', Times, serif; color: #000; background: #fff; padding: 40px; box-sizing: border-box; line-height: 1.5; font-size: 11pt;">
+    <h2 style="text-align: center; font-size: 16pt; font-weight: bold; margin-bottom: 25px;">SOFTWARE DEVELOPMENT SERVICES AGREEMENT</h2>
+    <p style="margin-bottom: 15px;">This Software Development Services Agreement ("Agreement") is entered into and made effective as of <span id="pdfDateText">__________________</span> ("Effective Date") between:</p>
+    
+    <p style="margin-bottom: 5px;"><strong>Contractor:</strong> RC DEV LLC ("Contractor")</p>
+    <p style="margin-bottom: 20px;"><strong>Client:</strong> <span id="pdfClientCompanyText">__________________</span> (represented by <span id="pdfClientNameText">__________________</span>) ("Client")</p>
+
+    <div style="text-align: justify; margin-bottom: 25px;">
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">1. SERVICES</h3>
+        <p>The Contractor agrees to provide software development, web development, consulting, design, deployment, and related technical services as described in the approved project proposal, statement of work, quotation, or written scope document ("Project Scope"). Only work specifically described in the approved Project Scope is included in this Agreement. Any work requested outside the approved Project Scope shall be considered a Change Request and may require additional fees, revised timelines, and written approval before work begins.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">2. FREE DISCOVERY CONSULTATION</h3>
+        <p>The Contractor may provide one complimentary discovery consultation of up to thirty (30) minutes. The discovery consultation is intended solely for discussing project goals, requirements, budget, timeline, and general feasibility. The discovery consultation does not include: custom software development, custom coding, database design, system architecture design, UI/UX design work, wireframes, prototypes, technical specifications, or project implementation.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">3. PROJECT PRICING</h3>
+        <p>All project pricing shall be stated in writing and approved by both parties before work begins. Project pricing may be provided as: Fixed-price project fees, Hourly consulting fees, or Separate change request quotations. No work shall begin until this Agreement is signed and the required deposit has been received.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">4. DEPOSIT REQUIREMENT</h3>
+        <p>A non-refundable deposit equal to fifty percent (50%) of the total project price is required before any work begins. The Contractor shall not reserve project scheduling, begin design work, begin development, planning, implementation, or deployment work until the deposit has been paid in full.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">5. FINAL PAYMENT</h3>
+        <p>The remaining fifty percent (50%) balance shall be due upon substantial completion of the Project. Final payment must be received before final source code transfer, repository ownership transfer, production deployment, delivery of final project assets, or administrative account transfers.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">6. CLIENT COMMUNICATION</h3>
+        <p>The Contractor shall provide regular project updates throughout development via Email, Telephone, Video conference, Google Meet, Microsoft Teams, or Written progress reports. Client agrees to provide timely feedback, approvals, content, and decisions necessary to maintain project timelines.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">7. CLIENT RESPONSIBILITIES</h3>
+        <p>The Client agrees to provide accurate project requirements, supply requested content and materials, respond to requests for information promptly, review deliverables in a timely manner, and maintain payment obligations under this Agreement.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">8. PROJECT COMPLETION</h3>
+        <p>A Project shall be considered substantially complete when the approved scope has been delivered, or the Contractor has completed all agreed deliverables, or the Client approves the completed work, or the Client fails to provide feedback within fourteen (14) calendar days after delivery of the final review version.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">9. CHANGE REQUESTS</h3>
+        <p>Any request outside the approved Project Scope shall constitute a Change Request. Change Requests may require additional fees, revised schedules, or separate written approval. The Contractor is not obligated to perform Change Request work until approved in writing.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">10. HOSTING AND INFRASTRUCTURE</h3>
+        <p>Unless otherwise stated in writing, hosting fees are separate from development fees. Applications may be deployed to cloud providers including Microsoft Azure, Amazon Web Services (AWS), or Google Cloud Platform (GCP). The Client is responsible for all hosting costs, cloud usage fees, domain registration fees, SSL certificate fees, third-party software subscriptions, and API costs.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">11. OWNERSHIP OF WORK</h3>
+        <p>Upon receipt of full payment, Client shall own the completed source code, project-specific deliverables, and project assets created specifically for the Project. Client shall receive administrative access to repositories and systems under Client ownership.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">12. CONTRACTOR RIGHTS PRIOR TO FINAL PAYMENT</h3>
+        <p>Until all invoices are paid in full, all source code, development work, and repositories remain Contractor property. Delivery of project assets may be withheld.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">13. ONE-YEAR SUPPORT PERIOD</h3>
+        <p>Beginning on the official launch date, the Contractor shall provide one (1) year of support. Included support consists of bug fixes, security updates, dependency updates, assistance with infrastructure issues, and minor content updates to existing pages, limited to maintaining the Project as originally delivered.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">14. EXCLUDED SUPPORT SERVICES</h3>
+        <p>The following are not included within support: new pages, new features, new modules, redesign work, branding updates, marketing services, copywriting services, new third-party integrations, or major architectural changes. Such requests shall be treated as new work.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">15. ANNUAL RENEWAL SERVICES</h3>
+        <p>At the end of the initial one-year support period, support services automatically terminate unless renewed. The Client may purchase annual renewal services, which may include ongoing support, security updates, infrastructure management, domain renewal assistance, hosting administration, or technical maintenance.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">16. LIMITATION OF LIABILITY</h3>
+        <p>The Contractor shall not be liable for lost profits, lost business opportunities, indirect damages, consequential damages, third-party outages, cloud provider outages, domain registrar outages, or Client misuse of delivered software. Contractor liability shall not exceed the total amount paid by Client under this Agreement.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">17. TERMINATION</h3>
+        <p>Either party may terminate this Agreement in writing. Amounts already paid are non-refundable. Client shall remain responsible for payment for all completed work performed prior to termination.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">18. GOVERNING LAW</h3>
+        <p>This Agreement shall be governed by and construed in accordance with the laws of the State of Florida.</p>
+        
+        <h3 style="font-size: 12pt; font-weight: bold; margin-top: 15px; margin-bottom: 5px;">19. ENTIRE AGREEMENT</h3>
+        <p>This Agreement, together with any approved proposal, statement of work, quotation, or change order, constitutes the entire agreement between the parties. No verbal statements shall modify this Agreement. All modifications must be made in writing and signed by both parties.</p>
+    </div>
+
+    <!-- SIGNATURE BLOCKS -->
+    <div style="margin-top: 50px; display: table; width: 100%;">
+        <div style="display: table-row;">
+            <div style="display: table-cell; width: 45%; border-top: 1px solid #000; padding-top: 5px;">
+                <p><strong>CONTRACTOR: RC DEV LLC</strong></p>
+                <p style="margin-top: 10px;">By: Rodney A. Chery</p>
+                <p style="margin-top: 5px;">Title: Lead Architect &amp; Member</p>
+                <p style="margin-top: 5px;">Date: <span id="pdfDateTextContractor">__________________</span></p>
+            </div>
+            <div style="display: table-cell; width: 10%;"></div>
+            <div style="display: table-cell; width: 45%; border-top: 1px solid #000; padding-top: 5px;">
+                <p><strong>CLIENT: <span id="pdfClientCompanyLabel">__________________</span></strong></p>
+                <div style="margin-top: 10px; height: 50px;">
+                    <img id="pdfSignatureImg" style="max-height: 50px; display: none;" />
+                </div>
+                <p style="border-top: 1px dashed #777; margin-top: 5px; padding-top: 3px;">By: <span id="pdfClientNameLabel">__________________</span></p>
+                <p style="margin-top: 5px;">Date: <span id="pdfClientDateLabel">__________________</span></p>
+                <p style="margin-top: 5px; font-size: 9pt; color: #555;">IP Address: <span id="pdfClientIpLabel">__________________</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    </main>
+
+    <footer class="rc-footer">
+        <div class="rc-footer-inner">
+            <div class="rc-footer-links">
+                <a href="/#about">About</a>
+                <a href="/#services">Services</a>
+                <a href="/#pricing">Pricing</a>
+                <a href="/#quote">Quote</a>
+                <a href="/#support">Contact Support</a>
+            </div>
+            <small id="copyright">© 2026 RODNEY CHERY &nbsp;·&nbsp; FULL STACK AI DEVELOPER &nbsp;·&nbsp; NODE_ONLINE</small>
+        </div>
+    </footer>
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/site.js"></script>
+    <script src="/js/layout.js"></script>
+
+    
+    <!-- HTML2PDF CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Theme Toggle logic
+            const themeToggleBtn = document.getElementById("themeToggleBtn");
+            const themeToggleIcon = document.getElementById("themeToggleIcon");
+            const themeToggleText = document.getElementById("themeToggleText");
+            const pageWrapper = document.querySelector(".agreement-page-wrapper");
+            let isLightMode = false;
+
+            themeToggleBtn.addEventListener("click", function () {
+                isLightMode = !isLightMode;
+                if (isLightMode) {
+                    pageWrapper.classList.add("light-mode");
+                    themeToggleIcon.innerText = "🌙";
+                    themeToggleText.innerText = "Dark Mode";
+                    themeToggleBtn.style.color = "#111827";
+                    themeToggleBtn.style.borderColor = "#111827";
+                    themeToggleBtn.style.background = "rgba(0,0,0,0.05)";
+                } else {
+                    pageWrapper.classList.remove("light-mode");
+                    themeToggleIcon.innerText = "☀️";
+                    themeToggleText.innerText = "Light Mode";
+                    themeToggleBtn.style.color = "var(--white)";
+                    themeToggleBtn.style.borderColor = "var(--border)";
+                    themeToggleBtn.style.background = "rgba(255,255,255,0.08)";
+                }
+                // Refresh canvas stroke color
+                ctx.strokeStyle = isLightMode ? "#000000" : "#00ffaa";
+            });
+
+            // Setup canvas signature drawing
+            const canvas = document.getElementById("signatureCanvas");
+            const ctx = canvas.getContext("2d");
+            let isDrawing = false;
+            let hasSigned = false;
+
+            let lastWidth = canvas.offsetWidth;
+            let lastHeight = canvas.offsetHeight;
+
+            // Scale canvas context for sharp retina screens
+            function resizeCanvas() {
+                // Prevent iOS scroll address-bar resizing from resetting canvas
+                if (canvas.offsetWidth === lastWidth && canvas.offsetHeight === lastHeight && hasSigned) {
+                    return;
+                }
+
+                lastWidth = canvas.offsetWidth;
+                lastHeight = canvas.offsetHeight;
+
+                const ratio = Math.max(window.devicePixelRatio || 1, 1);
+                canvas.width = canvas.offsetWidth * ratio;
+                canvas.height = canvas.offsetHeight * ratio;
+                ctx.scale(ratio, ratio);
+                ctx.strokeStyle = isLightMode ? "#000000" : "#00ffaa"; // Dark ink for light mode, neon for dark
+                ctx.lineWidth = 2.5;
+                ctx.lineCap = "round";
+                ctx.lineJoin = "round";
+                if (!hasSigned) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+            }
+            
+            // Sizing
+            resizeCanvas();
+            window.addEventListener("resize", resizeCanvas);
+
+            // Drawing coordinates mapping
+            function getCoords(e) {
+                const rect = canvas.getBoundingClientRect();
+                if (e.touches && e.touches.length > 0) {
+                    return {
+                        x: e.touches[0].clientX - rect.left,
+                        y: e.touches[0].clientY - rect.top
+                    };
+                }
+                return {
+                    x: e.clientX - rect.left,
+                    y: e.clientY - rect.top
+                };
+            }
+
+            // Start Drawing
+            function startDrawing(e) {
+                isDrawing = true;
+                hasSigned = true;
+                const coords = getCoords(e);
+                ctx.beginPath();
+                ctx.moveTo(coords.x, coords.y);
+                e.preventDefault();
+            }
+
+            // Draw Line
+            function draw(e) {
+                if (!isDrawing) return;
+                const coords = getCoords(e);
+                ctx.lineTo(coords.x, coords.y);
+                ctx.stroke();
+                e.preventDefault();
+            }
+
+            // Stop Drawing
+            function stopDrawing() {
+                isDrawing = false;
+            }
+
+            // Wire events (Mouse and Touch)
+            canvas.addEventListener("mousedown", startDrawing);
+            canvas.addEventListener("mousemove", draw);
+            canvas.addEventListener("mouseup", stopDrawing);
+            canvas.addEventListener("mouseleave", stopDrawing);
+
+            canvas.addEventListener("touchstart", startDrawing, { passive: false });
+            canvas.addEventListener("touchmove", draw, { passive: false });
+            canvas.addEventListener("touchend", stopDrawing);
+
+            // Clear Button handler
+            document.getElementById("clearBtn").addEventListener("click", function () {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                hasSigned = false;
+                document.getElementById("pdfSignatureImg").style.display = "none";
+            });
+
+            // Submit Button handler (generates PDF on client, sends to server)
+            document.getElementById("submitBtn").addEventListener("click", function (e) {
+                e.preventDefault();
+                
+                const clientName = document.getElementById("clientName").value.trim();
+                const clientCompany = document.getElementById("clientCompany").value.trim();
+                const clientEmail = document.getElementById("clientEmail").value.trim();
+                const clientIp = document.getElementById("clientIpAddress").value;
+                const errorAlert = document.getElementById("errorAlert");
+                const successAlert = document.getElementById("successAlert");
+
+                errorAlert.style.display = "none";
+                successAlert.style.display = "none";
+
+                // Simple validation
+                if (!clientName || !clientCompany || !clientEmail) {
+                    errorAlert.innerText = "Please fill out your Name, Company, and Email Address.";
+                    errorAlert.style.display = "block";
+                    return;
+                }
+
+                // Trim separators and validate format
+                const cleanEmail = clientEmail.trim().replace(/^[;,]+|[;,]+$/g, '');
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(cleanEmail)) {
+                    errorAlert.innerText = "Please enter a valid email address.";
+                    errorAlert.style.display = "block";
+                    return;
+                }
+
+                if (!hasSigned) {
+                    errorAlert.innerText = "Please sign in the signature pad box before submitting.";
+                    errorAlert.style.display = "block";
+                    return;
+                }
+
+                // Show spinner loading overlay
+                const loadingOverlay = document.getElementById("loadingOverlay");
+                const loadingText = document.getElementById("loadingText");
+                loadingOverlay.style.display = "flex";
+
+                try {
+                    // 1) Prepare signature image
+                    // Create an temporary canvas to copy drawing with a black stroke (for standard black/white printable PDF)
+                    const printCanvas = document.createElement("canvas");
+                    printCanvas.width = canvas.width;
+                    printCanvas.height = canvas.height;
+                    const pCtx = printCanvas.getContext("2d");
+                    
+                    // Draw original canvas content to printCanvas (matches ratios)
+                    pCtx.drawImage(canvas, 0, 0);
+                    
+                    // Convert all non-transparent drawing pixels to solid black (#000000) using source-in!
+                    pCtx.globalCompositeOperation = 'source-in';
+                    pCtx.fillStyle = '#000000';
+                    pCtx.fillRect(0, 0, printCanvas.width, printCanvas.height);
+                    
+                    const signatureDataUrl = printCanvas.toDataURL("image/png");
+
+                    // 2) Populate PDF template
+                    const todayStr = new Date().toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
+                    document.getElementById("pdfDateText").innerText = todayStr;
+                    document.getElementById("pdfDateTextContractor").innerText = todayStr;
+                    document.getElementById("pdfClientCompanyText").innerText = clientCompany;
+                    document.getElementById("pdfClientNameText").innerText = clientName;
+                    
+                    document.getElementById("pdfClientCompanyLabel").innerText = clientCompany;
+                    document.getElementById("pdfClientNameLabel").innerText = clientName;
+                    document.getElementById("pdfClientDateLabel").innerText = todayStr;
+                    document.getElementById("pdfClientIpLabel").innerText = clientIp;
+
+                    const pdfSigImg = document.getElementById("pdfSignatureImg");
+                    
+                    // Generate PDF ONLY after the signature image has fully loaded in the DOM (prevents race condition / missing images)
+                    pdfSigImg.onload = function() {
+                        loadingText.innerText = "Formatting PDF Document...";
+                        const pdfElement = document.getElementById("printableContract");
+                        
+                        const pdfOptions = {
+                            margin:       [0.5, 0.5, 0.5, 0.5],
+                            filename:     `Services_Agreement_${clientCompany.replace(/\s+/g, '_')}.pdf`,
+                            image:        { type: 'jpeg', quality: 0.95 },
+                            html2canvas:  { scale: 2, useCORS: true, logging: false },
+                            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                        };
+
+                        html2pdf().from(pdfElement).set(pdfOptions).outputPdf('datauristring').then(async function (pdfDataUri) {
+                            try {
+                                const pdfBase64 = pdfDataUri.split(',')[1];
+
+                                // 4) POST PDF base64 and details to Razor Page
+                                loadingText.innerText = "Transmitting to Server...";
+                                const formData = new FormData();
+                                formData.append("Input.ClientName", clientName);
+                                formData.append("Input.ClientCompany", clientCompany);
+                                formData.append("Input.ClientEmail", cleanEmail);
+                                formData.append("Input.ClientIp", clientIp);
+                                formData.append("Input.PdfBase64", pdfBase64);
+
+                                const verificationToken = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                                const response = await fetch("?handler=Sign", {
+                                    method: "POST",
+                                    headers: {
+                                        "RequestVerificationToken": verificationToken
+                                    },
+                                    body: formData
+                                });
+
+                                const result = await response.json();
+                                loadingOverlay.style.display = "none";
+
+                                if (result.success) {
+                                    successAlert.innerText = result.message;
+                                    successAlert.style.display = "block";
+                                    document.getElementById("agreementForm").reset();
+                                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                                    hasSigned = false;
+                                    pdfSigImg.style.display = "none";
+                                } else {
+                                    errorAlert.innerText = result.message;
+                                    errorAlert.style.display = "block";
+                                }
+                            } catch (postErr) {
+                                console.error("Transmission error:", postErr);
+                                loadingOverlay.style.display = "none";
+                                errorAlert.innerText = "Connection lost. Failed to send signed contract to server.";
+                                errorAlert.style.display = "block";
+                            }
+                        }).catch(function (pdfErr) {
+                            console.error("PDF Engine error:", pdfErr);
+                            loadingOverlay.style.display = "none";
+                            errorAlert.innerText = "PDF Generation failed. Please clear your signature, draw again, and retry.";
+                            errorAlert.style.display = "block";
+                        });
+                    };
+
+                    pdfSigImg.onerror = function() {
+                        loadingOverlay.style.display = "none";
+                        errorAlert.innerText = "Failed to render signature format image. Please retry.";
+                        errorAlert.style.display = "block";
+                    };
+
+                    pdfSigImg.src = signatureDataUrl;
+                    pdfSigImg.style.display = "block";
+                } catch (err) {
+                    console.error("General submission error: ", err);
+                    loadingOverlay.style.display = "none";
+                    errorAlert.innerText = "An unexpected error occurred during submission. Please try again.";
+                    errorAlert.style.display = "block";
+                }
+            });
+        });
+    </script>
+    
+    <style>
+        /* Light/Dark mode styling for Services Agreement Page only */
+        .agreement-page-wrapper {
+            background: #020c14;
+            color: rgba(142, 207, 223, 0.85);
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Light Mode Styling */
+        .agreement-page-wrapper.light-mode {
+            background: #f4f6f9 !important;
+            color: #1f2937 !important;
+        }
+
+        .agreement-page-wrapper.light-mode .title {
+            color: #111827 !important;
+        }
+
+        .agreement-page-wrapper.light-mode .section__text__p1 {
+            color: #4b5563 !important;
+        }
+
+        .agreement-page-wrapper.light-mode .faq-hero-sub {
+            color: #4b5563 !important;
+        }
+
+        .agreement-page-wrapper.light-mode .contract-text-card {
+            background: #ffffff !important;
+            border-color: #d1d5db !important;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08) !important;
+        }
+
+        .agreement-page-wrapper.light-mode .contract-doc-body {
+            color: #374151 !important;
+        }
+
+        .agreement-page-wrapper.light-mode .contract-doc-header {
+            color: #111827 !important;
+            border-bottom-color: rgba(0, 0, 0, 0.1) !important;
+        }
+
+        .agreement-page-wrapper.light-mode .contract-doc-subheader {
+            color: #1d4ed8 !important;
+        }
+
+        .agreement-page-wrapper.light-mode .contract-form-card {
+            background: #ffffff !important;
+            border-color: #d1d5db !important;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08) !important;
+        }
+
+        .agreement-page-wrapper.light-mode .form-label {
+            color: #374151 !important;
+        }
+
+        .agreement-page-wrapper.light-mode input {
+            background: #f9fafb !important;
+            border-color: #d1d5db !important;
+            color: #111827 !important;
+        }
+
+        .agreement-page-wrapper.light-mode input:focus {
+            border-color: #1d4ed8 !important;
+            background: #ffffff !important;
+        }
+
+        .agreement-page-wrapper.light-mode #sigWrapper {
+            background: #f9fafb !important;
+            border-color: #d1d5db !important;
+        }
+
+        .agreement-page-wrapper.light-mode #clearBtn {
+            background: rgba(0,0,0,0.06) !important;
+            border-color: rgba(0,0,0,0.15) !important;
+            color: #374151 !important;
+        }
+
+        .agreement-page-wrapper.light-mode #clearBtn:hover {
+            background: rgba(0,0,0,0.1) !important;
+        }
+
+        .agreement-page-wrapper.light-mode .submit-button {
+            border-color: #111827 !important;
+            color: #111827 !important;
+        }
+
+        .agreement-page-wrapper.light-mode .submit-button:hover {
+            background: #111827 !important;
+            color: #ffffff !important;
+        }
+
+        /* Responsive grid rules */
+        .rc-agreement-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .rc-agreement-grid {
+                grid-template-columns: 1fr;
+            }
+            .contract-text-card {
+                padding: 2rem 1.5rem !important;
+            }
+            .faq-hero {
+                padding-top: 2rem !important;
+            }
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+
+
+    <!-- Admin access button — bottom left corner, always visible -->
+<a href="/Admin/Login" class="rc-admin-btn" title="Administrator Only">
+    <span class="rc-admin-icon">⬡</span>
+    <span class="rc-admin-label">Admin</span>
+</a>
+
+</body>
+</html>

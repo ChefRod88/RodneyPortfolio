@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GFRJYMRHKM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-GFRJYMRHKM');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rodney Chery | Software Developer</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#020c14" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Rodney Chery" />
+    <link rel="apple-touch-icon" href="/assets/images/icon-192.png" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Stripe Elements -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <input type="hidden" id="stripe-pub-key" value="" />
+
+    
+</head>
+
+<body>
+
+    <!-- MATRIX RAIN CANVAS -->
+        <canvas id="rc-matrix"></canvas>
+        <div class="rc-vignette"></div>
+        <div class="rc-scanlines"></div>
+
+    <!-- NAV -->
+    <nav id="hamburger-nav">
+        <a href="/" class="logo" style="text-decoration:none;">RC<span>//</span>DEV</a>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="menu-links">
+                <ul>
+                    <li><a href="/#about"        onclick="toggleMenu()">About</a></li>
+                    <li><a href="/#services"     onclick="toggleMenu()">Services</a></li>
+                    <li><a href="/Projects"      onclick="toggleMenu()">Projects</a></li>
+                    <li><a href="/Faq"          onclick="toggleMenu()" class="rc-nav-faq">FAQ &amp; Standards</a></li>
+                    <li><a href="/#quote"        onclick="toggleMenu()" class="rc-nav-cta">Get a Quote</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main" class="rc-main">
+        
+<!-- ═══ HERO ═══ -->
+<section id="profile">
+    <div class="section__pic-container rc-fade">
+        <img src="/assets/images/149A60A7-E1B9-45FA-A196-804C7DB392C7.png" alt="Rodney Chery — Software Developer" loading="eager" />
+    </div>
+
+    <div class="section__text rc-fade">
+        <p class="section__text__p1">Software Developer</p>
+        <h1 class="title">Rodney Chery</h1>
+        <p class="section__text__p2">I build intelligent web systems that solve real business problems.</p>
+
+        <div id="socials-container">
+            <img src="/assets/icons/linkedin.svg" alt="LinkedIn" class="icon" onclick="location.href='https://www.linkedin.com/in/rodneyachery/'" />
+            <img src="/assets/icons/github.svg" alt="GitHub" class="icon" onclick="window.open('https://github.com/ChefRod88/RodneyPortfolio', '_blank')" />
+        </div>
+
+        <div class="rc-status-row">
+            <div class="rc-sdot"><span class="rc-sdot-dot"></span>C#</div>
+            <div class="rc-sdot"><span class="rc-sdot-dot" style="animation-delay:.9s"></span>.NET</div>
+            <div class="rc-sdot"><span class="rc-sdot-dot" style="animation-delay:1.5s"></span>ASP.NET Core</div>
+            <div class="rc-sdot"><span class="rc-sdot-dot" style="animation-delay:2.1s"></span>MS SQL /SSMS</div>
+            <div class="rc-sdot"><span class="rc-sdot-dot" style="animation-delay:.7s"></span>AWS · GCP · Azure</div>
+        </div>
+
+
+
+        <!--<div class="btn-container">
+            <!-- CV_DOWNLOAD_BUTTON_DISABLED: Re-enable this button if you want Download CV back -->
+        </div>-->
+    </div>
+</section>
+
+<!-- ═══ ABOUT ═══ -->
+<section id="about" class="rc-fade">
+    <p class="section__text__p1">Who I Am</p>
+    <h1 class="title">Here's What I Solve<br/>For Your Business</h1>
+
+    <div class="section-container">
+        <!--
+        <div class="about-left-column">
+            <div class="about-education-center">
+                <div class="details-container education-card">
+                    <img src="~/assets/icons/mortarboard.svg" alt="Education Icon" class="icon" />
+                    <h3></h3>
+                    <p>
+                       
+                    </p>
+                </div>
+            </div>
+        </div>
+        -->
+
+        <div class="about-details-container">
+            <div class="text-container">
+                
+                <p>
+                    As a Software Developer, I build web systems that don't just look good — they <em>operate</em>.
+                    I architect solutions that handle real traffic, integrate AI intelligently, and connect seamlessly
+                    to your existing tools and APIs.
+                </p>
+                <p>
+                    I work with startups, small businesses, churches, and nonprofits who need a developer that
+                    communicates clearly, ships on time, and understands that technology is only valuable when
+                    it solves a human problem.
+                </p>
+                <p>
+                    Whether you need a client-facing web app, an AI-powered tool that automates your workflow,
+                    or a custom API that ties your systems together — I scope it, build it, and deliver it production-ready.
+                </p>
+
+                <div class="rc-stat-row">
+                    <div class="rc-stat-card rc-glass">
+                        <span class="rc-stat-num">3+</span>
+                        <span class="rc-stat-label">Years Building</span>
+                    </div>
+                    <div class="rc-stat-card rc-glass">
+                        <span class="rc-stat-num">AI</span>
+                        <span class="rc-stat-label">Integrated Apps</span>
+                    </div>
+                    <div class="rc-stat-card rc-glass">
+                        <span class="rc-stat-num">24h</span>
+                        <span class="rc-stat-label">Response Time</span>
+                    </div>
+                    <div class="rc-stat-card rc-glass">
+                        <span class="rc-stat-num">100%</span>
+                        <span class="rc-stat-label">Remote Ready</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <img src="/assets/icons/arrow-down-square.svg" alt="Arrow" class="icon arrow" onclick="location.href='#services'" />
+</section>
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services" class="rc-fade">
+    <p class="section__text__p1">What I Offer</p>
+    <h1 class="title">Services</h1>
+    <div class="rc-services-grid">
+
+        <div class="rc-service-card rc-glass">
+            <div class="rc-service-header">
+                <span class="rc-service-icon">🌐</span>
+                <div class="rc-service-title">Enterprise Web Applications</div>
+            </div>
+            <p class="rc-service-desc">Engineering secure, performant, and high-availability full-stack web applications utilizing ASP.NET Core, Blazor, and modern SPA frameworks like React. Designed with clean architecture patterns, robust state management, and containerized deployments across AWS, GCP, or Azure.</p>
+            <div class="rc-tags"><span class="rc-tag">ASP.NET Core</span><span class="rc-tag">React</span><span class="rc-tag">Docker</span><span class="rc-tag">Blazor</span><span class="rc-tag">Clean Architecture</span><span class="rc-tag">CI/CD</span></div>
+        </div>
+
+        <div class="rc-service-card rc-glass">
+            <div class="rc-service-header">
+                <span class="rc-service-icon">🤖</span>
+                <div class="rc-service-title">Cognitive Systems &amp; GenAI Pipelines</div>
+            </div>
+            <p class="rc-service-desc">Architecting and integrating intelligent capabilities into enterprise workflows. Designing Retrieval-Augmented Generation (RAG) pipelines, building orchestration layers, integrating OpenAI/Anthropic APIs or open-source LLMs, and implementing automated semantic search and intelligent document processing.</p>
+            <div class="rc-tags"><span class="rc-tag">OpenAI / Anthropic</span><span class="rc-tag">RAG</span><span class="rc-tag">Semantic Search</span><span class="rc-tag">Vector DBs</span><span class="rc-tag">C#</span><span class="rc-tag">Python</span></div>
+        </div>
+
+        <div class="rc-service-card rc-glass">
+            <div class="rc-service-header">
+                <span class="rc-service-icon">⚡</span>
+                <div class="rc-service-title">RESTful &amp; GraphQL API Engineering</div>
+            </div>
+            <p class="rc-service-desc">Building secure, scalable, and fully-documented APIs to unify front-ends, mobile clients, and third-party integrations. Engineered with OAuth2/OpenID Connect, rate limiting, distributed caching (Redis), API Gateways, and relational/NoSQL database layers.</p>
+            <div class="rc-tags"><span class="rc-tag">REST</span><span class="rc-tag">GraphQL</span><span class="rc-tag">OAuth2 / OIDC</span><span class="rc-tag">Redis</span><span class="rc-tag">OpenAPI / Swagger</span><span class="rc-tag">PostgreSQL</span></div>
+        </div>
+
+        <div class="rc-service-card rc-glass">
+            <div class="rc-service-header">
+                <span class="rc-service-icon">⛪</span>
+                <div class="rc-service-title">Nonprofit &amp; Community Digital Solutions</div>
+            </div>
+            <p class="rc-service-desc">Designing secure, highly accessible (WCAG compliant) web platforms for churches and nonprofit organizations. Integrated with secure PCI-compliant payment gateways (Stripe/PayPal), content management systems (CMS), custom event scheduling, and real-time interactive maps.</p>
+            <div class="rc-tags"><span class="rc-tag">Accessibility (WCAG)</span><span class="rc-tag">Stripe / PayPal</span><span class="rc-tag">CMS</span><span class="rc-tag">Event Calendars</span><span class="rc-tag">SEO</span></div>
+        </div>
+
+        <div class="rc-service-card rc-glass">
+            <div class="rc-service-header">
+                <span class="rc-service-icon">🔧</span>
+                <div class="rc-service-title">Infrastructure Management &amp; SRE</div>
+            </div>
+            <p class="rc-service-desc">Providing proactive system reliability engineering (SRE), root-cause analysis, and infrastructure support. Deploying log aggregation (ELK, Datadog), continuous system monitoring, writing runbooks, and configuring network/OS-level security controls.</p>
+            <div class="rc-tags"><span class="rc-tag">SRE</span><span class="rc-tag">Log Aggregation</span><span class="rc-tag">Monitoring</span><span class="rc-tag">Linux / Windows Admin</span><span class="rc-tag">Security Auditing</span></div>
+        </div>
+
+        <div class="rc-service-card rc-glass">
+            <div class="rc-service-header">
+                <span class="rc-service-icon">🚀</span>
+                <div class="rc-service-title">Cloud Infrastructure &amp; CI/CD Pipelines</div>
+            </div>
+            <p class="rc-service-desc">Automating code deployment pipelines and cloud infrastructure provisioning. Authoring infrastructure-as-code (IaC), setting up GitHub Actions for automated unit testing and build verification, orchestrating Docker containers, and configuring SSL/TLS certificates and load balancers.</p>
+            <div class="rc-tags"><span class="rc-tag">GitHub Actions</span><span class="rc-tag">IaC (Terraform)</span><span class="rc-tag">Docker</span><span class="rc-tag">Kubernetes</span><span class="rc-tag">SSL/TLS</span><span class="rc-tag">Load Balancers</span></div>
+        </div>
+
+    </div>
+    <img src="/assets/icons/arrow-down-square.svg" alt="Arrow" class="icon arrow" onclick="location.href='#process'" />
+</section>
+
+<!-- ═══ PROCESS ═══ -->
+<section id="process" class="rc-fade">
+    <p class="section__text__p1">How It Works</p>
+    <h1 class="title">Project Lifecycle</h1>
+    <div class="rc-process-steps">
+        <div class="rc-process-step rc-glass">
+            <div class="rc-step-num">01</div>
+            <div class="rc-step-title">Discovery</div>
+            <p class="rc-step-desc">Free scope call. We define your goals, requirements, timeline, and budget before any work begins.</p>
+        </div>
+        <div class="rc-process-arrow">→</div>
+        <div class="rc-process-step rc-glass">
+            <div class="rc-step-num">02</div>
+            <div class="rc-step-title">Design</div>
+            <p class="rc-step-desc">Architecture plan, UI wireframe, tech stack confirmation. You approve before I build anything.</p>
+        </div>
+        <div class="rc-process-arrow">→</div>
+        <div class="rc-process-step rc-glass">
+            <div class="rc-step-num">03</div>
+            <div class="rc-step-title">Build</div>
+            <p class="rc-step-desc">Iterative development with regular updates. You see progress — no black box, no surprises.</p>
+        </div>
+        <div class="rc-process-arrow">→</div>
+        <div class="rc-process-step rc-glass">
+            <div class="rc-step-num">04</div>
+            <div class="rc-step-title">Launch</div>
+            <p class="rc-step-desc">Production deployment, testing, handoff docs, and 30-day post-launch support included.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ PRICING ═══ -->
+<!--
+<section id="pricing" class="rc-fade">
+    <p class="section__text__p1">Investment</p>
+    <h1 class="title">Pricing Tiers</h1>
+    <div class="rc-pricing-grid">
+
+        <div class="rc-pricing-card rc-glass">
+            <div class="rc-pricing-tier">Starter</div>
+            <div class="rc-pricing-price">$160</div>
+            <div class="rc-pricing-range">One-time labor fee — hosting separate</div>
+            <ul class="rc-pricing-features">
+                <li>Single-page or landing site</li>
+                <li>Mobile responsive design</li>
+                <li>Contact form</li>
+                <li>Cloud deployment (Azure, GCP, or AWS)</li>
+                <li>Long-term support</li>
+            </ul>
+            <button class="btn btn-outline-dark" onclick="location.href='#quote'" style="width:100%;">Get Started</button>
+            <p class="rc-pricing-scope">Best for: small businesses, events, landing pages</p>
+        </div>
+
+        <div class="rc-pricing-card rc-glass rc-pricing-featured">
+            <div class="rc-pricing-badge">Most Popular</div>
+            <div class="rc-pricing-tier">Business Engine</div>
+            <div class="rc-pricing-price">$350</div>
+            <div class="rc-pricing-range">One-time labor fee — hosting separate</div>
+            <ul class="rc-pricing-features">
+                <li>Multi-page web application</li>
+                <li>AI feature integration</li>
+                <li>Custom API or database</li>
+                <li>CI/CD pipeline + Docker</li>
+                <li>Google Analytics + SEO</li>
+                <li>Long-term support</li>
+            </ul>
+            <button class="btn btn-outline-dark" onclick="location.href='#quote'" style="width:100%;">Get Started</button>
+            <p class="rc-pricing-scope">Best for: startups, churches, growing businesses</p>
+        </div>
+
+        <div class="rc-pricing-card rc-glass">
+            <div class="rc-pricing-tier">Custom</div>
+            <div class="rc-pricing-price">Scope</div>
+            <div class="rc-pricing-range">Call Required · Timeline TBD</div>
+            <ul class="rc-pricing-features">
+                <li>Full web app or SaaS build</li>
+                <li>Custom AI pipeline / LLM</li>
+                <li>Third-party integrations</li>
+                <li>Ongoing retainer available</li>
+                <li>Priority response</li>
+                <li>Dedicated Slack channel</li>
+            </ul>
+            <button class="btn btn-outline-dark" onclick="location.href='#quote'" style="width:100%;">Book a Call</button>
+            <p class="rc-pricing-scope">Best for: complex apps, enterprises, long-term</p>
+        </div>
+
+    </div>
+    <p class="rc-pricing-note">// All pricing is project-based. Exact scope confirmed during discovery call. 50% deposit required to begin.</p>
+</section>
+-->
+
+
+<!-- ═══ AI CHATBOT — reframed as live demo ═══ -->
+<section id="ask-rodney" class="chat-section rc-fade">
+    <p class="section__text__p1 text-center">Live AI Demo</p>
+    <h1 class="title text-center">Try the AI Assistant</h1>
+    <p class="text-center mb-3" style="font-size:0.9rem;color:rgba(142,207,223,0.55);font-weight:300;">
+        This is a live example of AI integration I can build for your business. Ask anything about Rodney's background, skills, or experience.
+    </p>
+
+    <div class="chat-container">
+        <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div>
+        <div class="chat-input-container">
+            <input type="text" id="chat-input" class="chat-input" placeholder="Ask me anything..." maxlength="500" autocomplete="off" />
+            <button type="button" id="chat-send" class="chat-send-btn" aria-label="Send message">
+                <span class="chat-send-text">Send</span>
+            </button>
+        </div>
+        <p class="chat-char-count"><span id="chat-char-remaining">500</span> characters remaining</p>
+    </div>
+
+    <div class="chat-docs-btn-container">
+        <a href="https://github.com/ChefRod88/RodneyPortfolio/blob/main/docs/portfolio_ai_skills_implementation_67024d2c.plan.md"
+           target="_blank" rel="noopener noreferrer" class="chat-docs-btn">View Documentation</a>
+        <a href="https://github.com/ChefRod88/RodneyPortfolio/blob/main/docs/OPENAI_API_KEY_SETUP.md"
+           target="_blank" rel="noopener noreferrer" class="chat-docs-btn">API Key Docs</a>
+        <a href="https://github.com/ChefRod88/RodneyPortfolio/blob/main/docs/KNOWLEDGE_GRAPH_ARCHITECTURE.md"
+           target="_blank" rel="noopener noreferrer" class="chat-docs-btn">Knowledge Graph Docs</a>
+        <a href="https://github.com/ChefRod88/RodneyPortfolio/blob/main/docs/TOKEN_OPTIMIZATION_ARCHITECTURES.md"
+           target="_blank" rel="noopener noreferrer" class="chat-docs-btn">Token Optimization Docs</a>
+    </div>
+
+    <div class="chat-transparency-panel">
+        <button type="button" class="chat-transparency-toggle" id="chat-transparency-toggle" aria-expanded="false" aria-controls="chat-transparency-content">
+            How this AI works
+        </button>
+        <div id="chat-transparency-content" class="chat-transparency-content" hidden>
+            <dl class="chat-transparency-dl">
+                <dt>Model</dt><dd>GPT-4o-mini (OpenAI Chat Completions API)</dd>
+                <dt>Architecture</dt><dd>ASP.NET Core → OpenAI Chat Completions. Static prompt with resume context.</dd>
+                <dt>Data</dt><dd>ResumeContext.txt. No RAG or embeddings.</dd>
+                <dt>Safety</dt><dd>Input validation, content filtering, prompt guardrails.</dd>
+                <dt>Hosting</dt><dd>Azure App Service (this site); client projects on Azure, GCP, or AWS.</dd>
+                <dt>Token Optimization</dt><dd>Leverages structured context scoping via file mapping (ICM) and structural Knowledge Graphs to minimize token waste and maximize inference speeds compared to standard vector chunking (RTK).</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="chat-job-match">
+        <h3 class="chat-job-match-title">Document Analyzer — Live Demo</h3>
+        <p class="chat-job-match-desc">Paste any job description to see AI score and analyze it. This exact capability is available for your business.</p>
+        <textarea id="job-match-input" class="chat-job-match-input" placeholder="Paste a job description or any document here..." maxlength="4000" rows="4"></textarea>
+        <p class="chat-job-match-char-count"><span id="job-match-char-remaining">4000</span> characters remaining</p>
+        
+        <!-- ICM Pipeline Toggle -->
+        <div class="chat-job-match-mode-selector">
+            <input type="checkbox" id="job-match-icm-toggle" />
+            <label for="job-match-icm-toggle">
+                Run via <strong>Interpretable Context Methodology (ICM)</strong> pipeline <strong>[arXiv:2603.16021]</strong>
+            </label>
+        </div>
+        
+        <button type="button" id="job-match-analyze" class="chat-job-match-btn">Analyze</button>
+        
+        <!-- ICM Status/Loader -->
+        <div id="job-match-icm-loading" style="display:none; text-align:center; margin: 1.5rem 0;">
+            <div class="spinner-border text-info" role="status" style="width: 2rem; height: 2rem; margin-bottom: 0.5rem; color: var(--c);"></div>
+            <div id="icm-status-message" class="icm-status-message">Initializing ICM Workspace...</div>
+            <div style="font-size:0.8rem; color:var(--text); opacity:0.7; margin-top:0.2rem;">Executing sequential file-based stages in /IcmWorkspace</div>
+        </div>
+
+        <!-- ICM Stage Outputs Tabs -->
+        <div id="job-match-icm-pipeline" hidden style="margin-top: 1.5rem;">
+            <h4 style="margin-bottom: 1rem; color: var(--c); font-size: 1.1rem; text-align: center; font-family: var(--font-display);">INTERPRETABLE WORKSPACE ARTIFACTS</h4>
+            
+            <div class="icm-tabs">
+                <button type="button" class="icm-tab-btn active" data-tab="icm-stage-1">01_skill_extraction</button>
+                <button type="button" class="icm-tab-btn" data-tab="icm-stage-2">02_resume_comparison</button>
+                <button type="button" class="icm-tab-btn" data-tab="icm-stage-3">03_interview_preparation</button>
+            </div>
+            
+            <div id="icm-stage-1" class="icm-tab-content">No data loaded yet. Run a match using the ICM toggle.</div>
+            <div id="icm-stage-2" class="icm-tab-content" style="display:none;">No data loaded yet. Run a match using the ICM toggle.</div>
+            <div id="icm-stage-3" class="icm-tab-content" style="display:none;">No data loaded yet. Run a match using the ICM toggle.</div>
+        </div>
+
+        <!-- Standard / Final Results -->
+        <div id="job-match-result" class="chat-job-match-result" hidden>
+            <div class="chat-job-match-score">
+                <span class="chat-job-match-score-label">Match Score</span>
+                <span id="job-match-score-value" class="chat-job-match-score-value">0</span>
+                <span class="chat-job-match-score-pct">%</span>
+            </div>
+            <div class="chat-job-match-lists">
+                <div class="chat-job-match-list"><h4>Skills Aligned</h4><ul id="job-match-skills"></ul></div>
+                <div class="chat-job-match-list"><h4>Gaps</h4><ul id="job-match-gaps"></ul></div>
+                <div class="chat-job-match-list"><h4>Talking Points</h4><ul id="job-match-talking"></ul></div>
+            </div>
+        </div>
+        <div class="chat-docs-btn-container" style="margin-top:1rem;">
+            <a href="https://github.com/ChefRod88/RodneyPortfolio/blob/main/docs/JOB_MATCH_FEATURE.md"
+               target="_blank" rel="noopener noreferrer" class="chat-docs-btn">Feature Technical Docs</a>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ QUOTE FORM ═══ -->
+<section id="quote" class="rc-fade">
+    <p class="section__text__p1">Let's Build</p>
+    <h1 class="title">Request a Quote</h1>
+
+    <div class="rc-quote-grid">
+        <div class="rc-quote-info">
+            <h3 class="rc-quote-info-title">// What happens next</h3>
+            <p>Fill out the form and I'll respond within 24 hours with a brief scope summary and a time to connect. No hard sell — just a real conversation about your project.</p>
+            <p>Every project starts with a <span style="color:var(--c);">free 30-minute discovery call</span> where we define scope, timeline, and fit.</p>
+            <ul class="rc-quote-promises">
+                <li>Response within 24 hours</li>
+                <li>Free discovery call — no commitment</li>
+                <li>Written scope before any work begins</li>
+                <li>Fixed-price or milestone billing</li>
+                <li>You own 100% of the code</li>
+            </ul>
+        </div>
+
+        <form id="quoteForm" class="rc-glass rc-quote-form" method="post" action="?handler=Quote" onsubmit="handleQuoteSubmit(event)">
+            <input name="__RequestVerificationToken" type="hidden" value="CfDJ8LLlgdkQ4qdLuByCBplQNDGtRePwtS4Zz-AGul8_2-ZVzm6CKnc1sr8qfY5fJBuK4syll8JryJ2rGoIx6vOv1BCVhyxJXvqHUdC4BssEkUCJFhx9zlaLAqfmpntW4eby5mCpfxwzq9xvxsuLPih7cLs" />
+            <div class="rc-form-row">
+                <div class="rc-form-group">
+                    <label class="rc-form-label">Your Name *</label>
+                    <input type="text" name="Name" class="rc-form-input" placeholder="Jane Smith" required />
+                </div>
+                <div class="rc-form-group">
+                    <label class="rc-form-label">Email *</label>
+                    <input type="email" name="Email" class="rc-form-input" placeholder="jane@company.com" required />
+                </div>
+            </div>
+            <div class="rc-form-group">
+                <label class="rc-form-label">Company / Organization</label>
+                <input type="text" name="Company" class="rc-form-input" placeholder="Acme Corp (optional)" />
+            </div>
+            <div class="rc-form-group">
+                <label class="rc-form-label">Service Needed *</label>
+                <select name="ServiceNeeded" class="rc-form-input rc-form-select" required>
+                    <option value="" disabled selected>Select a service...</option>
+                    <option>Web Application</option>
+                    <option>AI Integration</option>
+                    <option>API Development</option>
+                    <option>Church / Nonprofit Site</option>
+                    <option>Deployment / DevOps</option>
+                    <option>Technical Support</option>
+                    <option>Not sure — need advice</option>
+                </select>
+            </div>
+            <div class="rc-form-group">
+                <label class="rc-form-label">Estimated Budget *</label>
+                <select name="EstimatedBudget" class="rc-form-input rc-form-select" required>
+                    <option value="" disabled selected>Select a budget range...</option>
+                    <option>Under $1,000</option>
+                    <option>$1,000 – $2,500</option>
+                    <option>$2,500 – $5,000</option>
+                    <option>$5,000 – $10,000</option>
+                    <option>$10,000+</option>
+                    <option>Not sure yet</option>
+                </select>
+            </div>
+            <div class="rc-form-group">
+                <label class="rc-form-label">Project Description *</label>
+                <textarea name="ProjectDescription" class="rc-form-input rc-form-textarea" placeholder="Describe what you need built. What problem does it solve? What does success look like?" required></textarea>
+            </div>
+            <div class="rc-form-group">
+                <label class="rc-form-label">Timeline</label>
+                <select name="Timeline" class="rc-form-input rc-form-select">
+                    <option value="" disabled selected>When do you need this?</option>
+                    <option>ASAP (within 2 weeks)</option>
+                    <option>1 month</option>
+                    <option>2–3 months</option>
+                    <option>Flexible</option>
+                </select>
+            </div>
+            <div class="rc-form-group" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" aria-hidden="true">
+                <label class="rc-form-label" for="Website">Leave this field empty</label>
+                <input id="Website" type="text" name="Website" tabindex="-1" autocomplete="off" />
+            </div>
+            <div class="rc-form-group">
+                <div class="g-recaptcha" data-sitekey="6LdV9wAtAAAAALo8sxF6fiCq-Lq9JUM028JHnZlT"></div>
+            </div>
+            <button type="submit" class="btn btn-outline-dark rc-quote-submit">Submit Request →</button>
+            <div id="quoteError" style="display:none;text-align:center;padding:1rem;color:#ff9f9f;"></div>
+            <div id="quoteSuccess" style="display:none;text-align:center;padding:2rem;">
+                <div style="font-family:var(--font-display);font-size:1rem;color:var(--c);margin-bottom:0.5rem;">✓ Request Received</div>
+                <div style="font-family:var(--font-mono);font-size:0.68rem;color:rgba(142,207,223,0.5);">I'll be in touch within 24 hours.</div>
+            </div>
+        </form>
+    </div>
+</section>
+
+<!-- ═══ CONTACT ═══ -->
+<section id="contact" class="contact-section rc-fade">
+    <p class="contact-subtitle">Get In Touch</p>
+    <h1 class="contact-title">Contact Me</h1>
+    <div class="contact-card">
+        <a href="mailto:rodney@globalrcdev.com" class="contact-item">
+            <img src="/assets/icons/envelope.svg" alt="Email icon" class="contact-icon" />
+            <span>rodney@globalrcdev.com</span>
+        </a>
+        <a href="https://www.linkedin.com/in/rodneyachery/" target="_blank" rel="noopener noreferrer" class="contact-item">
+            <img src="/assets/icons/linkedin.svg" alt="LinkedIn icon" class="contact-icon" />
+            <span>LinkedIn</span>
+        </a>
+    </div>
+</section>
+
+
+    </main>
+
+    <footer class="rc-footer">
+        <div class="rc-footer-inner">
+            <div class="rc-footer-links">
+                <a href="/#about">About</a>
+                <a href="/#services">Services</a>
+                <a href="/#pricing">Pricing</a>
+                <a href="/#quote">Quote</a>
+                <a href="/#support">Contact Support</a>
+            </div>
+            <small id="copyright">© 2026 RODNEY CHERY &nbsp;·&nbsp; FULL STACK AI DEVELOPER &nbsp;·&nbsp; NODE_ONLINE</small>
+        </div>
+    </footer>
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/site.js"></script>
+    <script src="/js/layout.js"></script>
+
+    
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="/js/quote-form.js"></script>
+
+
+    <!-- Admin access button — bottom left corner, always visible -->
+<a href="/Admin/Login" class="rc-admin-btn" title="Administrator Only">
+    <span class="rc-admin-icon">⬡</span>
+    <span class="rc-admin-label">Admin</span>
+</a>
+
+</body>
+</html>
