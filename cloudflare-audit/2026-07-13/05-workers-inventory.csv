@@ -1,0 +1,2 @@
+WorkerName,Status,Routes,Bindings,CronTriggers,CompatibilityDate
+rodney-portfolio,Active,www.rodneyachery.com/*,wwwroot,None,2026-07-13

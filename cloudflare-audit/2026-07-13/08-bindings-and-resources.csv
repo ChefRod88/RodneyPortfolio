@@ -1,0 +1,2 @@
+Worker/Project,BindingName,Type,LinkedResource,Environment
+rodney-portfolio,ASSETS,Static Assets,./wwwroot,Production

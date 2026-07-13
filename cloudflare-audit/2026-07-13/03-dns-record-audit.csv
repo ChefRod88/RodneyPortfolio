@@ -1,0 +1,5 @@
+RecordID,Name,Type,Value,Proxied,TTL,Finding,Severity,Recommendation
+rec_001,@,A,103.21.244.0 (Cloudflare Edge),true,Auto,None,Low,None
+rec_002,www,CNAME,rodneyachery.com,true,Auto,None,Low,None
+rec_003,rodney-portfolio,CNAME,rodney-portfolio.azurewebsites.net,false,Auto,Obsolete Azure CNAME,Medium,Remove when migration is complete
+rec_004,newbethel,CNAME,newbethel.azurewebsites.net,false,Auto,Obsolete Azure CNAME,Medium,Remove when migration is complete
