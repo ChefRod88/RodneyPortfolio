@@ -2,6 +2,8 @@
   "name": "rodney-portfolio",
   "compatibility_date": "2026-07-13",
   "assets": {
-    "directory": "./wwwroot"
+    "directory": "./wwwroot",
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
   }
 }
