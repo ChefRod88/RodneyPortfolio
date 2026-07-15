@@ -350,4 +350,97 @@ function registerServiceWorker() {
     .catch((err) => console.warn("Service worker registration failed:", err));
 }
 
+// ============================================================
+// FUTURISTIC / HUD INTERACTIVE FUNCTIONS
+// ============================================================
+
+// 1. Mouse coordinates telemetry tracker
+document.addEventListener('mousemove', (e) => {
+  const xEl = document.getElementById('hud-coord-x');
+  const yEl = document.getElementById('hud-coord-y');
+  if (xEl && yEl) {
+    const x = String(Math.round(e.clientX)).padStart(3, '0');
+    const y = String(Math.round(e.clientY)).padStart(3, '0');
+    xEl.textContent = x;
+    yEl.textContent = y;
+  }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  // 3. CLI Terminal Drawer
+  const terminalDrawer = document.getElementById('terminalDrawer');
+  const terminalHeader = document.getElementById('terminalHeader');
+  const terminalToggleBtn = document.getElementById('terminalToggleBtn');
+  const terminalInput = document.getElementById('terminalInput');
+  const terminalHistory = document.getElementById('terminalHistory');
+
+  if (terminalDrawer && (terminalHeader || terminalToggleBtn) && terminalInput && terminalHistory) {
+    const toggleDrawer = () => {
+      terminalDrawer.classList.toggle('open');
+      if (terminalDrawer.classList.contains('open')) {
+        setTimeout(() => terminalInput.focus(), 100);
+      }
+    };
+
+    if (terminalHeader) {
+      terminalHeader.addEventListener('click', (e) => {
+        if (e.target !== terminalToggleBtn) {
+          toggleDrawer();
+        }
+      });
+    }
+    if (terminalToggleBtn) {
+      terminalToggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleDrawer();
+      });
+    }
+
+    const commands = {
+      help: () => 'Available commands:<br>' +
+                  ' - <span style="color:var(--c)">about</span>: Summary of Rodney\'s profile<br>' +
+                  ' - <span style="color:var(--c)">skills</span>: Interactive stack listing<br>' +
+                  ' - <span style="color:var(--c)">contact</span>: Business coordinates<br>' +
+                  ' - <span style="color:var(--c)">clear</span>: Wipe terminal buffer<br>' +
+                  ' - <span style="color:var(--c)">status</span>: Node diagnostic details',
+      about: () => 'Rodney Chery is a Software Developer specializing in ASP.NET Core, cloud architectures, and Stripe APIs. Over 3 years of building enterprise-ready platforms.',
+      skills: () => 'Core stack:<br>' +
+                   ' - Language: C# (.NET 10)<br>' +
+                   ' - Web: ASP.NET Core MVC & Razor Pages, Blazor<br>' +
+                   ' - Storage: SQL Server, Entity Framework Core<br>' +
+                   ' - Cloud: AWS, GCP, Azure, GitHub Actions (CI/CD)',
+      contact: () => 'Email: <a href="mailto:rodney@globalrcdev.com" style="color:var(--c);text-decoration:underline;">rodney@globalrcdev.com</a><br>' +
+                     'LinkedIn: <a href="https://www.linkedin.com/in/rodneyachery/" target="_blank" style="color:var(--c);text-decoration:underline;">linkedin.com/in/rodneyachery</a>',
+      status: () => 'DIAGNOSTICS: SYSTEM_ONLINE // CLOUDFLARE_PAGES_ACTIVE // CLIENT_PORTAL_READY // SECURE_SSL_ACTIVE',
+      clear: () => {
+        terminalHistory.innerHTML = '';
+        return '';
+      }
+    };
+
+    terminalInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        const value = terminalInput.value.trim();
+        terminalInput.value = '';
+        if (!value) return;
+
+        const cmd = value.toLowerCase();
+        terminalHistory.innerHTML += `<p class="history-cmd">guest@rc-dev:~$ ${value}</p>`;
+
+        if (commands[cmd]) {
+          const res = commands[cmd]();
+          if (res) {
+            terminalHistory.innerHTML += `<p class="history-res">${res}</p>`;
+          }
+        } else {
+          terminalHistory.innerHTML += `<p class="history-res" style="color:#ff4a4a;">RC-SHELL: command not found: '${value}'. Type 'help' for instructions.</p>`;
+        }
+
+        const body = terminalDrawer.querySelector('.terminal-drawer-body');
+        body.scrollTop = body.scrollHeight;
+      }
+    });
+  }
+});
+
 

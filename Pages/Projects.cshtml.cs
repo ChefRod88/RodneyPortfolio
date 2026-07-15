@@ -32,9 +32,9 @@ public class ProjectsModel : PageModel
         {
             new(
                 Name:        "RC DEV PORTFOLIO",
-                Description: "Full-stack portfolio with dual-AI assistant, job match analyzer, client portal, invoicing, Stripe payments, and CI/CD pipeline. Built to production standards with rate limiting, EF Core, and ASP.NET Core 9.",
+                Description: "Full-stack portfolio with client portal, invoicing, Stripe payments, and CI/CD pipeline. Built to production standards with rate limiting, EF Core, and ASP.NET Core 9.",
                 Status:      "DEPLOYED",
-                Stack:       new[] { "C#", "ASP.NET CORE 9", "ASP.NET CORE RAZOR PAGES", "ENTITY FRAMEWORK CORE", "MICROSOFT SQL SERVER", "MICROSOFT AZURE", "OPENAI API", "ANTHROPIC API", "STRIPE API", "GITHUB ACTIONS" },
+                Stack:       new[] { "C#", "ASP.NET CORE 9", "ASP.NET CORE RAZOR PAGES", "ENTITY FRAMEWORK CORE", "MICROSOFT SQL SERVER", "MICROSOFT AZURE", "STRIPE API", "GITHUB ACTIONS" },
                 LiveUrl:     "https://www.rodneyachery.com",
                 RepoUrl:     "https://github.com/ChefRod88/RodneyPortfolio",
                 Year:        "2026"

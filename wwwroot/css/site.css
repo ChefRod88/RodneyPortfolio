@@ -2802,3 +2802,178 @@ h1.title::after {
 .icm-tab-content::-webkit-scrollbar-thumb:hover {
   background: var(--c);
 }
+
+/* ============================================================
+   FUTURISTIC / HUD UI ENHANCEMENTS
+   ============================================================ */
+
+/* 1. HUD Corner Crop Brackets */
+.hud-brackets {
+  position: relative;
+}
+.hud-brackets::before, .hud-brackets::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-color: var(--c);
+  border-style: solid;
+  opacity: 0.55;
+  transition: all 0.3s ease;
+  pointer-events: none;
+  z-index: 5;
+}
+/* Top Left Bracket */
+.hud-brackets::before {
+  top: -2px; left: -2px;
+  border-width: 2px 0 0 2px;
+}
+/* Bottom Right Bracket */
+.hud-brackets::after {
+  bottom: -2px; right: -2px;
+  border-width: 0 2px 2px 0;
+}
+.hud-brackets:hover::before, .hud-brackets:hover::after {
+  width: 18px;
+  height: 18px;
+  opacity: 0.9;
+}
+
+/* 2. HUD Telemetry Tracker */
+.hud-telemetry {
+  position: fixed;
+  bottom: 12px;
+  right: 18px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--c);
+  opacity: 0.65;
+  letter-spacing: 0.1em;
+  z-index: 1000;
+  pointer-events: none;
+  background: rgba(1, 8, 16, 0.45);
+  padding: 4px 8px;
+  border-left: 2px solid var(--c);
+}
+
+
+/* 4. Terminal Command Line Drawer */
+.terminal-drawer {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(calc(100% - 38px));
+  width: 90%;
+  max-width: 800px;
+  height: 280px;
+  background: rgba(1, 8, 16, 0.96);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+  z-index: 999;
+  font-family: var(--font-mono);
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.8), var(--glow-sm);
+  transition: transform 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+}
+.terminal-drawer.open {
+  transform: translateX(-50%) translateY(0);
+}
+.terminal-drawer-header {
+  height: 38px;
+  background: var(--dark);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  cursor: pointer;
+  user-select: none;
+  font-size: 0.8rem;
+  color: var(--text);
+  letter-spacing: 0.05em;
+}
+.terminal-drawer-header span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.terminal-drawer-header span::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #00ff66;
+  box-shadow: 0 0 8px #00ff66;
+}
+.terminal-toggle-btn {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--c);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.terminal-toggle-btn:hover {
+  background: var(--c3);
+  box-shadow: var(--glow-sm);
+}
+.terminal-drawer-body {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: var(--white);
+  text-shadow: 0 0 2px rgba(224, 244, 255, 0.3);
+}
+.terminal-drawer-body::-webkit-scrollbar {
+  width: 6px;
+}
+.terminal-drawer-body::-webkit-scrollbar-track {
+  background: rgba(1, 8, 16, 0.5);
+}
+.terminal-drawer-body::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+.terminal-drawer-body::-webkit-scrollbar-thumb:hover {
+  background: var(--c);
+}
+.terminal-history p {
+  margin-bottom: 8px;
+  word-break: break-all;
+}
+.terminal-history .history-cmd {
+  color: var(--c);
+  margin-top: 12px;
+}
+.terminal-history .history-res {
+  padding-left: 12px;
+  border-left: 2px solid rgba(0, 212, 255, 0.3);
+}
+.terminal-input-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+}
+.terminal-input-line .prompt {
+  color: rgba(142, 207, 223, 0.7);
+  white-space: nowrap;
+}
+.terminal-input-line input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--white);
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+}
+

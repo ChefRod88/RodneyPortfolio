@@ -2,7 +2,7 @@
 
 **Live site:** [rodneyachery.com](https://www.rodneyachery.com)
 
-I built this portfolio to showcase my background, skills, and projects. It includes an AI chatbot that answers questions about my resume and a Job Match feature that analyzes compatibility with pasted job descriptions. It also includes a client portal for invoice viewing and payments.
+I built this portfolio to showcase my background, skills, and projects. It includes a client portal for invoice viewing and payments.
 
 ---
 
@@ -22,14 +22,13 @@ I built this portfolio to showcase my background, skills, and projects. It inclu
 
 ## 1. Executive Summary
 
-This is a single-page portfolio built with **ASP.NET Core 10**, **Razor Pages**, **C#**, **JavaScript**, and **OpenAI Chat Completions API**. It is hosted as a static site on **Cloudflare Pages** using **GitHub Actions** CI/CD.
+This is a single-page portfolio built with **ASP.NET Core 10**, **Razor Pages**, **C#**, and **JavaScript**. It is hosted as a static site on **Cloudflare Pages** using **GitHub Actions** CI/CD.
 
 **Sections:**
 - **Profile/Hero** — Introduction, status badge, skills row, social links, CV download
 - **About** — Education, photo collage, career narrative
 - **Experience** — Six skill cards (Soft Skills, IT Support, Frontend, Backend, Tools, AI/LLM)
-- **Projects** — Ask Rodney AI Chatbot, GitHub repo
-- **Ask Rodney** — Conversational AI + Job Match
+- **Projects** — Project catalog, GitHub repo
 - **FAQ** — Frequently asked questions
 - **Contact** — Email, LinkedIn
 
@@ -42,7 +41,6 @@ This is a single-page portfolio built with **ASP.NET Core 10**, **Razor Pages**,
 | Runtime | .NET 10.0 |
 | Backend | ASP.NET Core (Razor Pages + MVC) |
 | Frontend | HTML5, CSS3, JavaScript, Bootstrap |
-| AI | OpenAI Chat Completions (gpt-4o-mini) |
 | Payments | Stripe |
 | Analytics | Google Analytics 4 |
 | Hosting | Cloudflare Pages |
@@ -53,12 +51,6 @@ This is a single-page portfolio built with **ASP.NET Core 10**, **Razor Pages**,
 ## 3. Architecture Overview
 
 ```
-User Browser → ASP.NET Core → ChatController / JobMatchService
-                                    ↓
-                            ResumeContextLoader (Data/ResumeContext.txt)
-                                    ↓
-                            OpenAI Chat Completions API
-
 User Browser → /Portal → PortalController (MVC)
                                     ↓
                     IAccountService / IOtpService / ISessionService
@@ -66,7 +58,7 @@ User Browser → /Portal → PortalController (MVC)
                     IInvoiceService + Stripe Payment
 ```
 
-**Flow:** The chat and job match features load resume context from `Data/ResumeContext.txt`, inject it into the system prompt, and call the OpenAI API. Input validation and content filtering run before any API call. The client portal uses OTP email verification, session-based auth, and Stripe for payments.
+**Flow:** The client portal uses OTP email verification, session-based auth, and Stripe for payments.
 
 ---
 
@@ -113,12 +105,9 @@ RodneyPortfolio/
 
 ## 5. Features
 
-- **Ask Rodney AI Chatbot** — Answers questions about my resume using OpenAI. Uses static prompt with `ResumeContext.txt`. Falls back to demo responses when the API fails.
-- **Job Match** — Paste a job description; get match score, skills aligned, gaps, and talking points.
 - **Client Portal** — OTP email verification login, client dashboard, invoice history, Stripe payments.
 - **Admin Panel** — Manage client accounts, invoices, and edit client details.
 - **Quote Submission** — Contact/quote form with input sanitization, email delivery, and logging.
-- **Transparency Panel** — "How this chatbot works" with model, architecture, data, safety, hosting.
 - **PWA** — Service worker for offline caching.
 - **Input validation** — Max length, prompt injection blocking.
 - **Content filtering** — Profanity block list.
@@ -129,8 +118,6 @@ RodneyPortfolio/
 
 | Endpoint | Method | Request | Response |
 |----------|--------|---------|----------|
-| `/api/chat` | POST | `{ "message": string }` | `{ "reply": string }` |
-| `/api/chat/job-match` | POST | `{ "jobDescription": string }` | `{ matchScore, skillsAligned, gaps, talkingPoints }` |
 | `/Portal` | GET | — | Portal landing page |
 | `/Portal/Register` | GET/POST | Email, name | OTP verification flow |
 | `/Portal/Login` | GET/POST | Email | OTP verification flow |
@@ -141,7 +128,6 @@ RodneyPortfolio/
 
 ## 7. Configuration
 
-- **Local:** `dotnet user-secrets set "OpenAI:ApiKey" "sk-..."`
 - **Production:** GitHub Secret `CLOUDFLARE_API_TOKEN` (Wrangler deployment token)
 - **GA4:** `GoogleAnalytics:MeasurementId` in appsettings or `GA4_MEASUREMENT_ID` GitHub Secret
 - **Stripe:** `Stripe:SecretKey` and `Stripe:PublishableKey` in appsettings/secrets
@@ -182,9 +168,6 @@ RodneyPortfolio/
 | Document | Description |
 |----------|-------------|
 | [Complete Technical Documentation](docs/RODNEY_PORTFOLIO_TECHNICAL_DOCUMENTATION.md) | Full A–Z breakdown: HTML, CSS, JS, C#, APIs, architecture |
-| [Portfolio AI Skills Implementation](docs/portfolio_ai_skills_implementation_67024d2c.plan.md) | Implementation plan (first-person) |
-| [OpenAI API Key Setup](docs/OPENAI_API_KEY_SETUP.md) | Secure API key setup guide |
-| [Job Match Feature](docs/JOB_MATCH_FEATURE.md) | Job Match technical docs |
 | [Codebase Explained](docs/CODEBASE_EXPLAINED_SIMPLE.md) | Plain-English explanation for recruiters |
 
 ---

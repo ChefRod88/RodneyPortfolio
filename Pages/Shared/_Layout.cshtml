@@ -56,7 +56,6 @@
         <div class="rc-scanlines"></div>
     }
 
-    <!-- NAV -->
     <nav id="hamburger-nav">
         <a href="/" class="logo" style="text-decoration:none;">RC<span>//</span>DEV</a>
         <div class="hamburger-menu">
@@ -109,6 +108,29 @@
     <span class="rc-admin-icon">⬡</span>
     <span class="rc-admin-label">Admin</span>
 </a>
+
+    <!-- FUTURISTIC TELEMETRY HUD -->
+    <div class="hud-telemetry" aria-hidden="true">
+        <span class="hud-label">LOC:</span>
+        <span id="hud-coord-x">000</span>, <span id="hud-coord-y">000</span>
+    </div>
+
+    <!-- INTERACTIVE CLI TERMINAL DRAWER -->
+    <div class="terminal-drawer" id="terminalDrawer">
+        <div class="terminal-drawer-header" id="terminalHeader">
+            <span>RC-SHELL v1.0.4 // MAIN_DIAGNOSTICS</span>
+            <button type="button" class="terminal-toggle-btn" id="terminalToggleBtn">&gt;_ SHELL</button>
+        </div>
+        <div class="terminal-drawer-body">
+            <div class="terminal-history" id="terminalHistory">
+                <p>Welcome to RC-SHELL. System initialized. Type <span style="color:var(--c);">help</span> for instructions.</p>
+            </div>
+            <div class="terminal-input-line">
+                <span class="prompt">guest@rc-dev:~$</span>
+                <input type="text" id="terminalInput" placeholder="Type a command..." autocomplete="off" />
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>
