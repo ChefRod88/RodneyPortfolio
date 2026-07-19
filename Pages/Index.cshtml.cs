@@ -30,7 +30,46 @@ public class IndexModel : PageModel
 
     public void OnGet()
     {
-
+        ViewData["Seo"] = new SeoMetadata
+        {
+            Title = "Rodney Chery | Healthcare Software & .NET Engineering",
+            Description = "Rodney Chery develops secure healthcare applications, patient and claimant portals, AI-assisted workflows, ASP.NET Core systems, APIs, and cloud deployment solutions through RC DEV LLC.",
+            CanonicalUrl = "https://www.rodneyachery.com/",
+            Robots = "index, follow",
+            OpenGraphImage = "https://www.rodneyachery.com/assets/images/rodney-chery-social-card.webp",
+            StructuredData = new object[]
+            {
+                new
+                {
+                    @context = "https://schema.org",
+                    @type = "WebSite",
+                    @id = "https://www.rodneyachery.com/#website",
+                    url = "https://www.rodneyachery.com/",
+                    name = "Rodney Chery",
+                    publisher = new { @id = "https://www.rodneyachery.com/#rc-dev-llc" }
+                },
+                new
+                {
+                    @context = "https://schema.org",
+                    @type = "Person",
+                    @id = "https://www.rodneyachery.com/#rodney-chery",
+                    name = "Rodney A. Chery",
+                    url = "https://www.rodneyachery.com/",
+                    jobTitle = "Software Developer",
+                    sameAs = new[] { "https://www.linkedin.com/in/rodneyachery/", "https://github.com/ChefRod88" },
+                    mainEntityOfPage = new { @id = "https://www.rodneyachery.com/#website" }
+                },
+                new
+                {
+                    @context = "https://schema.org",
+                    @type = "Organization",
+                    @id = "https://www.rodneyachery.com/#rc-dev-llc",
+                    name = "RC DEV LLC",
+                    url = "https://www.rodneyachery.com/",
+                    founder = new { @id = "https://www.rodneyachery.com/#rodney-chery" }
+                }
+            }
+        };
     }
 
     [EnableRateLimiting("QuotePolicy")]

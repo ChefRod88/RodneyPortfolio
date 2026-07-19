@@ -13,24 +13,41 @@
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>FAQ &amp; Service Standards</title>
-
+        <title>FAQ &amp; Standards | Rodney Chery</title>
+        <meta name="description" content="Frequently asked questions about my development process, engineering standards, and consulting services." />
+            <meta name="robots" content="index, follow" />
+            <link rel="canonical" href="https://www.rodneyachery.com/Faq" />
+        <meta property="og:site_name" content="Rodney Chery" />
+        <meta property="og:title" content="FAQ &amp; Standards | Rodney Chery" />
+        <meta property="og:description" content="Frequently asked questions about my development process, engineering standards, and consulting services." />
+        <meta property="og:type" content="website" />
+            <meta property="og:url" content="https://www.rodneyachery.com/Faq" />
+            <meta property="og:image" content="https://www.rodneyachery.com/assets/images/rodney-chery-social-card.webp" />
+            <meta property="og:image:alt" content="FAQ &amp; Standards | Rodney Chery" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="FAQ &amp; Standards | Rodney Chery" />
+        <meta name="twitter:description" content="Frequently asked questions about my development process, engineering standards, and consulting services." />
+            <meta name="twitter:image" content="https://www.rodneyachery.com/assets/images/rodney-chery-social-card.webp" />
+            <meta name="twitter:image:alt" content="FAQ &amp; Standards | Rodney Chery" />
+                <script type="application/ld&#x2B;json">
+                    {"context":"https://schema.org","type":"WebPage","id":"https://www.rodneyachery.com/Faq","url":"https://www.rodneyachery.com/Faq","name":"FAQ \u0026 Standards | Rodney Chery"}
+                </script>
     <!-- PWA -->
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="/manifest.2iybd8qq7m.json" />
     <meta name="theme-color" content="#020c14" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Rodney Chery" />
-    <link rel="apple-touch-icon" href="/assets/images/icon-192.png" />
+    <link rel="apple-touch-icon" href="/assets/images/icon-192.wpobwu0122.png" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
-    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/site.css" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.46ein0sx1k.css" />
+    <link rel="stylesheet" href="/css/site.h1nwnwtvnu.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.5qdd6oip9x.svg" />
 
     <!-- Stripe Elements -->
     <script src="https://js.stripe.com/v3/"></script>
@@ -46,7 +63,6 @@
         <div class="rc-vignette"></div>
         <div class="rc-scanlines"></div>
 
-    <!-- NAV -->
     <nav id="hamburger-nav">
         <a href="/" class="logo" style="text-decoration:none;">RC<span>//</span>DEV</a>
         <div class="hamburger-menu">
@@ -417,10 +433,10 @@
         </div>
     </footer>
 
-    <script src="/lib/jquery/dist/jquery.min.js"></script>
-    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/site.js"></script>
-    <script src="/js/layout.js"></script>
+    <script src="/lib/jquery/dist/jquery.min.o1o13a6vjx.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.493y06b0oq.js"></script>
+    <script src="/js/site.lmwxd77kbf.js"></script>
+    <script src="/js/layout.kqjeq3n79h.js"></script>
 
     
 
@@ -429,6 +445,29 @@
     <span class="rc-admin-icon">⬡</span>
     <span class="rc-admin-label">Admin</span>
 </a>
+
+    <!-- FUTURISTIC TELEMETRY HUD -->
+    <div class="hud-telemetry" aria-hidden="true">
+        <span class="hud-label">LOC:</span>
+        <span id="hud-coord-x">000</span>, <span id="hud-coord-y">000</span>
+    </div>
+
+    <!-- INTERACTIVE CLI TERMINAL DRAWER -->
+    <div class="terminal-drawer" id="terminalDrawer">
+        <div class="terminal-drawer-header" id="terminalHeader">
+            <span>RC-SHELL v1.0.4 // MAIN_DIAGNOSTICS</span>
+            <button type="button" class="terminal-toggle-btn" id="terminalToggleBtn">&gt;_ SHELL</button>
+        </div>
+        <div class="terminal-drawer-body">
+            <div class="terminal-history" id="terminalHistory">
+                <p>Welcome to RC-SHELL. System initialized. Type <span style="color:var(--c);">help</span> for instructions.</p>
+            </div>
+            <div class="terminal-input-line">
+                <span class="prompt">guest@rc-dev:~$</span>
+                <input type="text" id="terminalInput" placeholder="Type a command..." autocomplete="off" />
+            </div>
+        </div>
+    </div>
 
 </body>
 </html>

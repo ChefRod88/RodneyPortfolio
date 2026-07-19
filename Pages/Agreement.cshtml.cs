@@ -24,6 +24,12 @@ public class AgreementModel : PageModel
     public void OnGet()
     {
         ClientIp = GetClientIp();
+        ViewData["Seo"] = new RodneyPortfolio.Models.SeoMetadata
+        {
+            Title = "Services Agreement | Rodney Chery",
+            Description = "Services agreement.",
+            Robots = "noindex, nofollow"
+        };
     }
 
     private string GetClientIp()

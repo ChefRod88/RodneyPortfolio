@@ -22,17 +22,19 @@ jobs:
         with:
           dotnet-version: '9.x'
 
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
 
-      - name: dotnet publish
-        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+      - name: Generate Static Site
+        run: python scripts/generate_static_site.py
 
-      - name: Upload artifact for deployment job
+      - name: Upload wwwroot artifact
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: wwwroot
+          path: wwwroot/
 
   deploy:
     runs-on: ubuntu-latest
@@ -43,6 +45,12 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Download wwwroot artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: wwwroot
+          path: wwwroot/
 
       - name: Deploy to Cloudflare
         uses: cloudflare/wrangler-action@v3

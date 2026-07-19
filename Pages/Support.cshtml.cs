@@ -30,6 +30,12 @@ public class SupportModel : PageModel
 
     public void OnGet()
     {
+        ViewData["Seo"] = new RodneyPortfolio.Models.SeoMetadata
+        {
+            Title = "Support | Rodney Chery",
+            Description = "Technical support request portal.",
+            Robots = "noindex, nofollow"
+        };
     }
 
     [EnableRateLimiting("SupportPolicy")]

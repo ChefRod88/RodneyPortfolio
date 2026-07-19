@@ -10,8 +10,16 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.RateLimiting;
 using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
 
 // Load User Secrets in Development (API keys never committed to git)
 if (builder.Environment.IsDevelopment())
@@ -63,6 +71,10 @@ builder.Services.AddScoped<IAccountService>(sp => sp.GetRequiredService<SqlClien
 builder.Services.AddScoped<IOtpService>(sp => sp.GetRequiredService<SqlClientPortalService>());
 builder.Services.AddScoped<ISessionService>(sp => sp.GetRequiredService<SqlClientPortalService>());
 builder.Services.AddScoped<IPortalEmailService, PortalEmailService>();
+builder.Services.AddSingleton<ICanonicalUrlService, CanonicalUrlService>();
+builder.Services.AddScoped<IArticleService, ArticleService>();
+
+
 
 // Rate limiting — protect quote form and chat API from abuse
 builder.Services.AddRateLimiter(options =>
@@ -136,6 +148,8 @@ else
 }
 
 var app = builder.Build();
+
+app.UseForwardedHeaders();
 
 if (hasSqlConnection)
 {
@@ -236,3 +250,5 @@ app.MapRazorPages()
    .WithStaticAssets();
 
 app.Run();
+
+public partial class Program { }

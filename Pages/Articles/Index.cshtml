@@ -1,0 +1,42 @@
+@page
+@model RodneyPortfolio.Pages.Articles.IndexModel
+@{
+    Layout = "_Layout";
+}
+
+<section id="articles" class="rc-fade" style="padding-top:120px;">
+    <div class="container">
+        <h1 class="title">Technical Articles</h1>
+        <p class="section__text__p2 mb-5">Insights on healthcare software, AI, and ASP.NET Core.</p>
+
+        <div class="row">
+            @if (Model.Articles.Count == 0)
+            {
+                <div class="col-12 text-center">
+                    <p style="color:rgba(142,207,223,0.7);">No articles published yet. Check back soon.</p>
+                </div>
+            }
+            @foreach (var article in Model.Articles)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="rc-service-card rc-glass h-100">
+                        @if (!string.IsNullOrEmpty(article.HeaderImageUrl))
+                        {
+                            <img src="@article.HeaderImageUrl" alt="@article.Title" class="img-fluid rounded mb-3" />
+                        }
+                        <h3 style="color:var(--c); font-family:var(--font-display);">@article.Title</h3>
+                        <p style="font-size:0.8rem; color:rgba(255,255,255,0.6);">@article.DatePublished.ToString("MMMM dd, yyyy")</p>
+                        <p>@article.Description</p>
+                        <div class="rc-tags mb-3">
+                            @foreach(var tag in article.Tags)
+                            {
+                                <span class="rc-tag">@tag</span>
+                            }
+                        </div>
+                        <a href="/Articles/@article.Slug" class="btn btn-outline-info btn-sm" style="color:var(--c); border-color:var(--c);">Read More →</a>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

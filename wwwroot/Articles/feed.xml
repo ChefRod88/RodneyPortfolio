@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rodney Chery | Technical Articles</title>
+    <link>https://www.rodneyachery.com/Articles</link>
+    <description>Insights on healthcare software, AI, and ASP.NET Core.</description>
+    <atom:link href="https://www.rodneyachery.com/Articles/feed.xml" rel="self" type="application/rss+xml" />
+  </channel>
+</rss>

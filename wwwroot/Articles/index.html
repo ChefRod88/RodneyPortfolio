@@ -1,113 +1,67 @@
-@inject IConfiguration Configuration
-@{
-    var gaId = Configuration["GoogleAnalytics:MeasurementId"];
-}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    @if (!string.IsNullOrWhiteSpace(gaId))
-    {
     <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=@gaId"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GFRJYMRHKM"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', '@gaId');
+      gtag('config', 'G-GFRJYMRHKM');
     </script>
-    }
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    @{
-        var seo = ViewData["Seo"] as RodneyPortfolio.Models.SeoMetadata;
-        var defaultTitle = ViewData["Title"]?.ToString() ?? "Rodney Chery";
-    }
-    @if (seo != null)
-    {
-        <title>@seo.Title</title>
-        <meta name="description" content="@seo.Description" />
-        
-        @if (!string.IsNullOrEmpty(seo.Robots))
-        {
-            <meta name="robots" content="@seo.Robots" />
-        }
-        @if (!string.IsNullOrEmpty(seo.CanonicalUrl))
-        {
-            <link rel="canonical" href="@seo.CanonicalUrl" />
-        }
-
+        <title>Technical Articles | Rodney Chery</title>
+        <meta name="description" content="Insights on healthcare software, AI, and ASP.NET Core." />
+            <meta name="robots" content="index, follow" />
+            <link rel="canonical" href="https://www.rodneyachery.com/Articles" />
         <meta property="og:site_name" content="Rodney Chery" />
-        <meta property="og:title" content="@(seo.OpenGraphTitle ?? seo.Title)" />
-        <meta property="og:description" content="@(seo.OpenGraphDescription ?? seo.Description)" />
-        <meta property="og:type" content="@(seo.OpenGraphType ?? "website")" />
-        @if (!string.IsNullOrEmpty(seo.OpenGraphUrl ?? seo.CanonicalUrl))
-        {
-            <meta property="og:url" content="@(seo.OpenGraphUrl ?? seo.CanonicalUrl)" />
-        }
-        @if (!string.IsNullOrEmpty(seo.OpenGraphImage))
-        {
-            <meta property="og:image" content="@seo.OpenGraphImage" />
-            <meta property="og:image:alt" content="@(seo.OpenGraphImageAlt ?? seo.Title)" />
-        }
-
-        <meta name="twitter:card" content="@(seo.TwitterCard ?? "summary_large_image")" />
-        <meta name="twitter:title" content="@(seo.TwitterTitle ?? seo.Title)" />
-        <meta name="twitter:description" content="@(seo.TwitterDescription ?? seo.Description)" />
-        @if (!string.IsNullOrEmpty(seo.TwitterImage ?? seo.OpenGraphImage))
-        {
-            <meta name="twitter:image" content="@(seo.TwitterImage ?? seo.OpenGraphImage)" />
-            <meta name="twitter:image:alt" content="@(seo.TwitterImageAlt ?? seo.OpenGraphImageAlt ?? seo.Title)" />
-        }
-
-        @if (seo.StructuredData != null && seo.StructuredData.Count > 0)
-        {
-            foreach (var schema in seo.StructuredData)
-            {
-                <script type="application/ld+json">
-                    @Html.Raw(System.Text.Json.JsonSerializer.Serialize(schema, new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase, DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull }))
+        <meta property="og:title" content="Technical Articles | Rodney Chery" />
+        <meta property="og:description" content="Insights on healthcare software, AI, and ASP.NET Core." />
+        <meta property="og:type" content="website" />
+            <meta property="og:url" content="https://www.rodneyachery.com/Articles" />
+            <meta property="og:image" content="https://www.rodneyachery.com/assets/images/rodney-chery-social-card.webp" />
+            <meta property="og:image:alt" content="Technical Articles | Rodney Chery" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Technical Articles | Rodney Chery" />
+        <meta name="twitter:description" content="Insights on healthcare software, AI, and ASP.NET Core." />
+            <meta name="twitter:image" content="https://www.rodneyachery.com/assets/images/rodney-chery-social-card.webp" />
+            <meta name="twitter:image:alt" content="Technical Articles | Rodney Chery" />
+                <script type="application/ld&#x2B;json">
+                    {"context":"https://schema.org","type":"Blog","id":"https://www.rodneyachery.com/Articles","url":"https://www.rodneyachery.com/Articles","name":"Technical Articles | Rodney Chery"}
                 </script>
-            }
-        }
-    }
-    else
-    {
-        <title>@defaultTitle</title>
-    }
     <!-- PWA -->
-    <link rel="manifest" href="~/manifest.json" />
+    <link rel="manifest" href="/manifest.2iybd8qq7m.json" />
     <meta name="theme-color" content="#020c14" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Rodney Chery" />
-    <link rel="apple-touch-icon" href="~/assets/images/icon-192.png" />
+    <link rel="apple-touch-icon" href="/assets/images/icon-192.wpobwu0122.png" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="icon" type="image/svg+xml" href="~/favicon.svg" />
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.46ein0sx1k.css" />
+    <link rel="stylesheet" href="/css/site.h1nwnwtvnu.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.5qdd6oip9x.svg" />
 
     <!-- Stripe Elements -->
     <script src="https://js.stripe.com/v3/"></script>
-    <input type="hidden" id="stripe-pub-key" value="@Configuration["Stripe:PublishableKey"]" />
+    <input type="hidden" id="stripe-pub-key" value="" />
 
-    @await RenderSectionAsync("Head", required: false)
+    
 </head>
 
 <body>
 
     <!-- MATRIX RAIN CANVAS -->
-    @if (ViewData["HideMatrix"] as bool? != true)
-    {
         <canvas id="rc-matrix"></canvas>
         <div class="rc-vignette"></div>
         <div class="rc-scanlines"></div>
-    }
 
     <nav id="hamburger-nav">
         <a href="/" class="logo" style="text-decoration:none;">RC<span>//</span>DEV</a>
@@ -119,12 +73,8 @@
                 <ul>
                     <li><a href="/#about"        onclick="toggleMenu()">About</a></li>
                     <li><a href="/#services"     onclick="toggleMenu()">Services</a></li>
-                    @*<li><a href="/#pricing"      onclick="toggleMenu()">Pricing</a></li>*@
                     <li><a href="/Projects"      onclick="toggleMenu()">Projects</a></li>
                     <li><a href="/Faq"          onclick="toggleMenu()" class="rc-nav-faq">FAQ &amp; Standards</a></li>
-                    @* Client Portal nav link intentionally hidden for now.
-                       Keep markup here so we can re-enable quickly later. *@
-                    @*<li><a href="/Portal" onclick="toggleMenu()" class="rc-nav-portal">Client Portal</a></li>*@
                     <li><a href="/#quote"        onclick="toggleMenu()" class="rc-nav-cta">Get a Quote</a></li>
                 </ul>
             </div>
@@ -132,7 +82,31 @@
     </nav>
 
     <main role="main" class="rc-main">
-        @RenderBody()
+        
+<section id="articles" class="rc-fade" style="padding-top:120px;">
+    <div class="container">
+        <h1 class="title">Technical Articles</h1>
+        <p class="section__text__p2 mb-5">Insights on healthcare software, AI, and ASP.NET Core.</p>
+
+        <div class="row">
+                <div class="col-md-6 mb-4">
+                    <div class="rc-service-card rc-glass h-100">
+                            <img src="https://www.rodneyachery.com/assets/images/placeholder.webp" alt="Replace With Article Title" class="img-fluid rounded mb-3" />
+                        <h3 style="color:var(--c); font-family:var(--font-display);">Replace With Article Title</h3>
+                        <p style="font-size:0.8rem; color:rgba(255,255,255,0.6);">July 19, 2026</p>
+                        <p>A concise 1-2 sentence description for SEO and social sharing.</p>
+                        <div class="rc-tags mb-3">
+                                <span class="rc-tag">C#</span>
+                                <span class="rc-tag">ASP.NET Core</span>
+                                <span class="rc-tag">Azure</span>
+                        </div>
+                        <a href="/Articles/ARTICLE-TEMPLATE" class="btn btn-outline-info btn-sm" style="color:var(--c); border-color:var(--c);">Read More →</a>
+                    </div>
+                </div>
+        </div>
+    </div>
+</section>
+
     </main>
 
     <footer class="rc-footer">
@@ -142,19 +116,18 @@
                 <a href="/#services">Services</a>
                 <a href="/#pricing">Pricing</a>
                 <a href="/#quote">Quote</a>
-                @* <a href="/Agreement">Services Agreement</a> *@
                 <a href="/#support">Contact Support</a>
             </div>
             <small id="copyright">© 2026 RODNEY CHERY &nbsp;·&nbsp; FULL STACK AI DEVELOPER &nbsp;·&nbsp; NODE_ONLINE</small>
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/layout.js" asp-append-version="true"></script>
+    <script src="/lib/jquery/dist/jquery.min.o1o13a6vjx.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.493y06b0oq.js"></script>
+    <script src="/js/site.lmwxd77kbf.js"></script>
+    <script src="/js/layout.kqjeq3n79h.js"></script>
 
-    @await RenderSectionAsync("Scripts", required: false)
+    
 
     <!-- Admin access button — bottom left corner, always visible -->
 <a href="/Admin/Login" class="rc-admin-btn" title="Administrator Only">
