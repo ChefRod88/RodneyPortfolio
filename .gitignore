@@ -19,3 +19,4 @@ packages/
 # Node
 node_modules/
 test-results/
+dist/
