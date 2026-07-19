@@ -11,15 +11,23 @@
     <Compile Remove="tests/**" />
     <Compile Remove="Redactr/**" />
     <Compile Remove="MiniCRM/**" />
+    <Compile Remove="ChurchWebsite/**" />
+    <Compile Remove="ChurchWebsite.Tests/**" />
     <Content Remove="tests/**" />
     <Content Remove="Redactr/**" />
     <Content Remove="MiniCRM/**" />
+    <Content Remove="ChurchWebsite/**" />
+    <Content Remove="ChurchWebsite.Tests/**" />
     <EmbeddedResource Remove="tests/**" />
     <EmbeddedResource Remove="Redactr/**" />
     <EmbeddedResource Remove="MiniCRM/**" />
+    <EmbeddedResource Remove="ChurchWebsite/**" />
+    <EmbeddedResource Remove="ChurchWebsite.Tests/**" />
     <None Remove="tests/**" />
     <None Remove="Redactr/**" />
     <None Remove="MiniCRM/**" />
+    <None Remove="ChurchWebsite/**" />
+    <None Remove="ChurchWebsite.Tests/**" />
   </ItemGroup>
 
   <ItemGroup>
