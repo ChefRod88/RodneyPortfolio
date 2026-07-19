@@ -1,7 +1,13 @@
-﻿@page
+@page
 @model PrivacyModel
 @{
-    ViewData["Title"] = "Privacy Policy";
+    ViewData["Title"] = "Privacy Policy | Rodney Chery Software Engineering";
+    ViewData["SeoMetadata"] = new RodneyPortfolio.Models.SeoMetadata
+    {
+        Title = "Privacy Policy | Rodney Chery Software Engineering",
+        Description = "Privacy Policy for Rodney Chery Software Engineering.",
+        Robots = "noindex, follow"
+    };
 }
 <h1>@ViewData["Title"]</h1>
 

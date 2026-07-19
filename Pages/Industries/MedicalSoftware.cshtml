@@ -1,0 +1,51 @@
+@page
+@{
+    ViewData["Title"] = "Medical Software Solutions | Rodney Chery";
+    ViewData["SeoMetadata"] = new RodneyPortfolio.Models.SeoMetadata
+    {
+        Title = "Medical Software Solutions | Rodney Chery",
+        Description = "Software solutions for medical practices and healthcare organizations. Custom EMRs, patient scheduling, and clinical workflow automation.",
+        Keywords = "Medical Software, Healthcare IT, Clinical Software, Practice Management Software, EMR, Telemedicine Solutions",
+        SchemaJson = @"
+        {
+          ""@context"": ""https://schema.org"",
+          ""@type"": ""Service"",
+          ""name"": ""Medical Software Solutions"",
+          ""provider"": {
+            ""@type"": ""Person"",
+            ""name"": ""Rodney Chery""
+          },
+          ""description"": ""Software solutions for medical practices, including custom EMRs and clinical workflow automation.""
+        }"
+    };
+}
+
+<div class="service-page rc-fade">
+    <div class="faq-hero">
+        <p class="section__text__p1">Industry Solutions</p>
+        <h1 class="title">Medical Software Solutions</h1>
+        <p class="faq-hero-sub">Streamlining clinical operations and improving patient care with custom-built technology.</p>
+    </div>
+
+    <div class="section-container" style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem;">
+        <div class="text-container">
+            <h2>Technology for Modern Medicine</h2>
+            <p>
+                From small independent clinics to large hospital networks, medical practices need software that reduces administrative overhead and lets providers focus on patients. I design solutions that bridge the gap between complex clinical needs and user-friendly technology.
+            </p>
+            
+            <h3 style="margin-top: 2rem; color: var(--c);">Areas of Focus</h3>
+            <ul>
+                <li><strong>Practice Management:</strong> Custom scheduling, billing, and reporting dashboards that give you real-time visibility into clinic operations.</li>
+                <li><strong>Clinical Workflow Automation:</strong> Streamlining patient intake, triage, and follow-up communication to reduce provider screen-time.</li>
+                <li><strong>Interoperability:</strong> Building middleware to connect disparate healthcare systems using industry standards like FHIR and HL7.</li>
+                <li><strong>Data Security:</strong> End-to-end encryption, robust access controls, and comprehensive audit logging to ensure HIPAA compliance.</li>
+            </ul>
+
+            <div class="rc-cta-box rc-glass" style="margin-top: 3rem; padding: 2rem; text-align: center;">
+                <h3>Ready to upgrade your clinic's technology?</h3>
+                <a href="/#quote" class="btn btn-outline-dark" style="margin-top: 1rem;">Schedule a Consultation</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,51 @@
+@page
+@{
+    ViewData["Title"] = "Custom Software Development | Rodney Chery";
+    ViewData["SeoMetadata"] = new RodneyPortfolio.Models.SeoMetadata
+    {
+        Title = "Custom Software Development | Rodney Chery",
+        Description = "Enterprise custom software development. We build scalable, high-performance web applications and backend systems for businesses.",
+        Keywords = "Custom Software Development, Enterprise Web Applications, Backend Systems, Full Stack Engineering",
+        SchemaJson = @"
+        {
+          ""@context"": ""https://schema.org"",
+          ""@type"": ""Service"",
+          ""name"": ""Custom Software Development"",
+          ""provider"": {
+            ""@type"": ""Person"",
+            ""name"": ""Rodney Chery""
+          },
+          ""description"": ""Enterprise custom software development for scalable, high-performance web applications.""
+        }"
+    };
+}
+
+<div class="service-page rc-fade">
+    <div class="faq-hero">
+        <p class="section__text__p1">Enterprise Engineering</p>
+        <h1 class="title">Custom Software Development</h1>
+        <p class="faq-hero-sub">Architecting and building scalable, robust web applications tailored to your exact business requirements.</p>
+    </div>
+
+    <div class="section-container" style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem;">
+        <div class="text-container">
+            <h2>Software Built for Scale and Performance</h2>
+            <p>
+                Off-the-shelf software often forces you to change your business processes to fit the tool. Custom software is built to fit your business perfectly. I engineer full-stack applications that solve complex problems, automate workflows, and scale with your growth.
+            </p>
+            
+            <h3 style="margin-top: 2rem; color: var(--c);">Engineering Expertise</h3>
+            <ul>
+                <li><strong>Full-Stack Architecture:</strong> Clean architecture patterns using ASP.NET Core for robust backends and modern frontend frameworks.</li>
+                <li><strong>Cloud-Native Deployment:</strong> Containerized applications deployed via Docker and Kubernetes on AWS, Azure, or GCP.</li>
+                <li><strong>System Integration:</strong> Unifying disparate systems via custom APIs and microservices.</li>
+                <li><strong>Performance Optimization:</strong> Advanced caching strategies, database query tuning, and frontend asset optimization for lightning-fast load times.</li>
+            </ul>
+
+            <div class="rc-cta-box rc-glass" style="margin-top: 3rem; padding: 2rem; text-align: center;">
+                <h3>Have a complex problem that needs a custom solution?</h3>
+                <a href="/#quote" class="btn btn-outline-dark" style="margin-top: 1rem;">Let's Discuss Your Project</a>
+            </div>
+        </div>
+    </div>
+</div>

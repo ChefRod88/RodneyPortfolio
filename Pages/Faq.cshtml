@@ -1,7 +1,13 @@
 @page
 @model RodneyPortfolio.Pages.FaqModel
 @{
-    ViewData["Title"] = "FAQ & Service Standards";
+    ViewData["Title"] = "FAQ & Service Standards | Rodney Chery Software Engineering";
+    ViewData["SeoMetadata"] = new RodneyPortfolio.Models.SeoMetadata
+    {
+        Title = "FAQ & Service Standards | Rodney Chery Software Engineering",
+        Description = "Read frequently asked questions about my software engineering process, pricing, SLA, and enterprise service standards.",
+        Keywords = "Software Development FAQ, Engineering Service Standards, SLA, Custom Software Pricing"
+    };
 }
 
 <div class="faq-page rc-fade">

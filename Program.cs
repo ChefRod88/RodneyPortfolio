@@ -40,6 +40,7 @@ builder.Services.AddScoped<IJobMatchService, DualJobMatchService>();
 builder.Services.AddScoped<IIcmRunnerService, IcmRunnerService>();
 builder.Services.AddScoped<IInputValidator, InputValidator>();
 builder.Services.AddScoped<IContentFilter, ContentFilter>();
+builder.Services.AddScoped<IMarkdownContentService, MarkdownContentService>();
 builder.Services.Configure<QuoteEmailOptions>(builder.Configuration.GetSection(QuoteEmailOptions.SectionName));
 builder.Services.Configure<StripeOptions>(builder.Configuration.GetSection("Stripe"));
 builder.Services.Configure<RecaptchaOptions>(builder.Configuration.GetSection(RecaptchaOptions.SectionName));

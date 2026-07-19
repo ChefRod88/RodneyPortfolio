@@ -1,0 +1,53 @@
+@page
+@{
+    ViewData["Title"] = "Healthcare Software Development | Rodney Chery";
+    ViewData["SeoMetadata"] = new RodneyPortfolio.Models.SeoMetadata
+    {
+        Title = "Healthcare Software Development | Rodney Chery",
+        Description = "Custom healthcare software engineering. We build secure, HIPAA-compliant patient portals, EMR integrations, and medical web applications.",
+        Keywords = "Healthcare Software Development, HIPAA Compliant Software, Patient Portals, EMR Integration, Medical Web Applications, Healthcare AI",
+        SchemaJson = @"
+        {
+          ""@context"": ""https://schema.org"",
+          ""@type"": ""Service"",
+          ""name"": ""Healthcare Software Development"",
+          ""provider"": {
+            ""@type"": ""Person"",
+            ""name"": ""Rodney Chery""
+          },
+          ""description"": ""Custom healthcare software engineering, including patient portals, EMR integrations, and medical web applications.""
+        }"
+    };
+}
+
+<div class="service-page rc-fade">
+    <div class="faq-hero">
+        <p class="section__text__p1">Healthcare & Medical Solutions</p>
+        <h1 class="title">Healthcare Software Development</h1>
+        <p class="faq-hero-sub">Engineering secure, scalable, and HIPAA-compliant web applications for healthcare providers, startups, and medical practices.</p>
+    </div>
+
+    <div class="section-container" style="max-width: 1000px; margin: 0 auto; padding: 2rem 1rem;">
+        <div class="text-container">
+            <h2>Secure Medical Software Engineered for Compliance</h2>
+            <p>
+                In the healthcare industry, software isn't just about functionality—it's about security, compliance, and patient outcomes. 
+                I specialize in building custom healthcare applications that meet strict regulatory standards while providing modern, intuitive experiences for both providers and patients.
+            </p>
+            
+            <h3 style="margin-top: 2rem; color: var(--c);">Core Capabilities</h3>
+            <ul>
+                <li><strong>Patient Portals:</strong> Secure platforms for patients to view records, schedule appointments, and communicate with providers.</li>
+                <li><strong>EHR/EMR Integrations:</strong> Seamlessly connecting custom applications to existing systems (Epic, Cerner) using HL7 and FHIR standards.</li>
+                <li><strong>Telehealth Platforms:</strong> Real-time video consultation systems with integrated scheduling and billing.</li>
+                <li><strong>Healthcare AI:</strong> Intelligent symptom checkers, automated medical transcription, and data analysis pipelines using HIPAA-eligible cloud infrastructure.</li>
+            </ul>
+
+            <div class="rc-cta-box rc-glass" style="margin-top: 3rem; padding: 2rem; text-align: center;">
+                <h3>Ready to build your healthcare application?</h3>
+                <p>Let's discuss your requirements, compliance needs, and timeline.</p>
+                <a href="/#quote" class="btn btn-outline-dark" style="margin-top: 1rem;">Request a Consultation</a>
+            </div>
+        </div>
+    </div>
+</div>

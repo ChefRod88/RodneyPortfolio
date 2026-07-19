@@ -1,0 +1,51 @@
+@model RodneyPortfolio.Models.SeoMetadata
+
+<title>@Model.Title</title>
+<meta name="description" content="@Model.Description" />
+@if (!string.IsNullOrWhiteSpace(Model.Keywords))
+{
+    <meta name="keywords" content="@Model.Keywords" />
+}
+<meta name="author" content="@Model.Author" />
+<meta name="robots" content="@Model.Robots" />
+
+@if (!string.IsNullOrWhiteSpace(Model.CanonicalUrl))
+{
+    <link rel="canonical" href="@Model.CanonicalUrl" />
+}
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="@Model.OpenGraphType" />
+@if (!string.IsNullOrWhiteSpace(Model.CanonicalUrl))
+{
+    <meta property="og:url" content="@Model.CanonicalUrl" />
+}
+<meta property="og:title" content="@Model.Title" />
+<meta property="og:description" content="@Model.Description" />
+<meta property="og:image" content="@Model.OpenGraphImage" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="@Model.TwitterCard" />
+@if (!string.IsNullOrWhiteSpace(Model.CanonicalUrl))
+{
+    <meta property="twitter:url" content="@Model.CanonicalUrl" />
+}
+<meta property="twitter:title" content="@Model.Title" />
+<meta property="twitter:description" content="@Model.Description" />
+<meta property="twitter:image" content="@Model.OpenGraphImage" />
+
+@if (!string.IsNullOrWhiteSpace(Model.PublishedDate))
+{
+    <meta property="article:published_time" content="@Model.PublishedDate" />
+}
+@if (!string.IsNullOrWhiteSpace(Model.ModifiedDate))
+{
+    <meta property="article:modified_time" content="@Model.ModifiedDate" />
+}
+
+@if (!string.IsNullOrWhiteSpace(Model.SchemaJson))
+{
+    <script type="application/ld+json">
+        @Html.Raw(Model.SchemaJson)
+    </script>
+}

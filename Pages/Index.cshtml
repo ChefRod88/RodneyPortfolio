@@ -1,25 +1,45 @@
 @page
 @model IndexModel
 @{
-    ViewData["Title"] = "Rodney Chery | Software Developer";
+    ViewData["Title"] = "Rodney Chery | Custom Software & Healthcare Engineering";
+    ViewData["SeoMetadata"] = new RodneyPortfolio.Models.SeoMetadata
+    {
+        Title = "Rodney Chery | Custom Software & Healthcare Engineering",
+        Description = "Enterprise software engineer specializing in custom software development, healthcare solutions, patient portals, AI integration, and ASP.NET Core consulting.",
+        Keywords = "Software Engineer, Custom Software Development, Healthcare Software Engineering, Patient Portals, AI Integration, ASP.NET Core, Enterprise Web Applications, Rodney Chery",
+        SchemaJson = @"
+        {
+          ""@context"": ""https://schema.org"",
+          ""@type"": ""Person"",
+          ""name"": ""Rodney Chery"",
+          ""jobTitle"": ""Software Engineer"",
+          ""url"": ""https://www.rodneyachery.com"",
+          ""sameAs"": [
+            ""https://www.linkedin.com/in/rodneyachery/"",
+            ""https://github.com/ChefRod88""
+          ]
+        }"
+    };
 }
 
 <!-- ═══ HERO ═══ -->
 <section id="profile">
     <div class="section__pic-container rc-fade">
-        <img src="~/assets/images/149A60A7-E1B9-45FA-A196-804C7DB392C7.png" alt="Rodney Chery — Software Developer" loading="eager" />
+        <img src="~/assets/images/149A60A7-E1B9-45FA-A196-804C7DB392C7.webp" alt="Rodney Chery — Software Developer" loading="eager" />
     </div>
 
     <div class="section__text rc-fade">
-        <p class="section__text__p1">Software Developer</p>
+        <p class="section__text__p1">Enterprise Software Engineer</p>
         <h1 class="title">Rodney Chery</h1>
-        <p class="section__text__p2">I build intelligent web systems that solve real business problems.</p>
+        <p class="section__text__p2">I engineer secure, scalable, and intelligent web applications for healthcare and enterprise.</p>
 
         <div id="socials-container">
-            <img src="~/assets/icons/linkedin.svg" alt="LinkedIn" class="icon"
-                 onclick="location.href='https://www.linkedin.com/in/rodneyachery/'" />
-            <img src="~/assets/icons/github.svg" alt="GitHub" class="icon"
-                 onclick="window.open('https://github.com/ChefRod88/RodneyPortfolio', '_blank')" />
+            <a href="https://www.linkedin.com/in/rodneyachery/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
+                <img src="~/assets/icons/linkedin.svg" alt="" class="icon" />
+            </a>
+            <a href="https://github.com/ChefRod88/RodneyPortfolio" target="_blank" rel="noopener noreferrer" aria-label="GitHub Profile">
+                <img src="~/assets/icons/github.svg" alt="" class="icon" />
+            </a>
         </div>
 
         <div class="rc-status-row">
@@ -98,7 +118,9 @@
             </div>
         </div>
     </div>
-    <img src="~/assets/icons/arrow-down-square.svg" alt="Arrow" class="icon arrow" onclick="location.href='#services'" />
+    <a href="#services" aria-label="Scroll to Services">
+        <img src="~/assets/icons/arrow-down-square.svg" alt="" class="icon arrow" />
+    </a>
 </section>
 
 <!-- ═══ SERVICES ═══ -->
@@ -162,7 +184,9 @@
         </div>
 
     </div>
-    <img src="~/assets/icons/arrow-down-square.svg" alt="Arrow" class="icon arrow" onclick="location.href='#process'" />
+    <a href="#process" aria-label="Scroll to Process">
+        <img src="~/assets/icons/arrow-down-square.svg" alt="" class="icon arrow" />
+    </a>
 </section>
 
 <!-- ═══ PROCESS ═══ -->
@@ -402,12 +426,12 @@
                 <label class="rc-form-label">Service Needed *</label>
                 <select name="ServiceNeeded" class="rc-form-input rc-form-select" required>
                     <option value="" disabled selected>Select a service...</option>
-                    <option>Web Application</option>
-                    <option>AI Integration</option>
-                    <option>API Development</option>
-                    <option>Church / Nonprofit Site</option>
-                    <option>Deployment / DevOps</option>
-                    <option>Technical Support</option>
+                    <option>Custom Healthcare Software</option>
+                    <option>Patient Portal Development</option>
+                    <option>Enterprise Web Application</option>
+                    <option>Healthcare AI Integration</option>
+                    <option>ASP.NET Core Backend</option>
+                    <option>Cloud Infrastructure / SRE</option>
                     <option>Not sure — need advice</option>
                 </select>
             </div>
@@ -415,11 +439,10 @@
                 <label class="rc-form-label">Estimated Budget *</label>
                 <select name="EstimatedBudget" class="rc-form-input rc-form-select" required>
                     <option value="" disabled selected>Select a budget range...</option>
-                    <option>Under $1,000</option>
-                    <option>$1,000 – $2,500</option>
-                    <option>$2,500 – $5,000</option>
-                    <option>$5,000 – $10,000</option>
-                    <option>$10,000+</option>
+                    <option>Under $5,000</option>
+                    <option>$5,000 – $15,000</option>
+                    <option>$15,000 – $50,000</option>
+                    <option>$50,000+</option>
                     <option>Not sure yet</option>
                 </select>
             </div>

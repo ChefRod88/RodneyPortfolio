@@ -20,7 +20,14 @@
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>@ViewData["Title"]</title>
+    @{
+        var seoMetadata = ViewData["SeoMetadata"] as RodneyPortfolio.Models.SeoMetadata ?? new RodneyPortfolio.Models.SeoMetadata
+        {
+            Title = ViewData["Title"]?.ToString() ?? "Rodney Chery - Full Stack Software Engineer",
+            CanonicalUrl = "https://www.rodneyachery.com" + Context.Request.Path
+        };
+    }
+    <partial name="_SeoMetadata" model="seoMetadata" />
 
     <!-- PWA -->
     <link rel="manifest" href="~/manifest.json" />
@@ -28,7 +35,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Rodney Chery" />
-    <link rel="apple-touch-icon" href="~/assets/images/icon-192.png" />
+    <link rel="apple-touch-icon" href="~/assets/images/icon-192.webp" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -59,15 +66,15 @@
     <nav id="hamburger-nav">
         <a href="/" class="logo" style="text-decoration:none;">RC<span>//</span>DEV</a>
         <div class="hamburger-menu">
-            <div class="hamburger-icon" onclick="toggleMenu()">
+            <button type="button" class="hamburger-icon" onclick="toggleMenu()" aria-label="Toggle Navigation" aria-expanded="false" style="background:none;border:none;padding:0;cursor:pointer;">
                 <span></span><span></span><span></span>
-            </div>
+            </button>
             <div class="menu-links">
                 <ul>
                     <li><a href="/#about"        onclick="toggleMenu()">About</a></li>
                     <li><a href="/#services"     onclick="toggleMenu()">Services</a></li>
-                    @*<li><a href="/#pricing"      onclick="toggleMenu()">Pricing</a></li>*@
-                    <li><a href="/Projects"      onclick="toggleMenu()">Projects</a></li>
+                    <li><a href="/CaseStudies/Index" onclick="toggleMenu()">Case Studies</a></li>
+                    <li><a href="/Insights/Index" onclick="toggleMenu()">Insights</a></li>
                     <li><a href="/Faq"          onclick="toggleMenu()" class="rc-nav-faq">FAQ &amp; Standards</a></li>
                     @* Client Portal nav link intentionally hidden for now.
                        Keep markup here so we can re-enable quickly later. *@
@@ -96,10 +103,10 @@
         </div>
     </footer>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/js/layout.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js" defer></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="~/js/site.js" asp-append-version="true" defer></script>
+    <script src="~/js/layout.js" asp-append-version="true" defer></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 

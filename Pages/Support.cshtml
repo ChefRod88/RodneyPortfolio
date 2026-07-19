@@ -1,7 +1,13 @@
 @page
 @model RodneyPortfolio.Pages.SupportModel
 @{
-    ViewData["Title"] = "Contact Support";
+    ViewData["Title"] = "Contact Support | Rodney Chery Software Engineering";
+    ViewData["SeoMetadata"] = new RodneyPortfolio.Models.SeoMetadata
+    {
+        Title = "Contact Support | Rodney Chery Software Engineering",
+        Description = "Contact support for your custom software or enterprise web application built by Rodney Chery.",
+        Keywords = "Software Support, Technical Support, Help Desk, Rodney Chery Support"
+    };
 }
 
 <link rel="stylesheet" href="~/css/support.css" asp-append-version="true" />
