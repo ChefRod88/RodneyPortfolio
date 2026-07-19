@@ -243,11 +243,10 @@ app.UseSession();
 
 app.UseAuthorization();
 
-app.MapStaticAssets();
+app.UseStaticFiles();
 app.MapControllerRoute(name: "default", pattern: "{controller}/{action}/{id?}");
 app.MapControllers();
-app.MapRazorPages()
-   .WithStaticAssets();
+app.MapRazorPages();
 
 app.Run();
 
