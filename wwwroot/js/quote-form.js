@@ -42,14 +42,6 @@ async function handleQuoteSubmit(e) {
 
     formFields.forEach((el) => (el.style.display = "none"));
     document.getElementById("quoteSuccess").style.display = "block";
-    
-    // Trigger GA4 event if loaded
-    if (typeof gtag !== 'undefined') {
-        gtag('event', 'generate_lead', {
-            'currency': 'USD',
-            'value': 1000
-        });
-    }
   } catch (err) {
     errorBox.textContent =
       err instanceof Error && err.message

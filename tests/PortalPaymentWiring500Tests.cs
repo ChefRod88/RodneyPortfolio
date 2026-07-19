@@ -35,7 +35,7 @@ public class PortalPaymentWiring500Tests
             ("Views/Portal/Dashboard.cshtml", "dash-stripe-element", "id=\"payment-element\""),
             ("Views/Portal/Dashboard.cshtml", "dash-stripe-submit", "onclick=\"submitStripePayment()\""),
             ("Views/Portal/Dashboard.cshtml", "dash-cashapp-submit", "onclick=\"submitCashApp()\""),
-            ("Views/Portal/Dashboard.cshtml", "dash-cashapp-qr", "src=\"/images/cashapp-qr.webp\""),
+            ("Views/Portal/Dashboard.cshtml", "dash-cashapp-qr", "src=\"/images/cashapp-qr.png\""),
             ("Views/Portal/Dashboard.cshtml", "dash-cashapp-handle", "$ChefRodneyChery"),
             ("wwwroot/js/portal-dashboard.js", "dash-create-intent-endpoint", "/Portal/Dashboard/CreatePaymentIntent"),
             ("wwwroot/js/portal-dashboard.js", "dash-confirm-endpoint", "/Portal/Dashboard/ConfirmPayment"),

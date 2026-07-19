@@ -1,13 +1,75 @@
-@page
-@model IndexModel
-@{
-    ViewData["Title"] = "Rodney Chery | Software Developer";
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GFRJYMRHKM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
+      gtag('config', 'G-GFRJYMRHKM');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Rodney Chery | Software Developer</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#020c14" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Rodney Chery" />
+    <link rel="apple-touch-icon" href="/assets/images/icon-192.png" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Stripe Elements -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <input type="hidden" id="stripe-pub-key" value="" />
+
+    
+</head>
+
+<body>
+
+    <!-- MATRIX RAIN CANVAS -->
+        <canvas id="rc-matrix"></canvas>
+        <div class="rc-vignette"></div>
+        <div class="rc-scanlines"></div>
+
+    <nav id="hamburger-nav">
+        <a href="/" class="logo" style="text-decoration:none;">RC<span>//</span>DEV</a>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="menu-links">
+                <ul>
+                    <li><a href="/#about"        onclick="toggleMenu()">About</a></li>
+                    <li><a href="/#services"     onclick="toggleMenu()">Services</a></li>
+                    <li><a href="/Projects"      onclick="toggleMenu()">Projects</a></li>
+                    <li><a href="/Faq"          onclick="toggleMenu()" class="rc-nav-faq">FAQ &amp; Standards</a></li>
+                    <li><a href="/#quote"        onclick="toggleMenu()" class="rc-nav-cta">Get a Quote</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main" class="rc-main">
+        
 <!-- ═══ HERO ═══ -->
 <section id="profile">
     <div class="section__pic-container rc-fade">
-        <img src="~/assets/images/149A60A7-E1B9-45FA-A196-804C7DB392C7.png" alt="Rodney Chery — Software Developer" loading="eager" />
+        <img src="/assets/images/149A60A7-E1B9-45FA-A196-804C7DB392C7.png" alt="Rodney Chery — Software Developer" loading="eager" />
     </div>
 
     <div class="section__text rc-fade">
@@ -16,10 +78,8 @@
         <p class="section__text__p2">I build intelligent web systems that solve real business problems.</p>
 
         <div id="socials-container">
-            <img src="~/assets/icons/linkedin.svg" alt="LinkedIn" class="icon"
-                 onclick="location.href='https://www.linkedin.com/in/rodneyachery/'" />
-            <img src="~/assets/icons/github.svg" alt="GitHub" class="icon"
-                 onclick="window.open('https://github.com/ChefRod88/RodneyPortfolio', '_blank')" />
+            <img src="/assets/icons/linkedin.svg" alt="LinkedIn" class="icon" onclick="location.href='https://www.linkedin.com/in/rodneyachery/'" />
+            <img src="/assets/icons/github.svg" alt="GitHub" class="icon" onclick="window.open('https://github.com/ChefRod88/RodneyPortfolio', '_blank')" />
         </div>
 
         <div class="rc-status-row">
@@ -34,7 +94,6 @@
 
         <!--<div class="btn-container">
             <!-- CV_DOWNLOAD_BUTTON_DISABLED: Re-enable this button if you want Download CV back -->
-            @* <button class="btn btn-outline-dark" onclick="window.open('/assets/resume/RCJSWE.pdf', '_blank')">Download CV</button> *@
         </div>-->
     </div>
 </section>
@@ -98,7 +157,7 @@
             </div>
         </div>
     </div>
-    <img src="~/assets/icons/arrow-down-square.svg" alt="Arrow" class="icon arrow" onclick="location.href='#services'" />
+    <img src="/assets/icons/arrow-down-square.svg" alt="Arrow" class="icon arrow" onclick="location.href='#services'" />
 </section>
 
 <!-- ═══ SERVICES ═══ -->
@@ -162,7 +221,7 @@
         </div>
 
     </div>
-    <img src="~/assets/icons/arrow-down-square.svg" alt="Arrow" class="icon arrow" onclick="location.href='#process'" />
+    <img src="/assets/icons/arrow-down-square.svg" alt="Arrow" class="icon arrow" onclick="location.href='#process'" />
 </section>
 
 <!-- ═══ PROCESS ═══ -->
@@ -383,7 +442,7 @@
         </div>
 
         <form id="quoteForm" class="rc-glass rc-quote-form" method="post" action="?handler=Quote" onsubmit="handleQuoteSubmit(event)">
-            @Html.AntiForgeryToken()
+            <input name="__RequestVerificationToken" type="hidden" value="CfDJ8LLlgdkQ4qdLuByCBplQNDGtRePwtS4Zz-AGul8_2-ZVzm6CKnc1sr8qfY5fJBuK4syll8JryJ2rGoIx6vOv1BCVhyxJXvqHUdC4BssEkUCJFhx9zlaLAqfmpntW4eby5mCpfxwzq9xvxsuLPih7cLs" />
             <div class="rc-form-row">
                 <div class="rc-form-group">
                     <label class="rc-form-label">Your Name *</label>
@@ -442,7 +501,7 @@
                 <input id="Website" type="text" name="Website" tabindex="-1" autocomplete="off" />
             </div>
             <div class="rc-form-group">
-                <div class="g-recaptcha" data-sitekey="@Model.RecaptchaSiteKey"></div>
+                <div class="g-recaptcha" data-sitekey="6LdV9wAtAAAAALo8sxF6fiCq-Lq9JUM028JHnZlT"></div>
             </div>
             <button type="submit" class="btn btn-outline-dark rc-quote-submit">Submit Request →</button>
             <div id="quoteError" style="display:none;text-align:center;padding:1rem;color:#ff9f9f;"></div>
@@ -460,17 +519,70 @@
     <h1 class="contact-title">Contact Me</h1>
     <div class="contact-card">
         <a href="mailto:rodney@globalrcdev.com" class="contact-item">
-            <img src="~/assets/icons/envelope.svg" alt="Email icon" class="contact-icon" />
+            <img src="/assets/icons/envelope.svg" alt="Email icon" class="contact-icon" />
             <span>rodney@globalrcdev.com</span>
         </a>
         <a href="https://www.linkedin.com/in/rodneyachery/" target="_blank" rel="noopener noreferrer" class="contact-item">
-            <img src="~/assets/icons/linkedin.svg" alt="LinkedIn icon" class="contact-icon" />
+            <img src="/assets/icons/linkedin.svg" alt="LinkedIn icon" class="contact-icon" />
             <span>LinkedIn</span>
         </a>
     </div>
 </section>
 
-@section Scripts {
+
+    </main>
+
+    <footer class="rc-footer">
+        <div class="rc-footer-inner">
+            <div class="rc-footer-links">
+                <a href="/#about">About</a>
+                <a href="/#services">Services</a>
+                <a href="/#pricing">Pricing</a>
+                <a href="/#quote">Quote</a>
+                <a href="/#support">Contact Support</a>
+            </div>
+            <small id="copyright">© 2026 RODNEY CHERY &nbsp;·&nbsp; FULL STACK AI DEVELOPER &nbsp;·&nbsp; NODE_ONLINE</small>
+        </div>
+    </footer>
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/site.js"></script>
+    <script src="/js/layout.js"></script>
+
+    
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script src="~/js/quote-form.js" asp-append-version="true"></script>
-}
+    <script src="/js/quote-form.js"></script>
+
+
+    <!-- Admin access button — bottom left corner, always visible -->
+<a href="/Admin/Login" class="rc-admin-btn" title="Administrator Only">
+    <span class="rc-admin-icon">⬡</span>
+    <span class="rc-admin-label">Admin</span>
+</a>
+
+    <!-- FUTURISTIC TELEMETRY HUD -->
+    <div class="hud-telemetry" aria-hidden="true">
+        <span class="hud-label">LOC:</span>
+        <span id="hud-coord-x">000</span>, <span id="hud-coord-y">000</span>
+    </div>
+
+    <!-- INTERACTIVE CLI TERMINAL DRAWER -->
+    <div class="terminal-drawer" id="terminalDrawer">
+        <div class="terminal-drawer-header" id="terminalHeader">
+            <span>RC-SHELL v1.0.4 // MAIN_DIAGNOSTICS</span>
+            <button type="button" class="terminal-toggle-btn" id="terminalToggleBtn">&gt;_ SHELL</button>
+        </div>
+        <div class="terminal-drawer-body">
+            <div class="terminal-history" id="terminalHistory">
+                <p>Welcome to RC-SHELL. System initialized. Type <span style="color:var(--c);">help</span> for instructions.</p>
+            </div>
+            <div class="terminal-input-line">
+                <span class="prompt">guest@rc-dev:~$</span>
+                <input type="text" id="terminalInput" placeholder="Type a command..." autocomplete="off" />
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

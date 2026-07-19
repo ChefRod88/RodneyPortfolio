@@ -1,10 +1,69 @@
-@page
-@model RodneyPortfolio.Pages.AgreementModel
-@{
-    ViewData["Title"] = "Software Services Agreement";
-    ViewData["HideMatrix"] = true;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GFRJYMRHKM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
+      gtag('config', 'G-GFRJYMRHKM');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Software Services Agreement</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#020c14" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Rodney Chery" />
+    <link rel="apple-touch-icon" href="/assets/images/icon-192.png" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Stripe Elements -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <input type="hidden" id="stripe-pub-key" value="" />
+
+    
+</head>
+
+<body>
+
+    <!-- MATRIX RAIN CANVAS -->
+
+    <!-- NAV -->
+    <nav id="hamburger-nav">
+        <a href="/" class="logo" style="text-decoration:none;">RC<span>//</span>DEV</a>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="menu-links">
+                <ul>
+                    <li><a href="/#about"        onclick="toggleMenu()">About</a></li>
+                    <li><a href="/#services"     onclick="toggleMenu()">Services</a></li>
+                    <li><a href="/Projects"      onclick="toggleMenu()">Projects</a></li>
+                    <li><a href="/Faq"          onclick="toggleMenu()" class="rc-nav-faq">FAQ &amp; Standards</a></li>
+                    <li><a href="/#quote"        onclick="toggleMenu()" class="rc-nav-cta">Get a Quote</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main" class="rc-main">
+        
 <div class="faq-page rc-fade agreement-page-wrapper">
     <div class="faq-hero" style="padding-top: 3rem; padding-bottom: 1.5rem;">
         <p class="section__text__p1">Contract &amp; Compliance</p>
@@ -90,8 +149,8 @@
         <!-- SIGNATURE FORM AND FIELDS -->
         <div class="rc-glass contract-form-card" style="width: 100%; padding: 2.5rem 2rem; box-sizing: border-box; transition: all 0.3s;">
             <form id="agreementForm" method="post" style="display: flex; flex-direction: column; gap: 1.8rem;">
-                @Html.AntiForgeryToken()
-                <input type="hidden" id="clientIpAddress" value="@Model.ClientIp" />
+                
+                <input type="hidden" id="clientIpAddress" value="127.0.0.1" />
                 
                 <div class="rc-agreement-grid">
                     <div class="rc-form-group">
@@ -113,7 +172,7 @@
                 <div class="rc-form-group">
                     <label class="form-label" style="display: block; font-family: var(--font-mono); font-size: 0.8rem; color: var(--white); margin-bottom: 0.5rem; text-transform: uppercase; transition: color 0.3s;">
                         Draw Client Signature Below
-                        <span style="color: rgba(142,207,223,0.5); font-family: var(--font-mono); font-size: 0.75rem; text-transform: none; float: right;">Logged IP: @Model.ClientIp</span>
+                        <span style="color: rgba(142,207,223,0.5); font-family: var(--font-mono); font-size: 0.75rem; text-transform: none; float: right;">Logged IP: 127.0.0.1</span>
                     </label>
                     <div id="sigWrapper" style="position: relative; width: 100%; background: rgba(0,0,0,0.6); border: 1px solid var(--border); height: 180px; box-sizing: border-box; transition: all 0.3s;">
                         <canvas id="signatureCanvas" style="position: absolute; top:0; left:0; width:100%; height:100%; cursor: crosshair; touch-action: none;"></canvas>
@@ -125,7 +184,7 @@
                 <div id="successAlert" style="display: none; padding: 1rem; border: 1px solid rgba(0,255,0,0.3); background: rgba(0,255,0,0.05); color: #00ffaa; font-family: var(--font-mono); font-size: 0.85rem;"></div>
 
                 <button type="button" id="submitBtn" class="btn btn-outline-dark submit-button" style="width: 100%; padding: 1.2rem; font-family: var(--font-display); text-transform: uppercase; font-weight: 600; letter-spacing: 0.15em; background: transparent; transition: all 0.3s; font-size: 0.9rem; border-radius: 0;">Sign &amp; Submit Agreement</button>
-            </form>
+            <input name="__RequestVerificationToken" type="hidden" value="CfDJ8LLlgdkQ4qdLuByCBplQNDHXMyqkx-6tMCX7JwZip8UAFWHuoJ9ZfzGsWJRx41J1vTPlbcU2KABwatWAPSnmiW6DrlzU4YBPD0wZaTK1lPJmfVnNPxt2uxYgChDTEKodKVATzGnbZ14uY8L_s6Ju0Jo" /></form>
         </div>
     </div>
 </div>
@@ -226,7 +285,28 @@
     </div>
 </div>
 
-@section Scripts {
+
+    </main>
+
+    <footer class="rc-footer">
+        <div class="rc-footer-inner">
+            <div class="rc-footer-links">
+                <a href="/#about">About</a>
+                <a href="/#services">Services</a>
+                <a href="/#pricing">Pricing</a>
+                <a href="/#quote">Quote</a>
+                <a href="/#support">Contact Support</a>
+            </div>
+            <small id="copyright">© 2026 RODNEY CHERY &nbsp;·&nbsp; FULL STACK AI DEVELOPER &nbsp;·&nbsp; NODE_ONLINE</small>
+        </div>
+    </footer>
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/site.js"></script>
+    <script src="/js/layout.js"></script>
+
+    
     <!-- HTML2PDF CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
@@ -375,7 +455,7 @@
 
                 // Trim separators and validate format
                 const cleanEmail = clientEmail.trim().replace(/^[;,]+|[;,]+$/g, '');
-                const emailRegex = /^[^\s@@]+@@[^\s@@]+\.[^\s@@]+$/;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
                 if (!emailRegex.test(cleanEmail)) {
                     errorAlert.innerText = "Please enter a valid email address.";
                     errorAlert.style.display = "block";
@@ -605,7 +685,7 @@
             gap: 1.5rem;
         }
 
-        @@media (max-width: 600px) {
+        @media (max-width: 600px) {
             .rc-agreement-grid {
                 grid-template-columns: 1fr;
             }
@@ -617,8 +697,17 @@
             }
         }
         
-        @@keyframes spin {
+        @keyframes spin {
             to { transform: rotate(360deg); }
         }
     </style>
-}
+
+
+    <!-- Admin access button — bottom left corner, always visible -->
+<a href="/Admin/Login" class="rc-admin-btn" title="Administrator Only">
+    <span class="rc-admin-icon">⬡</span>
+    <span class="rc-admin-label">Admin</span>
+</a>
+
+</body>
+</html>

@@ -11,28 +11,19 @@
     <Compile Remove="tests/**" />
     <Compile Remove="Redactr/**" />
     <Compile Remove="MiniCRM/**" />
-    <Compile Remove="ChurchWebsite/**" />
-    <Compile Remove="ChurchWebsite.Tests/**" />
     <Content Remove="tests/**" />
     <Content Remove="Redactr/**" />
     <Content Remove="MiniCRM/**" />
-    <Content Remove="ChurchWebsite/**" />
-    <Content Remove="ChurchWebsite.Tests/**" />
     <EmbeddedResource Remove="tests/**" />
     <EmbeddedResource Remove="Redactr/**" />
     <EmbeddedResource Remove="MiniCRM/**" />
-    <EmbeddedResource Remove="ChurchWebsite/**" />
-    <EmbeddedResource Remove="ChurchWebsite.Tests/**" />
     <None Remove="tests/**" />
     <None Remove="Redactr/**" />
     <None Remove="MiniCRM/**" />
-    <None Remove="ChurchWebsite/**" />
-    <None Remove="ChurchWebsite.Tests/**" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="MailKit" Version="4.17.0" />
-    <PackageReference Include="Markdig" Version="1.3.2" />
+    <PackageReference Include="MailKit" Version="4.15.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="9.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.3" />
@@ -41,6 +32,5 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Stripe.net" Version="50.4.0" />
-    <PackageReference Include="YamlDotNet" Version="18.1.0" />
   </ItemGroup>
 </Project>
