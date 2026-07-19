@@ -20,25 +20,7 @@ namespace RodneyPortfolio.Pages.Articles
             var isDevelopment = HttpContext.RequestServices.GetRequiredService<IWebHostEnvironment>().IsDevelopment();
             Articles = await _articleService.GetAllArticlesAsync(includeDrafts: isDevelopment);
 
-            ViewData["Seo"] = new SeoMetadata
-            {
-                Title = "Technical Articles | Rodney Chery",
-                Description = "Insights on healthcare software, AI, and ASP.NET Core.",
-                CanonicalUrl = "https://www.rodneyachery.com/Articles",
-                Robots = "index, follow",
-                OpenGraphImage = "https://www.rodneyachery.com/assets/images/rodney-chery-social-card.webp",
-                StructuredData = new object[]
-                {
-                    new
-                    {
-                        @context = "https://schema.org",
-                        @type = "Blog",
-                        @id = "https://www.rodneyachery.com/Articles",
-                        url = "https://www.rodneyachery.com/Articles",
-                        name = "Technical Articles | Rodney Chery"
-                    }
-                }
-            };
+            ViewData["Title"] = "Technical Articles | Rodney Chery";
         }
     }
 }

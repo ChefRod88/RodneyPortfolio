@@ -25,26 +25,6 @@ public class ProjectsModel : PageModel
     public void OnGet()
     {
         Projects = AssignNodeIds(BuildCatalog());
-
-        ViewData["Seo"] = new RodneyPortfolio.Models.SeoMetadata
-        {
-            Title = "Portfolio & Projects | Rodney Chery",
-            Description = "Explore custom healthcare portals, AI-assisted workflows, and enterprise ASP.NET Core applications built by Rodney Chery.",
-            CanonicalUrl = "https://www.rodneyachery.com/Projects",
-            Robots = "index, follow",
-            OpenGraphImage = "https://www.rodneyachery.com/assets/images/rodney-chery-social-card.webp",
-            StructuredData = new object[]
-            {
-                new
-                {
-                    @context = "https://schema.org",
-                    @type = "CollectionPage",
-                    @id = "https://www.rodneyachery.com/Projects",
-                    url = "https://www.rodneyachery.com/Projects",
-                    name = "Portfolio & Projects | Rodney Chery"
-                }
-            }
-        };
     }
 
     private static IReadOnlyList<ProjectEntry> BuildCatalog() =>

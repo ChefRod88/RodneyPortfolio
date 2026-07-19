@@ -20,61 +20,8 @@
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    @{
-        var seo = ViewData["Seo"] as RodneyPortfolio.Models.SeoMetadata;
-        var defaultTitle = ViewData["Title"]?.ToString() ?? "Rodney Chery";
-    }
-    @if (seo != null)
-    {
-        <title>@seo.Title</title>
-        <meta name="description" content="@seo.Description" />
-        
-        @if (!string.IsNullOrEmpty(seo.Robots))
-        {
-            <meta name="robots" content="@seo.Robots" />
-        }
-        @if (!string.IsNullOrEmpty(seo.CanonicalUrl))
-        {
-            <link rel="canonical" href="@seo.CanonicalUrl" />
-        }
+    <title>@ViewData["Title"]</title>
 
-        <meta property="og:site_name" content="Rodney Chery" />
-        <meta property="og:title" content="@(seo.OpenGraphTitle ?? seo.Title)" />
-        <meta property="og:description" content="@(seo.OpenGraphDescription ?? seo.Description)" />
-        <meta property="og:type" content="@(seo.OpenGraphType ?? "website")" />
-        @if (!string.IsNullOrEmpty(seo.OpenGraphUrl ?? seo.CanonicalUrl))
-        {
-            <meta property="og:url" content="@(seo.OpenGraphUrl ?? seo.CanonicalUrl)" />
-        }
-        @if (!string.IsNullOrEmpty(seo.OpenGraphImage))
-        {
-            <meta property="og:image" content="@seo.OpenGraphImage" />
-            <meta property="og:image:alt" content="@(seo.OpenGraphImageAlt ?? seo.Title)" />
-        }
-
-        <meta name="twitter:card" content="@(seo.TwitterCard ?? "summary_large_image")" />
-        <meta name="twitter:title" content="@(seo.TwitterTitle ?? seo.Title)" />
-        <meta name="twitter:description" content="@(seo.TwitterDescription ?? seo.Description)" />
-        @if (!string.IsNullOrEmpty(seo.TwitterImage ?? seo.OpenGraphImage))
-        {
-            <meta name="twitter:image" content="@(seo.TwitterImage ?? seo.OpenGraphImage)" />
-            <meta name="twitter:image:alt" content="@(seo.TwitterImageAlt ?? seo.OpenGraphImageAlt ?? seo.Title)" />
-        }
-
-        @if (seo.StructuredData != null && seo.StructuredData.Count > 0)
-        {
-            foreach (var schema in seo.StructuredData)
-            {
-                <script type="application/ld+json">
-                    @Html.Raw(System.Text.Json.JsonSerializer.Serialize(schema, new System.Text.Json.JsonSerializerOptions { PropertyNamingPolicy = System.Text.Json.JsonNamingPolicy.CamelCase, DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull }))
-                </script>
-            }
-        }
-    }
-    else
-    {
-        <title>@defaultTitle</title>
-    }
     <!-- PWA -->
     <link rel="manifest" href="~/manifest.json" />
     <meta name="theme-color" content="#020c14" />

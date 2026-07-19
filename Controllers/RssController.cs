@@ -8,12 +8,10 @@ namespace RodneyPortfolio.Controllers
     public class RssController : ControllerBase
     {
         private readonly IArticleService _articleService;
-        private readonly ICanonicalUrlService _canonicalUrlService;
 
-        public RssController(IArticleService articleService, ICanonicalUrlService canonicalUrlService)
+        public RssController(IArticleService articleService)
         {
             _articleService = articleService;
-            _canonicalUrlService = canonicalUrlService;
         }
 
         [HttpGet("/Articles/feed.xml")]
@@ -27,13 +25,13 @@ namespace RodneyPortfolio.Controllers
             sb.AppendLine("<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">");
             sb.AppendLine("  <channel>");
             sb.AppendLine("    <title>Rodney Chery | Technical Articles</title>");
-            sb.AppendLine($"    <link>{_canonicalUrlService.GetCanonicalUrl(HttpContext, "/Articles")}</link>");
+            sb.AppendLine($"    <link>https://www.rodneyachery.com/Articles</link>");
             sb.AppendLine("    <description>Insights on healthcare software, AI, and ASP.NET Core.</description>");
-            sb.AppendLine($"    <atom:link href=\"{_canonicalUrlService.GetCanonicalUrl(HttpContext, "/Articles/feed.xml")}\" rel=\"self\" type=\"application/rss+xml\" />");
+            sb.AppendLine($"    <atom:link href=\"https://www.rodneyachery.com/Articles/feed.xml\" rel=\"self\" type=\"application/rss+xml\" />");
 
             foreach (var article in articles)
             {
-                var articleUrl = _canonicalUrlService.GetCanonicalUrl(HttpContext, $"/Articles/{article.Slug}");
+                var articleUrl = $"https://www.rodneyachery.com/Articles/{article.Slug}";
                 sb.AppendLine("    <item>");
                 sb.AppendLine($"      <title>{System.Security.SecurityElement.Escape(article.Title)}</title>");
                 sb.AppendLine($"      <link>{articleUrl}</link>");

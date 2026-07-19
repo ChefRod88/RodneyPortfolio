@@ -5,5 +5,12 @@
     <link>https://www.rodneyachery.com/Articles</link>
     <description>Insights on healthcare software, AI, and ASP.NET Core.</description>
     <atom:link href="https://www.rodneyachery.com/Articles/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Zero-Cost ASP.NET Core: Building a Markdown Blog on Cloudflare Pages</title>
+      <link>https://www.rodneyachery.com/Articles/zero-dollar-aspnetcore-cloudflare-ssg</link>
+      <guid isPermaLink="true">https://www.rodneyachery.com/Articles/zero-dollar-aspnetcore-cloudflare-ssg</guid>
+      <description>How to combine the power of ASP.NET Core with Python static site generation to host a fully-featured, markdown-driven blog on Cloudflare for $0/month.</description>
+      <pubDate>Sun, 19 Jul 2026 22:30:00 GMT</pubDate>
+    </item>
   </channel>
 </rss>
