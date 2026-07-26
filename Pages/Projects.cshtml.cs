@@ -79,6 +79,30 @@ public class ProjectsModel : PageModel
                 Year:        "2026",
                 PreviewImagePath: "~/images/project_thumbnails/Black and White Minimalist Aesthetic Photo Collage Fashion Collection Instagram Post.png"
             ),
+            new(
+                Name:        "SENIORRADIANCECARE.COM",
+                Description: "Responsive senior home care website built for Senior Radiance and Wellness Home Care. Features reusable Blazor components, multi-page service discovery, mobile navigation, animated hero content, consultation and employment workflows, resume upload, Google reCAPTCHA validation, and Cloudflare Worker API endpoints. Deployed to Cloudflare Workers with GitHub Actions CI/CD.",
+                Status:      "DEPLOYED",
+                Stack:       new[]
+                {
+                    "C#",
+                    ".NET 10",
+                    "BLAZOR WEBASSEMBLY",
+                    "RAZOR COMPONENTS",
+                    "CLOUDFLARE WORKERS",
+                    "CLOUDFLARE WRANGLER",
+                    "GITHUB ACTIONS",
+                    "GOOGLE RECAPTCHA",
+                    "HTTPCLIENT",
+                    "JAVASCRIPT INTEROP",
+                    "CSS3",
+                    "HTML5"
+                },
+                LiveUrl:     "https://seniorradiancecare.com/",
+                RepoUrl:     null,
+                Year:        "2026",
+                PreviewImagePath: "~/images/project_thumbnails/senior-radiance-home-care.png"
+            )
         };
 
     private static List<ProjectEntry> AssignNodeIds(IReadOnlyList<ProjectEntry> entries) =>
