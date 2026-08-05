@@ -444,3 +444,81 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+
+// ================================
+// WELCOME POPUP
+// ================================
+document.addEventListener("DOMContentLoaded", () => {
+    initWelcomePopup();
+});
+
+function initWelcomePopup() {
+    const storageKey = "rcdev_welcome_dismissed";
+    const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
+    
+    try {
+        const lastDismissed = localStorage.getItem(storageKey);
+        if (lastDismissed) {
+            const timeSince = Date.now() - parseInt(lastDismissed, 10);
+            if (timeSince < thirtyDaysMs) return; // Do not render modal at all
+        }
+    } catch (e) {
+        // localStorage not available
+    }
+
+    // Lazy load the HTML
+    const popupHtml = `
+    <div id="welcomePopup" class="rc-modal-overlay rc-fade" role="dialog" aria-modal="true" aria-labelledby="welcomePopupTitle" tabindex="-1">
+        <div class="rc-modal-content rc-glass">
+            <button id="closeWelcomePopup" class="rc-modal-close" aria-label="Close dialog">&times;</button>
+            <h2 id="welcomePopupTitle" style="color: var(--c); font-family: var(--font-display); margin-top: 0; font-size: 1.8rem; margin-bottom: 1rem;">Welcome to RCDEV</h2>
+            <p>RCDEV builds and manages modern websites, custom applications, cloud infrastructure, and business technology.</p>
+            <p>Our model combines a <strong>one-time implementation</strong> with <strong>ongoing managed services</strong>, giving businesses a dedicated technology partner after launch—not just a completed project.</p>
+            <p>Built for small and growing businesses, professional practices, nonprofits, and organizations that need dependable digital infrastructure and ongoing technical support.</p>
+            <div class="rc-modal-actions" style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="/#services" class="btn btn-outline-dark" id="btnWelcomeServices" style="flex: 1; text-align: center; min-width: 200px;">Explore Our Services</a>
+                <a href="/#quote" class="btn btn-outline-dark" id="btnWelcomeQuote" style="flex: 1; text-align: center; min-width: 200px;">Request a Consultation</a>
+            </div>
+        </div>
+    </div>`;
+
+    document.body.insertAdjacentHTML('beforeend', popupHtml);
+
+    const popup = document.getElementById("welcomePopup");
+    const closeBtn = document.getElementById("closeWelcomePopup");
+    const popupLinks = popup.querySelectorAll("a, button");
+
+    setTimeout(() => {
+        popup.classList.add("show");
+        popup.focus();
+    }, 800);
+
+    const dismissPopup = () => {
+        popup.classList.remove("show");
+        try {
+            localStorage.setItem(storageKey, Date.now().toString());
+        } catch (e) {}
+        
+        // Remove from DOM after fade out
+        setTimeout(() => {
+            if (popup.parentNode) {
+                popup.parentNode.removeChild(popup);
+            }
+        }, 300);
+    };
+
+    closeBtn.addEventListener("click", dismissPopup);
+    popup.addEventListener("click", (e) => {
+        if (e.target === popup) dismissPopup();
+    });
+
+    popupLinks.forEach(link => {
+        link.addEventListener("click", dismissPopup);
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && popup.classList.contains("show")) {
+            dismissPopup();
+        }
+    });
+}
