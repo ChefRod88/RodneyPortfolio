@@ -86,25 +86,37 @@
 
             <div class="portal-form-section">
                 <div class="portal-form-section-label">// 03 — Service Interest</div>
-                <div class="portal-tier-grid">
+                <div class="portal-tier-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
                     <label class="portal-tier-option">
                         <input type="radio" asp-for="Input.TierInterest" value="Starter" class="portal-tier-radio" />
-                        <div class="portal-tier-name">Starter</div>
-                        <div class="portal-tier-price">$160 / mo</div>
-                        <div class="portal-tier-note">Small site, 1hr support</div>
+                        <div class="portal-tier-name">Starter Web</div>
+                        <div class="portal-tier-price">$99 / mo</div>
                     </label>
                     <label class="portal-tier-option portal-tier-featured">
-                        <input type="radio" asp-for="Input.TierInterest" value="Growth" class="portal-tier-radio" />
-                        <div class="portal-tier-badge">Popular</div>
-                        <div class="portal-tier-name">Growth</div>
-                        <div class="portal-tier-price">$350 / mo</div>
-                        <div class="portal-tier-note">AI integration, 3hr support</div>
+                        <input type="radio" asp-for="Input.TierInterest" value="Business" class="portal-tier-radio" />
+                        <div class="portal-tier-badge">Recommended</div>
+                        <div class="portal-tier-name">Business Web</div>
+                        <div class="portal-tier-price">$199 / mo</div>
                     </label>
                     <label class="portal-tier-option">
-                        <input type="radio" asp-for="Input.TierInterest" value="Custom" class="portal-tier-radio" />
-                        <div class="portal-tier-name">Custom</div>
-                        <div class="portal-tier-price">Scoped</div>
-                        <div class="portal-tier-note">Enterprise / dedicated</div>
+                        <input type="radio" asp-for="Input.TierInterest" value="Growth" class="portal-tier-radio" />
+                        <div class="portal-tier-name">Growth Web</div>
+                        <div class="portal-tier-price">$349 / mo</div>
+                    </label>
+                    <label class="portal-tier-option">
+                        <input type="radio" asp-for="Input.TierInterest" value="BasicApp" class="portal-tier-radio" />
+                        <div class="portal-tier-name">Basic App</div>
+                        <div class="portal-tier-price">$199+ / mo</div>
+                    </label>
+                    <label class="portal-tier-option">
+                        <input type="radio" asp-for="Input.TierInterest" value="AdvancedApp" class="portal-tier-radio" />
+                        <div class="portal-tier-name">Adv. App</div>
+                        <div class="portal-tier-price">$299+ / mo</div>
+                    </label>
+                    <label class="portal-tier-option">
+                        <input type="radio" asp-for="Input.TierInterest" value="Healthcare" class="portal-tier-radio" />
+                        <div class="portal-tier-name">Health / Vet</div>
+                        <div class="portal-tier-price">$399+ / mo</div>
                     </label>
                 </div>
             </div>
