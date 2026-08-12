@@ -16,7 +16,7 @@ Frontend
 - Integrations in layout:
   - Stripe.js v3 loaded in shared layout.
   - Google Analytics loaded when MeasurementId is configured.
-  - Google reCAPTCHA v2 widget added to quote form.
+  - Cloudflare Turnstile widget added to quote form.
 
 APIs & Backend Logic
 - Framework: ASP.NET Core (.NET 9), using both Razor Pages handlers and MVC controllers.
@@ -29,7 +29,7 @@ APIs & Backend Logic
   - AI services (OpenAI + Anthropic + dual orchestration).
   - Quote services (sanitize/log/email/submit orchestrator).
   - Portal services (account, OTP, session, invoice, email).
-  - reCAPTCHA verification service calling Google siteverify API.
+  - Turnstile verification service calling Cloudflare siteverify API.
 
 Database & Storage
 - Primary relational DB: SQL Server via EF Core (AppDbContext).
@@ -70,7 +70,7 @@ Cloud & Compute
   - OpenAI API
   - Anthropic API
   - Stripe API
-  - Google reCAPTCHA verify API
+  - Cloudflare Turnstile verify API
 
 CI/CD & Version Control
 - Version control: Git + GitHub, main branch deploy trigger.
@@ -93,7 +93,7 @@ Security & RLS
   - Input validation + content filtering on chat APIs.
   - Quote form hardening:
     - Anti-forgery token
-    - reCAPTCHA v2 server-side verification
+    - Cloudflare Turnstile server-side verification
     - honeypot field
     - rate limiting
   - Secret management via User Secrets (dev) + GitHub Secrets/Azure App Settings (prod).

@@ -6,14 +6,14 @@ async function handleSupportSubmit(e) {
   const successBox = document.getElementById("supportSuccess");
   const submitBtn = form.querySelector('button[type="submit"]');
   const formFields = form.querySelectorAll("input,textarea,button[type=submit]");
-  const recaptchaResponse =
-    typeof grecaptcha !== "undefined" ? grecaptcha.getResponse() : "";
+  const turnstileResponse =
+    typeof turnstile !== "undefined" ? turnstile.getResponse() : "";
 
   errorBox.hidden = true;
   errorBox.textContent = "";
   successBox.hidden = true;
 
-  if (!recaptchaResponse) {
+  if (!turnstileResponse) {
     errorBox.textContent = "Please complete the CAPTCHA before submitting.";
     errorBox.hidden = false;
     return;
@@ -43,7 +43,7 @@ async function handleSupportSubmit(e) {
     }
 
     formFields.forEach((el) => (el.style.display = "none"));
-    document.querySelector(".support-form .g-recaptcha")?.closest(".rc-form-group")?.remove();
+    document.querySelector(".support-form .cf-turnstile")?.closest(".rc-form-group")?.remove();
     successBox.hidden = false;
   } catch (err) {
     errorBox.textContent =
@@ -52,8 +52,8 @@ async function handleSupportSubmit(e) {
         : "Unable to submit right now. Please email rodney@globalrcdev.com directly.";
     errorBox.hidden = false;
     submitBtn.disabled = false;
-    if (typeof grecaptcha !== "undefined") {
-      grecaptcha.reset();
+    if (typeof turnstile !== "undefined") {
+      turnstile.reset();
     }
   }
 }

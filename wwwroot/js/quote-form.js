@@ -5,13 +5,13 @@ async function handleQuoteSubmit(e) {
   const errorBox = document.getElementById("quoteError");
   const submitBtn = form.querySelector('button[type="submit"]');
   const formFields = form.querySelectorAll("input,select,textarea,button[type=submit]");
-  const recaptchaResponse =
-    typeof grecaptcha !== "undefined" ? grecaptcha.getResponse() : "";
+  const turnstileResponse =
+    typeof turnstile !== "undefined" ? turnstile.getResponse() : "";
 
   errorBox.style.display = "none";
   errorBox.textContent = "";
 
-  if (!recaptchaResponse) {
+  if (!turnstileResponse) {
     errorBox.textContent = "Please complete the CAPTCHA before submitting.";
     errorBox.style.display = "block";
     return;
@@ -49,8 +49,8 @@ async function handleQuoteSubmit(e) {
         : "Unable to submit right now. Please email rodney@globalrcdev.com directly.";
     errorBox.style.display = "block";
     submitBtn.disabled = false;
-    if (typeof grecaptcha !== "undefined") {
-      grecaptcha.reset();
+    if (typeof turnstile !== "undefined") {
+      turnstile.reset();
     }
   }
 }

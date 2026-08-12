@@ -8,13 +8,13 @@ using RodneyPortfolio.Services;
 
 namespace RodneyPortfolio.Tests;
 
-public class RecaptchaVerificationServiceTests
+public class TurnstileVerificationServiceTests
 {
     [Fact]
     public async Task VerifyAsync_ReturnsFailure_WhenSecretIsMissing()
     {
         var service = CreateService(
-            new RecaptchaOptions { SecretKey = "" },
+            new TurnstileOptions { SecretKey = "" },
             _ => new HttpResponseMessage(HttpStatusCode.OK));
 
         var result = await service.VerifyAsync("token", "127.0.0.1");
@@ -27,7 +27,7 @@ public class RecaptchaVerificationServiceTests
     public async Task VerifyAsync_ReturnsFailure_WhenTokenIsMissing()
     {
         var service = CreateService(
-            new RecaptchaOptions { SecretKey = "secret" },
+            new TurnstileOptions { SecretKey = "secret" },
             _ => new HttpResponseMessage(HttpStatusCode.OK));
 
         var result = await service.VerifyAsync("", "127.0.0.1");
@@ -37,10 +37,10 @@ public class RecaptchaVerificationServiceTests
     }
 
     [Fact]
-    public async Task VerifyAsync_ReturnsFailure_WhenGoogleRejectsToken()
+    public async Task VerifyAsync_ReturnsFailure_WhenCloudflareRejectsToken()
     {
         var service = CreateService(
-            new RecaptchaOptions { SecretKey = "secret" },
+            new TurnstileOptions { SecretKey = "secret" },
             _ => JsonResponse("""{"success":false,"error-codes":["invalid-input-response"]}"""));
 
         var result = await service.VerifyAsync("bad-token", "127.0.0.1");
@@ -53,7 +53,7 @@ public class RecaptchaVerificationServiceTests
     public async Task VerifyAsync_ReturnsFailure_WhenHostnameDoesNotMatch()
     {
         var service = CreateService(
-            new RecaptchaOptions { SecretKey = "secret", ExpectedHostname = "www.rodneyachery.com" },
+            new TurnstileOptions { SecretKey = "secret", ExpectedHostname = "www.rodneyachery.com" },
             _ => JsonResponse("""{"success":true,"hostname":"attacker.example"}"""));
 
         var result = await service.VerifyAsync("valid-token", "127.0.0.1");
@@ -63,10 +63,10 @@ public class RecaptchaVerificationServiceTests
     }
 
     [Fact]
-    public async Task VerifyAsync_ReturnsSuccess_WhenGoogleApprovesAndHostnameMatches()
+    public async Task VerifyAsync_ReturnsSuccess_WhenCloudflareApprovesAndHostnameMatches()
     {
         var service = CreateService(
-            new RecaptchaOptions { SecretKey = "secret", ExpectedHostname = "www.rodneyachery.com" },
+            new TurnstileOptions { SecretKey = "secret", ExpectedHostname = "www.rodneyachery.com" },
             _ => JsonResponse("""{"success":true,"hostname":"www.rodneyachery.com"}"""));
 
         var result = await service.VerifyAsync("valid-token", "127.0.0.1");
@@ -75,15 +75,15 @@ public class RecaptchaVerificationServiceTests
         Assert.Empty(result.ErrorCodes);
     }
 
-    private static RecaptchaVerificationService CreateService(
-        RecaptchaOptions options,
+    private static TurnstileVerificationService CreateService(
+        TurnstileOptions options,
         Func<HttpRequestMessage, HttpResponseMessage> responder)
     {
         var client = new HttpClient(new StubHttpMessageHandler(responder));
-        return new RecaptchaVerificationService(
+        return new TurnstileVerificationService(
             client,
             Options.Create(options),
-            NullLogger<RecaptchaVerificationService>.Instance);
+            NullLogger<TurnstileVerificationService>.Instance);
     }
 
     private static HttpResponseMessage JsonResponse(string json) =>

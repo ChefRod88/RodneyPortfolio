@@ -625,7 +625,7 @@
                 <input id="Website" type="text" name="Website" tabindex="-1" autocomplete="off" />
             </div>
             <div class="rc-form-group">
-                <div class="g-recaptcha" data-sitekey="@Model.RecaptchaSiteKey"></div>
+                <div class="cf-turnstile" data-sitekey="@Model.TurnstileSiteKey"></div>
             </div>
             <button type="submit" class="btn btn-outline-dark rc-quote-submit">Submit Request →</button>
             <div id="quoteError" style="display:none;text-align:center;padding:1rem;color:#ff9f9f;"></div>
@@ -654,6 +654,6 @@
 </section>
 
 @section Scripts {
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script src="~/js/quote-form.js" asp-append-version="true"></script>
 }

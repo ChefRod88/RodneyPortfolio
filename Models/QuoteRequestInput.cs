@@ -5,8 +5,8 @@ namespace RodneyPortfolio.Models;
 
 public class QuoteRequestInput
 {
-    [FromForm(Name = "g-recaptcha-response")]
-    public string? RecaptchaToken { get; set; }
+    [FromForm(Name = "cf-turnstile-response")]
+    public string? TurnstileToken { get; set; }
 
     [FromForm(Name = "Website")]
     public string? Website { get; set; }

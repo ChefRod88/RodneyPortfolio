@@ -131,11 +131,11 @@ RodneyPortfolio/
 - **Production:** GitHub Secret `CLOUDFLARE_API_TOKEN` (Wrangler deployment token)
 - **GA4:** `GoogleAnalytics:MeasurementId` in appsettings or `GA4_MEASUREMENT_ID` GitHub Secret
 - **Stripe:** `Stripe:SecretKey` and `Stripe:PublishableKey` in appsettings/secrets
-- **reCAPTCHA v2 local setup:**
-  - `dotnet user-secrets set "Recaptcha:SiteKey" "<your-site-key>"`
-  - `dotnet user-secrets set "Recaptcha:SecretKey" "<your-secret-key>"`
-  - `dotnet user-secrets set "Recaptcha:ExpectedHostname" "localhost"`
-- **reCAPTCHA v2 production setup:** Configure values for `Recaptcha:SiteKey`, `Recaptcha:SecretKey`, and `Recaptcha:ExpectedHostname` (for this site: `www.rodneyachery.com`).
+- **Cloudflare Turnstile local setup:**
+  - `dotnet user-secrets set "Turnstile:SiteKey" "<your-site-key>"`
+  - `dotnet user-secrets set "Turnstile:SecretKey" "<your-secret-key>"`
+  - `dotnet user-secrets set "Turnstile:ExpectedHostname" "localhost"`
+- **Cloudflare Turnstile production setup:** Configure values for `Turnstile:SiteKey`, `Turnstile:SecretKey`, and `Turnstile:ExpectedHostname` (for this site: `www.rodneyachery.com`).
 
 ---
 

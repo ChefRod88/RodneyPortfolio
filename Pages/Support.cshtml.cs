@@ -10,21 +10,21 @@ namespace RodneyPortfolio.Pages;
 public class SupportModel : PageModel
 {
     private readonly ISupportRequestSubmissionService _supportSubmissionService;
-    private readonly IRecaptchaVerificationService _recaptchaVerificationService;
-    private readonly RecaptchaOptions _recaptchaOptions;
+    private readonly ITurnstileVerificationService _turnstileVerificationService;
+    private readonly TurnstileOptions _turnstileOptions;
     private readonly ILogger<SupportModel> _logger;
 
-    public string RecaptchaSiteKey => _recaptchaOptions.SiteKey;
+    public string TurnstileSiteKey => _turnstileOptions.SiteKey;
 
     public SupportModel(
         ISupportRequestSubmissionService supportSubmissionService,
-        IRecaptchaVerificationService recaptchaVerificationService,
-        IOptions<RecaptchaOptions> recaptchaOptions,
+        ITurnstileVerificationService turnstileVerificationService,
+        IOptions<TurnstileOptions> turnstileOptions,
         ILogger<SupportModel> logger)
     {
         _supportSubmissionService = supportSubmissionService;
-        _recaptchaVerificationService = recaptchaVerificationService;
-        _recaptchaOptions = recaptchaOptions.Value;
+        _turnstileVerificationService = turnstileVerificationService;
+        _turnstileOptions = turnstileOptions.Value;
         _logger = logger;
     }
 
@@ -50,14 +50,14 @@ public class SupportModel : PageModel
             return BadRequest(new { ok = false, message = "Please complete all required fields." });
         }
 
-        var verifyResult = await _recaptchaVerificationService.VerifyAsync(
-            request.RecaptchaToken ?? string.Empty,
+        var verifyResult = await _turnstileVerificationService.VerifyAsync(
+            request.TurnstileToken ?? string.Empty,
             HttpContext.Connection.RemoteIpAddress?.ToString(),
             cancellationToken);
         if (!verifyResult.IsSuccess)
         {
             _logger.LogWarning(
-                "Support request failed reCAPTCHA for {Email}. Errors: {Errors}",
+                "Support request failed Turnstile verification for {Email}. Errors: {Errors}",
                 request.Email,
                 string.Join(",", verifyResult.ErrorCodes));
             return BadRequest(new { ok = false, message = "Please complete the CAPTCHA and try again." });

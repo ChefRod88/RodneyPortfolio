@@ -61,7 +61,7 @@
                 <input id="Website" type="text" name="Website" tabindex="-1" autocomplete="off" />
             </div>
             <div class="rc-form-group">
-                <div class="g-recaptcha" data-sitekey="@Model.RecaptchaSiteKey"></div>
+                <div class="cf-turnstile" data-sitekey="@Model.TurnstileSiteKey"></div>
             </div>
             <button type="submit" class="btn btn-outline-dark support-submit">Send Support Request →</button>
             <div id="supportError" class="support-feedback support-feedback-error" hidden></div>
@@ -74,6 +74,6 @@
 </div>
 
 @section Scripts {
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script src="~/js/support-form.js" asp-append-version="true"></script>
 }
