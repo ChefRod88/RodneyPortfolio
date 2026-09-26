@@ -562,7 +562,7 @@
     <div class="chat-container">
         <div id="chat-messages" class="chat-messages" role="log" aria-live="polite"></div>
         <div class="chat-input-container">
-            <input type="text" id="chat-input" class="chat-input" placeholder="Ask me anything..." maxlength="500" autocomplete="off" />
+            <input type="text" id="chat-input" class="chat-input" placeholder="Ask me anything..." maxlength="500" autocomplete="off" aria-label="Ask me anything about Rodney Chery" />
             <button type="button" id="chat-send" class="chat-send-btn" aria-label="Send message">
                 <span class="chat-send-text">Send</span>
             </button>
@@ -600,7 +600,7 @@
     <div class="chat-job-match">
         <h3 class="chat-job-match-title">Document Analyzer — Live Demo</h3>
         <p class="chat-job-match-desc">Paste any job description to see AI score and analyze it. This exact capability is available for your business.</p>
-        <textarea id="job-match-input" class="chat-job-match-input" placeholder="Paste a job description or any document here..." maxlength="4000" rows="4"></textarea>
+        <textarea id="job-match-input" class="chat-job-match-input" placeholder="Paste a job description or any document here..." maxlength="4000" rows="4" aria-label="Paste a job description or document for AI analysis"></textarea>
         <p class="chat-job-match-char-count"><span id="job-match-char-remaining">4000</span> characters remaining</p>
         
         [[ ICM Pipeline Toggle ]]
@@ -678,21 +678,21 @@
         <form id="quoteForm" class="rc-glass rc-quote-form" method="post" action="?handler=Quote" onsubmit="handleQuoteSubmit(event)">
             <div class="rc-form-row">
                 <div class="rc-form-group">
-                    <label class="rc-form-label">Your Name *</label>
-                    <input type="text" name="Name" class="rc-form-input" placeholder="Jane Smith" required />
+                    <label class="rc-form-label" for="quoteName">Your Name *</label>
+                    <input type="text" id="quoteName" name="Name" class="rc-form-input" placeholder="Jane Smith" required aria-required="true" />
                 </div>
                 <div class="rc-form-group">
-                    <label class="rc-form-label">Email *</label>
-                    <input type="email" name="Email" class="rc-form-input" placeholder="jane@company.com" required />
+                    <label class="rc-form-label" for="quoteEmail">Email *</label>
+                    <input type="email" id="quoteEmail" name="Email" class="rc-form-input" placeholder="jane@company.com" required aria-required="true" />
                 </div>
             </div>
             <div class="rc-form-group">
-                <label class="rc-form-label">Company / Organization</label>
-                <input type="text" name="Company" class="rc-form-input" placeholder="Acme Corp (optional)" />
+                <label class="rc-form-label" for="quoteCompany">Company / Organization</label>
+                <input type="text" id="quoteCompany" name="Company" class="rc-form-input" placeholder="Acme Corp (optional)" />
             </div>
             <div class="rc-form-group">
-                <label class="rc-form-label">Service Needed *</label>
-                <select name="ServiceNeeded" class="rc-form-input rc-form-select" required>
+                <label class="rc-form-label" for="quoteServiceNeeded">Service Needed *</label>
+                <select id="quoteServiceNeeded" name="ServiceNeeded" class="rc-form-input rc-form-select" required aria-required="true" aria-label="Service Needed">
                     <option value="" disabled selected>Select a service...</option>
                     <option>Starter Website</option>
                     <option>Business Website</option>
@@ -709,8 +709,8 @@
                 </select>
             </div>
             <div class="rc-form-group">
-                <label class="rc-form-label">Estimated Implementation Budget *</label>
-                <select name="EstimatedBudget" class="rc-form-input rc-form-select" required>
+                <label class="rc-form-label" for="quoteEstimatedBudget">Estimated Implementation Budget *</label>
+                <select id="quoteEstimatedBudget" name="EstimatedBudget" class="rc-form-input rc-form-select" required aria-required="true" aria-label="Estimated Implementation Budget">
                     <option value="" disabled selected>Select a budget range...</option>
                     <option>Under $1,000</option>
                     <option>$1,000 – $2,500</option>
@@ -722,12 +722,12 @@
                 </select>
             </div>
             <div class="rc-form-group">
-                <label class="rc-form-label">Project Description *</label>
-                <textarea name="ProjectDescription" class="rc-form-input rc-form-textarea" placeholder="Describe what you need built. What problem does it solve? What does success look like?" required></textarea>
+                <label class="rc-form-label" for="quoteProjectDescription">Project Description *</label>
+                <textarea id="quoteProjectDescription" name="ProjectDescription" class="rc-form-input rc-form-textarea" placeholder="Describe what you need built. What problem does it solve? What does success look like?" required aria-required="true"></textarea>
             </div>
             <div class="rc-form-group">
-                <label class="rc-form-label">Timeline</label>
-                <select name="Timeline" class="rc-form-input rc-form-select">
+                <label class="rc-form-label" for="quoteTimeline">Timeline</label>
+                <select id="quoteTimeline" name="Timeline" class="rc-form-input rc-form-select" aria-label="Timeline">
                     <option value="" disabled selected>When do you need this?</option>
                     <option>ASAP (within 2 weeks)</option>
                     <option>1 month</option>
@@ -736,8 +736,8 @@
                 </select>
             </div>
             <div class="rc-form-group" style="position:absolute;left:-9999px;opacity:0;pointer-events:none;" aria-hidden="true">
-                <label class="rc-form-label" for="Website">Leave this field empty</label>
-                <input id="Website" type="text" name="Website" tabindex="-1" autocomplete="off" />
+                <label class="rc-form-label" for="quoteWebsite">Leave this field empty</label>
+                <input id="quoteWebsite" type="text" name="Website" tabindex="-1" autocomplete="off" />
             </div>
             <div class="rc-form-group">
                 <div class="cf-turnstile" data-sitekey="0x4AAAAAAENkEE3MX-JH-8AK"></div>
@@ -812,7 +812,7 @@
             </div>
             <div class="terminal-input-line">
                 <span class="prompt">guest@rc-dev:~$</span>
-                <input type="text" id="terminalInput" placeholder="Type a command..." autocomplete="off" />
+                <input type="text" id="terminalInput" placeholder="Type a command..." autocomplete="off" aria-label="Terminal command input" />
             </div>
         </div>
     </div>

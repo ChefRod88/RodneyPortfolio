@@ -136,29 +136,29 @@
                 <form id="supportForm" class="rc-glass support-form" method="post" onsubmit="handleSupportSubmit(event)">
                     <div class="rc-form-row">
                         <div class="rc-form-group">
-                            <label class="rc-form-label">Your Name *</label>
-                            <input type="text" name="Name" class="rc-form-input" placeholder="Jane Smith" required />
+                            <label class="rc-form-label" for="supportName">Your Name *</label>
+                            <input type="text" id="supportName" name="Name" class="rc-form-input" placeholder="Jane Smith" required aria-required="true" />
                         </div>
                         <div class="rc-form-group">
-                            <label class="rc-form-label">Email *</label>
-                            <input type="email" name="Email" class="rc-form-input" placeholder="jane@company.com" required />
+                            <label class="rc-form-label" for="supportEmail">Email *</label>
+                            <input type="email" id="supportEmail" name="Email" class="rc-form-input" placeholder="jane@company.com" required aria-required="true" />
                         </div>
                     </div>
                     <div class="rc-form-group">
-                        <label class="rc-form-label">Site / Project URL</label>
-                        <input type="url" name="SiteOrProject" class="rc-form-input" placeholder="https://yoursite.com (optional)" />
+                        <label class="rc-form-label" for="supportSiteOrProject">Site / Project URL</label>
+                        <input type="url" id="supportSiteOrProject" name="SiteOrProject" class="rc-form-input" placeholder="https://yoursite.com (optional)" />
                     </div>
                     <div class="rc-form-group">
-                        <label class="rc-form-label">Subject *</label>
-                        <input type="text" name="Subject" class="rc-form-input" placeholder="e.g. Contact form not sending" required />
+                        <label class="rc-form-label" for="supportSubject">Subject *</label>
+                        <input type="text" id="supportSubject" name="Subject" class="rc-form-input" placeholder="e.g. Contact form not sending" required aria-required="true" />
                     </div>
                     <div class="rc-form-group">
-                        <label class="rc-form-label">Problem Description *</label>
-                        <textarea name="Message" class="rc-form-input rc-form-textarea" placeholder="Describe the issue in detail..." required></textarea>
+                        <label class="rc-form-label" for="supportMessage">Problem Description *</label>
+                        <textarea id="supportMessage" name="Message" class="rc-form-input rc-form-textarea" placeholder="Describe the issue in detail..." required aria-required="true"></textarea>
                     </div>
                     <div class="rc-form-group support-honeypot" aria-hidden="true">
-                        <label class="rc-form-label" for="Website">Leave this field empty</label>
-                        <input id="Website" type="text" name="Website" tabindex="-1" autocomplete="off" />
+                        <label class="rc-form-label" for="supportWebsite">Leave this field empty</label>
+                        <input id="supportWebsite" type="text" name="Website" tabindex="-1" autocomplete="off" />
                     </div>
                     <div class="rc-form-group">
                         <div class="cf-turnstile" data-sitekey="0x4AAAAAAENkEE3MX-JH-8AK"></div>
