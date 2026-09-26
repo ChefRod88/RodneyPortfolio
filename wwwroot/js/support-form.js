@@ -5,7 +5,7 @@ async function handleSupportSubmit(e) {
   const errorBox = document.getElementById("supportError");
   const successBox = document.getElementById("supportSuccess");
   const submitBtn = form.querySelector('button[type="submit"]');
-  const formFields = form.querySelectorAll("input,textarea,button[type=submit]");
+  const formFields = form.querySelectorAll(".rc-form-row,.rc-form-group,button[type=submit]");
   const turnstileResponse =
     typeof turnstile !== "undefined" ? turnstile.getResponse() : "";
 

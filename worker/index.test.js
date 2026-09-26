@@ -1,0 +1,181 @@
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import worker from "./index.js";
+
+function makeEnv(overrides = {}) {
+  return {
+    RESEND_API_KEY: "re_test",
+    TURNSTILE_SECRET_KEY: "turnstile_test",
+    TO_EMAIL: "rodney@globalrcdev.com",
+    FROM_EMAIL: "onboarding@resend.dev",
+    QUOTE_RATE_LIMITER: { limit: vi.fn().mockResolvedValue({ success: true }) },
+    SUPPORT_RATE_LIMITER: { limit: vi.fn().mockResolvedValue({ success: true }) },
+    ASSETS: { fetch: vi.fn().mockResolvedValue(new Response("static asset", { status: 200 })) },
+    ...overrides,
+  };
+}
+
+function formRequest(url, fields) {
+  const body = new URLSearchParams(fields);
+  return new Request(url, {
+    method: "POST",
+    headers: { "content-type": "application/x-www-form-urlencoded" },
+    body: body.toString(),
+  });
+}
+
+const validQuoteFields = {
+  Name: "Jane Smith",
+  Email: "jane@example.com",
+  ServiceNeeded: "Business Website",
+  EstimatedBudget: "$1,000 – $2,500",
+  ProjectDescription: "Need a new site",
+  "cf-turnstile-response": "test-token",
+};
+
+const validSupportFields = {
+  Name: "Jane Smith",
+  Email: "jane@example.com",
+  Subject: "Contact form broken",
+  Message: "It does not submit",
+  "cf-turnstile-response": "test-token",
+};
+
+function mockFetchSequence({ turnstileSuccess = true, resendOk = true } = {}) {
+  global.fetch = vi.fn(async (url) => {
+    if (String(url).includes("challenges.cloudflare.com")) {
+      return new Response(JSON.stringify({ success: turnstileSuccess, "error-codes": [] }), { status: 200 });
+    }
+    if (String(url).includes("api.resend.com")) {
+      return new Response(JSON.stringify({ id: "email_123" }), { status: resendOk ? 200 : 500 });
+    }
+    throw new Error(`Unexpected fetch to ${url}`);
+  });
+}
+
+beforeEach(() => {
+  vi.restoreAllMocks();
+});
+
+describe("routing", () => {
+  it("falls through to ASSETS for unrelated GET requests", async () => {
+    const env = makeEnv();
+    const res = await worker.fetch(new Request("https://example.com/about"), env);
+    expect(env.ASSETS.fetch).toHaveBeenCalledOnce();
+    expect(await res.text()).toBe("static asset");
+  });
+});
+
+describe("Quote handler", () => {
+  it("rejects missing required fields before checking rate limit or Turnstile", async () => {
+    const env = makeEnv();
+    const req = formRequest("https://example.com/?handler=Quote", { Name: "Jane" });
+    const res = await worker.fetch(req, env);
+    expect(res.status).toBe(400);
+    expect(env.QUOTE_RATE_LIMITER.limit).not.toHaveBeenCalled();
+  });
+
+  it("rejects an invalid email format", async () => {
+    const env = makeEnv();
+    const req = formRequest("https://example.com/?handler=Quote", {
+      ...validQuoteFields,
+      Email: "not-an-email",
+    });
+    const res = await worker.fetch(req, env);
+    expect(res.status).toBe(400);
+  });
+
+  it("silently rejects when the honeypot field is filled", async () => {
+    const env = makeEnv();
+    const req = formRequest("https://example.com/?handler=Quote", {
+      ...validQuoteFields,
+      Website: "http://spam.example",
+    });
+    const res = await worker.fetch(req, env);
+    expect(res.status).toBe(400);
+    const body = await res.json();
+    expect(body.ok).toBe(false);
+  });
+
+  it("returns 429 when the rate limiter rejects the request", async () => {
+    const env = makeEnv({
+      QUOTE_RATE_LIMITER: { limit: vi.fn().mockResolvedValue({ success: false }) },
+    });
+    const req = formRequest("https://example.com/?handler=Quote", validQuoteFields);
+    const res = await worker.fetch(req, env);
+    expect(res.status).toBe(429);
+  });
+
+  it("returns 400 when Turnstile verification fails", async () => {
+    mockFetchSequence({ turnstileSuccess: false });
+    const env = makeEnv();
+    const req = formRequest("https://example.com/?handler=Quote", validQuoteFields);
+    const res = await worker.fetch(req, env);
+    expect(res.status).toBe(400);
+  });
+
+  it("sends the email and returns 200 on a valid submission", async () => {
+    mockFetchSequence();
+    const env = makeEnv();
+    const req = formRequest("https://example.com/?handler=Quote", validQuoteFields);
+    const res = await worker.fetch(req, env);
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.ok).toBe(true);
+
+    const resendCall = global.fetch.mock.calls.find(([url]) => String(url).includes("api.resend.com"));
+    expect(resendCall).toBeTruthy();
+    const sentPayload = JSON.parse(resendCall[1].body);
+    expect(sentPayload.to).toEqual(["rodney@globalrcdev.com"]);
+    expect(sentPayload.reply_to).toBe("jane@example.com");
+  });
+
+  it("strips control characters from free-text fields before sending", async () => {
+    mockFetchSequence();
+    const env = makeEnv();
+    const req = formRequest("https://example.com/?handler=Quote", {
+      ...validQuoteFields,
+      ProjectDescription: "Line one\r\nInjected-Header: evil",
+    });
+    await worker.fetch(req, env);
+    const resendCall = global.fetch.mock.calls.find(([url]) => String(url).includes("api.resend.com"));
+    const sentPayload = JSON.parse(resendCall[1].body);
+    expect(sentPayload.text).not.toMatch(/[\r\n]Injected-Header/);
+  });
+
+  it("returns 500 without sending when RESEND_API_KEY is missing", async () => {
+    mockFetchSequence();
+    const env = makeEnv({ RESEND_API_KEY: undefined });
+    const req = formRequest("https://example.com/?handler=Quote", validQuoteFields);
+    const res = await worker.fetch(req, env);
+    expect(res.status).toBe(500);
+    expect(global.fetch).not.toHaveBeenCalledWith(expect.stringContaining("api.resend.com"), expect.anything());
+  });
+});
+
+describe("Support handler", () => {
+  it("rejects missing required fields", async () => {
+    const env = makeEnv();
+    const req = formRequest("https://example.com/Support", { Name: "Jane" });
+    const res = await worker.fetch(req, env);
+    expect(res.status).toBe(400);
+  });
+
+  it("sends the email and returns 200 on a valid submission", async () => {
+    mockFetchSequence();
+    const env = makeEnv();
+    const req = formRequest("https://example.com/Support", validSupportFields);
+    const res = await worker.fetch(req, env);
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.ok).toBe(true);
+  });
+
+  it("returns 429 when the support rate limiter rejects the request", async () => {
+    const env = makeEnv({
+      SUPPORT_RATE_LIMITER: { limit: vi.fn().mockResolvedValue({ success: false }) },
+    });
+    const req = formRequest("https://example.com/Support", validSupportFields);
+    const res = await worker.fetch(req, env);
+    expect(res.status).toBe(429);
+  });
+});

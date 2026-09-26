@@ -4,7 +4,7 @@ async function handleQuoteSubmit(e) {
   const form = document.getElementById("quoteForm");
   const errorBox = document.getElementById("quoteError");
   const submitBtn = form.querySelector('button[type="submit"]');
-  const formFields = form.querySelectorAll("input,select,textarea,button[type=submit]");
+  const formFields = form.querySelectorAll(".rc-form-row,.rc-form-group,button[type=submit]");
   const turnstileResponse =
     typeof turnstile !== "undefined" ? turnstile.getResponse() : "";
 

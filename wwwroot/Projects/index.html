@@ -29,9 +29,33 @@
         <meta name="twitter:description" content="Explore custom healthcare portals, AI-assisted workflows, and enterprise ASP.NET Core applications built by Rodney Chery." />
             <meta name="twitter:image" content="https://www.rodneyachery.com/assets/images/rodney-chery-social-card.webp" />
             <meta name="twitter:image:alt" content="Portfolio &amp; Projects | Rodney Chery" />
-                <script type="application/ld&#x2B;json">
-                    {"context":"https://schema.org","type":"CollectionPage","id":"https://www.rodneyachery.com/Projects","url":"https://www.rodneyachery.com/Projects","name":"Portfolio \u0026 Projects | Rodney Chery"}
-                </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      "@id": "https://www.rodneyachery.com/Projects#webpage",
+      "url": "https://www.rodneyachery.com/Projects",
+      "name": "Portfolio & Projects | Rodney Chery",
+      "description": "Explore custom healthcare portals, AI-assisted workflows, and enterprise ASP.NET Core applications built by Rodney Chery.",
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://www.rodneyachery.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Projects",
+            "item": "https://www.rodneyachery.com/Projects"
+          }
+        ]
+      }
+    }
+    </script>
     <!-- PWA -->
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#020c14" />
@@ -46,14 +70,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/css/site.css?v=Wzw5vx6OZk7ukLgg3E8n3n_HYftZ6Qyt3r33cyR4x90" />
+    <link rel="stylesheet" href="/css/site.css" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-    <!-- Stripe Elements -->
-    <script src="https://js.stripe.com/v3/"></script>
-    <input type="hidden" id="stripe-pub-key" value="" />
-
-    
 </head>
 
 <body>
@@ -75,6 +93,7 @@
                     <li><a href="/#services"     onclick="toggleMenu()">Services</a></li>
                     <li><a href="/#pricing"      onclick="toggleMenu()">Pricing</a></li>
                     <li><a href="/Projects"      onclick="toggleMenu()">Projects</a></li>
+                    <li><a href="/Articles"      onclick="toggleMenu()">Articles</a></li>
                     <li><a href="/Faq"          onclick="toggleMenu()" class="rc-nav-faq">FAQ &amp; Standards</a></li>
                     <li><a href="/#quote"        onclick="toggleMenu()" class="rc-nav-cta">Get a Quote</a></li>
                 </ul>
@@ -250,7 +269,7 @@
                         <h2 class="proj-title">PrimeCare EMR</h2>
                     <div class="proj-divider"></div>
 
-                    <p class="proj-desc">PrimeCare EMR is a secure custom SaaS platform built for **[Prime Medical Group](https://www.primemedicaldoctors.com), HIPAA and HITECH-compliant Electronic Medical Record system engineered to strict FHIR standards. Powered by C#, Blazor, Azure, and the Firely .NET SDK, the platform reduces provider cognitive load through an intelligent &quot;omnibox&quot; patient search, a dynamic drill-down scheduling calendar, and a decluttered clinical dashboard&#x2014;ensuring the technology seamlessly supports, rather than distracts from, patient care.</p>
+                    <p class="proj-desc">PrimeCare EMR is a secure custom SaaS platform built for <a href="https://primemedicaldoctors.com/" target="_blank" rel="noopener" style="color: var(--c); text-decoration: underline;">Prime Medical Group</a>, a HIPAA and HITECH-compliant Electronic Medical Record system engineered to strict FHIR standards. Powered by C#, Blazor, Azure, and the Firely .NET SDK, the platform reduces provider cognitive load through an intelligent &quot;omnibox&quot; patient search, a dynamic drill-down scheduling calendar, and a decluttered clinical dashboard&#x2014;ensuring the technology seamlessly supports, rather than distracts from, patient care.</p>
 
                         <button type="button"
                                 class="proj-preview-trigger"
@@ -289,7 +308,7 @@
                         <h2 class="proj-title">MEDEX FOR VETS PORTAL</h2>
                     <div class="proj-divider"></div>
 
-                    <p class="proj-desc">MedEx for Vets Portal is a custom SaaS platform built for **[MedEx for Vets](https://www.medexvets.com), HIPAA-compliant patient and provider portal designed to allow veterans (claimants) to prepare for their Independent Medical Exams (IME) and authorize MedEx staff to audit records. The system features a Claimant Portal, a Provider/Admin Ops Portal, and a shared secure database context.</p>
+                    <p class="proj-desc">MedEx for Vets Portal is a custom SaaS platform built for <a href="https://www.medexvets.com" target="_blank" rel="noopener" style="color: var(--c); text-decoration: underline;">MedEx for Vets</a>, a HIPAA-compliant patient and provider portal designed to allow veterans (claimants) to prepare for their Independent Medical Exams (IME) and authorize MedEx staff to audit records. The system features a Claimant Portal, a Provider/Admin Ops Portal, and a shared secure database context.</p>
 
                         <button type="button"
                                 class="proj-preview-trigger"
@@ -405,8 +424,10 @@
                 <a href="/#about">About</a>
                 <a href="/#services">Services</a>
                 <a href="/#pricing">Pricing</a>
+                <a href="/Projects">Projects</a>
+                <a href="/Articles">Articles</a>
                 <a href="/#quote">Quote</a>
-                <a href="/#support">Contact Support</a>
+                <a href="/Support">Contact Support</a>
             </div>
             <small id="copyright">© 2026 RODNEY CHERY &nbsp;·&nbsp; FULL STACK AI DEVELOPER &nbsp;·&nbsp; NODE_ONLINE</small>
         </div>
@@ -414,18 +435,9 @@
 
     <script src="/lib/jquery/dist/jquery.min.js"></script>
     <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/js/site.js?v=k8Oi4zsmaSTcrqO7QA-PUqRcYqfPB-IyBeRv5HfoW7c"></script>
-    <script src="/js/layout.js?v=lC7wB-RErj34ReouTzCoGz7aSuGz7iS81e7VqxNVU2o"></script>
-
-    
-    <script src="/js/projects-page.js?v=IoSilthuB_dVtxYBSetl24cUSBJavCdlHk4WRq279uk"></script>
-
-
-    <!-- Admin access button — bottom left corner, always visible -->
-<a href="/Admin/Login" class="rc-admin-btn" title="Administrator Only">
-    <span class="rc-admin-icon">⬡</span>
-    <span class="rc-admin-label">Admin</span>
-</a>
+    <script src="/js/site.js"></script>
+    <script src="/js/layout.js"></script>
+    <script src="/js/projects-page.js"></script>
 
     <!-- FUTURISTIC TELEMETRY HUD -->
     <div class="hud-telemetry" aria-hidden="true">

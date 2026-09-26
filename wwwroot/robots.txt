@@ -1,2 +1,5 @@
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /Agreement
+
+Sitemap: https://www.rodneyachery.com/sitemap.xml

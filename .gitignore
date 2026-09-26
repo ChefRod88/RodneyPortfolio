@@ -19,3 +19,7 @@ packages/
 # Node
 node_modules/
 test-results/
+
+# Cloudflare Workers
+.wrangler/
+.dev.vars

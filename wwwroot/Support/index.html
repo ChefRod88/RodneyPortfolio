@@ -13,7 +13,51 @@
 
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Contact Support</title>
+    <title>Technical Support &amp; Maintenance | Rodney Chery</title>
+    <meta name="description" content="Submit technical support requests, bug reports, and maintenance inquiries for client applications, websites, and cloud platforms managed by Rodney Chery." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.rodneyachery.com/Support" />
+
+    <!-- Open Graph Metadata -->
+    <meta property="og:site_name" content="Rodney Chery" />
+    <meta property="og:title" content="Technical Support &amp; Maintenance | Rodney Chery" />
+    <meta property="og:description" content="Submit technical support requests, bug reports, and maintenance inquiries for client applications, websites, and cloud platforms managed by Rodney Chery." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.rodneyachery.com/Support" />
+    <meta property="og:image" content="https://www.rodneyachery.com/assets/images/rodney-chery-social-card.webp" />
+    <meta property="og:image:alt" content="Technical Support &amp; Maintenance | Rodney Chery" />
+
+    <!-- Twitter/X Metadata -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Technical Support &amp; Maintenance | Rodney Chery" />
+    <meta name="twitter:description" content="Submit technical support requests, bug reports, and maintenance inquiries for client applications, websites, and cloud platforms managed by Rodney Chery." />
+    <meta name="twitter:image" content="https://www.rodneyachery.com/assets/images/rodney-chery-social-card.webp" />
+    <meta name="twitter:image:alt" content="Technical Support &amp; Maintenance | Rodney Chery" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "@id": "https://www.rodneyachery.com/Support#webpage",
+      "url": "https://www.rodneyachery.com/Support",
+      "name": "Technical Support & Maintenance | Rodney Chery",
+      "description": "Submit technical support requests, bug reports, and maintenance inquiries for client applications, websites, and cloud platforms managed by Rodney Chery.",
+      "mainEntity": {
+        "@type": "Person",
+        "@id": "https://www.rodneyachery.com/#rodney-chery",
+        "name": "Rodney A. Chery",
+        "jobTitle": "Software Developer & Technical Support Specialist",
+        "url": "https://www.rodneyachery.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://www.rodneyachery.com/#rc-dev-llc",
+        "name": "RC DEV LLC",
+        "url": "https://www.rodneyachery.com/"
+      }
+    }
+    </script>
 
     <!-- PWA -->
     <link rel="manifest" href="/manifest.json" />
@@ -31,26 +75,19 @@
     <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="/css/site.css" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-
-    <!-- Stripe Elements -->
-    <script src="https://js.stripe.com/v3/"></script>
-    <input type="hidden" id="stripe-pub-key" value="" />
-
-    
 </head>
 
 <body>
-
     <!-- MATRIX RAIN CANVAS -->
-        <canvas id="rc-matrix"></canvas>
-        <div class="rc-vignette"></div>
-        <div class="rc-scanlines"></div>
+    <canvas id="rc-matrix"></canvas>
+    <div class="rc-vignette"></div>
+    <div class="rc-scanlines"></div>
 
     <!-- NAV -->
     <nav id="hamburger-nav">
         <a href="/" class="logo" style="text-decoration:none;">RC<span>//</span>DEV</a>
         <div class="hamburger-menu">
-            <div class="hamburger-icon" onclick="toggleMenu()">
+            <div class="hamburger-icon" onclick="toggleMenu()" aria-label="Toggle navigation menu">
                 <span></span><span></span><span></span>
             </div>
             <div class="menu-links">
@@ -59,6 +96,7 @@
                     <li><a href="/#services"     onclick="toggleMenu()">Services</a></li>
                     <li><a href="/#pricing"      onclick="toggleMenu()">Pricing</a></li>
                     <li><a href="/Projects"      onclick="toggleMenu()">Projects</a></li>
+                    <li><a href="/Articles"      onclick="toggleMenu()">Articles</a></li>
                     <li><a href="/Faq"          onclick="toggleMenu()" class="rc-nav-faq">FAQ &amp; Standards</a></li>
                     <li><a href="/#quote"        onclick="toggleMenu()" class="rc-nav-cta">Get a Quote</a></li>
                 </ul>
@@ -67,77 +105,73 @@
     </nav>
 
     <main role="main" class="rc-main">
-        
-<link rel="stylesheet" href="/css/support.css" />
+        <link rel="stylesheet" href="/css/support.css" />
 
-<div id="support" class="support-page rc-fade">
-    <div class="support-hero">
-        <p class="section__text__p1">Need Help?</p>
-        <h1 class="title">Report a Problem</h1>
-        <p class="support-hero-sub">
-            If something on your site is not working as delivered, submit the form below and I will respond as soon as possible.
-            Post-launch bugs in the original build may fall under your included
-            <a href="/Faq#support" class="support-link">30-day support window</a>.
-        </p>
-    </div>
+        <div id="support" class="support-page rc-fade">
+            <div class="support-hero">
+                <p class="section__text__p1">Need Help?</p>
+                <h1 class="title">Report a Problem</h1>
+                <p class="support-hero-sub">
+                    If something on your site or application is not working as delivered, submit the form below and I will respond as soon as possible.
+                    Post-launch bugs in the original build may fall under your included
+                    <a href="/Faq#support" class="support-link">30-day support window</a>.
+                </p>
+            </div>
 
-    <div class="support-grid">
-        <div class="support-info rc-glass">
-            <h3 class="support-info-title">// What to include</h3>
-            <ul class="support-tips">
-                <li>Which site or project is affected</li>
-                <li>What you expected vs. what happened</li>
-                <li>Steps to reproduce, if you can</li>
-                <li>Browser or device (if relevant)</li>
-            </ul>
-            <p class="support-info-note">
-                For new features or scope changes, use the
-                <a href="/#quote" class="support-link">quote request form</a> instead.
-            </p>
+            <div class="support-grid">
+                <div class="support-info rc-glass">
+                    <h2 class="support-info-title">// What to include</h2>
+                    <ul class="support-tips">
+                        <li>Which site or project is affected</li>
+                        <li>What you expected vs. what happened</li>
+                        <li>Steps to reproduce, if you can</li>
+                        <li>Browser or device (if relevant)</li>
+                    </ul>
+                    <p class="support-info-note">
+                        For new features or scope changes, use the
+                        <a href="/#quote" class="support-link">quote request form</a> instead.
+                    </p>
+                </div>
+
+                <form id="supportForm" class="rc-glass support-form" method="post" onsubmit="handleSupportSubmit(event)">
+                    <div class="rc-form-row">
+                        <div class="rc-form-group">
+                            <label class="rc-form-label">Your Name *</label>
+                            <input type="text" name="Name" class="rc-form-input" placeholder="Jane Smith" required />
+                        </div>
+                        <div class="rc-form-group">
+                            <label class="rc-form-label">Email *</label>
+                            <input type="email" name="Email" class="rc-form-input" placeholder="jane@company.com" required />
+                        </div>
+                    </div>
+                    <div class="rc-form-group">
+                        <label class="rc-form-label">Site / Project URL</label>
+                        <input type="url" name="SiteOrProject" class="rc-form-input" placeholder="https://yoursite.com (optional)" />
+                    </div>
+                    <div class="rc-form-group">
+                        <label class="rc-form-label">Subject *</label>
+                        <input type="text" name="Subject" class="rc-form-input" placeholder="e.g. Contact form not sending" required />
+                    </div>
+                    <div class="rc-form-group">
+                        <label class="rc-form-label">Problem Description *</label>
+                        <textarea name="Message" class="rc-form-input rc-form-textarea" placeholder="Describe the issue in detail..." required></textarea>
+                    </div>
+                    <div class="rc-form-group support-honeypot" aria-hidden="true">
+                        <label class="rc-form-label" for="Website">Leave this field empty</label>
+                        <input id="Website" type="text" name="Website" tabindex="-1" autocomplete="off" />
+                    </div>
+                    <div class="rc-form-group">
+                        <div class="cf-turnstile" data-sitekey="0x4AAAAAAENkEE3MX-JH-8AK"></div>
+                    </div>
+                    <button type="submit" class="btn btn-outline-dark support-submit">Send Support Request →</button>
+                    <div id="supportError" class="support-feedback support-feedback-error" hidden></div>
+                    <div id="supportSuccess" class="support-feedback support-feedback-success" hidden>
+                        <div class="support-success-title">✓ Request Received</div>
+                        <div class="support-success-sub">I will follow up as soon as possible.</div>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <form id="supportForm" class="rc-glass support-form" method="post" onsubmit="handleSupportSubmit(event)">
-            
-            <div class="rc-form-row">
-                <div class="rc-form-group">
-                    <label class="rc-form-label">Your Name *</label>
-                    <input type="text" name="Name" class="rc-form-input" placeholder="Jane Smith" required />
-                </div>
-                <div class="rc-form-group">
-                    <label class="rc-form-label">Email *</label>
-                    <input type="email" name="Email" class="rc-form-input" placeholder="jane@company.com" required />
-                </div>
-            </div>
-            <div class="rc-form-group">
-                <label class="rc-form-label">Site / Project URL</label>
-                <input type="url" name="SiteOrProject" class="rc-form-input" placeholder="https://yoursite.com (optional)" />
-            </div>
-            <div class="rc-form-group">
-                <label class="rc-form-label">Subject *</label>
-                <input type="text" name="Subject" class="rc-form-input" placeholder="e.g. Contact form not sending" required />
-            </div>
-            <div class="rc-form-group">
-                <label class="rc-form-label">Problem Description *</label>
-                <textarea name="Message" class="rc-form-input rc-form-textarea" placeholder="Describe the issue in detail..." required></textarea>
-            </div>
-            <div class="rc-form-group support-honeypot" aria-hidden="true">
-                <label class="rc-form-label" for="Website">Leave this field empty</label>
-                <input id="Website" type="text" name="Website" tabindex="-1" autocomplete="off" />
-            </div>
-            <div class="rc-form-group">
-                <div class="cf-turnstile" data-sitekey=""></div>
-            </div>
-            <button type="submit" class="btn btn-outline-dark support-submit">Send Support Request →</button>
-            <div id="supportError" class="support-feedback support-feedback-error" hidden></div>
-            <div id="supportSuccess" class="support-feedback support-feedback-success" hidden>
-                <div class="support-success-title">✓ Request Received</div>
-                <div class="support-success-sub">I will follow up as soon as possible.</div>
-            </div>
-        <input name="__RequestVerificationToken" type="hidden" value="CfDJ8LLlgdkQ4qdLuByCBplQNDEKzT4SASQ8mi4eFwkL5IXZt5wOTurkytPUXblBsoSHwY0bcHpMVbzNKoS6fCzbi_3XQ11o8PltmQkfFbAhBnNvHRRrrBxqL_pvCfmzbxd9dD_UtHS2_CyJDSoMk9-tCUk" /></form>
-    </div>
-</div>
-
-
     </main>
 
     <footer class="rc-footer">
@@ -146,8 +180,10 @@
                 <a href="/#about">About</a>
                 <a href="/#services">Services</a>
                 <a href="/#pricing">Pricing</a>
+                <a href="/Projects">Projects</a>
+                <a href="/Articles">Articles</a>
                 <a href="/#quote">Quote</a>
-                <a href="/#support">Contact Support</a>
+                <a href="/Support">Contact Support</a>
             </div>
             <small id="copyright">© 2026 RODNEY CHERY &nbsp;·&nbsp; FULL STACK AI DEVELOPER &nbsp;·&nbsp; NODE_ONLINE</small>
         </div>
@@ -158,16 +194,7 @@
     <script src="/js/site.js"></script>
     <script src="/js/layout.js"></script>
 
-    
     <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script src="/js/support-form.js"></script>
-
-
-    <!-- Admin access button — bottom left corner, always visible -->
-<a href="/Admin/Login" class="rc-admin-btn" title="Administrator Only">
-    <span class="rc-admin-icon">⬡</span>
-    <span class="rc-admin-label">Admin</span>
-</a>
-
 </body>
 </html>
