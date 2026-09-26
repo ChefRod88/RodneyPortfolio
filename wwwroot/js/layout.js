@@ -66,11 +66,17 @@ const rcObserver = new IntersectionObserver(
       }
     });
   },
-  { threshold: 0.07 }
+  { threshold: 0 }
 );
 
 document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".rc-fade").forEach((el) => rcObserver.observe(el));
+  document.querySelectorAll(".rc-fade").forEach((el) => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) {
+      el.classList.add("rc-visible");
+    }
+    rcObserver.observe(el);
+  });
   document.querySelectorAll(".faq-q").forEach((btn) => {
     btn.addEventListener("click", () => {
       const isOpen = btn.getAttribute("aria-expanded") === "true";

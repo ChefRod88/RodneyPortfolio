@@ -1850,6 +1850,11 @@ h1.title::after {
   transform: translateY(0);
 }
 
+/* Ensure articles are always visible */
+article, .article-body {
+  opacity: 1;
+}
+
 /* ── RESPONSIVE ADDITIONS ── */
 @media (max-width: 900px) {
   .rc-hero-content { flex-direction: column; gap: 2rem; text-align: center; }
