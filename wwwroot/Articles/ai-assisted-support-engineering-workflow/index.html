@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GFRJYMRHKM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-GFRJYMRHKM');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>How I Built an AI-Assisted Support Engineering Workflow | Rodney Chery</title>
+    <meta name="description" content="A comprehensive systems architecture review of how I engineered an isolated, reproducible, AI-assisted troubleshooting workflow for production websites using PowerShell, WinSCP, Git, and filesystem agent orchestration." />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.rodneyachery.com/Articles/ai-assisted-support-engineering-workflow" />
+
+    <!-- Open Graph Metadata -->
+    <meta property="og:site_name" content="Rodney Chery" />
+    <meta property="og:title" content="How I Built an AI-Assisted Support Engineering Workflow for Troubleshooting Production Websites Safely" />
+    <meta property="og:description" content="A systems-first architectural review of an isolated, reproducible support engineering workflow using PowerShell, WinSCP, Git, and filesystem agent orchestration." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://www.rodneyachery.com/Articles/ai-assisted-support-engineering-workflow" />
+    <meta property="og:image" content="https://www.rodneyachery.com/assets/images/rodney-chery-social-card.webp" />
+    <meta property="og:image:alt" content="AI-Assisted Support Engineering Workflow" />
+    <meta property="article:published_time" content="2026-09-26T22:30:00Z" />
+    <meta property="article:author" content="Rodney A. Chery" />
+
+    <!-- Twitter/X Metadata -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="How I Built an AI-Assisted Support Engineering Workflow | Rodney Chery" />
+    <meta name="twitter:description" content="A systems-first architectural review of an isolated, reproducible support engineering workflow using PowerShell, WinSCP, Git, and filesystem agent orchestration." />
+    <meta name="twitter:image" content="https://www.rodneyachery.com/assets/images/rodney-chery-social-card.webp" />
+    <meta name="twitter:image:alt" content="AI-Assisted Support Engineering Workflow" />
+
+    <!-- Structured Data (JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "@id": "https://www.rodneyachery.com/Articles/ai-assisted-support-engineering-workflow#article",
+      "isPartOf": {
+        "@type": "Blog",
+        "@id": "https://www.rodneyachery.com/Articles#blog",
+        "name": "Technical Articles | Rodney Chery",
+        "url": "https://www.rodneyachery.com/Articles"
+      },
+      "headline": "How I Built an AI-Assisted Support Engineering Workflow for Troubleshooting Production Websites Safely",
+      "description": "A comprehensive systems architecture review of how I engineered an isolated, reproducible, AI-assisted troubleshooting workflow for production websites using PowerShell, WinSCP, Git, and filesystem agent orchestration.",
+      "url": "https://www.rodneyachery.com/Articles/ai-assisted-support-engineering-workflow",
+      "mainEntityOfPage": "https://www.rodneyachery.com/Articles/ai-assisted-support-engineering-workflow",
+      "datePublished": "2026-09-26T22:30:00Z",
+      "dateModified": "2026-09-26T22:30:00Z",
+      "image": "https://www.rodneyachery.com/assets/images/rodney-chery-social-card.webp",
+      "keywords": "Support Engineering, PowerShell, WinSCP, Classic ASP, Git, Agentic Architecture, SRE, Systems Design",
+      "author": {
+        "@type": "Person",
+        "@id": "https://www.rodneyachery.com/#rodney-chery",
+        "name": "Rodney A. Chery",
+        "url": "https://www.rodneyachery.com/"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://www.rodneyachery.com/#rc-dev-llc",
+        "name": "RC DEV LLC",
+        "url": "https://www.rodneyachery.com/"
+      }
+    }
+    </script>
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#020c14" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Rodney Chery" />
+    <link rel="apple-touch-icon" href="/assets/images/icon-192.png" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <style>
+        .article-body h2 {
+            color: var(--c);
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            padding-bottom: 0.5rem;
+        }
+        .article-body h3 {
+            color: var(--white);
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            margin-top: 1.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .article-body p, .article-body li {
+            line-height: 1.8;
+            font-size: 1.05rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        .article-body ul, .article-body ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .article-body pre {
+            background: rgba(1, 8, 16, 0.95);
+            border: 1px solid var(--border);
+            padding: 1.25rem;
+            border-radius: 6px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+        .article-body code {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: #00ffcc;
+        }
+        .article-body pre code {
+            color: #8ecfdf;
+        }
+        .article-table-wrapper {
+            overflow-x: auto;
+            margin: 2rem 0;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: rgba(1, 8, 16, 0.6);
+        }
+        .article-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.92rem;
+            text-align: left;
+        }
+        .article-table th {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--c);
+            font-family: var(--font-mono);
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid var(--border);
+            text-transform: uppercase;
+        }
+        .article-table td {
+            padding: 0.85rem 1rem;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
+            color: rgba(255, 255, 255, 0.88);
+            vertical-align: top;
+        }
+        .article-table tr:hover {
+            background: rgba(0, 212, 255, 0.04);
+        }
+        .article-callout {
+            background: rgba(0, 212, 255, 0.05);
+            border-left: 3px solid var(--c);
+            padding: 1.25rem 1.5rem;
+            border-radius: 0 6px 6px 0;
+            margin: 1.75rem 0;
+        }
+        .article-callout p:last-child {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- MATRIX RAIN CANVAS -->
+    <canvas id="rc-matrix"></canvas>
+    <div class="rc-vignette"></div>
+    <div class="rc-scanlines"></div>
+
+    <!-- NAVIGATION -->
+    <nav id="hamburger-nav">
+        <a href="/" class="logo" style="text-decoration:none;">RC<span>//</span>DEV</a>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon" onclick="toggleMenu()" aria-label="Toggle navigation menu">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="menu-links">
+                <ul>
+                    <li><a href="/#about"        onclick="toggleMenu()">About</a></li>
+                    <li><a href="/#services"     onclick="toggleMenu()">Services</a></li>
+                    <li><a href="/#pricing"      onclick="toggleMenu()">Pricing</a></li>
+                    <li><a href="/Projects"      onclick="toggleMenu()">Projects</a></li>
+                    <li><a href="/Articles"      onclick="toggleMenu()">Articles</a></li>
+                    <li><a href="/Faq"          onclick="toggleMenu()" class="rc-nav-faq">FAQ &amp; Standards</a></li>
+                    <li><a href="/#quote"        onclick="toggleMenu()" class="rc-nav-cta">Get a Quote</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <main role="main" class="rc-main">
+        <article class="container rc-fade" style="padding-top: 100px; padding-bottom: 80px; max-width: 900px;">
+            <!-- Breadcrumbs -->
+            <nav aria-label="Breadcrumb" style="margin-bottom: 2rem;">
+                <ol style="display: flex; gap: 0.5rem; list-style: none; padding: 0; font-family: var(--font-mono); font-size: 0.8rem; color: rgba(142, 207, 223, 0.7); flex-wrap: wrap;">
+                    <li><a href="/" style="color: var(--c); text-decoration: none;">Home</a> <span style="margin: 0 0.25rem;">/</span></li>
+                    <li><a href="/Articles" style="color: var(--c); text-decoration: none;">Articles</a> <span style="margin: 0 0.25rem;">/</span></li>
+                    <li aria-current="page" style="color: var(--white); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">AI-Assisted Support Engineering Workflow</li>
+                </ol>
+            </nav>
+
+            <header style="margin-bottom: 2.5rem; border-bottom: 1px solid rgba(0, 212, 255, 0.2); padding-bottom: 2rem;">
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
+                    <span class="rc-tag">Support Engineering</span>
+                    <span class="rc-tag">PowerShell</span>
+                    <span class="rc-tag">WinSCP</span>
+                    <span class="rc-tag">Classic ASP</span>
+                    <span class="rc-tag">Git</span>
+                    <span class="rc-tag">Agentic Architecture</span>
+                    <span class="rc-tag">SRE</span>
+                </div>
+                <h1 style="color: var(--white); font-family: var(--font-display); font-size: clamp(1.8rem, 4vw, 2.5rem); line-height: 1.3; margin-bottom: 1rem;">
+                    How I Built an AI-Assisted Support Engineering Workflow for Troubleshooting Production Websites Safely
+                </h1>
+                <p style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--c); margin-bottom: 0.75rem;">
+                    A Systems-First Approach to Legacy Web Platforms, Local Case Isolation, Immutable Baselines, and Human-Gated Deployment
+                </p>
+                <p style="font-family: var(--font-mono); font-size: 0.85rem; color: rgba(142, 207, 223, 0.8);">
+                    Published on <time datetime="2026-09-26T22:30:00Z">September 26, 2026</time> &middot; By Rodney A. Chery
+                </p>
+            </header>
+
+            <div class="rc-glass article-body" style="padding: 2.5rem 2rem; border-radius: 8px;">
+                
+                <h2>1. Introduction</h2>
+                <p>In enterprise web operations, production support engineering is frequently treated as an emergency triage desk rather than a disciplined software engineering discipline. Nowhere is this tension more acute than in high-volume, multi-tenant digital dealership platforms.</p>
+                <p>When supporting hundreds of live automotive and commercial dealership websites, an engineer encounters a diverse architectural landscape: legacy Classic ASP (<code>.asp</code>) backends with deeply nested Server-Side Includes (<code>&lt;!--#include file="..." --&gt;</code>), ADODB database connections, COM object integrations, custom CSS/LESS stylesheets with conflicting cascade rules, bespoke jQuery plugins, dynamically rendered inventory Vehicle Detail Pages (VDP) and Search Results Pages (SRP), third-party tracking scripts, and third-party inventory syndication APIs.</p>
+                <p>When a customer reports an issue—such as a broken call-to-action button, a distorted mobile navigation menu, a missing document fee field on an inventory card, or an improperly rendered canonical link—the historical impulse across many support teams is ad-hoc, reactive intervention: open a remote SFTP client, browse the live server, edit an active file in place, save, refresh the browser, and hope nothing broke.</p>
+                <p>This article details the production support engineering architecture I designed and implemented to replace that reckless cycle. By combining deterministic PowerShell automation, the WinSCP .NET assembly, immutable filesystem baselines, local Git change tracking, structured filesystem-based agent orchestration (Interpretable Context Methodology), and strict human-in-the-loop deployment boundaries, I transformed ad-hoc troubleshooting into a deterministic, reproducible, and verifiable engineering pipeline.</p>
+                <p>Crucially, this system does not unleash an autonomous AI agent to manipulate production infrastructure. Instead, it embeds large language models (LLMs) strictly as read-only code reviewers and analytical assistants within a rigid, human-gated state machine.</p>
+
+                <h2>2. Why Production Support Needed an Engineering Workflow</h2>
+                <p>The traditional, undisciplined approach to production web support can be summarized as:</p>
+                <pre><code>Remote Server ──► In-Place File Edit ──► Remote Save ──► Hard Refresh ──► "Hope It Works"</code></pre>
+                <p>In modern software reliability engineering (SRE), this pattern is considered an anti-pattern fraught with critical operational hazards:</p>
+                <ul>
+                    <li><strong>Catastrophic In-Place Failure:</strong> An accidental syntax error in a shared Classic ASP header or a single unclosed brace in a global LESS stylesheet immediately triggers a 500 Internal Server Error or an unstyled layout across the entire dealership domain.</li>
+                    <li><strong>Irreversible State Loss:</strong> Remote files edited in place overwrite the only existing copy of the code on disk. If the change breaks rendering in an unexpected browser viewport, there is no one-command rollback mechanism.</li>
+                    <li><strong>Hidden Cascade &amp; Blast Radius:</strong> Legacy platforms rely heavily on shared assets. A stylesheet modified to fix padding on a contact form may silently collapse the grid on 2,500 active Vehicle Detail Pages. Without local diffing and dependency tracing, the blast radius is unknowable until customers complain.</li>
+                    <li><strong>Environment Confusion:</strong> When juggling multiple browser tabs and SFTP sessions, it is shockingly easy for an engineer to intend to edit a staging environment (<code>Stage</code>) but inadvertently upload changes directly to the live cluster (<code>Live</code>).</li>
+                    <li><strong>Epistemic Drift &amp; Hallucination Risk:</strong> When an engineer pastes raw, fragmented snippets into a chat-based LLM without architectural boundaries, the AI hallucinates explanations based on incomplete context, suggesting sweeping refactors that break undocumented server dependencies.</li>
+                    <li><strong>Zero Auditability and Forensic Traceability:</strong> When a ticket closes, there is no durable, version-controlled artifact showing the exact lines changed, the baseline state prior to intervention, the specific diagnostic evidence uncovered, or the human justification for the patch.</li>
+                </ul>
+                <div class="article-callout">
+                    <p><strong>Core Thesis:</strong> Production troubleshooting should not begin with editing production files. Every support ticket must become an isolated, reproducible, version-controlled, and verifiable engineering workspace.</p>
+                </div>
+
+                <h2>3. System Architecture</h2>
+                <p>The workflow decouples into two strict operational planes: the <strong>Control Plane</strong> (which handles ticket metadata, environmental verification, confirmation gates, and agentic stage boundaries) and the <strong>Data Plane</strong> (which handles the actual website assets, scripts, stylesheets, and markup).</p>
+
+                <pre><code>                         ┌────────────────────────┐
+                         │  Support Ticket / Case │
+                         └───────────┬────────────┘
+                                     │
+                                     ▼
+                         ┌────────────────────────┐
+                         │ PowerShell Case Loader │
+                         └───────────┬────────────┘
+                                     │
+                    Explicit environment confirmation
+                                     │
+                                     ▼
+                         ┌────────────────────────┐
+                         │      SFTP / WinSCP     │
+                         │ Remote Source Retrieval│
+                         └───────────┬────────────┘
+                                     │
+                                     ▼
+                    ┌─────────────────────────────────┐
+                    │ Downloaded Local Source Snapshot│
+                    └──────────────┬──────────────────┘
+                                   │
+                    ┌──────────────┴───────────────┐
+                    │                              │
+                    ▼                              ▼
+        ┌─────────────────────┐         ┌─────────────────────┐
+        │ Immutable Baseline  │         │ Active Case Workspace│
+        └─────────────────────┘         └──────────┬──────────┘
+                                                   │
+                                                   ▼
+                                        ┌─────────────────────┐
+                                        │ Git Repository       │
+                                        │ Initial Baseline     │
+                                        └──────────┬──────────┘
+                                                   │
+                                                   ▼
+                                     ┌──────────────────────────┐
+                                     │ Agentic Stage Workspace  │
+                                     └──────────┬───────────────┘
+                                                │
+           ┌────────────────────────────────────┼─────────────────────────────────┐
+           │                                    │                                 │
+           ▼                                    ▼                                 ▼
+       Intake                             Investigation                      Validation
+           │                                    │                                 │
+           ▼                                    ▼                                 ▼
+      Reproduction ──► Root Cause ──► Remediation Plan ──► Implementation ──► Diff Review
+                                                                                  │
+                                                                                  ▼
+                                                                    Human Deployment Decision
+                                                                                  │
+                                                                                  ▼
+                                                                        Approved Remote Change</code></pre>
+
+                <h3>Tripartite Operational Separation</h3>
+                <ol>
+                    <li><strong>Deterministic Automation (PowerShell &amp; WinSCP):</strong> Executes all mechanical, repetitive, and safety-critical operations—directory scaffolding, SSH host key validation, SFTP transport, baseline copying, Git repository initialization, and workspace metadata generation. Automation never makes heuristic judgments.</li>
+                    <li><strong>Interpretive Analysis (AI / LLMs):</strong> Acts as a read-only codebase investigator, dependency tracer, structural analyst, and diff reviewer. The AI operates within sandboxed directory scopes with explicit instructions.</li>
+                    <li><strong>Authority and Judgment (The Support Engineer):</strong> The human engineer retains exclusive control over case classification, hypothesis confirmation, actual code modifications, testing validation, and remote production deployment decisions.</li>
+                </ol>
+
+                <h2>4. Trust Boundaries</h2>
+                <p>Establishing unambiguous trust boundaries prevents accidental data corruption and cognitive confusion during high-pressure outages.</p>
+
+                <pre><code>┌────────────────────────────────────────────────────────────────────────┐
+│                        AUTHORITATIVE REMOTE ZONE                       │
+│                                                                        │
+│   Production SFTP Host (Live)               Staging SFTP Host (Stage)   │
+│   ┌───────────────────────────┐             ┌────────────────────────┐ │
+│   │ /WebSites/dealership-live │             │ /WebSites/dealership-stg││
+│   └─────────────┬─────────────┘             └────────────────────────┘ │
+└─────────────────┼──────────────────────────────────────────────────────┘
+                  │ (Read-Only Secure SFTP via WinSCP .NET)
+                  ▼
+══════════════════════════════════════════════════════════════════════════
+               LOCAL ISOLATION BOUNDARY (No Automatic Sync)
+══════════════════════════════════════════════════════════════════════════
+┌────────────────────────────────────────────────────────────────────────┐
+│                      DISCONNECTED LOCAL CASE ZONE                      │
+│                                                                        │
+│   ┌───────────────────────────┐             ┌────────────────────────┐ │
+│   │   Immutable Baseline      │             │  Active Case Workspace │ │
+│   │   (Read-Only Reference)   │             │  (Local Git Repo)      │ │
+│   └───────────────────────────┘             └───────────┬────────────┘ │
+│                                                         │              │
+│                                                         ▼              │
+│                                             ┌────────────────────────┐ │
+│                                             │ AI Analysis Sandbox    │ │
+│                                             │ (Scoped FS Stages)     │ │
+│                                             └────────────────────────┘ │
+└────────────────────────────────────────────────────────────────────────┘</code></pre>
+
+                <div class="article-callout">
+                    <p><strong>Core Axiom: <code>LOCAL COPY != PRODUCTION</code></strong></p>
+                    <p>Local edits do not synchronize to production. Local test successes do not guarantee production functionality. Local execution failures do not disprove customer reports.</p>
+                </div>
+
+                <h2>5. PowerShell Control Plane</h2>
+                <p>To eliminate human error during initialization, the workflow is driven by dedicated PowerShell automation. Rather than having a single script with a <code>-Environment</code> flag (which invites muscle-memory execution errors), the tooling is split into distinct commands: <code>Get-LiveSite.ps1</code> and <code>Get-StageSite.ps1</code>.</p>
+
+                <pre><code>cd "C:\SupportTools\SiteWorkflow"
+
+.\Get-LiveSite.ps1 `
+    -CaseNumber "CASE-01700000" `
+    -ClientName "dealer-acme" `
+    -RemotePath "/WebSites/dealer-acme" `
+    -OpenVSCode</code></pre>
+
+                <h3>Argument Verification &amp; Namespace Isolation</h3>
+                <ul>
+                    <li><code>-CaseNumber</code>: Provides 1:1 correlation with the CRM/ticketing platform.</li>
+                    <li><code>-ClientName</code>: Provides human-readable namespace isolation.</li>
+                    <li><code>-RemotePath</code>: Identifies the authoritative root directory on the remote cluster.</li>
+                    <li><code>-OpenVSCode</code>: Integrates the bootstrapped case workspace directly into the active editor instance upon completion.</li>
+                </ul>
+                <p>The local case workspace is deterministically named using a composite identifier: <code>CASE-01700000__dealer-acme</code>. This prevents collisions while providing immediate human clarity during multi-case root-cause comparisons.</p>
+
+                <h3>The Operational Intent Confirmation Gate</h3>
+                <pre><code>[SECURITY WARNING] You are targeting the LIVE PRODUCTION environment for dealer-acme.
+Authoritative Remote Path: /WebSites/dealer-acme
+To proceed with source retrieval, type 'DOWNLOAD-LIVE': DOWNLOAD-LIVE</code></pre>
+                <p>This gate is intentionally disruptive. Authentication proves <em>who the operator is</em>; confirmation verifies <em>what the operator intends to do</em>. It stops accidental script execution resulting from clipboard mistakes, terminal history replays, or environment confusion.</p>
+
+                <h2>6. SFTP and WinSCP Data Transfer Layer</h2>
+                <p>Rather than relying on external command-line utilities with fragile string-based stdout parsing, the transport layer embeds the <strong>WinSCP .NET Assembly</strong> (<code>WinSCPnet.dll</code>).</p>
+
+                <pre><code>Add-Type -Path "C:\SupportTools\WinSCP\WinSCPnet.dll"
+
+$sessionOptions = New-Object WinSCP.SessionOptions -Property @{
+    Protocol              = [WinSCP.Protocol]::Sftp
+    HostName              = $Global:TargetSftpHost
+    UserName              = $Credentials.UserName
+    SecurePassword        = $Credentials.Password
+    SshHostKeyFingerprint = "ssh-ed25519 255 SHA256:4x9...[VERIFIED_KEY]..."
+}
+
+$session = New-Object WinSCP.Session
+$session.Open($sessionOptions)</code></pre>
+
+                <p>A critical security principle implemented in this layer is strict host key fingerprint pinning. Authentication credentials prove the client's identity to the server; the SSH host key fingerprint proves the server's identity to the client. Pinning the fingerprint directly in the session configuration guarantees that traffic cannot be intercepted by an unauthorized intermediary.</p>
+                <p>Under no circumstances are plain-text passwords stored in scripts or markdown files. Credentials are requested at runtime via secure OS dialogs (<code>Get-Credential</code>) and retained only in volatile memory during the transfer pass.</p>
+
+                <h2>7. Download State Machine</h2>
+                <pre><code>       [ NEW ]
+          │
+          ▼
+ [ ENVIRONMENT_VERIFIED ]
+          │
+          ▼
+[ REMOTE_PATH_VERIFIED ]
+          │
+          ▼
+ [ DOWNLOAD_APPROVED ]  ◄── (Confirmation gate: DOWNLOAD-LIVE)
+          │
+          ▼
+   [ TRANSFERRING ]     ◄── (WinSCP SFTP synchronous stream)
+          │
+          ▼
+ [ DOWNLOAD_COMPLETE ]
+          │
+          ▼
+ [ BASELINE_CREATED ]   ◄── (Untouched copy saved to archive)
+          │
+          ▼
+ [ GIT_INITIALIZED ]    ◄── (Initial baseline commit created)
+          │
+          ▼
+[ AGENTIC_WORKSPACE ]   ◄── (Scaffold stages &amp; context files)
+          │
+          ▼
+[ READY_FOR_ANALYSIS ]</code></pre>
+
+                <p>Enforcing strict state progression prevents invalid transitions: an engineer cannot begin implementation without an initialized Git repository, and transfer interruptions fail closed, protecting against partial snapshots.</p>
+
+                <h2>8. Immutable Baselines</h2>
+                <p>Once the download is verified, the automation creates two identical copies before any tool, editor, or agent touches the filesystem:</p>
+                <pre><code>Authoritative Remote Source
+            │
+            ▼
+   Downloaded Raw Tree
+            │
+            ├──────────────────────► [ Immutable Baseline Archive ]
+            │                        C:\Baselines\CASE-01700000__dealer-acme_BASELINE
+            │
+            ▼
+ [ Active Case Workspace ]
+ C:\Cases\CASE-01700000__dealer-acme\site</code></pre>
+
+                <p>The <strong>Immutable Baseline</strong> is a read-only directory containing exclusively the downloaded website assets. It provides dual redundancy alongside Git: resilience against accidental <code>git reset</code> mistakes, zero-tooling visual diffing, and permanent forensic integrity.</p>
+
+                <h2>9. Git as a Change-Control Layer</h2>
+                <p>Inside the active case directory, the <code>site/</code> tree is immediately initialized as a standalone Git repository:</p>
+                <pre><code>Set-Location "C:\Cases\CASE-01700000__dealer-acme"
+git init
+git add site/
+git commit -m "chore(baseline): initial production snapshot for CASE-01700000"</code></pre>
+
+                <p>Git functions as a <strong>local case-scoped change ledger</strong>. Running <code>git diff --name-only</code> immediately alerts the engineer to scope expansion if an editor auto-formats unrelated files:</p>
+                <pre><code>Expected Scope:   site/includes/footer.asp
+Observed Scope:   site/includes/footer.asp
+                  site/css/global.less
+                  site/web.config   &lt;-- ALERT: Scope expansion detected!</code></pre>
+
+                <h2>10. Filesystem as Agent Architecture</h2>
+                <p>Rather than providing an LLM a monolithic prompt, the case workspace is scaffolded into discrete engineering stages following the Interpretable Context Methodology (ICM):</p>
+                <pre><code>CASE-01700000__dealer-acme/
+│
+├── CONTEXT.md                  # Global Case Identification &amp; Safety Invariants
+├── CLAUDE.md                   # Agent Operational Boundaries &amp; Tool Definitions
+├── workspace.json              # Machine-readable environment metadata
+├── .agentic-workspace          # Reentrancy marker
+├── .git/                       # Local change tracking
+│
+├── site/                       # Active website codebase
+│   ├── default.asp
+│   ├── includes/
+│   ├── css/
+│   └── js/
+│
+├── case-input/                 # Raw ticket context from customer
+│   ├── ticket.md
+│   └── reproduction-notes.md
+│
+├── _config/                    # Corporate engineering guidelines
+│   ├── support-rules.md
+│   ├── safety-rules.md
+│   ├── classic-asp-rules.md
+│   └── testing-standards.md
+│
+└── stages/                     # Sequential analysis pipeline
+    ├── 01_intake/
+    ├── 02_reproduction/
+    ├── 03_investigation/
+    ├── 04_root-cause-analysis/
+    ├── 05_remediation-plan/
+    ├── 06_implementation/
+    ├── 07_validation/
+    └── 08_diff-review/</code></pre>
+
+                <p>The filesystem functions as workflow state, context boundary, audit trail, and human verification barrier.</p>
+
+                <h2>11. Context Hierarchy</h2>
+                <p>Context is structured hierarchically, mirroring lexical scope in computer science:</p>
+                <pre><code>┌────────────────────────────────────────────────────────┐
+│ Global Scope: Root CONTEXT.md &amp; workspace.json          │
+│ (Case ID, Client, Authoritative Source, Invariants)     │
+└───────────────────────────┬────────────────────────────┘
+                            │ Inherited by
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│ Operational Scope: CLAUDE.md &amp; _config/ Rules          │
+│ (Tool limits, Classic ASP constraints, Safety rules)   │
+└───────────────────────────┬────────────────────────────┘
+                            │ Inherited by
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│ Stage Scope: stages/XX_name/CONTEXT.md                 │
+│ (Stage-specific goals, permitted actions, deliverables)│
+└───────────────────────────┬────────────────────────────┘
+                            │ Consumes
+                            ▼
+┌────────────────────────────────────────────────────────┐
+│ Artifact Scope: output/ from Previous Stages           │
+│ (Verified findings, reproduction steps, plan)          │
+└────────────────────────────────────────────────────────┘</code></pre>
+
+                <h2>12. The Eight Troubleshooting Stages</h2>
+                <div class="article-table-wrapper">
+                    <table class="article-table">
+                        <thead>
+                            <tr>
+                                <th>Stage</th>
+                                <th>Name</th>
+                                <th>Input</th>
+                                <th>Primary Objective</th>
+                                <th>Output Deliverable</th>
+                                <th>Write Permitted?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>01</strong></td>
+                                <td><strong>Intake</strong></td>
+                                <td><code>case-input/ticket.md</code></td>
+                                <td>Synthesize symptom, affected URL, device scope, and customer expectations into a formal engineering problem statement.</td>
+                                <td><code>01_intake/output/case-summary.md</code></td>
+                                <td><strong>NO</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>02</strong></td>
+                                <td><strong>Reproduction</strong></td>
+                                <td><code>case-summary.md</code>, <code>site/</code></td>
+                                <td>Attempt local reproduction across desktop, tablet, and mobile viewports; document environmental blockers.</td>
+                                <td><code>02_reproduction/output/reproduction-report.md</code></td>
+                                <td><strong>NO</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>03</strong></td>
+                                <td><strong>Investigation</strong></td>
+                                <td><code>reproduction-report.md</code>, <code>site/</code></td>
+                                <td>Trace code execution: map <code>#include</code> trees, inspect CSS specificity cascades, identify event listeners.</td>
+                                <td><code>03_investigation/output/investigation-findings.md</code></td>
+                                <td><strong>NO</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>04</strong></td>
+                                <td><strong>Root Cause Analysis</strong></td>
+                                <td><code>investigation-findings.md</code></td>
+                                <td>Formulate a verifiable causal chain explaining <em>why</em> the defect occurs; cite line numbers and DOM nodes.</td>
+                                <td><code>04_root-cause-analysis/output/root-cause-analysis.md</code></td>
+                                <td><strong>NO</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>05</strong></td>
+                                <td><strong>Remediation Plan</strong></td>
+                                <td><code>root-cause-analysis.md</code></td>
+                                <td>Design the smallest possible safe patch; define blast radius, regression risks, and rollback instructions.</td>
+                                <td><code>05_remediation-plan/output/remediation-plan.md</code></td>
+                                <td><strong>NO</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>06</strong></td>
+                                <td><strong>Implementation</strong></td>
+                                <td><code>remediation-plan.md</code>, <code>site/</code></td>
+                                <td>Apply the approved patch to the local codebase. Enforce surgical edits; forbid unrelated refactoring.</td>
+                                <td><code>06_implementation/output/implementation-notes.md</code></td>
+                                <td><strong>YES (Local Only)</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>07</strong></td>
+                                <td><strong>Validation</strong></td>
+                                <td><code>remediation-plan.md</code>, <code>site/</code></td>
+                                <td>Test the fix against the primary defect; execute regression tests across responsive breakpoints and pseudo-states.</td>
+                                <td><code>07_validation/output/validation-results.md</code></td>
+                                <td><strong>NO</strong></td>
+                            </tr>
+                            <tr>
+                                <td><strong>08</strong></td>
+                                <td><strong>Diff Review</strong></td>
+                                <td><code>git diff</code>, <code>git status</code></td>
+                                <td>Perform automated second-engineer code review; audit scope alignment, syntax safety, and unintended modifications.</td>
+                                <td><code>08_diff-review/output/diff-review.md</code></td>
+                                <td><strong>NO</strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2>13. Evidence-Based AI Analysis</h2>
+                <p>AI models within this architecture must categorize every analytical claim into one of four epistemic tiers:</p>
+                <ul>
+                    <li><strong>CONFIRMED:</strong> Directly verified in code or DOM evidence (e.g., <em>"Line 42 of includes/nav.asp sets class='mobile-hidden'"</em>).</li>
+                    <li><strong>INFERRED:</strong> Logically deduced from code structure but not directly observable in static assets.</li>
+                    <li><strong>HYPOTHESIS:</strong> A plausible explanation that requires runtime testing to confirm.</li>
+                    <li><strong>UNKNOWN:</strong> Missing information, such as server-side database records, IIS URL Rewrite rules, or external CDN configurations.</li>
+                </ul>
+
+                <h2>14. Human Authority and Least Privilege</h2>
+                <p>AI agents are constrained by the principle of least privilege:</p>
+                <pre><code>┌────────────────────────────────────────────────────────┐
+│                      READ AUTHORITY                    │
+│   AI may inspect local files, parse ASTs, and analyze   │
+│   templates within the local case directory.            │
+└───────────────────────────┬────────────────────────────┘
+                            │
+┌───────────────────────────▼────────────────────────────┐
+│                     WRITE AUTHORITY                    │
+│   AI may ONLY write code locally during Stage 06       │
+│   (Implementation), under explicit human supervision.   │
+└───────────────────────────┬────────────────────────────┘
+                            │
+┌───────────────────────────▼────────────────────────────┐
+│                    REMOTE AUTHORITY                    │
+│   ABSOLUTELY ZERO. AI cannot connect to SFTP, deploy   │
+│   code, modify production files, or alter live data.   │
+└────────────────────────────────────────────────────────┘</code></pre>
+
+                <h2>15. Classic ASP Local Reproduction</h2>
+                <p>Standard static web servers fail when executing Classic Active Server Pages (<code>.asp</code>). To achieve local execution, the architecture utilizes local IIS or IIS Express:</p>
+                <pre><code>Browser ──► localhost:8080 ──► IIS / IIS Express
+                                     │
+                                     ▼
+                              asp.dll (ISAPI)
+                                     │
+                  ┌──────────────────┴──────────────────┐
+                  ▼                                     ▼
+        VBScript Runtime Engine               Server-Side Includes
+       (Executes &lt;% ... %&gt; code)             (&lt;!--#include file="..." --&gt;)
+                  │                                     │
+                  ▼                                     ▼
+        Rendered HTML / CSS / JS Delivered to Browser DOM</code></pre>
+
+                <h2>16. Frontend and LESS Investigation</h2>
+                <p>Dealership stylesheet defects frequently arise from selector specificity collisions. During Stage 03, the engineer and AI inspect computed styles to determine whether a platform rule (e.g., with specificity <code>1-3-0</code>) is overriding local dealer custom styles. The Remediation Plan mandates matching the necessary container specificity without resorting to indiscriminate <code>!important</code> declarations.</p>
+
+                <h2>17. Dynamic DOM and Inventory Systems</h2>
+                <p>Dynamic inventory search and detail pages re-render asynchronously during vehicle filtering. To prevent duplicate UI element injection, custom support scripts must be idempotent:</p>
+
+                <pre><code>(function() {
+    const COMPONENT_CONTAINER_ID = 'rc-custom-doc-fee-display';
+    
+    function injectDocFee() {
+        if (document.getElementById(COMPONENT_CONTAINER_ID)) {
+            return; // Guard clause: Prevent duplicate injection
+        }
+
+        const sourceFee = document.querySelector('.liUnit.LiInvdoc-fee .unitValue');
+        const targetContainer = document.querySelector('.pricing-summary-card');
+
+        if (!sourceFee || !targetContainer) return;
+
+        const feeElement = document.createElement('div');
+        feeElement.id = COMPONENT_CONTAINER_ID;
+        feeElement.className = 'custom-fee-line-item';
+        feeElement.innerHTML = `
+            &lt;span class="fee-label"&gt;Documentation Fee:&lt;/span&gt;
+            &lt;span class="fee-amount"&gt;${sourceFee.textContent.trim()}&lt;/span&gt;
+        `;
+        targetContainer.appendChild(feeElement);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', injectDocFee);
+    } else {
+        injectDocFee();
+    }
+
+    const observer = new MutationObserver(injectDocFee);
+    const targetNode = document.getElementById('inventory-detail-root');
+    if (targetNode) {
+        observer.observe(targetNode, { childList: true, subtree: true });
+    }
+})();</code></pre>
+
+                <h2>18. Idempotency and Failure Recovery</h2>
+                <p>The initialization script incorporates reentrancy guards. If <code>.agentic-workspace</code> is detected in the target directory, the tooling halts and offers options to open the workspace in VS Code, resume an interrupted transfer pass, or abort cleanly.</p>
+
+                <h2>19. Observability and Performance Telemetry</h2>
+                <p>The PowerShell pipeline measures execution durations across all phases:</p>
+                <pre><code>============================================================
+CASE WORKSPACE INITIALIZATION TELEMETRY: CASE-01700000
+============================================================
+[TELEMETRY] Metadata Validation ........... 00:00:02
+[TELEMETRY] SFTP Handshake &amp; Auth ......... 00:00:04
+[TELEMETRY] Recursive Source Download ..... 00:04:18 (18,421 files, 642 MB)
+[TELEMETRY] Immutable Baseline Creation ... 00:00:28
+[TELEMETRY] Git Initialization &amp; Commit ... 00:00:14
+[TELEMETRY] Agentic Stage Scaffolding ..... 00:00:02
+------------------------------------------------------------
+TOTAL PIPELINE DURATION: ................. 00:05:08
+EFFECTIVE TRANSFER SPEED: ................. 2.48 MB/s (59.7 files/s)
+STATUS: READY FOR INVESTIGATION
+============================================================</code></pre>
+
+                <h2>20. Performance Engineering for Massive Codebases</h2>
+                <p>For large dealership portals, transfer profiles (<code>SourceOnly</code> vs. <code>Full</code>) allow excluding massive image libraries when resolving pure logic defects. Furthermore, replacing PowerShell's native file copy with multithreaded <code>robocopy /MT:8</code> accelerates baseline creation by over 70%.</p>
+
+                <h2>21. Security Model and Sensitive Data Safeguards</h2>
+                <p>Prior to ingesting source code into an LLM context, automated sanitization scrubs database connection strings and third-party API keys. All agentic actions are strictly confined to the local filesystem; models cannot initiate network requests.</p>
+
+                <h2>22. Common Failure Modes and Mitigations</h2>
+                <div class="article-table-wrapper">
+                    <table class="article-table">
+                        <thead>
+                            <tr>
+                                <th>Failure Mode</th>
+                                <th>Root Cause</th>
+                                <th>Detection Mechanism</th>
+                                <th>Mitigation Strategy</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Wrong Environment Downloaded</strong></td>
+                                <td>Engineer targeted Live instead of Staging.</td>
+                                <td>Explicit prompt gate; mismatch in <code>workspace.json</code>.</td>
+                                <td>Split scripts (<code>Get-LiveSite</code> vs <code>Get-StageSite</code>); mandatory typed confirmation phrase.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Silent SFTP Drop</strong></td>
+                                <td>Network timeout during recursive traversal.</td>
+                                <td>Exit code verification; file count mismatch.</td>
+                                <td>Halt on WinSCP transfer error; provide safe resumption command without re-downloading.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Accidental In-Place Live Edit</strong></td>
+                                <td>Engineer opened remote file directly in SFTP client.</td>
+                                <td>Absence of Git commit history; unmonitored file change on remote cluster.</td>
+                                <td>SFTP credentials restricted; production files accessible locally *only* via isolated case workspace.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Scope Expansion / Creep</strong></td>
+                                <td>IDE auto-formatter modified whitespace across 40 files.</td>
+                                <td><code>git status</code> and <code>git diff --name-only</code> flag unexpected modifications.</td>
+                                <td>Git baseline acts as a deployment blocker; review stage rejects any diff containing untouched files.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>AI Suggests Disruptive Global Refactor</strong></td>
+                                <td>LLM lacks visibility into shared platform dependencies.</td>
+                                <td>Diff review stage flags broad selector changes or global CSS rules.</td>
+                                <td>Stage 05 (Remediation Plan) enforces surgical patches; engineer rejects non-scoped code suggestions.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Classic ASP Include Failure</strong></td>
+                                <td>Local IIS missing virtual directory mapping for virtual includes.</td>
+                                <td>HTTP 500 error: <em>Active Server Pages error 'ASP 0126'</em>.</td>
+                                <td>Map virtual include paths in local IIS site bindings; isolate client-side logic from server-side rendering.</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Dynamic Script Re-run Duplication</strong></td>
+                                <td>Inventory AJAX filter re-executes script on DOM mutation.</td>
+                                <td>Duplicate pricing elements appear on vehicle cards during live testing.</td>
+                                <td>Enforce idempotency guard clauses (<code>if (document.getElementById(ID)) return;</code>) in all custom scripts.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2>23. Tradeoffs of the Architecture</h2>
+                <p>The architecture trades local storage capacity (500 MB–2 GB per case) and two to five minutes of initial setup latency for total forensic auditability, zero production blast radius, and instant rollback capability.</p>
+
+                <h2>24. Future Architecture and Enhancements</h2>
+                <p>Future enhancements include remote manifest checksums for delta-only file transfers, automated headless Playwright visual regression diffing, and automated signed case-closure PDF records for CRM attachment.</p>
+
+                <h2>25. Engineering Lessons Learned</h2>
+                <ol>
+                    <li><strong>Automation Handles Mechanics; Humans Handle Decisions:</strong> The greatest productivity gains came from automating folder creation, SFTP downloading, baseline archiving, and Git setup.</li>
+                    <li><strong>Context Isolation Is Essential for AI Utility:</strong> LLMs excel when restricted to narrow, focused tasks with explicit epistemic boundaries.</li>
+                    <li><strong>Traceability Creates Engineering Confidence:</strong> Knowing that every change is captured in a local Git diff against an immutable baseline enables bold, safe investigations.</li>
+                    <li><strong>Wording Governs Operational Mindset:</strong> Replacing <em>"I fixed production"</em> with <em>"The local remediation has been validated and is ready for controlled deployment"</em> reinforces operational rigor.</li>
+                </ol>
+
+                <h2>26. Conclusion</h2>
+                <p>AI-assisted support engineering becomes valuable when the model is embedded inside a controlled engineering system rather than placed directly in front of production.</p>
+                <p>By establishing deterministic PowerShell automation, immutable baselines, local Git tracking, filesystem-based agent orchestration, and strict human deployment boundaries, this architecture elevates production website support from chaotic in-place triage into a repeatable, auditable, and safe software engineering discipline.</p>
+
+                <div class="article-callout" style="margin-top: 3rem;">
+                    <h3 style="color: var(--c); margin-top: 0;">Key Takeaways</h3>
+                    <ul style="margin-bottom: 0;">
+                        <li><strong>Isolate Before You Inspect:</strong> Never perform troubleshooting directly on a live server.</li>
+                        <li><strong>Preserve Immutable Baselines:</strong> Maintain an untouched copy of production state before initializing tools.</li>
+                        <li><strong>Enforce Local Change Control:</strong> Use Git to maintain visibility over every line modified.</li>
+                        <li><strong>Partition AI Context via Filesystem Stages:</strong> Prevent hallucinations by breaking troubleshooting into sequential, scoped stages.</li>
+                        <li><strong>Enforce Human Authority:</strong> Restrict AI to read-only analytical roles. The engineer must remain the sole operator authorized to modify code and deploy to production.</li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- Author Card -->
+            <div class="rc-glass" style="margin-top: 3rem; padding: 2rem; border-radius: 8px; display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+                <img src="/assets/images/rodney-chery-hero.webp" alt="Rodney A. Chery" width="80" height="80" style="border-radius: 50%; border: 2px solid var(--c);" />
+                <div>
+                    <h3 style="color: var(--white); font-family: var(--font-display); font-size: 1.2rem; margin-bottom: 0.25rem;">Rodney A. Chery</h3>
+                    <p style="font-size: 0.85rem; color: rgba(142, 207, 223, 0.8); margin-bottom: 0.5rem;">Founder &amp; Software Developer at RC DEV LLC</p>
+                    <p style="font-size: 0.9rem; color: rgba(255, 255, 255, 0.8); margin-bottom: 0;">Specializing in C#, ASP.NET Core, cloud infrastructure, and technical support engineering.</p>
+                </div>
+            </div>
+
+            <div style="margin-top: 2.5rem; text-align: center;">
+                <a href="/Articles" class="btn btn-outline-info" style="color: var(--c); border-color: var(--c);">← Back to All Articles</a>
+            </div>
+        </article>
+    </main>
+
+    <footer class="rc-footer">
+        <div class="rc-footer-inner">
+            <div class="rc-footer-links">
+                <a href="/#about">About</a>
+                <a href="/#services">Services</a>
+                <a href="/#pricing">Pricing</a>
+                <a href="/Projects">Projects</a>
+                <a href="/Articles">Articles</a>
+                <a href="/#quote">Quote</a>
+                <a href="/Support">Contact Support</a>
+            </div>
+            <small id="copyright">© 2026 RODNEY CHERY &nbsp;·&nbsp; FULL STACK AI DEVELOPER &nbsp;·&nbsp; NODE_ONLINE</small>
+        </div>
+    </footer>
+
+    <script src="/lib/jquery/dist/jquery.min.js"></script>
+    <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/site.js"></script>
+    <script src="/js/layout.js"></script>
+
+    <!-- INTERACTIVE CLI TERMINAL DRAWER -->
+    <div class="terminal-drawer" id="terminalDrawer">
+        <div class="terminal-drawer-header" id="terminalHeader">
+            <span>RC-SHELL v1.0.4 // MAIN_DIAGNOSTICS</span>
+            <button type="button" class="terminal-toggle-btn" id="terminalToggleBtn">&gt;_ SHELL</button>
+        </div>
+        <div class="terminal-drawer-body">
+            <div class="terminal-history" id="terminalHistory">
+                <p>Welcome to RC-SHELL. System initialized. Type <span style="color:var(--c);">help</span> for instructions.</p>
+            </div>
+            <div class="terminal-input-line">
+                <span class="prompt">guest@rc-dev:~$</span>
+                <input type="text" id="terminalInput" placeholder="Type a command..." autocomplete="off" aria-label="Terminal command input" />
+            </div>
+        </div>
+    </div>
+</body>
+</html>
