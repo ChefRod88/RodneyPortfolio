@@ -1,17 +1,17 @@
 # Rodney Amos Chery
 
-**Enterprise Application Developer**
+**Technical Support Specialist III & Full-Stack Developer**
 
-Winter Haven, FL | 863-296-5890 | chefrodneyachery@gmail.com
+Winter Haven, FL | 863-296-5890 | rodney@globalrcdev.com
 **Portfolio:** [rodneyachery.com](https://www.rodneyachery.com)
 **LinkedIn:** [linkedin.com/in/rodneyachery](https://www.linkedin.com/in/rodneyachery/)
-**GitHub:** [github.com/ChefRod88/RodneyPortfolio](https://github.com/ChefRod88/RodneyPortfolio)
+**GitHub:** [github.com/ChefRod88](https://github.com/ChefRod88)
 
 ---
 
 ## Professional Summary
 
-Software Engineering student (B.S., WGU, expected Dec 2026) with hands-on experience across the full software development life cycle — from requirements analysis and design through development, testing, deployment, and maintenance. Builds production-style enterprise web applications using C#, ASP.NET Core, SQL Server, and Azure. Experienced in diagnosing and resolving application issues, collaborating with technical and end-user teams to define requirements, and managing multiple concurrent requests independently. AWS Certified Cloud Practitioner and ITIL® 4 certified. Eligible to work 100% remote within Florida.
+Technical Support Specialist with 3+ years of enterprise IT support experience and hands-on web development skills in HTML, CSS, JavaScript, and C# / .NET. Experienced managing high-volume ticket queues via phone, email, and chat in SLA-driven environments. Comfortable making live changes to client-facing web properties — identifying layout and functionality issues, writing targeted fixes, and communicating solutions clearly to non-technical customers. Additional background in SQL, REST APIs, and full-stack development. Holds AWS Certified Cloud Practitioner, ITIL® 4 Foundation, and Google IT Support certifications. B.S. in Software Engineering candidate at Western Governors University (Expected Dec 2026).
 
 ---
 
@@ -19,112 +19,82 @@ Software Engineering student (B.S., WGU, expected Dec 2026) with hands-on experi
 
 | Category | Skills |
 |----------|--------|
-| **Languages** | C#, JavaScript, SQL, HTML5, CSS3 |
-| **Frameworks / Platforms** | ASP.NET Core, Razor Pages, .NET MAUI, Entity Framework Core, Bootstrap 5, Leaflet.js, GraphHopper, OData v4 |
-| **Databases** | SQL Server, Azure SQL Database, MySQL |
-| **Cloud & DevOps** | Azure App Service, AWS, IIS, Git, GitHub, GitHub Actions, Docker, Postman, Visual Studio 2022 |
-| **Testing** | xUnit, Moq, Vitest |
-| **Enterprise Tools** | Active Directory, PowerShell, Salesforce, Oracle PeopleSoft, Oracle CRM, Wireshark, SSMS |
-| **Core Strengths** | Full SDLC, REST API integration, dependency injection, troubleshooting, root-cause analysis, risk management, information security |
+| **Languages & Web** | JavaScript (ES6+), jQuery, HTML5, CSS3/LESS, Bootstrap, DOM Manipulation, DOM APIs, MutationObserver, Classic ASP, C#, .NET / .NET MAUI, REST APIs, JSON, SQL, SQLite |
+| **Cloud, DevOps & Tools** | Cloudflare, AWS, IIS, Git, GitHub, Dealer Spike CMS, FTP/SFTP, VS Code, Windows, Postman, Visual Studio 2022 |
+| **Analytics & Technical SEO** | Chrome DevTools, JSON-LD, Schema.org Structured Data, Google Tag Manager (GTM), Google Analytics 4 (GA4), Tealium, Technical SEO, Canonical URLs, Redirects, Crawlers, HTTP Status Codes |
+| **Enterprise Systems** | Salesforce, Salesforce Service Cloud, Jira, Active Directory, Wireshark, SSMS, Oracle CRM, Oracle PeopleSoft |
+| **Core Strengths** | Full SDLC, REST API integration, dependency injection, root-cause analysis, incident triage, risk management, customer communication, SLA adherence |
 
 ---
 
 ## Professional Experience
 
-### Freelance Enterprise Web Developer | Self-Employed
-**February 2023 – Present**
+### Technical Support Specialist III | LeadVenture
+**June 2026 – Present** *(Remote)*
 
-- Designed, developed, tested, deployed, and maintained full-stack web applications through the complete SDLC using ASP.NET Core, C#, SQL Server, and Azure App Service.
-- Converted business requirements and concepts into detailed technical specifications, then built solutions integrated with existing application infrastructure.
-- Architected interface-driven, dependency-injected service layers to improve maintainability, testability, and consistency with software engineering standards.
-- Diagnosed and resolved application behavior issues across development and production environments using root-cause analysis and reproducible documentation.
-- Implemented shared OpenAI/Anthropic client abstractions and refactored AI-related services, reducing duplicated API and authentication logic across the codebase.
-- Designed and maintained automated test suites (xUnit, Vitest) covering service behavior, validation, helper modules, and routing logic.
-- Managed multiple concurrent project requests independently, maintaining focus on priority tasks and delivering against defined timelines.
-- Uses AI-augmented development workflow daily: Cursor IDE, Claude (Anthropic), and OpenAI for architecture planning, code review, and documentation generation.
+- Provides Tier III production support and front-end engineering for live dealership websites on LeadVenture’s Dealer Spike SaaS platform.
+- Diagnoses production defects across Dealer Spike’s CMS, Classic ASP/server-rendered architecture, VLP/VDP inventory systems, dynamic DOM rendering, third-party integrations, analytics, SEO, and customer-facing functionality.
+- Performs root-cause analysis using Chrome DevTools, Console, Network inspection, DOM analysis, HTTP behavior, event tracing, and responsive testing.
+- Engineers production customizations using JavaScript, jQuery, HTML5, CSS3/LESS, Bootstrap, DOM APIs, MutationObserver, delegated events, Fetch/AJAX patterns, and asynchronous UI logic.
+- Builds and modifies inventory pricing, payment calculations, filters, promotional components, forms, navigation, CTAs, disclosures, modals, landing pages, and responsive inventory experiences.
+- Works with `.asp` pages, CMS snippets, templates, configuration files, dynamic inventory markup, and dealer-specific settings. Deploys code across staging and production using VPN, FTP/SFTP, and VS Code.
+- Troubleshoots GTM, GA4, Google Ads, Tealium, Cloudflare, TrustArc, AudioEye, lead tools, and external applications. Implements and diagnoses JSON-LD, Schema.org, canonical URLs, redirects, indexing directives, metadata, crawler behavior, and HTTP status codes.
+- Owns Salesforce cases through investigation, implementation, QA, escalation, and resolution; creates Jira escalations with reproduction steps, affected URLs, and business impact. Escalate complex issues to engineering teams with clear documentation.
 
 ---
 
 ### Technical Support Specialist | Canon Information Technology Services
-**March 2025 – Present**
+**March 2025 – June 2026** *(Remote)*
 
-- Diagnosed and resolved software, driver, network-integration, and enterprise application incidents in SLA-driven support environments.
-- Leveraged AI tools in real time (Microsoft Copilot, ChatGPT, Claude) to cross-reference error codes, driver conflicts, and firmware issues — reducing resolution time and increasing first-contact success rates.
-- Applied prompt engineering to extract structured, actionable troubleshooting steps for edge-case hardware and OS-level compatibility issues.
-- Managed full incident lifecycle — triage, troubleshooting, escalation, and resolution — partnering with Tier-2 and Engineering teams on complex issues.
-- Troubleshot TCP/IP, DHCP, DNS, wireless, firewall settings, and print spooler failures across Windows, macOS, iOS, and Android environments.
-- Documented cases in Oracle CRM; processed RMAs and leveraged Salesforce Knowledge Base for research and knowledge contribution.
-- Provided clear customer-facing technical communication with strong follow-through, contributing to increased first-contact resolution rates.
+- Managed 15–25 enterprise support incidents per shift via phone, email, and ticketing system in a high-volume SLA-driven environment.
+- Triaged, categorized, and prioritized incoming requests — determining fastest resolution path for each issue type and customer segment.
+- Diagnosed and resolved software, hardware, Windows OS, and connectivity issues for enterprise end users across diverse environments.
+- Communicated technical solutions clearly to non-technical users, managing expectations through resolution and following up to confirm fix.
+- Documented resolutions and created knowledge base articles and how-to guides that reduced repeat incident volume across the team.
+- Escalated complex issues to engineering teams with clear documentation and owned the customer communication loop.
 
 ---
 
-### Minister of Technology | New Bethel Missionary Baptist Church
-**October 2025 – Present**
+### Freelance Full-Stack Developer | Independent
+**February 2023 – Present** *(Winter Haven, FL)*
 
-- Spearheads church digital transformation by leading design and development of websites for the church, Christian Academy, and Florida Theological Seminary & Bible College.
-- Migrating legacy sites to a modern web stack (ASP.NET Core, Razor Pages, Bootstrap 5, Leaflet.js, GraphHopper) with automated workflows.
-- Manages and grows digital presence across Instagram, Facebook, and YouTube, expanding ministry reach and community engagement.
-- Works directly with church leadership and school administrators to translate organizational needs into scalable technical solutions.
+- Built complete web interfaces from scratch using HTML, CSS, and JavaScript — dynamic content rendering, search filtering, modal forms, and interactive data tables.
+- Wrote and debugged client-side JavaScript for DOM manipulation, event delegation, debounced search, and async API calls.
+- Built RESTful and OData v4 APIs using C# and ASP.NET Core — deployed to Azure App Service with GitHub Actions CI/CD pipelines.
+- Designed relational SQL Server databases with stored procedures, foreign key relationships, and aggregate queries.
 
 ---
 
 ### Client Services Professional | InCharge Debt Solutions
-**October 2022 – February 2025**
+**October 2022 – February 2025** *(Orlando, FL)*
 
-- Managed approximately 600 client interactions per month via inbound and outbound calls in a high-volume financial services environment.
-- Utilized CRM systems to document case activity, maintain accurate records, and track client progress through structured workflows.
-- Executed SQL-based lookups and data validation tasks to verify account information and ensure data accuracy.
-- Conducted government risk and compliance assessments, ensuring adherence to state and federal regulations.
-- Maintained strict data confidentiality and information security compliance when handling sensitive client financial records.
-- Resolved escalated client concerns professionally with adherence to compliance standards in an SLA-driven, quality-assessed environment.
+- Managed client cases in Salesforce Service Cloud — created, updated, and resolved tickets for consumers in debt relief programs.
+- Communicated with customers via phone and email managing sensitive financial data under strict confidentiality protocols.
+- Collaborated with team leads to escalate urgent cases and maintain timely resolution within established SLA windows.
 
 ---
 
-## Selected Projects
+### Minister of Technology | New Bethel Missionary Baptist Church
+**2025 – Present** *(Winter Haven, FL)*
 
-### Mini-D365-CRM (March 2026 – Present)
-**ASP.NET Core 10 · OData v4 · Entity Framework Core · SQL Server · Azure App Service · xUnit · GitHub Actions**
-
-- Fully deployed Web API built on the same architectural patterns that power Microsoft Dynamics 365.
-- Manages Accounts, Contacts, and Activity Tasks through a live OData v4 API with full query support ($filter, $expand, $select, $orderby, $top, $count).
-- WorkflowService automatically generates follow-up ActivityTasks on Contact creation, mirroring the D365 plugin event pattern.
-- Two SQL Server stored procedures handle complex aggregation and overdue task queries. Soft delete via IsActive flag. Four xUnit unit tests covering the service layer.
-- GitHub Actions CI/CD deploys automatically to Azure on every push.
-
-### Portfolio Platform — AI Chat & Job Match (2024 – Present)
-**ASP.NET Core · C# · OpenAI API · Anthropic API · xUnit · Vitest**
-
-- Built conversational AI backend with dual-AI orchestration (OpenAI + Anthropic), API orchestration, input validation, and injectable content-filtering services.
-- Applied Dependency Inversion Principle across ChatService and JobMatchService, improving architecture testability and maintainability.
-- Implemented prompt-injection safeguards, hallucination-risk reduction patterns, and demo-mode fallback logic.
-
-### Student Progress Tracker — WGU Capstone (2026)
-**NET MAUI · ASP.NET Core Web API · Azure SQL**
-
-- Cross-platform application with weighted GPA calculation, grade projection, and PDF reporting — designed and built end-to-end through the full SDLC.
-- Implemented RESTful Web API backend with Azure SQL, full CRUD operations, and business logic layer supporting academic performance workflows.
-
-### Church Web Application — Routing & Location Experience (2024 – Present)
-**ASP.NET Core · JavaScript · Leaflet.js · GraphHopper · Vitest**
-
-- Delivered interactive map-based routing with mobile-responsive UI and location detection for a real community organization end-user group.
-- Extracted routing helper logic into testable modules; added JavaScript unit tests for routing calculations and animation-state utilities.
+- Built and maintains a live production web application for the congregation — HTML, CSS, JavaScript, event management, and YouTube livestream integration.
+- Translates non-technical requirements from church leadership into working web features — planning, building, testing, and deploying updates.
 
 ---
 
 ## Education & Certifications
 
-**B.S. Software Engineering** (Expected December 2026)
+**B.S. Software Engineering** (Expected December 2026)  
 Western Governors University
 
 | Certification | Date |
 |---|---|
 | AWS Certified Cloud Practitioner | November 2023 |
 | ITIL® 4 Foundation | 2025 |
-| CompTIA Project+ | January 2026 |
 | Google IT Support Professional Certificate | December 2022 |
+| CompTIA Project+ | January 2026 |
 | Google Cloud: Introduction to Generative AI | June 2025 |
 
 ---
 
-*Last updated: March 2026*
+*Last updated: September 2026 (Reflecting `docs/rc-9326.docx`)*

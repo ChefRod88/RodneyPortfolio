@@ -7,7 +7,6 @@ def to_json(val):
     Custom lightweight JSON stringifier to support Python installations lacking the 'json' module.
     """
     if isinstance(val, str):
-        # Escape backslashes, quotes, and newlines
         escaped = val.replace('\\', '\\\\').replace('"', '\\"').replace('\n', '\\n').replace('\r', '\\r').replace('\t', '\\t')
         return f'"{escaped}"'
     elif isinstance(val, bool):
@@ -25,30 +24,57 @@ def to_json(val):
         return "null"
     return "null"
 
-def parse_csharp_file(file_path, content):
+def parse_code_file(file_path, content):
     """
-    Heuristically extracts class/interface declarations and method definitions from a C# file.
+    Heuristically extracts class/interface declarations and method/function definitions.
     """
     classes = []
     methods = []
     
-    # 1. Extract classes/interfaces/structs
-    class_matches = re.finditer(r'\b(class|interface|struct)\s+(\w+)', content)
-    for m in class_matches:
-        classes.append({
-            "type": m.group(1),
-            "name": m.group(2)
-        })
-        
-    # 2. Extract methods
-    method_matches = re.finditer(
-        r'\b(public|private|protected|internal|override|static)\s+(?:async\s+)?(?:[a-zA-Z0-9_<>\[\]]+\s+)+([a-zA-Z0-9_]+)\s*\([^)]*\)\s*[\{;]',
-        content
-    )
-    for m in method_matches:
-        method_name = m.group(2)
-        if method_name not in ("if", "for", "foreach", "while", "switch", "using", "catch", "return"):
-            methods.append(method_name)
+    if file_path.endswith((".cs", ".cshtml", ".razor")):
+        class_matches = re.finditer(r'\b(class|interface|struct)\s+(\w+)', content)
+        for m in class_matches:
+            classes.append({
+                "type": m.group(1),
+                "name": m.group(2)
+            })
+            
+        method_matches = re.finditer(
+            r'\b(public|private|protected|internal|override|static)\s+(?:async\s+)?(?:[a-zA-Z0-9_<>\[\]]+\s+)+([a-zA-Z0-9_]+)\s*\([^)]*\)\s*[\{;]',
+            content
+        )
+        for m in method_matches:
+            method_name = m.group(2)
+            if method_name not in ("if", "for", "foreach", "while", "switch", "using", "catch", "return"):
+                methods.append(method_name)
+
+    elif file_path.endswith(".js"):
+        class_matches = re.finditer(r'\bclass\s+(\w+)', content)
+        for m in class_matches:
+            classes.append({
+                "type": "class",
+                "name": m.group(1)
+            })
+            
+        func_matches = re.finditer(r'\b(?:async\s+)?function\s+(\w+)', content)
+        for m in func_matches:
+            methods.append(m.group(1))
+            
+        arrow_matches = re.finditer(r'\b(?:const|let|var)\s+(\w+)\s*=\s*(?:async\s*)?\([^)]*\)\s*=>', content)
+        for m in arrow_matches:
+            methods.append(m.group(1))
+
+    elif file_path.endswith(".py"):
+        class_matches = re.finditer(r'\bclass\s+(\w+)', content)
+        for m in class_matches:
+            classes.append({
+                "type": "class",
+                "name": m.group(1)
+            })
+            
+        func_matches = re.finditer(r'\bdef\s+(\w+)', content)
+        for m in func_matches:
+            methods.append(m.group(1))
             
     return classes, methods
 
@@ -58,7 +84,7 @@ def build_knowledge_graph(workspace_root):
         "edges": []
     }
     
-    exclude_dirs = {"bin", "obj", ".git", ".vscode", "wwwroot", "node_modules", ".gemini", "IcmWorkspace"}
+    exclude_dirs = {"bin", "obj", ".git", ".vscode", "node_modules", ".gemini", "IcmWorkspace", "lib", "dist", ".wrangler"}
     symbol_to_file = {}
     
     # First pass: Identify all files and scan for declared symbols (Nodes)
@@ -66,7 +92,7 @@ def build_knowledge_graph(workspace_root):
         dirs[:] = [d for d in dirs if d not in exclude_dirs]
         
         for file in files:
-            if file.endswith((".cs", ".cshtml", ".razor")):
+            if file.endswith((".cs", ".cshtml", ".razor", ".js", ".py")):
                 abs_path = os.path.join(root, file)
                 rel_path = os.path.relpath(abs_path, workspace_root)
                 
@@ -76,7 +102,7 @@ def build_knowledge_graph(workspace_root):
                 except Exception:
                     continue
                 
-                classes, methods = parse_csharp_file(rel_path, content)
+                classes, methods = parse_code_file(rel_path, content)
                 
                 node_id = rel_path
                 graph["nodes"][node_id] = {
@@ -84,7 +110,7 @@ def build_knowledge_graph(workspace_root):
                     "type": "file",
                     "path": rel_path,
                     "classes": [c["name"] for c in classes],
-                    "methods": methods
+                    "methods": list(dict.fromkeys(methods))
                 }
                 
                 for c in classes:

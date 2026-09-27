@@ -25,6 +25,7 @@
   });
 
   function draw() {
+    if (document.body && document.body.classList.contains("reading-mode")) return;
     ctx.fillStyle = "rgba(2,12,20,0.052)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.font = fontSize + 'px "Share Tech Mono", monospace';

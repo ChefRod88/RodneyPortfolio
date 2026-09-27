@@ -396,22 +396,42 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
+    const escapeHtml = (str) => {
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    };
+
+    terminalInput.setAttribute('placeholder', "Ask any question about Rodney or type 'help'...");
+
     const commands = {
-      help: () => 'Available commands:<br>' +
-                  ' - <span style="color:var(--c)">about</span>: Summary of Rodney\'s profile<br>' +
-                  ' - <span style="color:var(--c)">skills</span>: Interactive stack listing<br>' +
-                  ' - <span style="color:var(--c)">contact</span>: Business coordinates<br>' +
-                  ' - <span style="color:var(--c)">clear</span>: Wipe terminal buffer<br>' +
-                  ' - <span style="color:var(--c)">status</span>: Node diagnostic details',
-      about: () => 'Rodney Chery is a Software Developer specializing in ASP.NET Core, cloud architectures, and Stripe APIs. Over 3 years of building enterprise-ready platforms.',
-      skills: () => 'Core stack:<br>' +
-                   ' - Language: C# (.NET 10)<br>' +
-                   ' - Web: ASP.NET Core MVC & Razor Pages, Blazor<br>' +
-                   ' - Storage: SQL Server, Entity Framework Core<br>' +
-                   ' - Cloud: AWS, GCP, Azure, GitHub Actions (CI/CD)',
+      help: () => '<strong>Available commands & AI query modes:</strong><br>' +
+                  ' • <span style="color:var(--c)">Ask anything</span>: Type any natural question about Rodney (e.g. <em>"What is Rodney\'s experience with Classic ASP?"</em> or <em>"Tell me about his role at LeadVenture"</em>)<br>' +
+                  ' • <span style="color:var(--c)">about</span>: Summary of Rodney\'s background & credentials<br>' +
+                  ' • <span style="color:var(--c)">skills</span>: Full technical stack breakdown<br>' +
+                  ' • <span style="color:var(--c)">experience</span>: Recent career history & employers<br>' +
+                  ' • <span style="color:var(--c)">contact</span>: Coordinates & direct links<br>' +
+                  ' • <span style="color:var(--c)">clear</span>: Wipe terminal buffer<br>' +
+                  ' • <span style="color:var(--c)">status</span>: Node diagnostic details',
+      about: () => 'Rodney Amos Chery is a Technical Support Specialist III at LeadVenture and Full-Stack Developer with 3+ years of enterprise IT experience. Specializes in Classic ASP/server architecture, C#/.NET, modern JavaScript, Cloudflare, and SLA-driven production support.',
+      skills: () => '<strong>Technical Skillset:</strong><br>' +
+                   ' • <strong>Languages & Web:</strong> JavaScript (ES6+), C#, .NET MAUI, HTML5, CSS3/LESS, Bootstrap, Classic ASP, SQL, SQLite<br>' +
+                   ' • <strong>Cloud & DevOps:</strong> Cloudflare, AWS, Git/GitHub, Dealer Spike CMS, FTP/SFTP, VS Code<br>' +
+                   ' • <strong>Analytics & SEO:</strong> Chrome DevTools, GTM, GA4, Tealium, JSON-LD / Schema.org, Technical SEO<br>' +
+                   ' • <strong>Enterprise:</strong> Salesforce, Jira, Active Directory, Wireshark, Incident Resolution',
+      experience: () => '<strong>Career History:</strong><br>' +
+                        ' • <strong>LeadVenture (June 2026 – Present):</strong> Technical Support Specialist III (Dealer Spike Tier III production support & front-end engineering)<br>' +
+                        ' • <strong>Canon ITS (March 2025 – June 2026):</strong> Technical Support Specialist (Enterprise incident management)<br>' +
+                        ' • <strong>Freelance Full-Stack Developer (2023 – Present):</strong> Custom web platforms & APIs<br>' +
+                        ' • <strong>InCharge Debt Solutions (2022 – 2025):</strong> Client Services Professional (Salesforce CRM & compliance)<br>' +
+                        ' • <strong>New Bethel Baptist Church (2025 – Present):</strong> Minister of Technology',
       contact: () => 'Email: <a href="mailto:rodney@globalrcdev.com" style="color:var(--c);text-decoration:underline;">rodney@globalrcdev.com</a><br>' +
-                     'LinkedIn: <a href="https://www.linkedin.com/in/rodneyachery/" target="_blank" style="color:var(--c);text-decoration:underline;">linkedin.com/in/rodneyachery</a>',
-      status: () => 'DIAGNOSTICS: SYSTEM_ONLINE // CLOUDFLARE_PAGES_ACTIVE // CLIENT_PORTAL_READY // SECURE_SSL_ACTIVE',
+                     'LinkedIn: <a href="https://www.linkedin.com/in/rodneyachery/" target="_blank" style="color:var(--c);text-decoration:underline;">linkedin.com/in/rodneyachery</a><br>' +
+                     'GitHub: <a href="https://github.com/ChefRod88" target="_blank" style="color:var(--c);text-decoration:underline;">github.com/ChefRod88</a>',
+      status: () => 'DIAGNOSTICS: SYSTEM_ONLINE // CLOUDFLARE_EDGE_ACTIVE // AI_NEURAL_UPLINK_READY // SECURE_SSL_ACTIVE',
       clear: () => {
         terminalHistory.innerHTML = '';
         return '';
@@ -420,24 +440,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
     terminalInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
-        const value = terminalInput.value.trim();
+        const rawValue = terminalInput.value.trim();
         terminalInput.value = '';
-        if (!value) return;
+        if (!rawValue) return;
 
-        const cmd = value.toLowerCase();
-        terminalHistory.innerHTML += `<p class="history-cmd">guest@rc-dev:~$ ${value}</p>`;
+        const body = terminalDrawer.querySelector('.terminal-drawer-body');
+        const cmd = rawValue.toLowerCase();
+        terminalHistory.innerHTML += `<p class="history-cmd">guest@rc-dev:~$ ${escapeHtml(rawValue)}</p>`;
 
         if (commands[cmd]) {
           const res = commands[cmd]();
           if (res) {
             terminalHistory.innerHTML += `<p class="history-res">${res}</p>`;
           }
+          body.scrollTop = body.scrollHeight;
         } else {
-          terminalHistory.innerHTML += `<p class="history-res" style="color:#ff4a4a;">RC-SHELL: command not found: '${value}'. Type 'help' for instructions.</p>`;
-        }
+          // Natural language question routed to AI Assistant
+          const thinkingId = 'thinking-' + Date.now();
+          terminalHistory.innerHTML += `<p class="history-res" id="${thinkingId}" style="color:var(--c); font-style:italic;"><span class="terminal-spinner">◐</span> RC-AI // Analyzing resume & generating response...</p>`;
+          body.scrollTop = body.scrollHeight;
 
-        const body = terminalDrawer.querySelector('.terminal-drawer-body');
-        body.scrollTop = body.scrollHeight;
+          fetch('/api/chat', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ message: rawValue })
+          })
+          .then(res => res.json())
+          .then(data => {
+            const el = document.getElementById(thinkingId);
+            if (el) {
+              if (data.ok && data.reply) {
+                el.outerHTML = `<p class="history-res" style="color:var(--white); line-height:1.6;"><span style="color:var(--c); font-weight:700;">[RC-AI]:</span> ${escapeHtml(data.reply)}</p>`;
+              } else {
+                el.outerHTML = `<p class="history-res" style="color:#ff8888;"><span style="color:#ff5555; font-weight:700;">[RC-AI]:</span> ${escapeHtml(data.reply || data.error || 'Unable to process query.')}</p>`;
+              }
+            }
+            body.scrollTop = body.scrollHeight;
+          })
+          .catch(() => {
+            const el = document.getElementById(thinkingId);
+            if (el) {
+              el.outerHTML = `<p class="history-res" style="color:#ff8888;"><span style="color:#ff5555; font-weight:700;">[RC-AI ERROR]:</span> Network error connecting to terminal assistant. Please email rodney@globalrcdev.com directly.</p>`;
+            }
+            body.scrollTop = body.scrollHeight;
+          });
+        }
       }
     });
   }
@@ -448,36 +495,129 @@ document.addEventListener('DOMContentLoaded', () => {
 // ================================
 // WELCOME POPUP
 // ================================
+// FUTURISTIC CYBERNETIC HUD MODAL
+// ================================
 document.addEventListener("DOMContentLoaded", () => {
     initWelcomePopup();
 });
 
 function initWelcomePopup() {
     const storageKey = "rcdev_welcome_dismissed";
-    const thirtyDaysMs = 30 * 24 * 60 * 60 * 1000;
+    const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
     
+    // Developer & Client Demo Bypass (e.g., /?modal=1 or /?preview=modal)
+    let forceModal = false;
     try {
-        const lastDismissed = localStorage.getItem(storageKey);
-        if (lastDismissed) {
-            const timeSince = Date.now() - parseInt(lastDismissed, 10);
-            if (timeSince < thirtyDaysMs) return; // Do not render modal at all
+        const urlParams = new URLSearchParams(window.location.search);
+        forceModal = urlParams.has("modal") || urlParams.has("preview");
+    } catch (e) {}
+
+    if (!forceModal) {
+        // Only trigger automatically on homepage to prevent interrupting deep reading on articles
+        const path = window.location.pathname.replace(/\/$/, "") || "/";
+        if (path !== "/" && path !== "/index.html") {
+            return;
         }
-    } catch (e) {
-        // localStorage not available
+
+        try {
+            const lastDismissed = localStorage.getItem(storageKey);
+            if (lastDismissed) {
+                const timeSince = Date.now() - parseInt(lastDismissed, 10);
+                if (timeSince < sevenDaysMs) return; // Cooldown active
+            }
+        } catch (e) {}
     }
 
-    // Lazy load the HTML
+    // Dynamic latency reading for authentic telemetry
+    const latencyVal = Math.floor(12 + Math.random() * 7);
+
+    // Holographic HUD HTML
     const popupHtml = `
-    <div id="welcomePopup" class="rc-modal-overlay rc-fade" role="dialog" aria-modal="true" aria-labelledby="welcomePopupTitle" tabindex="-1">
-        <div class="rc-modal-content rc-glass">
-            <button id="closeWelcomePopup" class="rc-modal-close" aria-label="Close dialog">&times;</button>
-            <h2 id="welcomePopupTitle" style="color: var(--c); font-family: var(--font-display); margin-top: 0; font-size: 1.8rem; margin-bottom: 1rem;">Welcome to RCDEV</h2>
-            <p>RCDEV builds and manages modern websites, custom applications, cloud infrastructure, and business technology.</p>
-            <p>Our model combines a <strong>one-time implementation</strong> with <strong>ongoing managed services</strong>, giving businesses a dedicated technology partner after launch—not just a completed project.</p>
-            <p>Built for small and growing businesses, professional practices, nonprofits, and organizations that need dependable digital infrastructure and ongoing technical support.</p>
-            <div class="rc-modal-actions" style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
-                <a href="/#services" class="btn btn-outline-dark" id="btnWelcomeServices" style="flex: 1; text-align: center; min-width: 200px;">Explore Our Services</a>
-                <a href="/#quote" class="btn btn-outline-dark" id="btnWelcomeQuote" style="flex: 1; text-align: center; min-width: 200px;">Request a Consultation</a>
+    <div id="welcomePopup" class="rc-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="welcomePopupTitle" tabindex="-1">
+        <div class="rc-hud-modal">
+            <!-- Laser scanline sweep -->
+            <div class="rc-hud-scan-beam"></div>
+
+            <!-- Corner Reticles / HUD Brackets -->
+            <span class="rc-hud-corner tl"></span>
+            <span class="rc-hud-corner tr"></span>
+            <span class="rc-hud-corner bl"></span>
+            <span class="rc-hud-corner br"></span>
+
+            <!-- Telemetry Header Bar -->
+            <div class="rc-hud-telemetry-bar">
+                <div class="rc-hud-status">
+                    <span class="rc-hud-pulse-node"></span>
+                    <span>UPLINK // ESTABLISHED</span>
+                </div>
+                <div class="rc-hud-telemetry-meta">
+                    <span class="rc-hud-chip">4096-BIT QUANTUM</span>
+                    <span class="rc-hud-chip">LATENCY: ${latencyVal}MS</span>
+                    <span class="rc-hud-chip">NODE: TAMPA_FL</span>
+                </div>
+                <button id="closeWelcomePopup" class="rc-hud-close-btn" type="button" aria-label="Terminate interface">
+                    <span>ESC // CLOSE</span>
+                    <span>&times;</span>
+                </button>
+            </div>
+
+            <!-- Main HUD Body -->
+            <div class="rc-hud-body">
+                <div class="rc-hud-subhead">// SYSTEM ANNOUNCEMENT // ARCHITECTURE UPDATE</div>
+                <h2 id="welcomePopupTitle" class="rc-hud-glitch-title">WELCOME TO RC DEV // MANAGED TECH PARTNER</h2>
+                <p class="rc-hud-lede">
+                    We deliver high-performance web applications, cloud infrastructure, and enterprise automation with a continuous managed partnership.
+                </p>
+
+                <!-- Dual-Engine Architecture Matrix Grid -->
+                <div class="rc-hud-grid">
+                    <!-- Module 01 -->
+                    <div class="rc-hud-card">
+                        <div class="rc-hud-card-header">
+                            <span class="rc-module-tag">MOD // 01</span>
+                            <span class="rc-module-title">BESPOKE BUILD</span>
+                        </div>
+                        <p class="rc-hud-card-text">
+                            Full-lifecycle engineering, custom C# .NET solutions, robust API integrations, and zero-downtime deployment pipelines built to enterprise security standards.
+                        </p>
+                        <div class="rc-hud-card-foot">
+                            <span class="rc-hud-badge">ONE-TIME BUILD</span>
+                            <span class="rc-hud-badge">MODERN CLOUD</span>
+                        </div>
+                    </div>
+
+                    <!-- Module 02 -->
+                    <div class="rc-hud-card highlighted">
+                        <div class="rc-hud-card-header">
+                            <span class="rc-module-tag">MOD // 02</span>
+                            <span class="rc-module-title">MANAGED SERVICES</span>
+                        </div>
+                        <p class="rc-hud-card-text">
+                            A dedicated technology partner after launch. Continuous SRE maintenance, SLA incident resolution, security auditing, and on-demand engineering stewardship.
+                        </p>
+                        <div class="rc-hud-card-foot">
+                            <span class="rc-hud-badge active">LIFELONG PARTNER</span>
+                            <span class="rc-hud-badge active">SRE SUPPORT</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mission statement -->
+                <div class="rc-hud-mission">
+                    <span class="rc-hud-mission-icon">❖</span>
+                    <span>Engineered for small and growing businesses, professional practices, and organizations that need dependable digital infrastructure and dedicated technical execution.</span>
+                </div>
+
+                <!-- Action Controls -->
+                <div class="rc-hud-actions">
+                    <a href="/#quote" class="rc-hud-btn primary" id="btnWelcomeQuote">
+                        <span class="btn-text">INITIALIZE CONSULTATION // GET A QUOTE</span>
+                        <span class="btn-arrow">➔</span>
+                    </a>
+                    <a href="/#services" class="rc-hud-btn secondary" id="btnWelcomeServices">
+                        <span class="btn-text">EXPLORE SERVICES</span>
+                    </a>
+                </div>
             </div>
         </div>
     </div>`;
@@ -487,24 +627,59 @@ function initWelcomePopup() {
     const popup = document.getElementById("welcomePopup");
     const closeBtn = document.getElementById("closeWelcomePopup");
     const popupLinks = popup.querySelectorAll("a, button");
+    const titleEl = document.getElementById("welcomePopupTitle");
+
+    // Matrix Glyph Decryption Animation
+    function decodeMatrixText(element, finalText, durationMs) {
+        if (!element) return;
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789アイウエオカキクケコサシスセソタチツテト#@*&%$§";
+        const startTime = performance.now();
+        const length = finalText.length;
+
+        function step(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / durationMs, 1);
+            const resolvedCount = Math.floor(progress * length);
+
+            let scrambled = "";
+            for (let i = 0; i < length; i++) {
+                if (finalText[i] === " " || finalText[i] === "/" || i < resolvedCount) {
+                    scrambled += finalText[i];
+                } else {
+                    scrambled += chars[Math.floor(Math.random() * chars.length)];
+                }
+            }
+            element.textContent = scrambled;
+
+            if (progress < 1) {
+                requestAnimationFrame(step);
+            } else {
+                element.textContent = finalText;
+            }
+        }
+        requestAnimationFrame(step);
+    }
 
     setTimeout(() => {
         popup.classList.add("show");
         popup.focus();
-    }, 800);
+        decodeMatrixText(titleEl, "WELCOME TO RC DEV // MANAGED TECH PARTNER", 500);
+    }, 600);
 
     const dismissPopup = () => {
         popup.classList.remove("show");
-        try {
-            localStorage.setItem(storageKey, Date.now().toString());
-        } catch (e) {}
+        if (!forceModal) {
+            try {
+                localStorage.setItem(storageKey, Date.now().toString());
+            } catch (e) {}
+        }
         
-        // Remove from DOM after fade out
+        // Remove from DOM after transition
         setTimeout(() => {
             if (popup.parentNode) {
                 popup.parentNode.removeChild(popup);
             }
-        }, 300);
+        }, 400);
     };
 
     closeBtn.addEventListener("click", dismissPopup);

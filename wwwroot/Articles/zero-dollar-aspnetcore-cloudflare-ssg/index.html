@@ -90,6 +90,9 @@
 </head>
 
 <body>
+    <script>
+        try { if (localStorage.getItem('rc_article_reader_mode') === 'true') document.body.classList.add('reading-mode'); } catch(e){}
+    </script>
     <!-- MATRIX RAIN CANVAS -->
     <canvas id="rc-matrix"></canvas>
     <div class="rc-vignette"></div>
@@ -118,14 +121,20 @@
 
     <main role="main" class="rc-main">
         <article class="container" style="padding-top: 100px; padding-bottom: 80px; max-width: 860px; opacity: 1 !important; visibility: visible !important; transform: none !important;">
-            <!-- Breadcrumbs -->
-            <nav aria-label="Breadcrumb" style="margin-bottom: 2rem;">
-                <ol style="display: flex; gap: 0.5rem; list-style: none; padding: 0; font-family: var(--font-mono); font-size: 0.8rem; color: rgba(142, 207, 223, 0.7);">
-                    <li><a href="/" style="color: var(--c); text-decoration: none;">Home</a> <span style="margin: 0 0.25rem;">/</span></li>
-                    <li><a href="/Articles" style="color: var(--c); text-decoration: none;">Articles</a> <span style="margin: 0 0.25rem;">/</span></li>
-                    <li aria-current="page" style="color: var(--white); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Zero-Cost ASP.NET Core</li>
-                </ol>
-            </nav>
+            <!-- Breadcrumbs & Reading Controls -->
+            <div class="article-nav-controls" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+                <nav aria-label="Breadcrumb">
+                    <ol style="display: flex; gap: 0.5rem; list-style: none; padding: 0; margin: 0; font-family: var(--font-mono); font-size: 0.8rem; color: rgba(142, 207, 223, 0.7); flex-wrap: wrap; align-items: center;">
+                        <li><a href="/" style="color: var(--c); text-decoration: none;">Home</a> <span style="margin: 0 0.25rem;">/</span></li>
+                        <li><a href="/Articles" style="color: var(--c); text-decoration: none;">Articles</a> <span style="margin: 0 0.25rem;">/</span></li>
+                        <li aria-current="page" style="color: var(--white); overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">Zero-Cost ASP.NET Core</li>
+                    </ol>
+                </nav>
+                <button id="themeToggleBtn" class="rc-reading-toggle" type="button" aria-label="Invert colors for readability" aria-pressed="false" title="Invert colors / Reading Mode">
+                    <span class="toggle-icon">◐</span>
+                    <span class="toggle-text">Invert Colors</span>
+                </button>
+            </div>
 
             <header style="margin-bottom: 2.5rem; border-bottom: 1px solid rgba(0, 212, 255, 0.2); padding-bottom: 2rem;">
                 <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem;">
@@ -240,5 +249,12 @@ for url in extract_urls(root):
     <script src="/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/js/site.js"></script>
     <script src="/js/layout.js"></script>
+    <script src="/js/article-reader.js"></script>
+
+    <!-- FLOATING READING MODE TOGGLE -->
+    <button id="themeToggleBtnFloat" class="rc-reading-toggle rc-reading-toggle-float" type="button" aria-label="Invert colors for readability" aria-pressed="false" title="Invert colors / Reading Mode">
+        <span class="toggle-icon">◐</span>
+        <span class="toggle-text">Invert Colors</span>
+    </button>
 </body>
 </html>

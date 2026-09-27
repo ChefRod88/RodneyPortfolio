@@ -179,3 +179,56 @@ describe("Support handler", () => {
     expect(res.status).toBe(429);
   });
 });
+
+describe("Chat handler", () => {
+  it("rejects empty message", async () => {
+    const env = makeEnv({ OPENAI_API_KEY: "sk-test" });
+    const req = new Request("https://example.com/api/chat", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ message: "   " }),
+    });
+    const res = await worker.fetch(req, env);
+    expect(res.status).toBe(400);
+  });
+
+  it("returns 503 when OPENAI_API_KEY is missing", async () => {
+    const env = makeEnv({ OPENAI_API_KEY: undefined });
+    const req = new Request("https://example.com/api/chat", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ message: "What are your skills?" }),
+    });
+    const res = await worker.fetch(req, env);
+    expect(res.status).toBe(503);
+    const body = await res.json();
+    expect(body.error).toBe("KEY_NOT_CONFIGURED");
+  });
+
+  it("returns 200 with reply when OpenAI API succeeds", async () => {
+    const env = makeEnv({ OPENAI_API_KEY: "sk-test" });
+    global.fetch = vi.fn(async (url) => {
+      if (String(url).includes("api.openai.com")) {
+        return new Response(
+          JSON.stringify({
+            choices: [{ message: { content: "Rodney is a Technical Support Specialist III with hands-on web development experience in C# and JavaScript." } }],
+          }),
+          { status: 200, headers: { "content-type": "application/json" } }
+        );
+      }
+      return new Response("not found", { status: 404 });
+    });
+
+    const req = new Request("https://example.com/api/chat", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ message: "Tell me about Rodney" }),
+    });
+    const res = await worker.fetch(req, env);
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.ok).toBe(true);
+    expect(body.reply).toContain("Rodney");
+  });
+});
+
