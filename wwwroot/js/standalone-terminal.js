@@ -1,4 +1,4 @@
-// Standalone RC-SHELL Terminal Engine with Vector RAG
+// Standalone RC-SHELL Terminal Engine with Vector RAG & Typewriter Animations
 document.addEventListener('DOMContentLoaded', () => {
   const terminalInput = document.getElementById('standaloneTerminalInput');
   const terminalHistory = document.getElementById('standaloneTerminalHistory');
@@ -145,19 +145,124 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Clickable suggested prompt chips
+  // Typewriter simulated input for suggested chips
+  let isTypingIntoInput = false;
   promptChips.forEach(chip => {
     chip.addEventListener('click', () => {
+      if (isTypingIntoInput) return;
       const promptText = chip.getAttribute('data-prompt') || chip.innerText.replace(/^⚡\s*/, '').replace(/^"|"$/g, '').trim();
-      if (promptText) {
-        terminalInput.value = '';
-        executeQuery(promptText);
-        terminalBody.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      if (!promptText) return;
+
+      isTypingIntoInput = true;
+      terminalInput.value = '';
+      terminalInput.focus();
+      terminalBody.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+      let charIdx = 0;
+      function typeChar() {
+        if (charIdx < promptText.length) {
+          terminalInput.value += promptText.charAt(charIdx);
+          charIdx++;
+          setTimeout(typeChar, 14);
+        } else {
+          setTimeout(() => {
+            terminalInput.value = '';
+            executeQuery(promptText);
+            isTypingIntoInput = false;
+          }, 150);
+        }
       }
+      typeChar();
     });
   });
 
-  // Focus input on load
+  // ── INTRO TYPEWRITER GENERATOR ──
+  function initTypewriterIntro() {
+    const textEl = document.getElementById('typewriterText');
+    const cursorEl = document.getElementById('typewriterCursor');
+    const titleEl = document.getElementById('typewriterChipsTitle');
+    const chipsContainer = document.querySelector('.rag-prompt-chips');
+
+    if (!textEl) return;
+
+    const part1 = "Welcome to the dedicated neural terminal for my engineering portfolio. This terminal is powered by an edge-computed Multi-Document Vector RAG engine with 512-dimension embeddings indexing my entire repository — including my C# clean architecture backend, Cloudflare Worker edge routing & rate limiters, Dealer Spike Tier III production widgets, PowerShell automation pipelines, published technical articles, and client agreements.";
+    const part2 = "Feel free to ask me anything about my background, why I implemented specific architectural patterns, or how any code in this repository works!";
+    const part3 = "SUGGESTED TECHNICAL INQUIRIES (CLICK TO RUN):";
+
+    let i = 0;
+    let currentStage = 1;
+    let isFastForwarded = false;
+
+    function fastForward() {
+      if (isFastForwarded) return;
+      isFastForwarded = true;
+      textEl.innerHTML = part1 + '<br><br>' + part2;
+      if (titleEl) titleEl.innerText = part3;
+      if (cursorEl) cursorEl.style.display = 'none';
+      if (chipsContainer) chipsContainer.classList.add('visible');
+    }
+
+    const heroCard = document.querySelector('.rag-hero-card');
+    if (heroCard) {
+      heroCard.addEventListener('click', (e) => {
+        if (!e.target.closest('.rag-prompt-chip')) {
+          fastForward();
+        }
+      });
+    }
+
+    function typeNext() {
+      if (isFastForwarded) return;
+
+      if (currentStage === 1) {
+        if (i < part1.length) {
+          textEl.textContent += part1.charAt(i);
+          i++;
+          let delay = 9;
+          const char = part1.charAt(i - 1);
+          if (char === '.' || char === '—') delay = 90;
+          else if (char === ',') delay = 45;
+          setTimeout(typeNext, delay);
+        } else {
+          currentStage = 2;
+          i = 0;
+          textEl.innerHTML += '<br><br>';
+          setTimeout(typeNext, 180);
+        }
+      } else if (currentStage === 2) {
+        if (i < part2.length) {
+          textEl.innerHTML += part2.charAt(i);
+          i++;
+          let delay = 9;
+          const char = part2.charAt(i - 1);
+          if (char === '.' || char === '!') delay = 110;
+          else if (char === ',') delay = 45;
+          setTimeout(typeNext, delay);
+        } else {
+          currentStage = 3;
+          i = 0;
+          if (cursorEl) cursorEl.style.display = 'none';
+          setTimeout(typeNext, 160);
+        }
+      } else if (currentStage === 3) {
+        if (titleEl && i < part3.length) {
+          titleEl.textContent += part3.charAt(i);
+          i++;
+          setTimeout(typeNext, 12);
+        } else {
+          if (chipsContainer) {
+            chipsContainer.classList.add('visible');
+          }
+        }
+      }
+    }
+
+    setTimeout(typeNext, 250);
+  }
+
+  initTypewriterIntro();
+
+  // Focus terminal input
   setTimeout(() => {
     terminalInput.focus();
   }, 200);

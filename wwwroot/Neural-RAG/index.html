@@ -179,10 +179,29 @@
             margin-bottom: 0.6rem;
         }
 
+        .typewriter-cursor {
+            display: inline-block;
+            color: var(--c);
+            font-weight: 700;
+            margin-left: 2px;
+            animation: blink-cursor 0.75s infinite step-start;
+        }
+
+        @keyframes blink-cursor {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
         .rag-prompt-chips {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .rag-prompt-chips.visible {
+            opacity: 1;
         }
 
         @media (max-width: 900px) {
@@ -389,14 +408,14 @@
             <div class="rag-intro-content">
                 <div class="rag-tagline-badge">&gt;_ REPOSITORY &amp; ARCHITECTURE INTELLIGENCE</div>
                 <h1 class="rag-headline">Hello, I'm Rodney. <span>Ask My Codebase Anything.</span></h1>
-                <p class="rag-bio-text">
-                    Welcome to the dedicated neural terminal for my engineering portfolio. This terminal is powered by an edge-computed <strong>Multi-Document Vector RAG engine</strong> with 512-dimension embeddings indexing my entire repository — including my C# clean architecture backend, Cloudflare Worker edge routing &amp; rate limiters, Dealer Spike Tier III production widgets, PowerShell automation pipelines, published technical articles, and client agreements.
-                    <br><br>
-                    Feel free to ask me anything about my background, why I implemented specific architectural patterns, or how any code in this repository works!
+                <p class="rag-bio-text" id="ragBioContainer">
+                    <span id="typewriterText"></span><span class="typewriter-cursor" id="typewriterCursor">|</span>
                 </p>
 
                 <!-- Suggested Query Chips -->
-                <div class="rag-chips-title">SUGGESTED TECHNICAL INQUIRIES (CLICK TO RUN):</div>
+                <div class="rag-chips-title" id="ragChipsTitle">
+                    <span id="typewriterChipsTitle"></span>
+                </div>
                 <div class="rag-prompt-chips">
                     <button type="button" class="rag-prompt-chip" data-prompt="How does your Cloudflare Worker rate limiting and input sanitization work?">⚡ "Cloudflare Worker rate limiting &amp; sanitization"</button>
                     <button type="button" class="rag-prompt-chip" data-prompt="How did you build the WinSCP PowerShell automated support workflow?">⚡ "WinSCP PowerShell automation workflow"</button>
