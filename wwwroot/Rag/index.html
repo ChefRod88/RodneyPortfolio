@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GFRJYMRHKM"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-GFRJYMRHKM');
+    </script>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>RC-SHELL Neural RAG | Interactive Codebase & Portfolio Terminal | Rodney Chery</title>
+    <meta name="description" content="Interactive AI terminal powered by Edge Multi-Document Vector RAG. Ask questions about Rodney Chery's background, C# services, Cloudflare Worker architecture, and full codebase." />
+    <link rel="canonical" href="https://www.rodneyachery.com/Neural-RAG" />
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="RC-SHELL Neural RAG | Interactive Codebase Terminal" />
+    <meta property="og:description" content="Ask Rodney Chery's codebase anything: C# architecture, Cloudflare Worker edge middleware, automation scripts, and technical articles." />
+    <meta property="og:image" content="https://www.rodneyachery.com/assets/images/rodney-chery-social-card.webp" />
+    <meta property="og:url" content="https://www.rodneyachery.com/Neural-RAG" />
+
+    <!-- PWA -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#020c14" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="RC-SHELL RAG" />
+    <link rel="apple-touch-icon" href="/assets/images/icon-192.png" />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;900&family=Share+Tech+Mono&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/site.css?v=20260927" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <style>
+        .rag-page-container {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.25rem 4rem;
+        }
+
+        /* Top Hero Card */
+        .rag-hero-card {
+            background: rgba(2, 12, 20, 0.85);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 2rem;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), var(--glow-sm);
+            margin-bottom: 2.5rem;
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        @media (max-width: 900px) {
+            .rag-hero-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Profile Left Column */
+        .rag-profile-wrapper {
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .rag-avatar-frame {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            border-radius: 16px;
+            padding: 6px;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.8), rgba(0, 136, 187, 0.2));
+            box-shadow: 0 0 24px rgba(0, 212, 255, 0.35);
+        }
+
+        .rag-avatar-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+        }
+
+        .rag-avatar-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(0, 255, 170, 0.12);
+            border: 1px solid #00ffaa;
+            color: #00ffaa;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.05em;
+        }
+
+        .rag-avatar-badge::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #00ffaa;
+            box-shadow: 0 0 8px #00ffaa;
+            animation: pulse-dot 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.85); }
+        }
+
+        /* Intro Right Column */
+        .rag-intro-content {
+            flex: 1;
+        }
+
+        .rag-tagline-badge {
+            display: inline-block;
+            color: var(--c);
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            background: rgba(0, 212, 255, 0.08);
+            border: 1px solid rgba(0, 212, 255, 0.25);
+            padding: 4px 12px;
+            border-radius: 4px;
+        }
+
+        .rag-headline {
+            font-family: var(--font-display);
+            font-size: 1.85rem;
+            font-weight: 700;
+            color: var(--white);
+            line-height: 1.3;
+            margin-bottom: 1rem;
+        }
+
+        .rag-headline span {
+            color: var(--c);
+            text-shadow: 0 0 16px rgba(0, 212, 255, 0.5);
+        }
+
+        .rag-bio-text {
+            color: var(--text);
+            font-size: 1.05rem;
+            line-height: 1.65;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Suggested Prompts */
+        .rag-chips-title {
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            color: rgba(142, 207, 223, 0.8);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.6rem;
+        }
+
+        .rag-prompt-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 900px) {
+            .rag-prompt-chips {
+                justify-content: center;
+            }
+        }
+
+        .rag-prompt-chip {
+            background: rgba(0, 212, 255, 0.06);
+            border: 1px solid rgba(0, 212, 255, 0.28);
+            color: var(--white);
+            font-family: var(--font-mono);
+            font-size: 0.78rem;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            text-align: left;
+        }
+
+        .rag-prompt-chip:hover {
+            background: rgba(0, 212, 255, 0.18);
+            border-color: var(--c);
+            color: var(--c);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        /* Standalone Terminal Window */
+        .standalone-terminal-card {
+            background: rgba(1, 8, 16, 0.98);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.9), var(--glow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 580px;
+            position: relative;
+        }
+
+        .standalone-terminal-header {
+            background: var(--dark);
+            border-bottom: 1px solid var(--border);
+            padding: 10px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            color: var(--text);
+            user-select: none;
+        }
+
+        .standalone-terminal-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: var(--white);
+            letter-spacing: 0.05em;
+        }
+
+        .standalone-terminal-title::before {
+            content: "";
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            background: #00ff66;
+            box-shadow: 0 0 10px #00ff66;
+        }
+
+        .standalone-terminal-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .terminal-header-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border);
+            color: var(--c);
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .terminal-header-btn:hover {
+            background: var(--c3);
+            border-color: var(--c);
+            color: var(--white);
+        }
+
+        .standalone-terminal-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            line-height: 1.6;
+            color: var(--white);
+            background: radial-gradient(circle at 50% 50%, rgba(0, 32, 56, 0.2) 0%, rgba(1, 8, 16, 0.95) 100%);
+        }
+
+        .standalone-terminal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .standalone-terminal-body::-webkit-scrollbar-track {
+            background: rgba(1, 8, 16, 0.6);
+        }
+
+        .standalone-terminal-body::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 4px;
+        }
+
+        .standalone-terminal-body::-webkit-scrollbar-thumb:hover {
+            background: var(--c);
+        }
+
+        .standalone-input-line {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 14px;
+            padding-top: 8px;
+            border-top: 1px dashed rgba(0, 212, 255, 0.15);
+        }
+
+        .standalone-input-line .prompt {
+            color: var(--c);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .standalone-input-line input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--white);
+            font-family: var(--font-mono);
+            font-size: 0.92rem;
+            caret-color: var(--c);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- CANVAS MATRIX BACKGROUND -->
+    <canvas id="rc-matrix"></canvas>
+    <div class="rc-vignette"></div>
+
+    <!-- MAIN NAVBAR -->
+    <nav id="hamburger-nav">
+        <a href="/" class="logo" style="text-decoration:none;">RC<span>//</span>DEV</a>
+        <div class="hamburger-menu">
+            <div class="hamburger-icon" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+            <div class="menu-links">
+                <ul>
+                    <li><a href="/#about"        onclick="toggleMenu()">About</a></li>
+                    <li><a href="/#services"     onclick="toggleMenu()">Services</a></li>
+                    <li><a href="/Projects"      onclick="toggleMenu()">Projects</a></li>
+                    <li><a href="/Articles"      onclick="toggleMenu()">Articles</a></li>
+                    <li><a href="/Neural-RAG"    onclick="toggleMenu()" style="color:var(--c); font-weight:700;">&gt;_ Neural RAG</a></li>
+                    <li><a href="/Faq"          onclick="toggleMenu()" class="rc-nav-faq">FAQ &amp; Standards</a></li>
+                    <li><a href="/#quote"        onclick="toggleMenu()" class="rc-nav-cta">Get a Quote</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ACCESSIBLE READING TOGGLE -->
+    <div style="max-width: 1200px; width: 100%; margin: 0 auto; padding: 0.5rem 1.25rem; text-align: right; box-sizing: border-box; position: relative; z-index: 10;">
+        <button id="themeToggleBtn" class="rc-reading-toggle" type="button" onclick="window.toggleReadingMode &amp;&amp; window.toggleReadingMode()" aria-label="Invert colors for readability" aria-pressed="false" title="Invert colors / Reading Mode">
+            <span class="toggle-icon">◐</span>
+            <span class="toggle-text">Invert Colors</span>
+        </button>
+    </div>
+
+    <!-- MAIN PAGE CONTAINER -->
+    <main class="rag-page-container">
+
+        <!-- HERO INTRODUCTION CARD -->
+        <section class="rag-hero-card">
+            <!-- Left: Rodney's Photo & Telemetry -->
+            <div class="rag-profile-wrapper">
+                <div class="rag-avatar-frame">
+                    <img src="/assets/images/rodney-chery-hero.webp" alt="Rodney Amos Chery — Full-Stack Developer & Technical Support Specialist III" width="400" height="400" fetchpriority="high" />
+                </div>
+                <div class="rag-avatar-badge">ONLINE // 32 CHUNKS LOADED</div>
+            </div>
+
+            <!-- Right: Introduction & Prompt Chips -->
+            <div class="rag-intro-content">
+                <div class="rag-tagline-badge">&gt;_ REPOSITORY &amp; ARCHITECTURE INTELLIGENCE</div>
+                <h1 class="rag-headline">Hello, I'm Rodney. <span>Ask My Codebase Anything.</span></h1>
+                <p class="rag-bio-text">
+                    Welcome to the dedicated neural terminal for my engineering portfolio. This terminal is powered by an edge-computed <strong>Multi-Document Vector RAG engine</strong> with 512-dimension embeddings indexing my entire repository — including my C# clean architecture backend, Cloudflare Worker edge routing &amp; rate limiters, Dealer Spike Tier III production widgets, PowerShell automation pipelines, published technical articles, and client agreements.
+                    <br><br>
+                    Feel free to ask me anything about my background, why I implemented specific architectural patterns, or how any code in this repository works!
+                </p>
+
+                <!-- Suggested Query Chips -->
+                <div class="rag-chips-title">SUGGESTED TECHNICAL INQUIRIES (CLICK TO RUN):</div>
+                <div class="rag-prompt-chips">
+                    <button type="button" class="rag-prompt-chip" data-prompt="How does your Cloudflare Worker rate limiting and input sanitization work?">⚡ "Cloudflare Worker rate limiting &amp; sanitization"</button>
+                    <button type="button" class="rag-prompt-chip" data-prompt="How did you build the WinSCP PowerShell automated support workflow?">⚡ "WinSCP PowerShell automation workflow"</button>
+                    <button type="button" class="rag-prompt-chip" data-prompt="How are C# unit tests verifying content filtering and boundary words?">⚡ "C# unit testing &amp; boundary filters"</button>
+                    <button type="button" class="rag-prompt-chip" data-prompt="What is your 50% deposit and project milestone payment policy?">⚡ "50% deposit &amp; milestone policy"</button>
+                    <button type="button" class="rag-prompt-chip" data-prompt="Tell me about your Dealer Spike Tier III production support role at LeadVenture">⚡ "Dealer Spike Tier III support role"</button>
+                    <button type="button" class="rag-prompt-chip" data-prompt="Where is the reading mode or theme toggle implemented in JavaScript?">⚡ "Reading mode &amp; theme inverter code"</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- STANDALONE INTERACTIVE TERMINAL -->
+        <section class="standalone-terminal-card" aria-label="RC-SHELL Terminal Emulator">
+            <!-- Terminal Header -->
+            <div class="standalone-terminal-header">
+                <div class="standalone-terminal-title">
+                    <span>RC-SHELL v1.0.4 // MAIN_DIAGNOSTICS [STANDALONE_NEURAL_UPLINK]</span>
+                </div>
+                <div class="standalone-terminal-actions">
+                    <button type="button" class="terminal-header-btn" id="terminalHelpBtn">HELP</button>
+                    <button type="button" class="terminal-header-btn" id="terminalClearBtn">CLEAR</button>
+                </div>
+            </div>
+
+            <!-- Terminal Output Body -->
+            <div class="standalone-terminal-body" id="standaloneTerminalBody">
+                <div class="terminal-history" id="standaloneTerminalHistory">
+                    <p style="color:var(--c); font-weight:700; margin-bottom:12px;">
+                        ================================================================================<br>
+                        &gt; RC-SHELL v1.0.4 [Version 1.0.4.512] — STANDALONE REPOSITORY TERMINAL<br>
+                        &gt; (c) 2026 Rodney Amos Chery / RC DEV LLC. All rights reserved.<br>
+                        ================================================================================
+                    </p>
+                    <p style="color:var(--text); line-height:1.6; margin-bottom:14px;">
+                        [SYSTEM] Neural Vector RAG Engine initialized at Cloudflare global edge.<br>
+                        [INDEX]  32 Document &amp; Code Chunks indexed (OpenAI text-embedding-3-small @ 512D).<br>
+                        [SCOPE]  Full repository: C# Services, Worker Middleware, DOM Widgets, Automation, SLAs.<br>
+                        <br>
+                        Type <span style="color:var(--c); font-weight:700;">help</span> for built-in diagnostic commands, or type ANY question about Rodney or his code!
+                    </p>
+                </div>
+
+                <!-- Input Line -->
+                <div class="standalone-input-line">
+                    <span class="prompt">guest@rc-dev:~$</span>
+                    <input type="text" id="standaloneTerminalInput" placeholder="Ask any question about Rodney's code or type 'help'..." autocomplete="off" spellcheck="false" aria-label="RC-SHELL Command Input" />
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-bottom" style="margin-top:2rem; border-top:1px solid var(--border); padding-top:1.5rem; text-align:center; font-family:var(--font-mono); font-size:0.8rem; color:var(--text);">
+            <p>&copy; 2026 Rodney Amos Chery &bull; RC DEV LLC &bull; <a href="https://github.com/ChefRod88" target="_blank" rel="noopener noreferrer" style="color:var(--c);">GitHub</a> &bull; <a href="https://linkedin.com/in/rodneyachery" target="_blank" rel="noopener noreferrer" style="color:var(--c);">LinkedIn</a> &bull; <a href="mailto:rodney@globalrcdev.com" style="color:var(--c);">rodney@globalrcdev.com</a></p>
+        </div>
+    </footer>
+
+    <!-- SCRIPTS -->
+    <script src="/js/layout.js"></script>
+    <script src="/js/standalone-terminal.js"></script>
+    <script>
+      function toggleMenu() {
+        const menu = document.querySelector(".menu-links");
+        const icon = document.querySelector(".hamburger-icon");
+        if (menu && icon) {
+          menu.classList.toggle("open");
+          icon.classList.toggle("open");
+        }
+      }
+    </script>
+</body>
+</html>
