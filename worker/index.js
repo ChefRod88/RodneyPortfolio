@@ -315,7 +315,16 @@ async function handleChat(request, env, ip) {
     });
   }
 
-  if (!env.OPENAI_API_KEY) {
+  const apiKey = (
+    env.OPENAI_API_KEY ||
+    env.OPENAPI_API_KEY ||
+    env.OPENAI_KEY ||
+    env.OPEN_AI_API_KEY ||
+    env.OPEN_API_KEY ||
+    ""
+  ).trim();
+
+  if (!apiKey) {
     return jsonResponse(503, {
       ok: false,
       error: "KEY_NOT_CONFIGURED",
@@ -328,7 +337,7 @@ async function handleChat(request, env, ip) {
       method: "POST",
       headers: {
         "content-type": "application/json",
-        "authorization": `Bearer ${env.OPENAI_API_KEY.trim()}`,
+        "authorization": `Bearer ${apiKey}`,
       },
       body: JSON.stringify({
         model: "gpt-4o-mini",
