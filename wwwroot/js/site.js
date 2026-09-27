@@ -334,7 +334,7 @@ function initJobMatch() {
 function registerServiceWorker() {
   if (!("serviceWorker" in navigator)) return;
 
-  const migrateKey = "rodney-portfolio-sw-v2";
+  const migrateKey = "rodney-portfolio-sw-v3";
 
   navigator.serviceWorker
     .getRegistrations()

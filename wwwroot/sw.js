@@ -2,7 +2,7 @@
 // Network-first for CSS/JS (fingerprinted URLs change on deploy).
 // Only caches the offline shell (/) — not unversioned /css/site.css paths.
 
-const CACHE_NAME = 'rodney-portfolio-v2';
+const CACHE_NAME = 'rodney-portfolio-v3';
 
 // Fingerprinted static assets (asp-append-version / MapStaticAssets) — do not intercept.
 function isFingerprintedAsset(pathname) {

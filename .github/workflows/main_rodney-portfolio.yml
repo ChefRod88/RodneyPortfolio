@@ -47,3 +47,12 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           wranglerVersion: 'latest'
+
+      - name: Sync OpenAI API Key to Cloudflare Worker
+        if: env.HAS_OPENAI_KEY != ''
+        env:
+          HAS_OPENAI_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          echo "$HAS_OPENAI_KEY" | npx wrangler secret put OPENAI_API_KEY --name rodneyportfolio
+
