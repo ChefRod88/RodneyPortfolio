@@ -48,11 +48,4 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           wranglerVersion: 'latest'
 
-      - name: Sync OpenAI API Key to Cloudflare Worker
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-        run: |
-          KEY=$(echo -n "c2stcHJvai1sa2RIT1JnMWczbzZwLXByd20xaVVHRHhDd0JybGVQUFAxb0swUHlObmFNMktJYnNCbWY4NnN4aFlDd244Y216SE8xZU1WSjA5eFQzQmxia0ZKbEhhV3g5MHljUm1GS25qLUluUWtucTJEcWEzSUVIbWJLZVVyVGFfX0JyS290QzhCQ2NCWk5TbFp2WlNucEtQR3pUTXlDOEtVSUE=" | base64 -d)
-          echo "$KEY" | npx wrangler secret put OPENAI_API_KEY --name rodneyportfolio
-
 
