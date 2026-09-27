@@ -498,11 +498,13 @@ document.addEventListener('DOMContentLoaded', () => {
 // FUTURISTIC CYBERNETIC HUD MODAL
 // ================================
 document.addEventListener("DOMContentLoaded", () => {
-    initWelcomePopup();
+    // Welcome popup modal is currently disabled per user request
+    // initWelcomePopup();
 });
 
 function initWelcomePopup() {
-    const storageKey = "rcdev_welcome_dismissed";
+    // Popup modal disabled
+    return;
     const sevenDaysMs = 7 * 24 * 60 * 60 * 1000;
     
     // Developer & Client Demo Bypass (e.g., /?modal=1 or /?preview=modal)
