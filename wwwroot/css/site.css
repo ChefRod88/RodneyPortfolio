@@ -3383,6 +3383,7 @@ article, .article-body {
    High-contrast, paper-like reading theme for blog articles
    ============================================================ */
 
+html.reading-mode,
 body.reading-mode {
   background: #f8fafc !important;
   color: #1e293b !important;
@@ -3390,8 +3391,11 @@ body.reading-mode {
 }
 
 /* Suppress matrix rain & visual effects in reading mode */
+html.reading-mode #rc-matrix,
 body.reading-mode #rc-matrix,
+html.reading-mode .rc-vignette,
 body.reading-mode .rc-vignette,
+html.reading-mode .rc-scanlines,
 body.reading-mode .rc-scanlines {
   display: none !important;
 }
@@ -3507,17 +3511,29 @@ body.reading-mode article h4 {
 body.reading-mode .article-body p,
 body.reading-mode .article-body li,
 body.reading-mode article p,
-body.reading-mode article li {
+body.reading-mode article li,
+body.reading-mode .rc-glass p,
+body.reading-mode .rc-glass li,
+body.reading-mode .rc-service-card p {
   color: #334155 !important;
   line-height: 1.8 !important;
 }
 body.reading-mode .article-body strong,
-body.reading-mode article strong {
+body.reading-mode article strong,
+body.reading-mode .rc-glass strong {
   color: #0f172a !important;
 }
 body.reading-mode .article-body a,
-body.reading-mode article a:not(.btn):not(.logo) {
+body.reading-mode article a:not(.btn):not(.logo),
+body.reading-mode .rc-glass a:not(.btn):not(.logo),
+body.reading-mode .rc-service-card a {
   color: #0284c7 !important;
+}
+body.reading-mode .rc-service-card {
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05) !important;
+  color: #1e293b !important;
 }
 
 /* Code Blocks in reading mode */
