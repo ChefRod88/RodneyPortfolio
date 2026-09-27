@@ -405,14 +405,29 @@ document.addEventListener('DOMContentLoaded', () => {
         .replace(/'/g, '&#039;');
     };
 
+    const renderTerminalMarkdown = (str) => {
+      let safe = escapeHtml(str);
+      // Convert markdown links [text](url) where url starts with / or http/https
+      safe = safe.replace(/\[([^\]]+)\]\(((\/|https?:\/\/)[^\s\)]+)\)/g, (match, text, url) => {
+        const isExternal = url.startsWith('http');
+        const targetAttr = isExternal ? ' target="_blank" rel="noopener noreferrer"' : '';
+        return `<a href="${url}"${targetAttr} style="color:var(--c);text-decoration:underline;font-weight:600;">${text}</a>`;
+      });
+      // Convert bold **text**
+      safe = safe.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+      return safe;
+    };
+
     terminalInput.setAttribute('placeholder', "Ask any question about Rodney or type 'help'...");
 
     const commands = {
       help: () => '<strong>Available commands & AI query modes:</strong><br>' +
-                  ' • <span style="color:var(--c)">Ask anything</span>: Type any natural question about Rodney (e.g. <em>"What is Rodney\'s experience with Classic ASP?"</em> or <em>"Tell me about his role at LeadVenture"</em>)<br>' +
+                  ' • <span style="color:var(--c)">Ask anything</span>: Type any natural question about Rodney (e.g. <em>"How does his WinSCP automation work?"</em> or <em>"Tell me about his articles"</em>)<br>' +
                   ' • <span style="color:var(--c)">about</span>: Summary of Rodney\'s background & credentials<br>' +
                   ' • <span style="color:var(--c)">skills</span>: Full technical stack breakdown<br>' +
                   ' • <span style="color:var(--c)">experience</span>: Recent career history & employers<br>' +
+                  ' • <span style="color:var(--c)">articles</span>: Published technical engineering deep-dives<br>' +
+                  ' • <span style="color:var(--c)">projects</span>: Key production systems & tools<br>' +
                   ' • <span style="color:var(--c)">contact</span>: Coordinates & direct links<br>' +
                   ' • <span style="color:var(--c)">clear</span>: Wipe terminal buffer<br>' +
                   ' • <span style="color:var(--c)">status</span>: Node diagnostic details',
@@ -428,10 +443,17 @@ document.addEventListener('DOMContentLoaded', () => {
                         ' • <strong>Freelance Full-Stack Developer (2023 – Present):</strong> Custom web platforms & APIs<br>' +
                         ' • <strong>InCharge Debt Solutions (2022 – 2025):</strong> Client Services Professional (Salesforce CRM & compliance)<br>' +
                         ' • <strong>New Bethel Baptist Church (2025 – Present):</strong> Minister of Technology',
+      articles: () => '<strong>Published Engineering Articles:</strong><br>' +
+                      ' • <a href="/Articles/ai-assisted-support-engineering-workflow" style="color:var(--c);text-decoration:underline;font-weight:600;">How I Built an AI-Assisted Support Engineering Workflow</a> (PowerShell, WinSCP, ICM, Trust boundaries)<br>' +
+                      ' • <a href="/Articles/zero-cost-aspnet-core-markdown-blog" style="color:var(--c);text-decoration:underline;font-weight:600;">Zero-Cost ASP.NET Core: Building a Markdown Blog on Cloudflare Pages</a> (Markdig, SSG crawler, SEO)',
+      projects: () => '<strong>Key Engineering Projects:</strong><br>' +
+                      ' • <strong>Dealer Spike Integration Widgets:</strong> Production pricing calculators, dynamic inventory filters & CTAs<br>' +
+                      ' • <strong>C# / .NET RESTful APIs:</strong> Clean architecture backend services deployed with CI/CD<br>' +
+                      ' • <strong>Cybernetic Portfolio HUD:</strong> High-performance, zero-latency Cloudflare Edge site with Multi-Document Vector RAG',
       contact: () => 'Email: <a href="mailto:rodney@globalrcdev.com" style="color:var(--c);text-decoration:underline;">rodney@globalrcdev.com</a><br>' +
                      'LinkedIn: <a href="https://www.linkedin.com/in/rodneyachery/" target="_blank" style="color:var(--c);text-decoration:underline;">linkedin.com/in/rodneyachery</a><br>' +
                      'GitHub: <a href="https://github.com/ChefRod88" target="_blank" style="color:var(--c);text-decoration:underline;">github.com/ChefRod88</a>',
-      status: () => 'DIAGNOSTICS: SYSTEM_ONLINE // CLOUDFLARE_EDGE_ACTIVE // AI_NEURAL_UPLINK_READY // SECURE_SSL_ACTIVE',
+      status: () => 'DIAGNOSTICS: SYSTEM_ONLINE // CLOUDFLARE_EDGE_ACTIVE // MULTI_DOC_VECTOR_RAG_ENABLED // SECURE_SSL_ACTIVE',
       clear: () => {
         terminalHistory.innerHTML = '';
         return '';
@@ -457,7 +479,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           // Natural language question routed to AI Assistant
           const thinkingId = 'thinking-' + Date.now();
-          terminalHistory.innerHTML += `<p class="history-res" id="${thinkingId}" style="color:var(--c); font-style:italic;"><span class="terminal-spinner">◐</span> RC-AI // Analyzing resume & generating response...</p>`;
+          terminalHistory.innerHTML += `<p class="history-res" id="${thinkingId}" style="color:var(--c); font-style:italic;"><span class="terminal-spinner">◐</span> RC-AI // Vector RAG search & neural synthesis...</p>`;
           body.scrollTop = body.scrollHeight;
 
           fetch('/api/chat', {
@@ -470,9 +492,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const el = document.getElementById(thinkingId);
             if (el) {
               if (data.ok && data.reply) {
-                el.outerHTML = `<p class="history-res" style="color:var(--white); line-height:1.6;"><span style="color:var(--c); font-weight:700;">[RC-AI]:</span> ${escapeHtml(data.reply)}</p>`;
+                el.outerHTML = `<p class="history-res" style="color:var(--white); line-height:1.6;"><span style="color:var(--c); font-weight:700;">[RC-AI]:</span> ${renderTerminalMarkdown(data.reply)}</p>`;
               } else {
-                el.outerHTML = `<p class="history-res" style="color:#ff8888;"><span style="color:#ff5555; font-weight:700;">[RC-AI]:</span> ${escapeHtml(data.reply || data.error || 'Unable to process query.')}</p>`;
+                el.outerHTML = `<p class="history-res" style="color:#ff8888;"><span style="color:#ff5555; font-weight:700;">[RC-AI]:</span> ${renderTerminalMarkdown(data.reply || data.error || 'Unable to process query.')}</p>`;
               }
             }
             body.scrollTop = body.scrollHeight;

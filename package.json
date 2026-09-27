@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "wrangler dev --port 8787 --ip 0.0.0.0",
     "test:js": "vitest run"

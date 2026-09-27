@@ -205,13 +205,35 @@ describe("Chat handler", () => {
     expect(body.error).toBe("KEY_NOT_CONFIGURED");
   });
 
-  it("returns 200 with reply when OpenAI API succeeds", async () => {
+  it("performs vector RAG retrieval and returns 200 with reply and sources", async () => {
     const env = makeEnv({ OPENAI_API_KEY: "sk-test" });
-    global.fetch = vi.fn(async (url) => {
-      if (String(url).includes("api.openai.com")) {
+    let capturedPrompt = "";
+
+    global.fetch = vi.fn(async (url, opts) => {
+      const urlStr = String(url);
+      if (urlStr.includes("api.openai.com/v1/embeddings")) {
+        // Return a mock 512-dimension unit vector
+        const mockVec = new Array(512).fill(0.04419);
         return new Response(
           JSON.stringify({
-            choices: [{ message: { content: "Rodney is a Technical Support Specialist III with hands-on web development experience in C# and JavaScript." } }],
+            data: [{ embedding: mockVec }],
+          }),
+          { status: 200, headers: { "content-type": "application/json" } }
+        );
+      }
+      if (urlStr.includes("api.openai.com/v1/chat/completions")) {
+        const body = JSON.parse(opts.body);
+        capturedPrompt = body.messages[0].content;
+        return new Response(
+          JSON.stringify({
+            choices: [
+              {
+                message: {
+                  content:
+                    "Rodney is a Technical Support Specialist III at LeadVenture. He also authored [AI-Assisted Support Engineering Workflow](/Articles/ai-assisted-support-engineering-workflow).",
+                },
+              },
+            ],
           }),
           { status: 200, headers: { "content-type": "application/json" } }
         );
@@ -222,7 +244,48 @@ describe("Chat handler", () => {
     const req = new Request("https://example.com/api/chat", {
       method: "POST",
       headers: { "content-type": "application/json" },
-      body: JSON.stringify({ message: "Tell me about Rodney" }),
+      body: JSON.stringify({ message: "Tell me about Rodney's articles and experience" }),
+    });
+    const res = await worker.fetch(req, env);
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body.ok).toBe(true);
+    expect(body.reply).toContain("Rodney");
+    expect(body.sources).toBeDefined();
+    expect(Array.isArray(body.sources)).toBe(true);
+    expect(body.sources.length).toBeGreaterThan(0);
+    expect(capturedPrompt).toContain("RETRIEVED MULTI-DOCUMENT KNOWLEDGE (VECTOR MATCH)");
+  });
+
+  it("gracefully falls back to baseline resume when embedding API fails", async () => {
+    const env = makeEnv({ OPENAI_API_KEY: "sk-test" });
+
+    global.fetch = vi.fn(async (url) => {
+      const urlStr = String(url);
+      if (urlStr.includes("api.openai.com/v1/embeddings")) {
+        return new Response("OpenAI embeddings quota exceeded", { status: 429 });
+      }
+      if (urlStr.includes("api.openai.com/v1/chat/completions")) {
+        return new Response(
+          JSON.stringify({
+            choices: [
+              {
+                message: {
+                  content: "Rodney is an enterprise technical support specialist and full-stack developer.",
+                },
+              },
+            ],
+          }),
+          { status: 200, headers: { "content-type": "application/json" } }
+        );
+      }
+      return new Response("not found", { status: 404 });
+    });
+
+    const req = new Request("https://example.com/api/chat", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ message: "What certifications does Rodney hold?" }),
     });
     const res = await worker.fetch(req, env);
     expect(res.status).toBe(200);

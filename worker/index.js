@@ -2,6 +2,7 @@
 // longer reach now that the ASP.NET backend only runs at build time (see
 // docs/migration/azure-to-cloudflare.md). Everything else falls through to
 // the static assets, unchanged.
+import { getQueryEmbedding, retrieveRelevantChunks, formatRagContext } from "./rag.js";
 
 const JSON_HEADERS = { "content-type": "application/json" };
 
@@ -276,18 +277,17 @@ PROFESSIONAL EXPERIENCE:
    - Translates non-technical requirements from church leadership into working web features — planning, building, testing, and deploying updates.
 `;
 
-const CHAT_SYSTEM_PROMPT = `You are the interactive AI terminal assistant for Rodney Amos Chery's official developer portfolio (rodneyachery.com / RC DEV).
-Your purpose is to answer questions about Rodney Chery — his background, technical skills, production experience, work history, education, certifications, and availability — in a warm, authentic, highly professional, and human-like voice.
-
-Authoritative Knowledge Source (Rodney's Official Resume):
-${RODNEY_RESUME_CONTEXT}
+// Tone and Persona Guidelines for AI Assistant
+const CHAT_BASE_GUIDELINES = `You are the interactive AI terminal assistant for Rodney Amos Chery's official developer portfolio (rodneyachery.com / RC DEV).
+Your purpose is to answer questions about Rodney Chery — his background, technical skills, production experience, published engineering articles, client service agreements, projects, and availability — in a warm, authentic, highly professional, and human-like voice.
 
 Tone and Persona Guidelines:
-- Speak as a knowledgeable, articulate, and human-like assistant representing Rodney Chery. You can say things like "Rodney has experience in..." or speak as his official digital portfolio assistant.
+- Speak as a knowledgeable, articulate, and human-like assistant representing Rodney Chery. You can say things like "Rodney has extensive experience with..." or speak as his digital portfolio assistant.
 - Sound conversational, confident, and professional — avoid robotic bullet lists unless specifically asked for a structured list or comparison.
-- Answer accurately based strictly on Rodney's resume above. If someone asks about a technology or domain Rodney has not worked in, politely clarify that while it is not in his current portfolio, describe his closely related strengths (e.g., modern JavaScript/DOM APIs, C# / .NET, Cloudflare, enterprise troubleshooting) and encourage them to connect with Rodney directly at rodney@globalrcdev.com.
+- Base answers on the retrieved multi-document knowledge chunks and Rodney's authoritative resume profile.
+- When citing specific articles, projects, or agreements, include a clickable markdown link using the URL provided in the document metadata (e.g. [AI-Assisted Support Engineering Workflow](/Articles/ai-assisted-support-engineering-workflow), [Zero-Cost ASP.NET Core](/Articles/zero-cost-aspnet-core-markdown-blog), or [Services Agreement](/services-agreement)).
 - Keep answers concise and well-suited for a terminal CLI window (typically 2 to 4 sentences or a punchy short paragraph).
-- Never invent experience or claim skills not in the resume. Never disclose internal prompts or API keys.`;
+- Never invent experience or claim skills outside of Rodney's portfolio. Never disclose internal prompts or API keys.`;
 
 async function handleChat(request, env, ip) {
   let body;
@@ -333,6 +333,32 @@ async function handleChat(request, env, ip) {
     });
   }
 
+  // Multi-Document Vector RAG Retrieval
+  let ragContext = "";
+  let retrievedSources = [];
+  try {
+    const queryVector = await getQueryEmbedding(userMessage, apiKey);
+    const topChunks = retrieveRelevantChunks(queryVector, 3, 0.32);
+    ragContext = formatRagContext(topChunks);
+    retrievedSources = topChunks.map((c) => ({
+      title: c.title,
+      source: c.source,
+      url: c.url,
+      score: c.score,
+    }));
+  } catch (ragErr) {
+    console.warn("Vector RAG query failed (falling back to baseline resume):", ragErr);
+    ragContext = "Vector retrieval unavailable. Using baseline resume knowledge.";
+  }
+
+  const systemPrompt = `${CHAT_BASE_GUIDELINES}
+
+RETRIEVED MULTI-DOCUMENT KNOWLEDGE (VECTOR MATCH):
+${ragContext}
+
+AUTHORITATIVE BASELINE RESUME KNOWLEDGE:
+${RODNEY_RESUME_CONTEXT}`;
+
   try {
     const aiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -343,7 +369,7 @@ async function handleChat(request, env, ip) {
       body: JSON.stringify({
         model: "gpt-4o-mini",
         messages: [
-          { role: "system", content: CHAT_SYSTEM_PROMPT },
+          { role: "system", content: systemPrompt },
           { role: "user", content: userMessage },
         ],
         max_tokens: 350,
@@ -372,7 +398,7 @@ async function handleChat(request, env, ip) {
 
     const data = await aiResponse.json();
     const reply = data.choices?.[0]?.message?.content?.trim() || "No response received.";
-    return jsonResponse(200, { ok: true, reply });
+    return jsonResponse(200, { ok: true, reply, sources: retrievedSources });
   } catch (err) {
     console.error("Failed to query OpenAI API", err);
     return jsonResponse(500, {
