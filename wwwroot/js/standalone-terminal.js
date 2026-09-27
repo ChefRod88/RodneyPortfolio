@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!textEl) return;
 
-    const part1 = "Welcome to the dedicated neural terminal for my engineering portfolio. This terminal is powered by an edge-computed Multi-Document Vector RAG engine with 512-dimension embeddings indexing my entire repository — including my C# clean architecture backend, Cloudflare Worker edge routing & rate limiters, Dealer Spike Tier III production widgets, PowerShell automation pipelines, published technical articles, and client agreements.";
+    const part1 = "Welcome to the dedicated neural terminal for my engineering portfolio. This terminal is powered by an edge-computed Multi-Document Vector RAG engine with 512-dimension embeddings indexing my entire repository — including my C# clean architecture backend, Cloudflare Worker edge routing & rate limiters, LeadVenture production widgets, PowerShell automation pipelines, published technical articles, and client agreements.";
     const part2 = "Feel free to ask me anything about my background, why I implemented specific architectural patterns, or how any code in this repository works!";
     const part3 = "SUGGESTED TECHNICAL INQUIRIES (CLICK TO RUN):";
 
