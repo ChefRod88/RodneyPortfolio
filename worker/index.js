@@ -315,7 +315,7 @@ async function handleChat(request, env, ip) {
     });
   }
 
-  const apiKey = (
+  const rawKey = (
     env.OPENAI_API_KEY ||
     env.OPENAPI_API_KEY ||
     env.OPENAI_KEY ||
@@ -323,6 +323,7 @@ async function handleChat(request, env, ip) {
     env.OPEN_API_KEY ||
     ""
   ).trim();
+  const apiKey = rawKey.replace(/^["']|["']$/g, "").trim();
 
   if (!apiKey) {
     return jsonResponse(503, {
@@ -353,10 +354,19 @@ async function handleChat(request, env, ip) {
     if (!aiResponse.ok) {
       const errText = await aiResponse.text();
       console.error("OpenAI API error:", aiResponse.status, errText);
+      let parsedErr = "";
+      try {
+        const j = JSON.parse(errText);
+        parsedErr = j.error?.message || errText;
+      } catch (e) {
+        parsedErr = errText;
+      }
       return jsonResponse(502, {
         ok: false,
         error: "AI_SERVICE_ERROR",
-        reply: "AI service temporarily unavailable. Please try again shortly or email Rodney directly at rodney@globalrcdev.com."
+        status: aiResponse.status,
+        details: parsedErr,
+        reply: `AI service notice (${aiResponse.status}): ${parsedErr || "OpenAI upstream error"}`
       });
     }
 
